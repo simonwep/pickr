@@ -1,3 +1,9 @@
+/**
+ * Flat UI color-picker.
+ * @author  Simon Reinisch <toports@gmx.de>
+ * @license MIT
+ */
+
 // Import styles
 import './../css/color-picker.css';
 
@@ -29,9 +35,10 @@ const elements = {
 };
 
 const HSLColor = {
-    h: 0,
-    s: 0,
-    l: 0,
+
+    h: 0, // Hue
+    s: 0, // Saturation
+    l: 0, // Lightness
 
     toHSL(raw) {
         return raw ? [this.h, this.s, this.l] : `hsl(${this.h}, ${this.s}%, ${this.l}%)`;
@@ -85,22 +92,16 @@ const palette = new Moveable({
         this.element.style.background = HSLColor.toHSL();
 
         // Update infobox
-        const result = elements.result.result;
-        const type = elements.result.type().value;
+        elements.result.result.value = (() => {
 
-        switch (type) {
-            case 'HSL':
-                return result.value = HSLColor.toHSL();
-            case 'RGB':
-                return result.value = HSLColor.toRGB();
-            case 'HEX':
-                return result.value = HSLColor.toHEX();
-            case 'CMYK':
-                return result.value = HSLColor.toCMYK();
-        }
+            // Construct function name and call if present
+            const method = 'to' + elements.result.type().value;
+            if (typeof HSLColor[method] === 'function') {
+                return HSLColor[method]();
+            }
+        })();
     }
 });
-
 
 new Selectable({
     elements: elements.result.options,
@@ -111,3 +112,6 @@ new Selectable({
 
 // Trigger slider for initialization
 slider._tapmove();
+
+// Select on click
+elements.result.result.addEventListener('click', (e) => e.target.select());

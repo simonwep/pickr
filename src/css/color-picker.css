@@ -74,7 +74,8 @@
     margin-top: 0.5em;
 }
 
-.color-picker .input input {
+.color-picker .input .result,
+.color-picker .input .type {
     padding: 0.5em 0.5em;
     border: none;
     outline: none;
@@ -96,6 +97,11 @@
 
 .color-picker .input .result:hover {
     color: #4285f4;
+}
+
+.color-picker .input .result::selection {
+    background: #4285f4;
+    color: white;
 }
 
 .color-picker .input .type {

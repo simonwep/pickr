@@ -5,7 +5,7 @@
     "main": "color-picker.js",
     "scripts": {
         "build": "webpack --mode production",
-        "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --mode development"
+        "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --mode development --host 0.0.0.0"
     },
     "keywords": [
         "UX",

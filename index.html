@@ -2,39 +2,46 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>colorpicker</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Color Picker</title>
+
+    <!-- CSS STYLESHEETS -->
+    <link href="dist/color-picker.min.css" rel="stylesheet">
+    <link href="gh-page/styles.css" rel="stylesheet">
 </head>
 
 <body>
 
-<div class="color-picker">
 
-    <div class="selection">
-        <div class="color-palette">
-            <div class="picker"></div>
-            <div class="canvas"></div>
+<main>
+    <div class="color-picker">
+
+        <div class="selection">
+            <div class="color-palette">
+                <div class="picker"></div>
+                <div class="canvas"></div>
+            </div>
+
+            <div class="color-chooser">
+                <div class="picker"></div>
+                <div class="slider"></div>
+            </div>
         </div>
 
-        <div class="color-chooser">
-            <div class="picker"></div>
-            <div class="slider"></div>
+
+        <div class="input">
+            <input class="result" type="text" spellcheck="false" readonly>
+            <input class="type active" value="HEX" type="button">
+            <input class="type" value="RGB" type="button">
+            <input class="type" value="HSL" type="button">
+            <input class="type" value="CMYK" type="button">
         </div>
+
     </div>
+</main>
 
 
-    <div class="input">
-        <input class="result" type="text" spellcheck="false" readonly>
-        <input class="type active" value="HEX" type="button">
-        <input class="type" value="RGB" type="button">
-        <input class="type" value="HSL" type="button">
-        <input class="type" value="CMYK" type="button">
-    </div>
-
-</div>
-
-
-<link href="dist/color-picker.min.css" rel="stylesheet">
 <script src="dist/color-picker.min.js"></script>
 </body>
 

@@ -23,14 +23,19 @@ class Moveable {
 
         _.on([this.options.wrapper, this.options.element], 'mousedown', this._tapstart);
         _.on([this.options.wrapper, this.options.element], 'touchstart', this._tapstart, {
-            passive: true
+            passive: false
         });
     }
 
     _tapstart(evt) {
         _.on(document, ['mouseup', 'touchend', 'touchcancel'], this._tapstop);
         _.on(document, ['mousemove', 'touchmove'], this._tapmove);
+
+        // Trigger move
         this._tapmove(evt);
+
+        // Prevent default touch event
+        evt.preventDefault();
     }
 
     _tapmove(evt = this.lastEvent) {

@@ -65,4 +65,3 @@ typings/
 # IntelliJ
 *.iml
 /.idea
-/dist

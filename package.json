@@ -1,0 +1,27 @@
+{
+    "name": "color-picker",
+    "version": "0.0.1",
+    "description": "UX Color picker",
+    "main": "color-picker.js",
+    "scripts": {
+        "build": "webpack --mode production",
+        "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --mode development"
+    },
+    "keywords": [
+        "UX",
+        "color-picker"
+    ],
+    "author": "Simon Reinisch <toports@gmx.de>",
+    "license": "MIT",
+    "devDependencies": {
+        "babel-core": "^6.26.3",
+        "babel-loader": "^7.1.4",
+        "babel-plugin-transform-object-rest-spread": "^6.26.0",
+        "babel-preset-env": "^1.7.0",
+        "css-loader": "^0.28.11",
+        "mini-css-extract-plugin": "^0.4.0",
+        "webpack": "^4.9.1",
+        "webpack-cli": "^2.1.4",
+        "webpack-dev-server": "^3.1.4"
+    }
+}

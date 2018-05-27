@@ -65,7 +65,7 @@ const slider = new Moveable({
     element: elements.slider.picker,
     wrapper: elements.slider.slider,
     onchange(x, y) {
-        HSLColor.h = Math.ceil((y / this.wrapper.offsetHeight) * 360);
+        HSLColor.h = Math.round((y / this.wrapper.offsetHeight) * 360);
 
         // Update color.js
         this.element.style.backgroundColor = `hsl(${HSLColor.h}, 100%, 50%)`;

@@ -8,7 +8,7 @@
  * @returns {number[]} Array with rgb values.
  */
 export function hslToRgb(h, s, l) {
-    h = h / 100;
+    h = h / 360;
     s = s / 100;
     l = l / 100;
 

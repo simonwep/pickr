@@ -13,7 +13,8 @@ module.exports = {
     output: {
         path: __dirname + '/dist',
         publicPath: 'dist/',
-        filename: 'color-picker.min.js'
+        filename: 'color-picker.min.js',
+        library: 'ColorPicker'
     },
 
     devServer: {

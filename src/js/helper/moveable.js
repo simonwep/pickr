@@ -78,6 +78,14 @@ class Moveable {
         _.off(document, ['mouseup', 'touchend', 'touchcancel'], this._tapstop);
         _.off(document, ['mousemove', 'touchmove'], this._tapmove);
     }
+
+    update(x, y) {
+        const wrapperBoundaries = this.options.wrapper.getBoundingClientRect();
+        this._tapmove(new MouseEvent('mousemove', {
+            clientX: wrapperBoundaries.left + x,
+            clientY: wrapperBoundaries.top + y
+        }));
+    }
 }
 
 export default Moveable;

@@ -6,9 +6,10 @@
 
 // Import styles
 import './../css/color-picker.css';
+
 // Imports
 import * as _ from './lib/utils';
-import HSLColor from './lib/hslcolor';
+import HSLaColor from './lib/hslacolor';
 import Moveable from './helper/moveable';
 import Selectable from './helper/selectable';
 
@@ -17,7 +18,9 @@ class ColorPicker {
     constructor(opt) {
 
         // Default values
-        const def = {};
+        const def = {
+            // Coming soon!
+        };
 
         this.options = Object.assign(def, opt);
 
@@ -41,7 +44,7 @@ class ColorPicker {
             return html;
         })();
 
-        this.hsl = new HSLColor();
+        this.hsla = new HSLaColor();
         this._init();
     }
 
@@ -57,48 +60,66 @@ class ColorPicker {
                 wrapper: inst.root.canvas.canvas,
 
                 onchange(x, y) {
-                    const hsl = inst.hsl;
+                    const hsla = inst.hsla;
 
                     // Calculate saturation based on the position
-                    hsl.s = Math.round((x / this.wrapper.offsetWidth) * 100);
+                    hsla.s = Math.round((x / this.wrapper.offsetWidth) * 100);
 
                     // To the right is the lightness-maximum only 50
-                    const fac = 100 - (hsl.s * 0.5);
-                    hsl.l = Math.round(fac - ((y / this.wrapper.offsetHeight) * fac));
+                    const fac = 100 - (hsla.s * 0.5);
+                    hsla.l = Math.round(fac - ((y / this.wrapper.offsetHeight) * fac));
 
-                    // Set picker background to current color.js
-                    this.element.style.background = hsl.toHSL();
+                    // Set picker and gradient color
+                    this.element.style.background = hsla.toHSLa();
+                    this.wrapper.style.background = `
+                        linear-gradient(to top, rgba(0, 0, 0, ${hsla.a}), transparent), 
+                        linear-gradient(to left, hsla(${hsla.h}, 100%, 50%, ${hsla.a}), rgba(255, 255, 255, ${hsla.a}))
+                    `;
 
                     // Update infobox
                     inst.root.result.result.value = (() => {
 
                         // Construct function name and call if present
                         const method = 'to' + inst.root.result.type().value;
-                        if (typeof hsl[method] === 'function') {
-                            return hsl[method]();
+                        if (typeof hsla[method] === 'function') {
+                            return hsla[method]();
                         }
                     })();
-
-                    document.querySelector('head meta[name="theme-color"]').setAttribute('content', hsl.toHEX());
                 }
             }),
 
             hueSlider: new Moveable({
                 lockX: true,
                 element: inst.root.hueSlider.picker,
-                wrapper: inst.root.hueSlider.hueSlider,
+                wrapper: inst.root.hueSlider.slider,
 
                 onchange(x, y) {
-                    const hsl = inst.hsl;
 
                     // Calculate hue
-                    hsl.h = Math.round((y / this.wrapper.offsetHeight) * 360);
+                    inst.hsla.h = Math.round((y / this.wrapper.offsetHeight) * 360);
 
-                    // Update color.js
-                    this.element.style.backgroundColor = `hsl(${hsl.h}, 100%, 50%)`;
-                    components.palette.options.wrapper.style.background = `linear-gradient(to top, black, transparent), linear-gradient(to left, hsl(${hsl.h}, 100%, 50%), transparent)`;
+                    // Update color
+                    this.element.style.backgroundColor = `hsl(${inst.hsla.h}, 100%, 50%)`;
 
-                    // Trigger
+                    // Trigger palette to update the gradients
+                    components.palette._tapmove();
+                }
+            }),
+
+            opacitySlider: new Moveable({
+                lockX: true,
+                element: inst.root.opacitySlider.picker,
+                wrapper: inst.root.opacitySlider.slider,
+
+                onchange(x, y) {
+
+                    // Calculate opacity
+                    inst.hsla.a = (y / this.wrapper.offsetHeight).toFixed(2);
+
+                    // Update color
+                    this.element.style.background = `rgba(0, 0, 0, ${inst.hsla.a})`;
+
+                    // Trigger palette to update the gradients
                     components.palette._tapmove();
                 }
             }),
@@ -110,10 +131,10 @@ class ColorPicker {
             })
         };
 
-        // Trigger hue slider for initialization
-        components.hueSlider._tapmove();
-
         this.components = components;
+
+        // Initialize color
+        this.setHSL(0, 0, 100, 1);
 
         // Select on click
         this.root.result.result.addEventListener('click', (e) => e.target.select());
@@ -124,17 +145,20 @@ class ColorPicker {
      * @param h Hue
      * @param s Saturation
      * @param l Lightness
+     * @param a Alpha channel (0 - 1)
      */
-    setHSL(h = 360, s = 0, l = 0) {
+    setHSL(h = 360, s = 0, l = 0, a = 1) {
 
         // Validate hsl
-        if (h < 0 || h > 360 || s < 0 || s > 100 || l < 0 || l > 100)
+        if (h < 0 || h > 360 || s < 0 || s > 100 || l < 0 || l > 100 || a < 0 || a > 1)
             return;
 
+        console.log(this, this.components);
+
         // Calculate y position of hue slider
-        const sliderWrapper = this.components.hueSlider.options.wrapper;
-        const sliderY = sliderWrapper.offsetHeight * (h / 360);
-        this.components.hueSlider.update(0, sliderY);
+        const hueSlider = this.components.hueSlider.options.wrapper;
+        const hueY = hueSlider.offsetHeight * (h / 360);
+        this.components.hueSlider.update(0, hueY);
 
         // Calculate y and x position of color palette
         const pickerWrapper = this.components.palette.options.wrapper;
@@ -142,6 +166,11 @@ class ColorPicker {
         const pickerX = pickerWrapper.offsetWidth * (s / 100);
         const pickerY = pickerWrapper.offsetHeight * (l * fac);
         this.components.palette.update(pickerX, pickerY);
+
+        // Calculate y position of opacity slider
+        const opacitySlider = this.components.opacitySlider.options.wrapper;
+        const opacityY = opacitySlider.offsetHeight * a;
+        this.components.opacitySlider.update(0, opacityY);
     }
 }
 
@@ -160,14 +189,18 @@ function create() {
                     <div class="picker"></div>
                     <div class="hue slider"></div>
                 </div>
+                
+                 <div class="color-opacity">
+                    <div class="picker"></div>
+                    <div class="opacity slider"></div>
+                </div>
             </div>
-
 
             <div class="input">
                 <input class="result" type="text" spellcheck="false" readonly>
                 <input class="type active" value="HEX" type="button">
-                <input class="type" value="RGB" type="button">
-                <input class="type" value="HSL" type="button">
+                <input class="type" value="RGBa" type="button">
+                <input class="type" value="HSLa" type="button">
                 <input class="type" value="CMYK" type="button">
             </div>
 
@@ -190,7 +223,12 @@ function create() {
 
         hueSlider: {
             picker: element.querySelector('.color-chooser .picker'),
-            hueSlider: element.querySelector('.color-chooser .hue.slider')
+            slider: element.querySelector('.color-chooser .hue.slider')
+        },
+
+        opacitySlider: {
+            picker: element.querySelector('.color-opacity .picker'),
+            slider: element.querySelector('.color-opacity .opacity.slider')
         }
     };
 }

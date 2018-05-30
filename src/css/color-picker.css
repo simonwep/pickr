@@ -1,19 +1,17 @@
 .color-picker {
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     height: 15em;
     width: 28em;
     padding: 0.8em;
     border-radius: 0.1em;
-    box-shadow: 0 0.1em 1em 0 rgba(0, 0, 0, 0.1);
     background: #ffffff;
-    display: flex;
-    flex-direction: column;
-    flex-basis: 1;
+    box-shadow: 0 0.2em 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 1em 0 rgba(0, 0, 0, 0.02);
 }
 
 .color-picker .selection {
     display: flex;
-    flex-basis: 1;
     flex-grow: 1;
     margin-bottom: 0.8em;
 }
@@ -26,36 +24,59 @@
     border: 2px solid white;
     border-radius: 100%;
     user-select: none;
-    cursor: pointer;
+    cursor: -webkit-grabbing;
 }
 
 .color-picker .selection .color-palette,
-.color-picker .selection .color-chooser {
+.color-picker .selection .color-chooser,
+.color-picker .selection .color-opacity {
     position: relative;
     user-select: none;
 }
 
 .color-picker .selection .color-palette {
+    position: relative;
     flex-grow: 1;
-    margin: 0 1em 0 0;
+    z-index: 1;
+}
+
+.color-picker .selection .color-palette::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path fill="white" d="M1,0H2V1H1V0ZM0,1H1V2H0V1Z"/><path fill="gray" d="M0,0H1V1H0V0ZM1,1H2V2H1V1Z"/></svg>');
+    background-size: 0.5em;
+    z-index: -1;
 }
 
 .color-picker .selection .color-palette .canvas {
-    width: 100%;
     height: 100%;
     border-radius: 0.15em;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
-.color-picker .selection .color-chooser .picker {
+.color-picker .selection .color-chooser,
+.color-picker .selection .color-opacity {
+    margin-left: 1em;
+}
+
+.color-picker .selection .color-chooser .picker,
+.color-picker .selection .color-opacity .picker {
     margin-left: 50%;
     transform: translateX(-50%);
 }
 
-.color-picker .selection .color-chooser .slider {
+.color-picker .selection .color-chooser .slider,
+.color-picker .selection .color-opacity .slider {
     width: 8px;
     height: 100%;
     border-radius: 50em;
+}
+
+.color-picker .selection .color-chooser .slider {
     background: linear-gradient(to bottom,
     hsl(0, 100%, 50%),
     hsl(60, 100%, 50%),
@@ -66,11 +87,15 @@
     hsl(360, 100%, 50%));
 }
 
+.color-picker .selection .color-opacity .slider {
+    background: linear-gradient(to bottom, transparent, black), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path fill="white" d="M1,0H2V1H1V0ZM0,1H1V2H0V1Z"/><path fill="gray" d="M0,0H1V1H0V0ZM1,1H2V2H1V1Z"/></svg>');
+    background-size: 100%, 0.3em;
+}
+
 .color-picker .input {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-basis: 1;
     margin-top: 0.5em;
 }
 

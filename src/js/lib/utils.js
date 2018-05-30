@@ -41,3 +41,14 @@ function eventListener(elements, events, fn, options = {}, remove) {
         }
     }
 }
+
+/**
+ * Creates an DOM-Element out of a string (Single element).
+ * @param html HTML representing a single element
+ * @returns {HTMLElement} The element.
+ */
+export function createElementFromString(html) {
+    const template = document.createElement('template');
+    template.innerHTML = html.trim();
+    return template.content.firstChild;
+}

@@ -4,45 +4,29 @@
 <head>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#42445A">
     <title>Color Picker</title>
 
     <!-- CSS STYLESHEETS -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,400" rel="stylesheet">
     <link href="dist/color-picker.min.css" rel="stylesheet">
     <link href="gh-page/styles.css" rel="stylesheet">
 </head>
 
 <body>
 
+    <header>
+        <h1>Flat color picker</h1>
+        <p>Simple and beautiful color picker for your next project</p>
+    </header>
 
-<main>
-    <div class="color-picker">
-
-        <div class="selection">
-            <div class="color-palette">
-                <div class="picker"></div>
-                <div class="canvas"></div>
-            </div>
-
-            <div class="color-chooser">
-                <div class="picker"></div>
-                <div class="slider"></div>
-            </div>
-        </div>
+    <main>
+        <div class="color-picker"></div>
+    </main>
 
 
-        <div class="input">
-            <input class="result" type="text" spellcheck="false" readonly>
-            <input class="type active" value="HEX" type="button">
-            <input class="type" value="RGB" type="button">
-            <input class="type" value="HSL" type="button">
-            <input class="type" value="CMYK" type="button">
-        </div>
-
-    </div>
-</main>
-
-
-<script src="dist/color-picker.min.js"></script>
+    <script src="dist/color-picker.min.js"></script>
+    <script src="gh-page/script.js"></script>
 </body>
 
 </html>

@@ -83,10 +83,10 @@ class ColorPicker {
                 }
             }),
 
-            slider: new Moveable({
+            hueSlider: new Moveable({
                 lockX: true,
-                element: inst.root.slider.picker,
-                wrapper: inst.root.slider.slider,
+                element: inst.root.hueSlider.picker,
+                wrapper: inst.root.hueSlider.hueSlider,
 
                 onchange(x, y) {
                     const hsl = inst.hsl;
@@ -106,12 +106,12 @@ class ColorPicker {
             selectable: new Selectable({
                 elements: inst.root.result.options,
                 className: 'active',
-                onchange: () => components.slider._tapmove()
+                onchange: () => components.hueSlider._tapmove()
             })
         };
 
-        // Trigger slider for initialization
-        components.slider._tapmove();
+        // Trigger hue slider for initialization
+        components.hueSlider._tapmove();
 
         this.components = components;
 
@@ -124,20 +124,19 @@ class ColorPicker {
      * @param h Hue
      * @param s Saturation
      * @param l Lightness
-     * @param ms Animaton duration
      */
-    setHSL(h = 360, s = 0, l = 100) {
+    setHSL(h = 360, s = 0, l = 0) {
 
         // Validate hsl
         if (h < 0 || h > 360 || s < 0 || s > 100 || l < 0 || l > 100)
             return;
 
-        // Calculate y position of color slider
-        const sliderWrapper = this.components.slider.options.wrapper;
+        // Calculate y position of hue slider
+        const sliderWrapper = this.components.hueSlider.options.wrapper;
         const sliderY = sliderWrapper.offsetHeight * (h / 360);
-        this.components.slider.update(0, sliderY);
+        this.components.hueSlider.update(0, sliderY);
 
-        // Calculate y and x position of color slider
+        // Calculate y and x position of color palette
         const pickerWrapper = this.components.palette.options.wrapper;
         const fac = (s / 100) / 100;
         const pickerX = pickerWrapper.offsetWidth * (s / 100);
@@ -159,7 +158,7 @@ function create() {
 
                 <div class="color-chooser">
                     <div class="picker"></div>
-                    <div class="slider"></div>
+                    <div class="hue slider"></div>
                 </div>
             </div>
 
@@ -189,9 +188,9 @@ function create() {
             canvas: element.querySelector('.color-palette .canvas')
         },
 
-        slider: {
+        hueSlider: {
             picker: element.querySelector('.color-chooser .picker'),
-            slider: element.querySelector('.color-chooser .slider')
+            hueSlider: element.querySelector('.color-chooser .hue.slider')
         }
     };
 }

@@ -62,7 +62,7 @@ class Moveable {
         x -= b.left;
         y -= b.top;
 
-        if (typeof  this.options.onchange === 'function')
+        if (typeof this.options.onchange === 'function')
             this.options.onchange(x, y);
 
         if (!this.options.lockX)

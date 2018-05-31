@@ -44,11 +44,12 @@ class ColorPicker {
             return html;
         })();
 
-        this.hsla = new HSLaColor();
-        this._init();
+        this.color = new HSLaColor();
+        this.lastColor = new HSLaColor();
+        this._buildComponents();
     }
 
-    _init() {
+    _buildComponents() {
 
         // Instance reference
         const inst = this;
@@ -56,11 +57,11 @@ class ColorPicker {
         const components = {
 
             palette: new Moveable({
-                element: inst.root.canvas.picker,
-                wrapper: inst.root.canvas.canvas,
+                element: inst.root.palette.picker,
+                wrapper: inst.root.palette.palette,
 
                 onchange(x, y) {
-                    const hsla = inst.hsla;
+                    const hsla = inst.color;
 
                     // Calculate saturation based on the position
                     hsla.s = Math.round((x / this.wrapper.offsetWidth) * 100);
@@ -75,6 +76,8 @@ class ColorPicker {
                         linear-gradient(to top, rgba(0, 0, 0, ${hsla.a}), transparent), 
                         linear-gradient(to left, hsla(${hsla.h}, 100%, 50%, ${hsla.a}), rgba(255, 255, 255, ${hsla.a}))
                     `;
+
+                    inst.root.preview.currentColor.style.background = hsla.toHSLa();
 
                     // Update infobox
                     inst.root.result.result.value = (() => {
@@ -96,10 +99,10 @@ class ColorPicker {
                 onchange(x, y) {
 
                     // Calculate hue
-                    inst.hsla.h = Math.round((y / this.wrapper.offsetHeight) * 360);
+                    inst.color.h = Math.round((y / this.wrapper.offsetHeight) * 360);
 
                     // Update color
-                    this.element.style.backgroundColor = `hsl(${inst.hsla.h}, 100%, 50%)`;
+                    this.element.style.backgroundColor = `hsl(${inst.color.h}, 100%, 50%)`;
 
                     // Trigger palette to update the gradients
                     components.palette._tapmove();
@@ -114,10 +117,10 @@ class ColorPicker {
                 onchange(x, y) {
 
                     // Calculate opacity
-                    inst.hsla.a = (y / this.wrapper.offsetHeight).toFixed(2);
+                    inst.color.a = (y / this.wrapper.offsetHeight).toFixed(2);
 
                     // Update color
-                    this.element.style.background = `rgba(0, 0, 0, ${inst.hsla.a})`;
+                    this.element.style.background = `rgba(0, 0, 0, ${inst.color.a})`;
 
                     // Trigger palette to update the gradients
                     components.palette._tapmove();
@@ -134,10 +137,13 @@ class ColorPicker {
         this.components = components;
 
         // Initialize color
-        this.setHSL(0, 0, 100, 1);
+        this.setHSLa(0, 0, 100, 1);
 
-        // Select on click
-        this.root.result.result.addEventListener('click', (e) => e.target.select());
+        // Select color string on click
+        _.on(this.root.result.result, 'click', (e) => e.target.select());
+
+        // Select last color on click
+        _.on(this.root.preview.lastColor, 'click', () => this.setHSLa(...this.lastColor.toHSLa(true)));
     }
 
     /**
@@ -147,13 +153,11 @@ class ColorPicker {
      * @param l Lightness
      * @param a Alpha channel (0 - 1)
      */
-    setHSL(h = 360, s = 0, l = 0, a = 1) {
+    setHSLa(h = 360, s = 0, l = 0, a = 1) {
 
         // Validate hsl
         if (h < 0 || h > 360 || s < 0 || s > 100 || l < 0 || l > 100 || a < 0 || a > 1)
             return;
-
-        console.log(this, this.components);
 
         // Calculate y position of hue slider
         const hueSlider = this.components.hueSlider.options.wrapper;
@@ -180,9 +184,14 @@ function create() {
          <div class="color-picker">
 
             <div class="selection">
+                <div class="color-preview">
+                    <div class="last-color"></div>
+                    <div class="current-color"></div>
+                </div>
+            
                 <div class="color-palette">
                     <div class="picker"></div>
-                    <div class="canvas"></div>
+                    <div class="palette"></div>
                 </div>
 
                 <div class="color-chooser">
@@ -216,9 +225,14 @@ function create() {
             result: element.querySelector('.input .result')
         },
 
-        canvas: {
+        preview: {
+            lastColor: element.querySelector('.color-preview .last-color'),
+            currentColor: element.querySelector('.color-preview .current-color')
+        },
+
+        palette: {
             picker: element.querySelector('.color-palette .picker'),
-            canvas: element.querySelector('.color-palette .canvas')
+            palette: element.querySelector('.color-palette .palette')
         },
 
         hueSlider: {

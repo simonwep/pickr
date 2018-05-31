@@ -14,7 +14,7 @@ export default class {
     }
 
     toHSLa(raw) {
-        return raw ? [this.h, this.s, this.l, this.a] : `hsl(${this.h}, ${this.s}%, ${this.l}%, ${this.a})`;
+        return raw ? [this.h, this.s, this.l, this.a] : `hsla(${this.h}, ${this.s}%, ${this.l}%, ${this.a})`;
     }
 
     toRGBa(raw) {

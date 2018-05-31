@@ -247,4 +247,12 @@ function create() {
     };
 }
 
+// Static methods
+ColorPicker.utils = {
+    on: _.on,
+    off: _.off,
+    createElementFromString: _.createElementFromString
+};
+
+// Export
 module.exports = ColorPicker;

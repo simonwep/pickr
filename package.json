@@ -22,6 +22,7 @@
         "mini-css-extract-plugin": "^0.4.0",
         "webpack": "^4.9.1",
         "webpack-cli": "^2.1.4",
-        "webpack-dev-server": "^3.1.4"
+        "webpack-dev-server": "^3.1.4",
+        "uglifyjs-webpack-plugin": "latest"
     }
 }

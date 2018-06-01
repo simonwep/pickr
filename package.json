@@ -20,9 +20,11 @@
         "babel-preset-env": "^1.7.0",
         "css-loader": "^0.28.11",
         "mini-css-extract-plugin": "^0.4.0",
-        "webpack": "^4.9.1",
+        "node-sass": "^4.9.0",
+        "sass-loader": "^7.0.1",
+        "uglifyjs-webpack-plugin": "latest",
+        "webpack": "^4.10.2",
         "webpack-cli": "^2.1.4",
-        "webpack-dev-server": "^3.1.4",
-        "uglifyjs-webpack-plugin": "latest"
+        "webpack-dev-server": "^3.1.4"
     }
 }

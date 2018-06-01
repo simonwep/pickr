@@ -1,0 +1,7 @@
+// Pseudo style reset
+@mixin pseudo-reset {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+}

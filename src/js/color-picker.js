@@ -5,7 +5,7 @@
  */
 
 // Import styles
-import './../css/color-picker.css';
+import './../scss/color-picker.scss';
 
 // Imports
 import * as _ from './lib/utils';

@@ -31,17 +31,11 @@ module.exports = {
                 loader: 'babel-loader'
             },
             {
-                test: /\.css$/,
+                test: /\.scss$/,
                 use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader
-                    },
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            minimize: true
-                        }
-                    }
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader'
                 ]
             }
         ]

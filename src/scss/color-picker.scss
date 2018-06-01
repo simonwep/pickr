@@ -1,0 +1,218 @@
+@import 'variables';
+@import 'mixins';
+
+.color-picker {
+    overflow: visible;
+    
+    * {
+        box-sizing: border-box;
+    }
+}
+
+.color-picker .button {
+    margin-bottom: 0.5em;
+    height: 2em;
+    width: 2em;
+    padding: 0.5em;
+    box-shadow: $small-shadow;
+    border-radius: $border-radius;
+    cursor: pointer;
+    background: transparent;
+    transition: background-color 0.3s;
+    font-family: 'Source Sans Pro';
+}
+
+.color-picker .app {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    height: 15em;
+    width: 28em;
+    max-width: 95%;
+    padding: 0.8em;
+    border-radius: 0.1em;
+    background: #ffffff;
+    box-shadow: $app-shadow;
+    transform: translate3d(calc(-50% + 1.25em), 0.5em, 0);
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s;
+    font-family: 'Source Sans Pro';
+    
+    &.visible {
+        transform: translate3d(calc(-50% + 1.25em), 0, 0);
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+.color-picker .app .input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5em;
+    
+    input {
+        padding: 0.5em 0.5em;
+        border: none;
+        outline: none;
+        letter-spacing: 0.07em;
+        font-size: 0.75em;
+        width: 4em;
+        text-align: center;
+        cursor: pointer;
+        color: #c4c4c4;
+        background: $input-background;
+        border-radius: $border-radius;
+        margin: 0 0.2em;
+        transition: all 0.15s;
+        
+        &:hover {
+            color: #808080;
+        }
+    }
+    
+    .result {
+        color: #454545;
+        text-align: left;
+        flex-grow: 1;
+        min-width: 1em;
+        margin-right: 0.5em;
+        transition: all 0.2s;
+        border-radius: $border-radius;
+        background: #f8f8f8;
+        
+        &:hover {
+            color: $active-blue;
+        }
+        
+        &::selection {
+            background: $active-blue;
+            color: white;
+        }
+    }
+    
+    .type.active {
+        color: white;
+        background: $active-blue;
+    }
+    
+    .save {
+        background: $active-blue;
+        color: white;
+        width: 5em;
+        
+        &:hover {
+            background: $hover-blue;
+            color: white;
+        }
+    }
+}
+
+.color-picker .app .selection {
+    display: flex;
+    flex-grow: 1;
+    margin-bottom: 0.8em;
+    
+    .picker {
+        position: absolute;
+        height: 18px;
+        width: 18px;
+        background: transparent;
+        border: 2px solid white;
+        border-radius: 100%;
+        user-select: none;
+        cursor: -moz-grab;
+        cursor: -webkit-grabbing;
+    }
+    
+    .color-preview {
+        position: relative;
+        z-index: 1;
+        width: 2em;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-right: 1em;
+        box-shadow: $small-shadow;
+        border-radius: $border-radius;
+        overflow: hidden;
+        
+        .last-color {
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .last-color,
+        .current-color {
+            background: transparent;
+            width: 100%;
+            height: 50%;
+        }
+        
+        &::before {
+            @include pseudo-reset;
+            width: 100%;
+            height: 100%;
+            background: $transparency-muster;
+            background-size: 0.5em;
+            border-radius: $border-radius;
+            z-index: -1;
+        }
+    }
+    
+    .color-palette,
+    .color-chooser,
+    .color-opacity {
+        position: relative;
+        user-select: none;
+    }
+    
+    .color-palette {
+        position: relative;
+        flex-grow: 1;
+        z-index: 1;
+        
+        .palette {
+            height: 100%;
+            box-shadow: $small-shadow;
+            border-radius: $border-radius;
+            
+            &::before {
+                @include pseudo-reset;
+                width: 100%;
+                height: 100%;
+                background: $transparency-muster;
+                background-size: 0.5em;
+                border-radius: $border-radius;
+                z-index: -1;
+            }
+        }
+    }
+    
+    .color-chooser,
+    .color-opacity {
+        margin-left: 1em;
+        
+        .picker {
+            margin-left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .slider {
+            width: 8px;
+            height: 100%;
+            border-radius: 50em;
+        }
+    }
+    
+    .color-chooser .slider {
+        background: $rainbow;
+    }
+    
+    .color-opacity .slider {
+        background: linear-gradient(to bottom, transparent, black), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path fill="white" d="M1,0H2V1H1V0ZM0,1H1V2H0V1Z"/><path fill="gray" d="M0,0H1V1H0V0ZM1,1H2V2H1V1Z"/></svg>');
+        background-size: 100%, 0.3em;
+    }
+    
+}

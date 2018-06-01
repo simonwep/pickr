@@ -15,7 +15,8 @@ module.exports = {
         path: __dirname + '/dist',
         publicPath: 'dist/',
         filename: 'color-picker.min.js',
-        library: 'ColorPicker'
+        library: 'ColorPicker',
+        libraryTarget: 'umd'
     },
 
     devServer: {
@@ -34,7 +35,12 @@ module.exports = {
                 test: /\.scss$/,
                 use: [
                     MiniCssExtractPlugin.loader,
-                    'css-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            minimize: true
+                        }
+                    },
                     'sass-loader'
                 ]
             }

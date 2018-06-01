@@ -52,7 +52,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 0.5em;
+    margin-top: 1.3em;
     
     input {
         padding: 0.5em 0.5em;
@@ -114,13 +114,11 @@
 .color-picker .app .selection {
     display: flex;
     flex-grow: 1;
-    margin-bottom: 0.8em;
     
     .picker {
         position: absolute;
         height: 18px;
         width: 18px;
-        background: transparent;
         border: 2px solid white;
         border-radius: 100%;
         user-select: none;
@@ -198,5 +196,4 @@
         background: linear-gradient(to bottom, transparent, black), $transparency-muster;
         background-size: 100%, 0.3em;
     }
-    
 }

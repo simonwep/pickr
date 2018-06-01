@@ -4,7 +4,7 @@ import * as Color from './color';
  * Simple class which holds the properties
  * of the color represention model hsla (hue saturation lightness alpha)
  */
-export default class {
+export class HSLaColor {
 
     constructor(h = 0, s = 0, l = 0, a = 1) {
         this.h = h;

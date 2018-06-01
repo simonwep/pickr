@@ -9,7 +9,7 @@ import './../scss/color-picker.scss';
 
 // Imports
 import * as _ from './lib/utils';
-import HSLaColor from './lib/hslacolor';
+import {HSLaColor} from './lib/hslacolor';
 import Moveable from './helper/moveable';
 import Selectable from './helper/selectable';
 
@@ -19,7 +19,9 @@ class ColorPicker {
 
         // Default values
         const def = {
-            // Coming soon!
+            components: {input: {}},
+            onChange: () => undefined,
+            onSave: () => undefined
         };
 
         this.options = Object.assign(def, opt);
@@ -33,26 +35,35 @@ class ColorPicker {
         }
 
         // Replace element with color picker
-        this.root = (() => {
-            const toReplace = this.options.el;
-            const html = create();
-
-            // Replace element with actual color-picker
-            toReplace.parentElement.replaceChild(html.root, toReplace);
-
-            // Return object
-            return html;
-        })();
+        this.root = this._buildRoot();
 
         this.color = new HSLaColor();
         this.lastColor = new HSLaColor();
         this._buildComponents();
     }
 
+    _buildRoot() {
+
+        // Check if element is selector
+        if (typeof this.options.el === 'string') {
+            this.options.el = document.querySelector(this.options.el);
+        }
+
+        const toReplace = this.options.el;
+        const html = create(this.options.components);
+
+        // Replace element with actual color-picker
+        toReplace.parentElement.replaceChild(html.root, toReplace);
+
+        // Return object
+        return html;
+    }
+
     _buildComponents() {
 
         // Instance reference
         const inst = this;
+        const comp = this.options.components;
 
         const components = {
 
@@ -61,34 +72,37 @@ class ColorPicker {
                 wrapper: inst.root.palette.palette,
 
                 onchange(x, y) {
-                    const hsla = inst.color;
+                    const color = inst.color;
 
                     // Calculate saturation based on the position
-                    hsla.s = Math.round((x / this.wrapper.offsetWidth) * 100);
+                    color.s = Math.round((x / this.wrapper.offsetWidth) * 100);
 
                     // To the right is the lightness-maximum only 50
-                    const fac = 100 - (hsla.s * 0.5);
-                    hsla.l = Math.round(fac - ((y / this.wrapper.offsetHeight) * fac));
+                    const fac = 100 - (color.s * 0.5);
+                    color.l = Math.round(fac - ((y / this.wrapper.offsetHeight) * fac));
 
                     // Set picker and gradient color
-                    this.element.style.background = hsla.toHSLa();
+                    this.element.style.background = color.toHSLa();
                     this.wrapper.style.background = `
-                        linear-gradient(to top, rgba(0, 0, 0, ${hsla.a}), transparent), 
-                        linear-gradient(to left, hsla(${hsla.h}, 100%, 50%, ${hsla.a}), rgba(255, 255, 255, ${hsla.a}))
+                        linear-gradient(to top, rgba(0, 0, 0, ${color.a}), transparent), 
+                        linear-gradient(to left, hsla(${color.h}, 100%, 50%, ${color.a}), rgba(255, 255, 255, ${color.a}))
                     `;
 
                     // Change current color
-                    inst.root.preview.currentColor.style.background = hsla.toHSLa();
+                    inst.root.preview.currentColor.style.background = color.toHSLa();
 
                     // Update infobox
                     inst.root.input.result.value = (() => {
 
                         // Construct function name and call if present
                         const method = 'to' + inst.root.input.type().value;
-                        if (typeof hsla[method] === 'function') {
-                            return hsla[method]();
+                        if (typeof color[method] === 'function') {
+                            return color[method]();
                         }
                     })();
+
+                    // Fire listener
+                    inst.options.onChange(color, inst);
                 }
             }),
 
@@ -98,6 +112,7 @@ class ColorPicker {
                 wrapper: inst.root.hueSlider.slider,
 
                 onchange(x, y) {
+                    if (comp.hue === false) return;
 
                     // Calculate hue
                     inst.color.h = Math.round((y / this.wrapper.offsetHeight) * 360);
@@ -116,9 +131,10 @@ class ColorPicker {
                 wrapper: inst.root.opacitySlider.slider,
 
                 onchange(x, y) {
+                    if (comp.opacity === false) return;
 
                     // Calculate opacity
-                    inst.color.a = (y / this.wrapper.offsetHeight).toFixed(2);
+                    inst.color.a = Math.round((y / this.wrapper.offsetHeight) * 1e2) / 1e2;
 
                     // Update color
                     this.element.style.background = `rgba(0, 0, 0, ${inst.color.a})`;
@@ -152,7 +168,7 @@ class ColorPicker {
     }
 
     /**
-     * Hides the color-picker ui
+     * Hides the color-picker ui.
      */
     hide() {
         this.root.app.classList.remove('visible');
@@ -163,10 +179,13 @@ class ColorPicker {
 
         // Save last color
         this.lastColor = this.color;
+
+        // Fire listener
+        this.options.onSave(this.color, this);
     }
 
     /**
-     * Shows the color-picker ui
+     * Shows the color-picker ui.
      */
     show() {
         this.root.app.classList.add('visible');
@@ -202,9 +221,24 @@ class ColorPicker {
         const opacityY = opacitySlider.offsetHeight * a;
         this.components.opacitySlider.update(0, opacityY);
     }
+
+    /**
+     * @returns The current HSLaColor object.
+     */
+    getColor() {
+        return this.color;
+    }
+
+    /**
+     * @returns The root HTMLElement with all his components.
+     */
+    getRoot() {
+        return this.root;
+    }
 }
 
-function create() {
+function create(o) {
+    const hidden = (con) => con === false ? 'style="display:none" hidden' : '';
 
     const element = _.createElementFromString(`
          <div class="color-picker">
@@ -213,7 +247,7 @@ function create() {
 
             <div class="app">
                 <div class="selection">
-                    <div class="color-preview">
+                    <div class="color-preview" ${hidden(o.preview)}>
                         <div class="last-color"></div>
                         <div class="current-color"></div>
                     </div>
@@ -223,24 +257,24 @@ function create() {
                         <div class="palette"></div>
                     </div>
     
-                    <div class="color-chooser">
+                    <div class="color-chooser" ${hidden(o.hue)}>
                         <div class="picker"></div>
                         <div class="hue slider"></div>
                     </div>
                     
-                     <div class="color-opacity">
+                     <div class="color-opacity" ${hidden(o.opacity)}>
                         <div class="picker"></div>
                         <div class="opacity slider"></div>
                     </div>
                 </div>
     
-                <div class="input">
-                    <input class="result" type="text" spellcheck="false" readonly>
+                <div class="input" ${hidden(o.input)}>
+                    <input class="result" type="text" spellcheck="false" readonly ${hidden(o.input.result)}>
                     
-                    <input class="type active" value="HEX" type="button">
-                    <input class="type" value="RGBa" type="button">
-                    <input class="type" value="HSLa" type="button">
-                    <input class="type" value="CMYK" type="button">
+                    <input class="type active" value="HEX" type="button" ${hidden(o.input.hex)}>
+                    <input class="type" value="RGBa" type="button" ${hidden(o.input.rgba)}>
+                    <input class="type" value="HSLa" type="button" ${hidden(o.input.hsla)}>
+                    <input class="type" value="CMYK" type="button" ${hidden(o.input.cmyk)}>
                     
                     <input class="save" value="Save" type="button">
                 </div>
@@ -258,9 +292,9 @@ function create() {
 
         input: {
             options: element.querySelectorAll('.app .input .type'),
-            type: () => element.querySelector('.app .input .type.active'),
             result: element.querySelector('.app .input .result'),
-            save: element.querySelector('.app .input .save')
+            save: element.querySelector('.app .input .save'),
+            type: () => element.querySelector('.app .input .type.active')
         },
 
         preview: {
@@ -291,6 +325,9 @@ ColorPicker.utils = {
     off: _.off,
     createElementFromString: _.createElementFromString
 };
+
+// Create instance via method
+ColorPicker.create = (options) => new ColorPicker(options);
 
 // Export
 module.exports = ColorPicker;

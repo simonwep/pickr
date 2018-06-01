@@ -79,7 +79,6 @@ class ColorPicker {
 
                     // Change current color
                     inst.root.preview.currentColor.style.background = hsla.toHSLa();
-                    inst.root.button.style.background = hsla.toHSLa();
 
                     // Update infobox
                     inst.root.input.result.value = (() => {
@@ -158,8 +157,11 @@ class ColorPicker {
     hide() {
         this.root.app.classList.remove('visible');
 
-        // Change preview color
+        // Change preview and current color
         this.root.preview.lastColor.style.background = this.color.toHSLa();
+        this.root.button.style.background = this.color.toHSLa();
+
+        // Save last color
         this.lastColor = this.color;
     }
 

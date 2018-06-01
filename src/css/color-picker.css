@@ -12,6 +12,7 @@
     font-family: 'Source Sans Pro';
     cursor: pointer;
     background: red;
+    transition: background-color 0.3s;
 }
 
 .color-picker .app {
@@ -68,6 +69,12 @@
 
 .color-picker .app .selection .color-preview .last-color {
     cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 0.15em 0.15em 0 0;
+}
+
+.color-picker .app .selection .color-preview .current-color {
+    border-radius: 0 0 0.15em 0.15em;
 }
 
 .color-picker .app .selection .color-preview .last-color,
@@ -75,8 +82,7 @@
     position: relative;
     background: rgba(0, 0, 0, 0);
     width: 100%;
-    height: calc(50% - 0.5em);
-    border-radius: 0.15em;
+    height: 50%;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 

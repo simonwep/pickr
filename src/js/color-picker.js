@@ -77,13 +77,15 @@ class ColorPicker {
                         linear-gradient(to left, hsla(${hsla.h}, 100%, 50%, ${hsla.a}), rgba(255, 255, 255, ${hsla.a}))
                     `;
 
+                    // Change current color
                     inst.root.preview.currentColor.style.background = hsla.toHSLa();
+                    inst.root.button.style.background = hsla.toHSLa();
 
                     // Update infobox
-                    inst.root.result.result.value = (() => {
+                    inst.root.input.result.value = (() => {
 
                         // Construct function name and call if present
-                        const method = 'to' + inst.root.result.type().value;
+                        const method = 'to' + inst.root.input.type().value;
                         if (typeof hsla[method] === 'function') {
                             return hsla[method]();
                         }
@@ -128,7 +130,7 @@ class ColorPicker {
             }),
 
             selectable: new Selectable({
-                elements: inst.root.result.options,
+                elements: inst.root.input.options,
                 className: 'active',
                 onchange: () => components.hueSlider._tapmove()
             })
@@ -140,10 +142,32 @@ class ColorPicker {
         this.setHSLa(0, 0, 100, 1);
 
         // Select color string on click
-        _.on(this.root.result.result, 'click', (e) => e.target.select());
+        _.on(this.root.input.result, 'click', (e) => e.target.select());
 
         // Select last color on click
         _.on(this.root.preview.lastColor, 'click', () => this.setHSLa(...this.lastColor.toHSLa(true)));
+
+        // Save and hide / show picker
+        _.on(this.root.button, 'click', () => this.root.app.classList.contains('visible') ? this.hide() : this.show());
+        _.on(this.root.input.save, 'click', () => this.hide());
+    }
+
+    /**
+     * Hides the color-picker ui
+     */
+    hide() {
+        this.root.app.classList.remove('visible');
+
+        // Change preview color
+        this.root.preview.lastColor.style.background = this.color.toHSLa();
+        this.lastColor = this.color;
+    }
+
+    /**
+     * Shows the color-picker ui
+     */
+    show() {
+        this.root.app.classList.add('visible');
     }
 
     /**
@@ -182,67 +206,79 @@ function create() {
 
     const element = _.createElementFromString(`
          <div class="color-picker">
+    
+            <div class="button"></div>
 
-            <div class="selection">
-                <div class="color-preview">
-                    <div class="last-color"></div>
-                    <div class="current-color"></div>
-                </div>
-            
-                <div class="color-palette">
-                    <div class="picker"></div>
-                    <div class="palette"></div>
-                </div>
-
-                <div class="color-chooser">
-                    <div class="picker"></div>
-                    <div class="hue slider"></div>
-                </div>
+            <div class="app">
+                <div class="selection">
+                    <div class="color-preview">
+                        <div class="last-color"></div>
+                        <div class="current-color"></div>
+                    </div>
                 
-                 <div class="color-opacity">
-                    <div class="picker"></div>
-                    <div class="opacity slider"></div>
+                    <div class="color-palette">
+                        <div class="picker"></div>
+                        <div class="palette"></div>
+                    </div>
+    
+                    <div class="color-chooser">
+                        <div class="picker"></div>
+                        <div class="hue slider"></div>
+                    </div>
+                    
+                     <div class="color-opacity">
+                        <div class="picker"></div>
+                        <div class="opacity slider"></div>
+                    </div>
+                </div>
+    
+                <div class="input">
+                    <input class="result" type="text" spellcheck="false" readonly>
+                    
+                    <input class="type active" value="HEX" type="button">
+                    <input class="type" value="RGBa" type="button">
+                    <input class="type" value="HSLa" type="button">
+                    <input class="type" value="CMYK" type="button">
+                    
+                    <input class="save" value="Save" type="button">
                 </div>
             </div>
-
-            <div class="input">
-                <input class="result" type="text" spellcheck="false" readonly>
-                <input class="type active" value="HEX" type="button">
-                <input class="type" value="RGBa" type="button">
-                <input class="type" value="HSLa" type="button">
-                <input class="type" value="CMYK" type="button">
-            </div>
-
+      
         </div>
     `);
 
     return {
         root: element,
 
-        result: {
-            options: element.querySelectorAll('.input .type'),
-            type: () => element.querySelector('.input .type.active'),
-            result: element.querySelector('.input .result')
+        button: element.querySelector('.button'),
+
+        app: element.querySelector('.app '),
+
+        input: {
+            options: element.querySelectorAll('.app .input .type'),
+            type: () => element.querySelector('.app .input .type.active'),
+            result: element.querySelector('.app .input .result'),
+            save: element.querySelector('.app .input .save')
         },
 
         preview: {
-            lastColor: element.querySelector('.color-preview .last-color'),
-            currentColor: element.querySelector('.color-preview .current-color')
+            lastColor: element.querySelector('.app .color-preview .last-color'),
+            currentColor: element.querySelector('.app .color-preview .current-color')
         },
 
         palette: {
-            picker: element.querySelector('.color-palette .picker'),
-            palette: element.querySelector('.color-palette .palette')
+            picker: element.querySelector('.app .color-palette .picker'),
+            palette: element.querySelector('.app .color-palette .palette')
         },
 
         hueSlider: {
-            picker: element.querySelector('.color-chooser .picker'),
-            slider: element.querySelector('.color-chooser .hue.slider')
+            picker: element.querySelector('.app .color-chooser .picker'),
+            slider: element.querySelector('.app .color-chooser .hue.slider')
         },
 
         opacitySlider: {
-            picker: element.querySelector('.color-opacity .picker'),
-            slider: element.querySelector('.color-opacity .opacity.slider')
+            picker: element.querySelector('.app .color-opacity .picker'),
+            slider: element.querySelector('.app .color-opacity .opacity.slider')
         }
     };
 }

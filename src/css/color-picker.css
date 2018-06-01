@@ -1,22 +1,51 @@
 .color-picker {
+    overflow: visible;
+}
+
+.color-picker .button {
+    margin-bottom: 0.5em;
+    height: 2em;
+    width: 2em;
+    padding: 0.5em;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 0.15em;
+    font-family: 'Source Sans Pro';
+    cursor: pointer;
+    background: red;
+}
+
+.color-picker .app {
+    position: absolute;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     height: 15em;
     width: 28em;
+    max-width: 95%;
     padding: 0.8em;
     border-radius: 0.1em;
     background: #ffffff;
     box-shadow: 0 0.2em 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 1em 0 rgba(0, 0, 0, 0.02);
+    font-family: 'Source Sans Pro';
+    transform: translate3d(calc(-50% + 1.25em), 0.5em, 0);
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s;
 }
 
-.color-picker .selection {
+.color-picker .app.visible {
+    transform: translate3d(calc(-50% + 1.25em), 0, 0);
+    visibility: visible;
+    opacity: 1;
+}
+
+.color-picker .app .selection {
     display: flex;
     flex-grow: 1;
     margin-bottom: 0.8em;
 }
 
-.color-picker .selection .picker {
+.color-picker .app .selection .picker {
     position: absolute;
     height: 18px;
     width: 18px;
@@ -27,7 +56,7 @@
     cursor: -webkit-grabbing;
 }
 
-.color-picker .selection .color-preview {
+.color-picker .app .selection .color-preview {
     position: relative;
     z-index: 1;
     width: 2em;
@@ -37,23 +66,22 @@
     margin-right: 1em;
 }
 
-.color-picker .selection .color-preview .last-color {
+.color-picker .app .selection .color-preview .last-color {
     cursor: pointer;
 }
 
-.color-picker .selection .color-preview .last-color,
-.color-picker .selection .color-preview .current-color {
+.color-picker .app .selection .color-preview .last-color,
+.color-picker .app .selection .color-preview .current-color {
     position: relative;
     background: rgba(0, 0, 0, 0);
     width: 100%;
     height: calc(50% - 0.5em);
     border-radius: 0.15em;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-    overflow: hidden;
 }
 
-.color-picker .selection .color-preview .last-color::before,
-.color-picker .selection .color-preview .current-color::before {
+.color-picker .app .selection .color-preview .last-color::before,
+.color-picker .app .selection .color-preview .current-color::before {
     position: absolute;
     content: '';
     top: 0;
@@ -62,30 +90,30 @@
     height: 100%;
     background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path fill="white" d="M1,0H2V1H1V0ZM0,1H1V2H0V1Z"/><path fill="gray" d="M0,0H1V1H0V0ZM1,1H2V2H1V1Z"/></svg>');
     background-size: 0.5em;
+    border-radius: 0.15em;
     z-index: -1;
 }
 
-.color-picker .selection .color-palette,
-.color-picker .selection .color-chooser,
-.color-picker .selection .color-opacity {
+.color-picker .app .selection .color-palette,
+.color-picker .app .selection .color-chooser,
+.color-picker .app .selection .color-opacity {
     position: relative;
     user-select: none;
 }
 
-.color-picker .selection .color-palette {
+.color-picker .app .selection .color-palette {
     position: relative;
     flex-grow: 1;
     z-index: 1;
 }
 
-.color-picker .selection .color-palette .palette {
+.color-picker .app .selection .color-palette .palette {
     height: 100%;
-    border-radius: 0.15em;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-    overflow: hidden;
+    border-radius: 0.15em;
 }
 
-.color-picker .selection .color-palette .palette::before {
+.color-picker .app .selection .color-palette .palette::before {
     position: absolute;
     content: '';
     top: 0;
@@ -94,28 +122,29 @@
     height: 100%;
     background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path fill="white" d="M1,0H2V1H1V0ZM0,1H1V2H0V1Z"/><path fill="gray" d="M0,0H1V1H0V0ZM1,1H2V2H1V1Z"/></svg>');
     background-size: 0.5em;
+    border-radius: 0.15em;
     z-index: -1;
 }
 
-.color-picker .selection .color-chooser,
-.color-picker .selection .color-opacity {
+.color-picker .app .selection .color-chooser,
+.color-picker .app .selection .color-opacity {
     margin-left: 1em;
 }
 
-.color-picker .selection .color-chooser .picker,
-.color-picker .selection .color-opacity .picker {
+.color-picker .app .selection .color-chooser .picker,
+.color-picker .app .selection .color-opacity .picker {
     margin-left: 50%;
     transform: translateX(-50%);
 }
 
-.color-picker .selection .color-chooser .slider,
-.color-picker .selection .color-opacity .slider {
+.color-picker .app .selection .color-chooser .slider,
+.color-picker .app .selection .color-opacity .slider {
     width: 8px;
     height: 100%;
     border-radius: 50em;
 }
 
-.color-picker .selection .color-chooser .slider {
+.color-picker .app .selection .color-chooser .slider {
     background: linear-gradient(to bottom,
     hsl(0, 100%, 50%),
     hsl(60, 100%, 50%),
@@ -126,29 +155,40 @@
     hsl(360, 100%, 50%));
 }
 
-.color-picker .selection .color-opacity .slider {
+.color-picker .app .selection .color-opacity .slider {
     background: linear-gradient(to bottom, transparent, black), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path fill="white" d="M1,0H2V1H1V0ZM0,1H1V2H0V1Z"/><path fill="gray" d="M0,0H1V1H0V0ZM1,1H2V2H1V1Z"/></svg>');
     background-size: 100%, 0.3em;
 }
 
-.color-picker .input {
+.color-picker .app .input {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 0.5em;
 }
 
-.color-picker .input .result,
-.color-picker .input .type {
+.color-picker .app .input input {
     padding: 0.5em 0.5em;
     border: none;
     outline: none;
-    font-family: 'Source Sans Pro';
     letter-spacing: 0.07em;
+    width: 4em;
+    text-align: center;
+    cursor: pointer;
+    color: #c4c4c4;
+    background: #f8f8f8;
+    border-radius: 0.2em;
+    margin: 0 0.2em;
+    transition: all 0.15s;
 }
 
-.color-picker .input .result {
+.color-picker .app .input input:hover {
+    color: #808080;
+}
+
+.color-picker .app .input .result {
     color: #454545;
+    text-align: left;
     flex-grow: 1;
     min-width: 1em;
     font-size: 0.85em;
@@ -159,32 +199,27 @@
     background: #f8f8f8;
 }
 
-.color-picker .input .result:hover {
+.color-picker .app .input .result:hover {
     color: #4285f4;
 }
 
-.color-picker .input .result::selection {
+.color-picker .app .input .result::selection {
     background: #4285f4;
     color: white;
 }
 
-.color-picker .input .type {
-    width: 4em;
-    text-align: center;
-    cursor: pointer;
-    color: #c4c4c4;
-    background: #f8f8f8;
-    border-radius: 0.2em;
-    margin: 0 0.2em;
-    transition: all 0.1s;
-}
-
-.color-picker .input .type:hover {
-    color: #808080;
-}
-
-.color-picker .input .type.active {
+.color-picker .app .input .type.active {
     color: white;
     background: #4285f4;
 }
 
+.color-picker .app .input .save {
+    background: #4285F4;
+    color: white;
+    width: 5em;
+}
+
+.color-picker .app .input .save:hover {
+    background: #4370f4;
+    color: white;
+}

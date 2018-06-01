@@ -4,6 +4,7 @@
     box-sizing: border-box; }
 
 .color-picker .button {
+  position: relative;
   margin-bottom: 0.5em;
   height: 2em;
   width: 2em;
@@ -14,6 +15,17 @@
   background: transparent;
   transition: background-color 0.3s;
   font-family: 'Source Sans Pro'; }
+  .color-picker .button::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path fill="white" d="M1,0H2V1H1V0ZM0,1H1V2H0V1Z"/><path fill="gray" d="M0,0H1V1H0V0ZM1,1H2V2H1V1Z"/></svg>');
+    background-size: 0.5em;
+    border-radius: 0.15em;
+    z-index: -1; }
 
 .color-picker .app {
   position: absolute;
@@ -107,14 +119,6 @@
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
     border-radius: 0.15em;
     overflow: hidden; }
-    .color-picker .app .selection .color-preview .last-color {
-      cursor: pointer;
-      transition: background-color 0.3s; }
-    .color-picker .app .selection .color-preview .last-color,
-    .color-picker .app .selection .color-preview .current-color {
-      background: transparent;
-      width: 100%;
-      height: 50%; }
     .color-picker .app .selection .color-preview::before {
       position: absolute;
       content: '';
@@ -126,6 +130,14 @@
       background-size: 0.5em;
       border-radius: 0.15em;
       z-index: -1; }
+    .color-picker .app .selection .color-preview .last-color {
+      cursor: pointer;
+      transition: background-color 0.3s; }
+    .color-picker .app .selection .color-preview .last-color,
+    .color-picker .app .selection .color-preview .current-color {
+      background: transparent;
+      width: 100%;
+      height: 50%; }
   .color-picker .app .selection .color-palette,
   .color-picker .app .selection .color-chooser,
   .color-picker .app .selection .color-opacity {

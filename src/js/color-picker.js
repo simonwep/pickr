@@ -91,15 +91,20 @@ class ColorPicker {
                     // Change current color
                     inst.root.preview.currentColor.style.background = color.toHSLa();
 
-                    // Update infobox
-                    inst.root.input.result.value = (() => {
+                    // Check if component is present
+                    if (inst.root.input.type()) {
 
-                        // Construct function name and call if present
-                        const method = 'to' + inst.root.input.type().value;
-                        if (typeof color[method] === 'function') {
-                            return color[method]();
-                        }
-                    })();
+                        // Update infobox
+                        inst.root.input.result.value = (() => {
+
+                            // Construct function name and call if present
+                            const method = 'to' + inst.root.input.type().value;
+                            if (typeof color[method] === 'function') {
+                                return color[method]();
+                            }
+                        })();
+                        return '';
+                    }
 
                     // Fire listener
                     inst.options.onChange(color, inst);
@@ -153,8 +158,9 @@ class ColorPicker {
 
         this.components = components;
 
-        // Initialize color
+        // Initialize color and trigger hiding
         this.setHSLa(0, 0, 100, 1);
+        this.hide();
 
         // Select color string on click
         _.on(this.root.input.result, 'click', (e) => e.target.select());
@@ -178,7 +184,7 @@ class ColorPicker {
         this.root.button.style.background = this.color.toHSLa();
 
         // Save last color
-        this.lastColor = this.color;
+        this.lastColor = new HSLaColor(...this.color.toHSLa(true));
 
         // Fire listener
         this.options.onSave(this.color, this);
@@ -211,15 +217,17 @@ class ColorPicker {
 
         // Calculate y and x position of color palette
         const pickerWrapper = this.components.palette.options.wrapper;
-        const fac = (s / 100) / 100;
+        const fac = 100 - (0.5 * s);
         const pickerX = pickerWrapper.offsetWidth * (s / 100);
-        const pickerY = pickerWrapper.offsetHeight * (l * fac);
+        const pickerY = pickerWrapper.offsetHeight * (1 - l / fac);
         this.components.palette.update(pickerX, pickerY);
 
         // Calculate y position of opacity slider
         const opacitySlider = this.components.opacitySlider.options.wrapper;
         const opacityY = opacitySlider.offsetHeight * a;
         this.components.opacitySlider.update(0, opacityY);
+
+        this.color = new HSLaColor(h, s, l, a);
     }
 
     /**
@@ -271,7 +279,7 @@ function create(o) {
                 <div class="input" ${hidden(o.input)}>
                     <input class="result" type="text" spellcheck="false" readonly ${hidden(o.input.result)}>
                     
-                    <input class="type active" value="HEX" type="button" ${hidden(o.input.hex)}>
+                    <input class="type" value="HEX" type="button" ${hidden(o.input.hex)}>
                     <input class="type" value="RGBa" type="button" ${hidden(o.input.rgba)}>
                     <input class="type" value="HSLa" type="button" ${hidden(o.input.hsla)}>
                     <input class="type" value="CMYK" type="button" ${hidden(o.input.cmyk)}>
@@ -283,7 +291,7 @@ function create(o) {
         </div>
     `);
 
-    return {
+    const root = {
         root: element,
 
         button: element.querySelector('.button'),
@@ -317,6 +325,14 @@ function create(o) {
             slider: element.querySelector('.app .color-opacity .opacity.slider')
         }
     };
+
+    // Select option which is not hidden
+    const option = Array.from(root.input.options).find(o => !o.hidden);
+    if (option) {
+        option.classList.add('active');
+    }
+
+    return root;
 }
 
 // Static methods

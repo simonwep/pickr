@@ -171,6 +171,13 @@ class ColorPicker {
         // Save and hide / show picker
         _.on(this.root.button, 'click', () => this.root.app.classList.contains('visible') ? this.hide() : this.show());
         _.on(this.root.input.save, 'click', () => this.hide());
+
+        // Cancel selecting if the user taps behind the color picker
+        _.on(document, 'click', (e) => {
+            if (!_.eventPath(e).includes(this.root.root)) {
+                this.cancel();
+            }
+        });
     }
 
     /**
@@ -188,6 +195,13 @@ class ColorPicker {
 
         // Fire listener
         this.options.onSave(this.color, this);
+    }
+
+    /**
+     * Cancels the current color picking.
+     */
+    cancel() {
+        this.root.app.classList.remove('visible');
     }
 
     /**

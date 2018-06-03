@@ -5,7 +5,7 @@
  */
 
 // Import styles
-import './../scss/color-picker.scss';
+import '../scss/pickr.scss';
 
 // Imports
 import * as _ from './lib/utils';
@@ -13,7 +13,7 @@ import {HSLaColor} from './lib/hslacolor';
 import Moveable from './helper/moveable';
 import Selectable from './helper/selectable';
 
-class ColorPicker {
+class Pickr {
 
     constructor(opt) {
 
@@ -350,14 +350,14 @@ function create(o) {
 }
 
 // Static methods
-ColorPicker.utils = {
+Pickr.utils = {
     on: _.on,
     off: _.off,
     createElementFromString: _.createElementFromString
 };
 
 // Create instance via method
-ColorPicker.create = (options) => new ColorPicker(options);
+Pickr.create = (options) => new Pickr(options);
 
 // Export
-module.exports = ColorPicker;
+module.exports = Pickr;

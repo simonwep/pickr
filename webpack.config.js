@@ -5,17 +5,17 @@ module.exports = {
 
     plugins: [
         new MiniCssExtractPlugin({
-            filename: 'color-picker.min.css'
+            filename: 'pickr.min.css'
         })
     ],
 
-    entry: './src/js/color-picker.js',
+    entry: './src/js/pickr.js',
 
     output: {
         path: __dirname + '/dist',
         publicPath: 'dist/',
-        filename: 'color-picker.min.js',
-        library: 'ColorPicker',
+        filename: 'pickr.min.js',
+        library: 'Pickr',
         libraryTarget: 'umd'
     },
 

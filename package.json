@@ -1,8 +1,8 @@
 {
     "name": "color-picker",
     "version": "0.0.1",
-    "description": "UX Color picker",
-    "main": "color-picker.js",
+    "description": "Flat, Simple, Hackable Color-Picker.",
+    "main": "dist/pickr.js",
     "scripts": {
         "build": "webpack --mode production",
         "dev": "webpack-dev-server --mode development"

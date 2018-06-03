@@ -1,0 +1,39 @@
+/* Styles for syntax highlighting */
+
+.hljs,
+.hljs-subst {
+    color: #DDDDDD;
+}
+
+.hljs-comment {
+    color: #888888;
+}
+
+.kwd {
+    color: #6C9EF8;
+}
+
+.pln {
+    color: #A87FDB;
+}
+
+.str {
+    color: #D89330;
+}
+
+.typ,
+.pun {
+    color: #dddddd;
+}
+
+.com {
+    color: #ffffff;
+}
+
+code {
+    max-width: 100%;
+}
+
+pre {
+    overflow: auto;
+}

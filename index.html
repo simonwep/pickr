@@ -5,28 +5,119 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="theme-color" content="#42445A">
-    <title>Color Picker</title>
+    <title>Pickr</title>
+
+    <!-- ICONS -->
+    <link href="gh-page/pickr.png" type="image/png" rel="icon" />
+    <link href="gh-page/pickr.png" type="image/png" rel="apple-touch-icon" />
 
     <!-- CSS STYLESHEETS -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,500" rel="stylesheet">
     <link href="dist/pickr.min.css" rel="stylesheet">
-    <link href="gh-page/styles.css" rel="stylesheet">
+    <link href="gh-page/css/styles.css" rel="stylesheet">
 </head>
 
 <body>
 
     <header>
         <h1>Flat color picker</h1>
-        <p>Simple and beautiful color picker for your next project</p>
+        <a href="https://github.com/Simonwep/pickr">VIEW ON GITHUB</a>
     </header>
 
     <main>
-        <div class="color-picker"></div>
+
+        <section class="demo">
+
+            <div class="center">
+                <div class="color-picker"></div>
+
+                <div class="hint">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 93 31">
+                        <path d="M10,7C27.616,28.845,69.49,37.638,93,22M0.053,28.141Q2.015,15.489,3.98,2.847A3.75,3.75,0,0,1,7.674.028Q20.7,1.634,33.721,3.236"/>
+                    </svg>
+                    <span>Pick a color!</span>
+                </div>
+            </div>
+
+        </section>
+
+
+        <section class="demo-code">
+            <h2>Example code including all features</h2>
+
+
+            <pre><code class="prettyprint">const pickr = new Pickr({
+     el: '.color-picker'
+});</code></pre>
+        </section>
+
+
+        <section>
+            <h2>Handle what the user picked</h2>
+
+            <pre><code class="prettyprint">const pickr = new Pickr({
+
+    // User has changed the color
+    onChange(hsla, instance) {
+        hsla;     // HSLa color object
+        instance; // Current Pickr instance
+    },
+
+    // User has clicked the save button
+    onSave(hsla, instance) {
+        // same as onChange
+    }
+});</code></pre>
+        </section>
+
+        <section>
+            <h2>Available options</h2>
+
+            <pre><code class="prettyprint">const pickr = new Pickr({
+
+    // Selector or element which will be replaced with the actual color-picker
+    el: '.color-picker',
+
+    // Show or hide specific components.
+    // By default are all features are enabled.
+    components: {
+
+        preview: true, // Left side color comparison
+        opacity: true, // Opacity slider
+        hue: true,     // Hue slider
+
+        // Bottom input bar, theoretically you could use 'true' as propery.
+        // But this would also hide the save-button.
+        input: {
+            hex: true,  // hex option
+            hsla: true, // hsal option
+            rgba: true, // rgba option
+            cmyk: true, // cmyk option
+            result: true // result output
+        },
+    },
+
+
+    // User has changed the color
+    onChange(hsla, instance) {
+        hsla; // HSLa color object
+        instance; // Current Pickr instance
+    },
+
+    // User has clicked the save button
+    onSave(hsla, instance) {
+        // same as onChange
+    }
+});</code></pre>
+        </section>
+
     </main>
 
 
     <script src="dist/pickr.min.js"></script>
-    <script src="gh-page/script.js"></script>
+    <script src="gh-page/js/script.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <link href="gh-page/css/highlight.css" rel="stylesheet">
 </body>
 
 </html>

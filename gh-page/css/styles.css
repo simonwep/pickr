@@ -1,0 +1,158 @@
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body header {
+    position: relative;
+    padding: 2em 0 2.5em 0;
+    text-align: center;
+    font-family: 'Montserrat', serif;
+    background: #42445a;
+    color: #ffffff;
+}
+
+body header h1 {
+    font-size: 4em;
+    font-weight: 200;
+}
+
+body header a {
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.8em;
+    color: white;
+    margin: 2em 0 0 0;
+    padding: 0.6em 1em;
+    border: 1px solid #59ecff;
+    border-radius: 0.2em;
+    -webkit-transition: 0.3s all;
+    transition: 0.3s all;
+}
+
+body header a:hover {
+    color: black;
+    background: #59ecff;
+}
+
+
+body main {
+    margin: 0 auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+main > section {
+    width: 50%;
+    max-width: 60em;
+    min-width: 50em;
+    margin: 2em auto;
+}
+
+main > section > h2 {
+    font-family: 'Montserrat';
+    font-weight: 400;
+    font-size: 1.3em;
+    margin-bottom: 0.5em;
+}
+
+main > section pre {
+    padding: 1.2em 1em;
+    line-height: 1.3em;
+    font-size: 1.1em;
+    background: #42445A;
+    border-radius: 0.25em;
+}
+
+/* details */
+
+main section.demo {
+    margin: 10% auto 15% auto;
+    text-align: center;
+}
+
+main section.demo .center {
+    display: inline-block;
+}
+
+main section.demo .hint {
+    position: absolute;
+    -webkit-animation: fadeIn 1.5s ease;
+    animation: fadeIn 1.5s ease;
+    -webkit-transform: translate3d(2em, 0, 0);
+    transform: translate3d(2em, 0, 0);
+    z-index: -1;
+}
+
+main section.demo .hint svg {
+    fill: transparent;
+    stroke-width: 0.1em;
+    stroke-linecap: round;
+    stroke: rgba(66, 68, 90, 0.35);
+    overflow: visible;
+}
+
+main section.demo .hint span {
+    display: inline-block;
+    -webkit-transform: translate3d(3.5em, -2.5em, 0);
+    transform: translate3d(3.5em, -2.5em, 0);
+    font-family: 'Montserrat';
+    font-weight: 500;
+    color: rgba(66, 68, 90, 0.35);
+}
+
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    body header {
+        font-size: 10px;
+    }
+    main > section {
+        min-width: 90%;
+    }
+    main > section h2 {
+        font-size: 1em;
+    }
+    main > section pre {
+        font-size: 0.9em;
+    }
+    main section.demo .hint svg {
+        height: 1.2em;
+    }
+    main section.demo .hint span {
+        -webkit-transform: translate3d(-3em, -1.4em, 0);
+        transform: translate3d(-3em, -1.4em, 0);
+        font-size: 0.6em;
+
+    }
+}

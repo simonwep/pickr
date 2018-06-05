@@ -39,18 +39,13 @@ class Moveable {
     }
 
     _tapmove(evt = this.lastEvent) {
-
-        if (!evt) {
-            evt = new MouseEvent('mousemove');
-        }
-
         const wrapper = this.options.wrapper;
         const element = this.options.element;
         const b = wrapper.getBoundingClientRect();
 
-        const touch = evt.touches && evt.touches[0];
-        let x = (touch || evt).clientX;
-        let y = (touch || evt).clientY;
+        const touch = evt && evt.touches && evt.touches[0];
+        let x = evt ? (touch || evt).clientX : 0;
+        let y = evt ? (touch || evt).clientY: 0;
 
         // Reset to bounds
         if (x < b.left) x = b.left;
@@ -79,7 +74,7 @@ class Moveable {
         _.off(document, ['mousemove', 'touchmove'], this._tapmove);
     }
 
-    update(x, y) {
+    update(x = 0, y = 0) {
         const wrapperBoundaries = this.options.wrapper.getBoundingClientRect();
         this._tapmove(new MouseEvent('mousemove', {
             clientX: wrapperBoundaries.left + x,

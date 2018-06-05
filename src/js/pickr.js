@@ -7,8 +7,10 @@
 // Import styles
 import '../scss/pickr.scss';
 
-// Imports
+// Import utils
 import * as _ from './lib/utils';
+
+// Import classes
 import {HSLaColor} from './lib/hslacolor';
 import Moveable from './helper/moveable';
 import Selectable from './helper/selectable';
@@ -19,7 +21,7 @@ class Pickr {
 
         // Default values
         const def = {
-            components: {input: {}},
+            components: {output: {}},
             onChange: () => undefined,
             onSave: () => undefined
         };
@@ -36,6 +38,7 @@ class Pickr {
 
         // Replace element with color picker
         this.root = this._buildRoot();
+        this.inputActive = false;
 
         this.color = new HSLaColor();
         this.lastColor = new HSLaColor();
@@ -87,27 +90,7 @@ class Pickr {
                         linear-gradient(to top, rgba(0, 0, 0, ${color.a}), transparent), 
                         linear-gradient(to left, hsla(${color.h}, 100%, 50%, ${color.a}), rgba(255, 255, 255, ${color.a}))
                     `;
-
-                    // Change current color
-                    inst.root.preview.currentColor.style.background = color.toHSLa();
-
-                    // Check if component is present
-                    if (inst.root.input.type()) {
-
-                        // Update infobox
-                        inst.root.input.result.value = (() => {
-
-                            // Construct function name and call if present
-                            const method = 'to' + inst.root.input.type().value;
-                            if (typeof color[method] === 'function') {
-                                return color[method]();
-                            }
-                        })();
-                        return '';
-                    }
-
-                    // Fire listener
-                    inst.options.onChange(color, inst);
+                    inst._updateColor();
                 }
             }),
 
@@ -124,9 +107,7 @@ class Pickr {
 
                     // Update color
                     this.element.style.backgroundColor = `hsl(${inst.color.h}, 100%, 50%)`;
-
-                    // Trigger palette to update the gradients
-                    components.palette._tapmove();
+                    inst._updateColor();
                 }
             }),
 
@@ -143,16 +124,17 @@ class Pickr {
 
                     // Update color
                     this.element.style.background = `rgba(0, 0, 0, ${inst.color.a})`;
-
-                    // Trigger palette to update the gradients
-                    components.palette._tapmove();
+                    inst._updateColor();
                 }
             }),
 
             selectable: new Selectable({
                 elements: inst.root.input.options,
                 className: 'active',
-                onchange: () => components.hueSlider._tapmove()
+                onchange: () => {
+                    inst._updateColor();
+                    inst.inputActive = false;
+                }
             })
         };
 
@@ -161,9 +143,6 @@ class Pickr {
         // Initialize color and trigger hiding
         this.setHSLa(0, 0, 100, 1);
         this.hide();
-
-        // Select color string on click
-        _.on(this.root.input.result, 'click', (e) => e.target.select());
 
         // Select last color on click
         _.on(this.root.preview.lastColor, 'click', () => this.setHSLa(...this.lastColor.toHSLa(true)));
@@ -178,6 +157,32 @@ class Pickr {
                 this.cancel();
             }
         });
+    }
+
+    _updateColor() {
+
+        // Change current color
+        this.root.preview.currentColor.style.background = this.color.toHSLa();
+
+        // Check if component is present
+        if (!this.inputActive && this.root.input.type()) {
+
+            // Update infobox
+            this.root.input.result.value = (() => {
+
+                // Construct function name and call if present
+                const method = 'to' + this.root.input.type().value;
+
+                if (typeof this.color[method] === 'function') {
+                    return this.color[method]();
+                }
+
+                return '';
+            })();
+        }
+
+        // Fire listener
+        this.options.onChange(this.color, this);
     }
 
     /**
@@ -225,8 +230,8 @@ class Pickr {
             return;
 
         // Calculate y position of hue slider
-        const hueSlider = this.components.hueSlider.options.wrapper;
-        const hueY = hueSlider.offsetHeight * (h / 360);
+        const hueWrapper = this.components.hueSlider.options.wrapper;
+        const hueY = hueWrapper.offsetHeight * (h / 360);
         this.components.hueSlider.update(0, hueY);
 
         // Calculate y and x position of color palette
@@ -237,8 +242,8 @@ class Pickr {
         this.components.palette.update(pickerX, pickerY);
 
         // Calculate y position of opacity slider
-        const opacitySlider = this.components.opacitySlider.options.wrapper;
-        const opacityY = opacitySlider.offsetHeight * a;
+        const opacityWrapper = this.components.opacitySlider.options.wrapper;
+        const opacityY = opacityWrapper.offsetHeight * a;
         this.components.opacitySlider.update(0, opacityY);
 
         this.color = new HSLaColor(h, s, l, a);
@@ -290,13 +295,13 @@ function create(o) {
                     </div>
                 </div>
     
-                <div class="input" ${hidden(o.input)}>
-                    <input class="result" type="text" spellcheck="false" readonly ${hidden(o.input.result)}>
+                <div class="output" ${hidden(o.output)}>
+                    <input class="result" type="text" spellcheck="false" ${hidden(o.output.input)}>
                     
-                    <input class="type" value="HEX" type="button" ${hidden(o.input.hex)}>
-                    <input class="type" value="RGBa" type="button" ${hidden(o.input.rgba)}>
-                    <input class="type" value="HSLa" type="button" ${hidden(o.input.hsla)}>
-                    <input class="type" value="CMYK" type="button" ${hidden(o.input.cmyk)}>
+                    <input class="type" value="HEX" type="button" ${hidden(o.output.hex)}>
+                    <input class="type" value="RGBa" type="button" ${hidden(o.output.rgba)}>
+                    <input class="type" value="HSLa" type="button" ${hidden(o.output.hsla)}>
+                    <input class="type" value="CMYK" type="button" ${hidden(o.output.cmyk)}>
                     
                     <input class="save" value="Save" type="button">
                 </div>
@@ -313,10 +318,10 @@ function create(o) {
         app: element.querySelector('.app '),
 
         input: {
-            options: element.querySelectorAll('.app .input .type'),
-            result: element.querySelector('.app .input .result'),
-            save: element.querySelector('.app .input .save'),
-            type: () => element.querySelector('.app .input .type.active')
+            options: element.querySelectorAll('.app .output .type'),
+            result: element.querySelector('.app .output .result'),
+            save: element.querySelector('.app .output .save'),
+            type: () => element.querySelector('.app .output .type.active')
         },
 
         preview: {
@@ -341,11 +346,7 @@ function create(o) {
     };
 
     // Select option which is not hidden
-    const option = Array.from(root.input.options).find(o => !o.hidden);
-    if (option) {
-        option.classList.add('active');
-    }
-
+    Array.from(root.input.options).find(o => !o.hidden && !o.classList.add('active'));
     return root;
 }
 

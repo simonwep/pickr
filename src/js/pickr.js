@@ -9,9 +9,10 @@ import '../scss/pickr.scss';
 
 // Import utils
 import * as _ from './lib/utils';
+import * as colorUtils from './lib/color';
 
 // Import classes
-import {HSLaColor} from './lib/hslacolor';
+import {HSVaColor} from './lib/hsvacolor';
 import Moveable from './helper/moveable';
 import Selectable from './helper/selectable';
 
@@ -40,8 +41,8 @@ class Pickr {
         this.root = this._buildRoot();
         this.inputActive = false;
 
-        this.color = new HSLaColor();
-        this.lastColor = new HSLaColor();
+        this.color = new HSVaColor();
+        this.lastColor = new HSVaColor();
         this._buildComponents();
     }
 
@@ -80,16 +81,20 @@ class Pickr {
                     // Calculate saturation based on the position
                     color.s = Math.round((x / this.wrapper.offsetWidth) * 100);
 
-                    // To the right is the lightness-maximum only 50
-                    const fac = 100 - (color.s * 0.5);
-                    color.l = Math.round(fac - ((y / this.wrapper.offsetHeight) * fac));
+                    // Calculate the value
+                    color.v = Math.round(100 - ((y / this.wrapper.offsetHeight) * 100));
+
+                    const cssRGBaString = color.toRGBa();
 
                     // Set picker and gradient color
-                    this.element.style.background = color.toHSLa();
+                    this.element.style.background = cssRGBaString;
                     this.wrapper.style.background = `
                         linear-gradient(to top, rgba(0, 0, 0, ${color.a}), transparent), 
                         linear-gradient(to left, hsla(${color.h}, 100%, 50%, ${color.a}), rgba(255, 255, 255, ${color.a}))
                     `;
+
+                    // Change current color
+                    inst.root.preview.currentColor.style.background = cssRGBaString;
                     inst._updateColor();
                 }
             }),
@@ -107,7 +112,7 @@ class Pickr {
 
                     // Update color
                     this.element.style.backgroundColor = `hsl(${inst.color.h}, 100%, 50%)`;
-                    inst._updateColor();
+                    components.palette.update();
                 }
             }),
 
@@ -124,7 +129,7 @@ class Pickr {
 
                     // Update color
                     this.element.style.background = `rgba(0, 0, 0, ${inst.color.a})`;
-                    inst._updateColor();
+                    inst.components.palette.update();
                 }
             }),
 
@@ -132,7 +137,7 @@ class Pickr {
                 elements: inst.root.input.options,
                 className: 'active',
                 onchange: () => {
-                    inst._updateColor();
+                    inst.components.palette.update();
                     inst.inputActive = false;
                 }
             })
@@ -141,11 +146,11 @@ class Pickr {
         this.components = components;
 
         // Initialize color and trigger hiding
-        this.setHSLa(0, 0, 100, 1);
+        this.setHSVa(0, 0, 100, 1);
         this.hide();
 
         // Select last color on click
-        _.on(this.root.preview.lastColor, 'click', () => this.setHSLa(...this.lastColor.toHSLa(true)));
+        _.on(this.root.preview.lastColor, 'click', () => this.setHSVa(...this.lastColor.toHSLa(true)));
 
         // Save and hide / show picker
         _.on(this.root.button, 'click', () => this.root.app.classList.contains('visible') ? this.hide() : this.show());
@@ -160,9 +165,6 @@ class Pickr {
     }
 
     _updateColor() {
-
-        // Change current color
-        this.root.preview.currentColor.style.background = this.color.toHSLa();
 
         // Check if component is present
         if (!this.inputActive && this.root.input.type()) {
@@ -196,7 +198,7 @@ class Pickr {
         this.root.button.style.background = this.color.toHSLa();
 
         // Save last color
-        this.lastColor = new HSLaColor(...this.color.toHSLa(true));
+        this.lastColor = new HSVaColor(...this.color.toHSLa(true));
 
         // Fire listener
         this.options.onSave(this.color, this);
@@ -220,37 +222,38 @@ class Pickr {
      * Set a specific color.
      * @param h Hue
      * @param s Saturation
-     * @param l Lightness
+     * @param v Value
      * @param a Alpha channel (0 - 1)
      */
-    setHSLa(h = 360, s = 0, l = 0, a = 1) {
+    setHSVa(h = 360, s = 0, v = 0, a = 1) {
+        h /= 360, s /= 100, v /= 100;
 
-        // Validate hsl
-        if (h < 0 || h > 360 || s < 0 || s > 100 || l < 0 || l > 100 || a < 0 || a > 1)
+        if (h < 0 || h > 1 || s < 0 || s > 1 || v < 0 || v > 1 || a < 0 || a > 1) {
             return;
+        }
 
         // Calculate y position of hue slider
         const hueWrapper = this.components.hueSlider.options.wrapper;
-        const hueY = hueWrapper.offsetHeight * (h / 360);
+        const hueY = hueWrapper.offsetHeight * h;
         this.components.hueSlider.update(0, hueY);
-
-        // Calculate y and x position of color palette
-        const pickerWrapper = this.components.palette.options.wrapper;
-        const fac = 100 - (0.5 * s);
-        const pickerX = pickerWrapper.offsetWidth * (s / 100);
-        const pickerY = pickerWrapper.offsetHeight * (1 - l / fac);
-        this.components.palette.update(pickerX, pickerY);
 
         // Calculate y position of opacity slider
         const opacityWrapper = this.components.opacitySlider.options.wrapper;
         const opacityY = opacityWrapper.offsetHeight * a;
         this.components.opacitySlider.update(0, opacityY);
 
-        this.color = new HSLaColor(h, s, l, a);
+        // Calculate y and x position of color palette
+        const pickerWrapper = this.components.palette.options.wrapper;
+        const pickerX = pickerWrapper.offsetWidth * s;
+        const pickerY = pickerWrapper.offsetHeight * (1 - v);
+        this.components.palette.update(pickerX, pickerY);
+
+        this._updateColor();
+        this.color = new HSVaColor(h, s, v, a);
     }
 
     /**
-     * @returns The current HSLaColor object.
+     * @returns The current Hsvacolor object.
      */
     getColor() {
         return this.color;

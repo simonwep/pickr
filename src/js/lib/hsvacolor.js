@@ -4,33 +4,35 @@ import * as Color from './color';
  * Simple class which holds the properties
  * of the color represention model hsla (hue saturation lightness alpha)
  */
-export class HSLaColor {
+export class HSVaColor {
 
-    constructor(h = 0, s = 0, l = 0, a = 1) {
+    constructor(h = 0, s = 0, v = 0, a = 1) {
         this.h = h;
         this.s = s;
-        this.l = l;
+        this.v = v;
         this.a = a;
     }
 
     toHSLa(raw) {
-        return raw ? [this.h, this.s, this.l, this.a] : `hsla(${this.h}, ${this.s}%, ${this.l}%, ${this.a})`;
+        const [h, s, l] = Color.hsvToHsl(this.h, this.s, this.v);
+        return raw ? [h, s, l, this.a] : `hsla(${h}, ${s}%, ${l}%, ${this.a})`;
     }
 
+
     toRGBa(raw) {
-        const rgba = Color.hslToRgb(this.h, this.s, this.l).concat([this.a]);
+        const rgba = Color.hsvToRgb(this.h, this.s, this.v).concat([this.a]);
         return raw ? rgba : `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3]})`;
     }
 
 
     toHEX(raw) {
-        const hex = Color.hslToHex(this.h, this.s, this.l);
+        const hex = Color.hsvToHex(this.h, this.s, this.v);
         return raw ? hex : `#${hex.join('').toUpperCase()}`;
     }
 
 
     toCMYK(raw) {
-        const cmyk = Color.hslToCmyk(this.h, this.s, this.l);
+        const cmyk = Color.hsvToCmyk(this.h, this.s, this.v);
         return raw ? cmyk : `cmyk(${cmyk[0]}%, ${cmyk[1]}%, ${cmyk[2]}%, ${cmyk[3]}%)`;
     }
 }

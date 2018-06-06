@@ -1,59 +1,57 @@
 /**
- * Convert HSL spectrum to RGB.
- * H from 0 to 360, S fro 0 to 100, L from 0 to 100.
+ * Convert HSV spectrum to RGB.
+ * H from 0 to 360, S fro 0 to 100, V from 0 to 100.
  *
  * @param h Hue
  * @param s Saturation
- * @param l Lightness
+ * @param v Value
  * @returns {number[]} Array with rgb values.
  */
-export function hslToRgb(h, s, l) {
-    h = h / 360;
-    s = s / 100;
-    l = l / 100;
+export function hsvToRgb(h, s, v) {
+    h = (h / 360) * 6;
+    s /= 100;
+    v /= 100;
 
-    let r, g, b;
+    let i = Math.floor(h);
 
-    function hue2rgb(p, q, t) {
-        if (t < 0) t += 1;
-        if (t > 1) t -= 1;
-        if (t < 1 / 6) return p + (q - p) * 6 * t;
-        if (t < 1 / 2) return q;
-        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-        return p;
-    }
+    let f = h - i;
+    let p = v * (1 - s);
+    let q = v * (1 - f * s);
+    let t = v * (1 - (1 - f) * s);
 
-    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-    const p = 2 * l - q;
+    let mod = i % 6;
+    let r = [v, q, p, p, t, v][mod];
+    let g = [t, v, v, q, p, p][mod];
+    let b = [p, p, t, v, v, q][mod];
 
-    r = Math.round(hue2rgb(p, q, h + 1 / 3) * 255);
-    g = Math.round(hue2rgb(p, q, h) * 255);
-    b = Math.round(hue2rgb(p, q, h - 1 / 3) * 255);
-
-    return [r, g, b];
+    return [
+        Math.round(r * 255),
+        Math.round(g * 255),
+        Math.round(b * 255)
+    ];
 }
 
 /**
- * Convert HSL spectrum to Hex.
+ * Convert HSV spectrum to Hex.
  * @param h Hue
  * @param s Saturation
- * @param l Lightness
+ * @param v Value
  * @returns {string[]} Hex values
  */
-export function hslToHex(h, s, l) {
-    const rgb = hslToRgb(h, s, l);
+export function hsvToHex(h, s, v) {
+    const rgb = hsvToRgb(h, s, v);
     return rgb.map(v => v.toString(16).padStart(2, '0'));
 }
 
 /**
- * Convert HSL spectrum to CMYK.
+ * Convert HSV spectrum to CMYK.
  * @param h Hue
  * @param s Saturation
- * @param l Lightness
+ * @param v Value
  * @returns {number[]} CMYK values
  */
-export function hslToCmyk(h, s, l) {
-    const rgb = hslToRgb(h, s, l);
+export function hsvToCmyk(h, s, v) {
+    const rgb = hsvToRgb(h, s, v);
     const r = rgb[0] / 255;
     const g = rgb[1] / 255;
     const b = rgb[2] / 255;
@@ -72,4 +70,29 @@ export function hslToCmyk(h, s, l) {
     k = Math.round(k * 100);
 
     return [c, m, y, k];
+}
+
+/**
+ * Convert HSV spectrum to HSL.
+ * @param h Hue
+ * @param s Saturation
+ * @param v Value
+ * @returns {number[]} HSL values
+ */
+export function hsvToHsl(h, s, v) {
+    s /= 100, v /= 100;
+
+    let l = (2 - s) * v / 2;
+
+    if (l !== 0) {
+        if (l === 1) {
+            s = 0;
+        } else if (l < 0.5) {
+            s = s * v / (l * 2);
+        } else {
+            s = s * v / (2 - l * 2);
+        }
+    }
+
+    return [h, Math.round(s * 100), Math.round(l * 100)];
 }

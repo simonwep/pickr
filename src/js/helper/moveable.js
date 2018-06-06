@@ -45,7 +45,7 @@ class Moveable {
 
         const touch = evt && evt.touches && evt.touches[0];
         let x = evt ? (touch || evt).clientX : 0;
-        let y = evt ? (touch || evt).clientY: 0;
+        let y = evt ? (touch || evt).clientY : 0;
 
         // Reset to bounds
         if (x < b.left) x = b.left;

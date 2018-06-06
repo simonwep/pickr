@@ -75,7 +75,7 @@
     }
     
     .result {
-        color: #454545;
+        color: #808080;
         text-align: left;
         flex-grow: 1;
         min-width: 1em;
@@ -83,8 +83,9 @@
         transition: all 0.2s;
         border-radius: $border-radius;
         background: #f8f8f8;
+        cursor: text;
         
-        &:hover {
+        &:focus {
             color: $active-blue;
         }
         

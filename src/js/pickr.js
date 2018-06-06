@@ -9,7 +9,7 @@ import '../scss/pickr.scss';
 
 // Import utils
 import * as _ from './lib/utils';
-import * as colorUtils from './lib/color';
+import * as Color from './lib/color';
 
 // Import classes
 import {HSVaColor} from './lib/hsvacolor';
@@ -112,7 +112,7 @@ class Pickr {
 
                     // Update color
                     this.element.style.backgroundColor = `hsl(${inst.color.h}, 100%, 50%)`;
-                    components.palette.update();
+                    components.palette.trigger();
                 }
             }),
 
@@ -129,7 +129,7 @@ class Pickr {
 
                     // Update color
                     this.element.style.background = `rgba(0, 0, 0, ${inst.color.a})`;
-                    inst.components.palette.update();
+                    inst.components.palette.trigger();
                 }
             }),
 
@@ -137,17 +137,13 @@ class Pickr {
                 elements: inst.root.input.options,
                 className: 'active',
                 onchange: () => {
-                    inst.components.palette.update();
                     inst.inputActive = false;
+                    inst.components.palette.trigger();
                 }
             })
         };
 
         this.components = components;
-
-        // Initialize color and trigger hiding
-        this.setHSVa(0, 0, 100, 1);
-        this.hide();
 
         // Select last color on click
         _.on(this.root.preview.lastColor, 'click', () => this.setHSVa(...this.lastColor.toHSLa(true)));
@@ -157,11 +153,22 @@ class Pickr {
         _.on(this.root.input.save, 'click', () => this.hide());
 
         // Cancel selecting if the user taps behind the color picker
-        _.on(document, 'click', (e) => {
-            if (!_.eventPath(e).includes(this.root.root)) {
-                this.cancel();
+        _.on(document, 'click', (e) => _.eventPath(e).includes(this.root.root) ? null : this.cancel());
+
+        // Detect user input
+        _.on(this.root.input.result, 'keyup', (e) => {
+            const parsed = Color.parseToHSV(e.target.value);
+
+            if (parsed) {
+                this.setHSVa(...parsed);
             }
+
+            inst.inputActive = true;
         });
+
+        // Initialize color and trigger hiding
+        this.setHSVa(0, 0, 100, 1);
+        this.hide();
     }
 
     _updateColor() {
@@ -193,12 +200,15 @@ class Pickr {
     hide() {
         this.root.app.classList.remove('visible');
 
+        const cssRGBaString = this.color.toRGBa();
+
+        console.log(cssRGBaString);
         // Change preview and current color
-        this.root.preview.lastColor.style.background = this.color.toHSLa();
-        this.root.button.style.background = this.color.toHSLa();
+        this.root.preview.lastColor.style.background = cssRGBaString;
+        this.root.button.style.background = cssRGBaString;
 
         // Save last color
-        this.lastColor = new HSVaColor(...this.color.toHSLa(true));
+        this.lastColor = this.color.clone();
 
         // Fire listener
         this.options.onSave(this.color, this);
@@ -226,15 +236,13 @@ class Pickr {
      * @param a Alpha channel (0 - 1)
      */
     setHSVa(h = 360, s = 0, v = 0, a = 1) {
-        h /= 360, s /= 100, v /= 100;
-
-        if (h < 0 || h > 1 || s < 0 || s > 1 || v < 0 || v > 1 || a < 0 || a > 1) {
+        if (h < 0 || h > 360 || s < 0 || s > 100 || v < 0 || v > 100 || a < 0 || a > 1) {
             return;
         }
 
         // Calculate y position of hue slider
         const hueWrapper = this.components.hueSlider.options.wrapper;
-        const hueY = hueWrapper.offsetHeight * h;
+        const hueY = hueWrapper.offsetHeight * (h / 360);
         this.components.hueSlider.update(0, hueY);
 
         // Calculate y position of opacity slider
@@ -244,8 +252,8 @@ class Pickr {
 
         // Calculate y and x position of color palette
         const pickerWrapper = this.components.palette.options.wrapper;
-        const pickerX = pickerWrapper.offsetWidth * s;
-        const pickerY = pickerWrapper.offsetHeight * (1 - v);
+        const pickerX = pickerWrapper.offsetWidth * (s / 100);
+        const pickerY = pickerWrapper.offsetHeight * (1 - (v / 100));
         this.components.palette.update(pickerX, pickerY);
 
         this._updateColor();
@@ -301,10 +309,10 @@ function create(o) {
                 <div class="output" ${hidden(o.output)}>
                     <input class="result" type="text" spellcheck="false" ${hidden(o.output.input)}>
                     
-                    <input class="type" value="HEX" type="button" ${hidden(o.output.hex)}>
-                    <input class="type" value="RGBa" type="button" ${hidden(o.output.rgba)}>
-                    <input class="type" value="HSLa" type="button" ${hidden(o.output.hsla)}>
-                    <input class="type" value="CMYK" type="button" ${hidden(o.output.cmyk)}>
+                    <input class="type" data-type="hex" value="HEX" type="button" ${hidden(o.output.hex)}>
+                    <input class="type" data-type="rgba" value="RGBa" type="button" ${hidden(o.output.rgba)}>
+                    <input class="type" data-type="hsla" value="HSLa" type="button" ${hidden(o.output.hsla)}>
+                    <input class="type" data-type="cmyk" value="CMYK" type="button" ${hidden(o.output.cmyk)}>
                     
                     <input class="save" value="Save" type="button">
                 </div>

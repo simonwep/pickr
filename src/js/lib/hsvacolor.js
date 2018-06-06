@@ -35,4 +35,8 @@ export class HSVaColor {
         const cmyk = Color.hsvToCmyk(this.h, this.s, this.v);
         return raw ? cmyk : `cmyk(${cmyk[0]}%, ${cmyk[1]}%, ${cmyk[2]}%, ${cmyk[3]}%)`;
     }
+
+    clone(){
+        return new HSVaColor(this.a, this.s, this.v, this.a);
+    }
 }

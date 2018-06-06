@@ -85,7 +85,7 @@ class Pickr {
                     // Calculate the value
                     color.v = Math.round(100 - ((y / this.wrapper.offsetHeight) * 100));
 
-                    const cssRGBaString = color.toRGBa();
+                    const cssRGBaString = color.torgba();
 
                     // Set picker and gradient color
                     this.element.style.background = cssRGBaString;
@@ -139,7 +139,7 @@ class Pickr {
                 className: 'active',
                 onchange: () => {
                     inst.inputActive = false;
-                    inst.components.palette.trigger();
+                    inst.components.palette.update();
                 }
             })
         };
@@ -154,7 +154,7 @@ class Pickr {
     _bindEvents() {
 
         // Select last color on click
-        _.on(this.root.preview.lastColor, 'click', () => this.setHSVa(...this.lastColor.toHSLa(true)));
+        _.on(this.root.preview.lastColor, 'click', () => this.setHSVa(...this.lastColor.tohsla(true)));
 
         // Save and hide / show picker
         _.on(this.root.button, 'click', () => this.root.app.classList.contains('visible') ? this.hide() : this.show());
@@ -184,7 +184,7 @@ class Pickr {
             this.root.input.result.value = (() => {
 
                 // Construct function name and call if present
-                const method = 'to' + this.root.input.type().value;
+                const method = 'to' + this.root.input.type().getAttribute('data-type');
 
                 if (typeof this.color[method] === 'function') {
                     return this.color[method]();
@@ -204,7 +204,7 @@ class Pickr {
     hide() {
         this.root.app.classList.remove('visible');
 
-        const cssRGBaString = this.color.toRGBa();
+        const cssRGBaString = this.color.torgba();
 
         // Change preview and current color
         this.root.preview.lastColor.style.background = cssRGBaString;
@@ -315,6 +315,7 @@ function create(o) {
                     <input class="type" data-type="hex" value="HEX" type="button" ${hidden(o.output.hex)}>
                     <input class="type" data-type="rgba" value="RGBa" type="button" ${hidden(o.output.rgba)}>
                     <input class="type" data-type="hsla" value="HSLa" type="button" ${hidden(o.output.hsla)}>
+                    <input class="type" data-type="hsva" value="HSVa" type="button" ${hidden(o.output.hsva)}>
                     <input class="type" data-type="cmyk" value="CMYK" type="button" ${hidden(o.output.cmyk)}>
                     
                     <input class="save" value="Save" type="button">

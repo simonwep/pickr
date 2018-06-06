@@ -8,8 +8,8 @@
     <title>Pickr</title>
 
     <!-- ICONS -->
-    <link href="gh-page/pickr.png" type="image/png" rel="icon" />
-    <link href="gh-page/pickr.png" type="image/png" rel="apple-touch-icon" />
+    <link href="gh-page/pickr.png" type="image/png" rel="icon"/>
+    <link href="gh-page/pickr.png" type="image/png" rel="apple-touch-icon"/>
 
     <!-- CSS STYLESHEETS -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,500" rel="stylesheet">
@@ -19,34 +19,34 @@
 
 <body>
 
-    <header>
-        <h1>Flat color picker</h1>
-        <a href="https://github.com/Simonwep/pickr">VIEW ON GITHUB</a>
-    </header>
+<header>
+    <h1>Flat color picker</h1>
+    <a href="https://github.com/Simonwep/pickr">VIEW ON GITHUB</a>
+</header>
 
-    <main>
+<main>
 
-        <section class="demo">
+    <section class="demo">
 
-            <div class="center">
-                <div class="color-picker"></div>
+        <div class="center">
+            <div class="color-picker"></div>
 
-                <div class="hint">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 93 31">
-                        <path d="M10,7C27.616,28.845,69.49,37.638,93,22M0.053,28.141Q2.015,15.489,3.98,2.847A3.75,3.75,0,0,1,7.674.028Q20.7,1.634,33.721,3.236"/>
-                    </svg>
-                    <span>Pick a color!</span>
-                </div>
+            <div class="hint">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 93 31">
+                    <path d="M10,7C27.616,28.845,69.49,37.638,93,22M0.053,28.141Q2.015,15.489,3.98,2.847A3.75,3.75,0,0,1,7.674.028Q20.7,1.634,33.721,3.236"/>
+                </svg>
+                <span>Pick a color!</span>
             </div>
+        </div>
 
-        </section>
-
-
-        <section class="demo-code">
-            <h2>Example code including all features</h2>
+    </section>
 
 
-            <pre><code class="prettyprint">const pickr = new Pickr({
+    <section class="demo-code">
+        <h2>Example code</h2>
+
+
+        <pre><code class="prettyprint">const pickr = new Pickr({
     el: '.color-picker',
 
     components: {
@@ -57,39 +57,37 @@
 
         output: {
             hex: true,
-            hsla: true,
             rgba: true,
-            cmyk: true,
+            hsva: true,
             input: true
         },
     },
-});
-</code></pre>
-        </section>
+});</code></pre>
+    </section>
 
 
-        <section>
-            <h2>Handle what the user picked</h2>
+    <section>
+        <h2>Handle what the user picked</h2>
 
-            <pre><code class="prettyprint">const pickr = new Pickr({
+        <pre><code class="prettyprint">const pickr = new Pickr({
 
     // User has changed the color
-    onChange(hsla, instance) {
-        hsla;     // HSLa color object
+    onChange(hsva, instance) {
+        hsva;     // HSVa color object
         instance; // Current Pickr instance
     },
 
     // User has clicked the save button
-    onSave(hsla, instance) {
+    onSave(hsva, instance) {
         // same as onChange
     }
 });</code></pre>
-        </section>
+    </section>
 
-        <section>
-            <h2>Available options</h2>
+    <section>
+        <h2>Available options</h2>
 
-            <pre><code class="prettyprint">const pickr = new Pickr({
+        <pre><code class="prettyprint">const pickr = new Pickr({
 
     // Selector or element which will be replaced with the actual color-picker
     el: '.color-picker',
@@ -102,12 +100,14 @@
         opacity: true, // Opacity slider
         hue: true,     // Hue slider
 
-        // Bottom output bar, theoretically you could use 'true' as property, but this would also hide the save-button.
+        // Bottom output bar, theoretically you could use 'true' as propery.
+        // But this would also hide the save-button.
         output: {
-            hex: true,  // hex option
-            hsla: true, // hsal option
-            rgba: true, // rgba option
-            cmyk: true, // cmyk option
+            hex: true,  // hex option  (hexadecimal representation of the rgb value)
+            rgba: true, // rgba option (red green blue and alpha)
+            hsla: true, // hsla option (hue saturation lightness and alpha)
+            hsva: true, // hsla option (hue saturation value and alpha)
+            cmyk: true, // cmyk option (cyan mangenta yellow key )
             input: true // input / output
         },
     },
@@ -124,15 +124,15 @@
         // same as onChange
     }
 });</code></pre>
-        </section>
+    </section>
 
-    </main>
+</main>
 
 
-    <script src="dist/pickr.min.js"></script>
-    <script src="gh-page/js/script.js"></script>
-    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
-    <link href="gh-page/css/highlight.css" rel="stylesheet">
+<script src="dist/pickr.min.js"></script>
+<script src="gh-page/js/script.js"></script>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+<link href="gh-page/css/highlight.css" rel="stylesheet">
 </body>
 
 </html>

@@ -13,25 +13,29 @@ export class HSVaColor {
         this.a = a;
     }
 
-    toHSLa(raw) {
+    tohsva(raw) {
+        return raw ? [this.h, this.s, this.v, this.a] : `hsva(${this.h}, ${this.s}%, ${this.v}%, ${this.a})`;
+    }
+
+    tohsla(raw) {
         const [h, s, l] = Color.hsvToHsl(this.h, this.s, this.v);
         return raw ? [h, s, l, this.a] : `hsla(${h}, ${s}%, ${l}%, ${this.a})`;
     }
 
 
-    toRGBa(raw) {
+    torgba(raw) {
         const rgba = Color.hsvToRgb(this.h, this.s, this.v).concat([this.a]);
         return raw ? rgba : `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3]})`;
     }
 
 
-    toHEX(raw) {
+    tohex(raw) {
         const hex = Color.hsvToHex(this.h, this.s, this.v);
         return raw ? hex : `#${hex.join('').toUpperCase()}`;
     }
 
 
-    toCMYK(raw) {
+    tocmyk(raw) {
         const cmyk = Color.hsvToCmyk(this.h, this.s, this.v);
         return raw ? cmyk : `cmyk(${cmyk[0]}%, ${cmyk[1]}%, ${cmyk[2]}%, ${cmyk[3]}%)`;
     }

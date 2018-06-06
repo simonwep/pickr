@@ -9,9 +9,8 @@ const pickr = new Pickr({
 
         output: {
             hex: true,
-            hsla: true,
             rgba: true,
-            cmyk: true,
+            hsva: true,
             input: true
         },
     },

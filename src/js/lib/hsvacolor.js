@@ -36,7 +36,7 @@ export class HSVaColor {
         return raw ? cmyk : `cmyk(${cmyk[0]}%, ${cmyk[1]}%, ${cmyk[2]}%, ${cmyk[3]}%)`;
     }
 
-    clone(){
+    clone() {
         return new HSVaColor(this.a, this.s, this.v, this.a);
     }
 }

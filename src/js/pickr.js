@@ -44,6 +44,7 @@ class Pickr {
         this.color = new HSVaColor();
         this.lastColor = new HSVaColor();
         this._buildComponents();
+        this._bindEvents();
     }
 
     _buildRoot() {
@@ -95,7 +96,7 @@ class Pickr {
 
                     // Change current color
                     inst.root.preview.currentColor.style.background = cssRGBaString;
-                    inst._updateColor();
+                    inst._updateOutput();
                 }
             }),
 
@@ -105,7 +106,7 @@ class Pickr {
                 wrapper: inst.root.hueSlider.slider,
 
                 onchange(x, y) {
-                    if (comp.hue === false) return;
+                    if (!comp.hue) return;
 
                     // Calculate hue
                     inst.color.h = Math.round((y / this.wrapper.offsetHeight) * 360);
@@ -122,7 +123,7 @@ class Pickr {
                 wrapper: inst.root.opacitySlider.slider,
 
                 onchange(x, y) {
-                    if (comp.opacity === false) return;
+                    if (!comp.opacity) return;
 
                     // Calculate opacity
                     inst.color.a = Math.round((y / this.wrapper.offsetHeight) * 1e2) / 1e2;
@@ -145,6 +146,13 @@ class Pickr {
 
         this.components = components;
 
+        // Initialize color and trigger hiding
+        this.setHSVa(0, 0, 100, 1);
+        this.hide();
+    }
+
+    _bindEvents() {
+
         // Select last color on click
         _.on(this.root.preview.lastColor, 'click', () => this.setHSVa(...this.lastColor.toHSLa(true)));
 
@@ -163,15 +171,11 @@ class Pickr {
                 this.setHSVa(...parsed);
             }
 
-            inst.inputActive = true;
+            this.inputActive = true;
         });
-
-        // Initialize color and trigger hiding
-        this.setHSVa(0, 0, 100, 1);
-        this.hide();
     }
 
-    _updateColor() {
+    _updateOutput() {
 
         // Check if component is present
         if (!this.inputActive && this.root.input.type()) {
@@ -202,7 +206,6 @@ class Pickr {
 
         const cssRGBaString = this.color.toRGBa();
 
-        console.log(cssRGBaString);
         // Change preview and current color
         this.root.preview.lastColor.style.background = cssRGBaString;
         this.root.button.style.background = cssRGBaString;
@@ -256,7 +259,7 @@ class Pickr {
         const pickerY = pickerWrapper.offsetHeight * (1 - (v / 100));
         this.components.palette.update(pickerX, pickerY);
 
-        this._updateColor();
+        this._updateOutput();
         this.color = new HSVaColor(h, s, v, a);
     }
 
@@ -276,7 +279,7 @@ class Pickr {
 }
 
 function create(o) {
-    const hidden = (con) => con === false ? 'style="display:none" hidden' : '';
+    const hidden = (con) => con ? '' : 'style="display:none" hidden';
 
     const element = _.createElementFromString(`
          <div class="color-picker">

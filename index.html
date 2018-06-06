@@ -47,8 +47,24 @@
 
 
             <pre><code class="prettyprint">const pickr = new Pickr({
-     el: '.color-picker'
-});</code></pre>
+    el: '.color-picker',
+
+    components: {
+
+        preview: true,
+        opacity: true,
+        hue: true,
+
+        output: {
+            hex: true,
+            hsla: true,
+            rgba: true,
+            cmyk: true,
+            input: true
+        },
+    },
+});
+</code></pre>
         </section>
 
 
@@ -79,7 +95,7 @@
     el: '.color-picker',
 
     // Show or hide specific components.
-    // By default are all features are enabled.
+    // By default only the palette (and the save button) is visible.
     components: {
 
         preview: true, // Left side color comparison
@@ -92,7 +108,7 @@
             hsla: true, // hsal option
             rgba: true, // rgba option
             cmyk: true, // cmyk option
-            result: true // result output
+            input: true // input / output
         },
     },
 

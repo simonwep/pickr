@@ -138,8 +138,7 @@ function rgbToHsv(r, g, b) {
 
         if (h < 0) {
             h += 1;
-        }
-        if (h > 1) {
+        } else if (h > 1) {
             h -= 1;
         }
     }
@@ -210,10 +209,11 @@ export function parseToHSV(str) {
 
     // Regular expressions to match different types of color represention
     const regex = {
-        cmyk: /^cmyk.+?([0-9]+).+?([0-9]+).+?([0-9]+).+?([0-9]+)/,
-        rgba: /^(rgb|rgba).+?([0-9]+).+?([0-9]+).+?([0-9]+).+?([0-9.]+|$)/,
-        hsla: /^(hsl|hsla).+?([0-9]+).+?([0-9]+).+?([0-9]+).+?([0-9.]+|$)/,
-        hex: /^(#|)(([0-9A-Fa-f]{6})|([0-9A-Fa-f]{3}))$/
+        cmyk: /^cmyk[^\d]([0-9]+)[^\d]([0-9]+)[^\d]([0-9]+)[^\d]([0-9]+)/i,
+        rgba: /^(rgb|rgba)[^\d]([0-9]+)[^\d]([0-9]+)[^\d]([0-9]+)[^\d]*([0-9.]+$|$)/i,
+        hsla: /^(hsl|hsla)[^\d]([0-9]+)[^\d]([0-9]+)[^\d]([0-9]+)[^\d]*([0-9.]+$|$)/i,
+        hsva: /^(hsv|hsva)[^\d]([0-9]+)[^\d]([0-9]+)[^\d]([0-9]+)[^\d]*([0-9.]+$|$)/i,
+        hex: /^(#|)(([0-9A-Fa-f]{6})|([0-9A-Fa-f]{3}))$/i
     };
 
     /**
@@ -222,7 +222,7 @@ export function parseToHSV(str) {
      * @param array
      * @return {*}
      */
-    const numarize = array => array.map(v => /^\d+$/.test(v) ? Number(v) : undefined);
+    const numarize = array => array.map(v => /^(\d+|\d+\.\d+)$/.test(v) ? Number(v) : undefined);
 
     let match;
     if (match = regex.cmyk.exec(str)) {
@@ -234,7 +234,6 @@ export function parseToHSV(str) {
         return [...cmykToHsv(c, m, y, k), 1];
     } else if (match = regex.rgba.exec(str)) {
         let [, , r, g, b, a = 1] = numarize(match);
-
         if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1)
             return null;
 
@@ -249,6 +248,13 @@ export function parseToHSV(str) {
             return null;
 
         return [...hslToHsv(h, s, l), a];
+    } else if (match = regex.hsva.exec(str)) {
+        let [, , h, s, v, a = 1] = numarize(match);
+
+        if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1)
+            return null;
+
+        return [h, s, v, a];
     }
 
     return null;

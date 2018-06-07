@@ -41,6 +41,6 @@ export class HSVaColor {
     }
 
     clone() {
-        return new HSVaColor(this.a, this.s, this.v, this.a);
+        return new HSVaColor(this.h, this.s, this.v, this.a);
     }
 }

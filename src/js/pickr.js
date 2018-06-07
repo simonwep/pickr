@@ -139,7 +139,7 @@ class Pickr {
                 className: 'active',
                 onchange: () => {
                     inst.inputActive = false;
-                    inst.components.palette.update();
+                    inst.components.palette.trigger();
                 }
             })
         };
@@ -152,19 +152,31 @@ class Pickr {
     }
 
     _bindEvents() {
+        const root = this.root;
 
         // Select last color on click
-        _.on(this.root.preview.lastColor, 'click', () => this.setHSVa(...this.lastColor.tohsla(true)));
+        _.on(root.preview.lastColor, 'click', () => this.setHSVa(...this.lastColor.tohsva(true)));
 
         // Save and hide / show picker
-        _.on(this.root.button, 'click', () => this.root.app.classList.contains('visible') ? this.hide() : this.show());
-        _.on(this.root.input.save, 'click', () => this.hide());
+        _.on(root.button, 'click', () => this.root.app.classList.contains('visible') ? this.hide() : this.show());
+        _.on(root.input.save, 'click', () => this.hide());
 
         // Cancel selecting if the user taps behind the color picker
-        _.on(document, 'click', (e) => _.eventPath(e).includes(this.root.root) ? null : this.cancel());
+        _.on(document, 'mousedown', (e) => {
+
+            if (!_.eventPath(e).includes(root.root)) {
+
+                const cancel = (() => {
+                    _.off(document, 'mouseup', cancel);
+                    this.cancel();
+                }).bind(this);
+
+                _.on(document, 'mouseup', cancel);
+            }
+        });
 
         // Detect user input
-        _.on(this.root.input.result, 'keyup', (e) => {
+        _.on(root.input.result, 'keyup', (e) => {
             const parsed = Color.parseToHSV(e.target.value);
 
             if (parsed) {

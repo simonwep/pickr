@@ -43,6 +43,8 @@ class Pickr {
 
         this.color = new HSVaColor();
         this.lastColor = new HSVaColor();
+
+        // Initialize picker
         this._buildComponents();
         this._bindEvents();
     }
@@ -187,6 +189,35 @@ class Pickr {
         });
     }
 
+    _rePositioningPicker() {
+        const bb = this.root.button.getBoundingClientRect();
+        const ab = this.root.app.getBoundingClientRect();
+        const as = this.root.app.style;
+
+        // Check if picker is out of window
+        if (ab.bottom > window.innerHeight) {
+            as.top = `${bb.top - 5 - ab.height}px`;
+        } else if (ab.bottom + ab.height < window.innerHeight) {
+            as.top = `${bb.bottom + 5}px`;
+        }
+
+        // Positioner picker on the x-axis
+        let pos = this.options.position || 'middle';
+        switch (pos) {
+            case 'left':
+                as.left = `${bb.left + bb.width - ab.width}px`;
+                break;
+            case 'middle':
+                as.left = `${bb.left + bb.width / 2 - ab.width / 2}px`;
+                break;
+            case 'right':
+                as.left = `${bb.left}px`;
+                break;
+            default:
+                as.left = `${bb.left + bb.width / 2 - ab.width / 2}px`;
+        }
+    }
+
     _updateOutput() {
 
         // Check if component is present
@@ -241,6 +272,7 @@ class Pickr {
      */
     show() {
         this.root.app.classList.add('visible');
+        this._rePositioningPicker();
     }
 
     /**

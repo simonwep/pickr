@@ -12,7 +12,6 @@
     <link href="gh-page/pickr.png" type="image/png" rel="apple-touch-icon"/>
 
     <!-- CSS STYLESHEETS -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,500" rel="stylesheet">
     <link href="dist/pickr.min.css" rel="stylesheet">
     <link href="gh-page/css/styles.css" rel="stylesheet">
 </head>
@@ -60,8 +59,8 @@
             rgba: true,
             hsva: true,
             input: true
-        },
-    },
+        }
+    }
 });</code></pre>
     </section>
 
@@ -87,10 +86,12 @@
     <section>
         <h2>Available options</h2>
 
-        <pre><code class="prettyprint">const pickr = new Pickr({
-
-    // Selector or element which will be replaced with the actual color-picker
+        <pre><code class="prettyprint">    // Selector or element which will be replaced with the actual color-picker
     el: '.color-picker',
+
+    // Defines the position of the color-picker. Available options are
+    // top, left and middle relativ to the picker button.
+    position: 'middle',
 
     // Show or hide specific components.
     // By default only the palette (and the save button) is visible.
@@ -114,16 +115,15 @@
 
 
     // User has changed the color
-    onChange(hsla, instance) {
-        hsla; // HSLa color object
+    onChange(hsva, instance) {
+        hsva;     // HSVa color object
         instance; // Current Pickr instance
     },
 
     // User has clicked the save button
-    onSave(hsla, instance) {
+    onSave(hsva, instance) {
         // same as onChange
-    }
-});</code></pre>
+    }</code></pre>
     </section>
 
 </main>

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,400,500');
 @import 'variables';
 @import 'mixins';
 
@@ -11,7 +12,6 @@
 
 .color-picker .button {
     position: relative;
-    margin-bottom: 0.5em;
     height: 2em;
     width: 2em;
     padding: 0.5em;
@@ -35,14 +35,12 @@
     border-radius: 0.1em;
     background: #ffffff;
     box-shadow: $app-shadow;
-    transform: translate3d(calc(-50% + 1.25em), 0.5em, 0);
     visibility: hidden;
     opacity: 0;
     transition: all 0.3s;
     font-family: 'Source Sans Pro';
     
     &.visible {
-        transform: translate3d(calc(-50% + 1.25em), 0, 0);
         visibility: visible;
         opacity: 1;
     }
@@ -136,13 +134,16 @@
         justify-content: space-between;
         margin-right: 1em;
         box-shadow: $small-shadow;
-        border-radius: $border-radius;
-        overflow: hidden;
         @include transparency-background;
         
         .last-color {
             cursor: pointer;
             transition: background-color 0.3s;
+            border-radius: 0.15em 0.15em 0 0;
+        }
+        
+        .current-color {
+            border-radius: 0 0 0.15em 0.15em;
         }
         
         .last-color,

@@ -187,6 +187,16 @@ class Pickr {
 
             this.inputActive = true;
         });
+
+        // Cancel input detection on color change
+        _.on([
+            root.palette.palette,
+            root.palette.picker,
+            root.hueSlider.slider,
+            root.hueSlider.picker,
+            root.opacitySlider.slider,
+            root.opacitySlider.picker
+        ], 'mousedown', () => this.inputActive = false);
     }
 
     _rePositioningPicker() {
@@ -413,6 +423,7 @@ function create(o) {
 Pickr.utils = {
     on: _.on,
     off: _.off,
+    eventPath: _.eventPath,
     createElementFromString: _.createElementFromString
 };
 

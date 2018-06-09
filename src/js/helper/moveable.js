@@ -38,24 +38,33 @@ class Moveable {
         evt.preventDefault();
     }
 
-    _tapmove(evt = this.lastEvent) {
+    _tapmove(evt) {
         const wrapper = this.options.wrapper;
         const element = this.options.element;
         const b = wrapper.getBoundingClientRect();
 
-        const touch = evt && evt.touches && evt.touches[0];
-        let x = evt ? (touch || evt).clientX : 0;
-        let y = evt ? (touch || evt).clientY : 0;
+        let x, y;
+        if (evt) {
+            const touch = evt && evt.touches && evt.touches[0];
+            x = evt ? (touch || evt).clientX : 0;
+            y = evt ? (touch || evt).clientY : 0;
 
-        // Reset to bounds
-        if (x < b.left) x = b.left;
-        else if (x > b.left + b.width) x = b.left + b.width;
-        if (y < b.top) y = b.top;
-        else if (y > b.top + b.height) y = b.top + b.height;
+            // Reset to bounds
+            if (x < b.left) x = b.left;
+            else if (x > b.left + b.width) x = b.left + b.width;
+            if (y < b.top) y = b.top;
+            else if (y > b.top + b.height) y = b.top + b.height;
 
-        // Normalize
-        x -= b.left;
-        y -= b.top;
+            // Normalize
+            x -= b.left;
+            y -= b.top;
+        } else if (this.cache) {
+            x = this.cache.x;
+            y = this.cache.y;
+        } else {
+            x = 0;
+            y = 0;
+        }
 
         if (typeof this.options.onchange === 'function')
             this.options.onchange(x, y);
@@ -66,7 +75,7 @@ class Moveable {
         if (!this.options.lockY)
             element.style.top = (y - element.offsetHeight / 2) + 'px';
 
-        this.lastEvent = evt;
+        this.cache = {x, y};
     }
 
     _tapstop() {

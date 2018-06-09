@@ -45,6 +45,7 @@ class Pickr {
         this.lastColor = new HSVaColor();
 
         // Initialize picker
+        this._rePositioningPicker(true);
         this._buildComponents();
         this._bindEvents();
     }
@@ -197,9 +198,12 @@ class Pickr {
             root.opacitySlider.slider,
             root.opacitySlider.picker
         ], 'mousedown', () => this.inputActive = false);
+
+        // Hide on resize
+        _.on(window, 'resize', _.debounce(this, this.hide, 100));
     }
 
-    _rePositioningPicker() {
+    _rePositioningPicker(trigger) {
         const bb = this.root.button.getBoundingClientRect();
         const ab = this.root.app.getBoundingClientRect();
         const as = this.root.app.style;
@@ -207,7 +211,7 @@ class Pickr {
         // Check if picker is out of window
         if (ab.bottom > window.innerHeight) {
             as.top = `${bb.top - 5 - ab.height}px`;
-        } else if (ab.bottom + ab.height < window.innerHeight) {
+        } else if (trigger || ab.bottom + ab.height < window.innerHeight) {
             as.top = `${bb.bottom + 5}px`;
         }
 
@@ -293,6 +297,7 @@ class Pickr {
      * @param a Alpha channel (0 - 1)
      */
     setHSVa(h = 360, s = 0, v = 0, a = 1) {
+
         if (h < 0 || h > 360 || s < 0 || s > 100 || v < 0 || v > 100 || a < 0 || a > 1) {
             return;
         }

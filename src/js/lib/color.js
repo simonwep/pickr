@@ -210,9 +210,9 @@ export function parseToHSV(str) {
     // Regular expressions to match different types of color represention
     const regex = {
         cmyk: /^cmyk[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9]+)/i,
-        rgba: /^(rgb|rgba)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9.]+|)/i,
-        hsla: /^(hsl|hsla)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9.]+|)/i,
-        hsva: /^(hsv|hsva)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9.]+|)/i,
+        rgba: /^(rgb|rgba)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]*([0-9.]+|)/i,
+        hsla: /^(hsl|hsla)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]*([0-9.]+|)/i,
+        hsva: /^(hsv|hsva)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]*([0-9.]+|)/i,
         hex: /^(#|)(([0-9A-Fa-f]{6})|([0-9A-Fa-f]{3}))$/i
     };
 

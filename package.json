@@ -1,8 +1,7 @@
 {
-    "name": "color-picker",
+    "name": "pickr-widget",
     "version": "0.0.1",
     "description": "Flat, Simple, Hackable Color-Picker.",
-    "main": "dist/pickr.js",
     "scripts": {
         "build": "webpack --mode production",
         "dev": "webpack-dev-server --mode development"
@@ -13,6 +12,10 @@
     ],
     "author": "Simon Reinisch <toports@gmx.de>",
     "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Simonwep/pickr/issues"
+    },
+    "homepage": "https://github.com/Simonwep/pickr#readme",
     "devDependencies": {
         "babel-core": "^6.26.3",
         "babel-loader": "^7.1.4",

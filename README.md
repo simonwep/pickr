@@ -48,7 +48,7 @@
 
 Via npm
 ```
-$ npm install pickr --save
+$ npm install pickr-widget --save
 ```
 
 Link styles and add scripts

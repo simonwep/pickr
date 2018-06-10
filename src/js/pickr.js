@@ -88,7 +88,7 @@ class Pickr {
                     // Calculate the value
                     color.v = Math.round(100 - ((y / this.wrapper.offsetHeight) * 100));
 
-                    const cssRGBaString = color.torgba();
+                    const cssRGBaString = color.toRGBA().toString();
 
                     // Set picker and gradient color
                     this.element.style.background = cssRGBaString;
@@ -150,7 +150,7 @@ class Pickr {
         this.components = components;
 
         // Initialize color and trigger hiding
-        this.setHSVa(0, 0, 100, 1);
+        this.setHSVA(0, 0, 100, 1);
         this.hide();
     }
 
@@ -158,7 +158,7 @@ class Pickr {
         const root = this.root;
 
         // Select last color on click
-        _.on(root.preview.lastColor, 'click', () => this.setHSVa(...this.lastColor.tohsva(true)));
+        _.on(root.preview.lastColor, 'click', () => this.setHSVA(...this.lastColor.tohsva(true)));
 
         // Save and hide / show picker
         _.on(root.button, 'click', () => this.root.app.classList.contains('visible') ? this.hide() : this.show());
@@ -183,7 +183,7 @@ class Pickr {
             const parsed = Color.parseToHSV(e.target.value);
 
             if (parsed) {
-                this.setHSVa(...parsed);
+                this.setHSVA(...parsed);
             }
 
             this.inputActive = true;
@@ -244,7 +244,7 @@ class Pickr {
                 const method = 'to' + this.root.input.type().getAttribute('data-type');
 
                 if (typeof this.color[method] === 'function') {
-                    return this.color[method]();
+                    return this.color[method]().toString();
                 }
 
                 return '';
@@ -261,7 +261,7 @@ class Pickr {
     hide() {
         this.root.app.classList.remove('visible');
 
-        const cssRGBaString = this.color.torgba();
+        const cssRGBaString = this.color.toRGBA().toString();
 
         // Change preview and current color
         this.root.preview.lastColor.style.background = cssRGBaString;
@@ -296,7 +296,7 @@ class Pickr {
      * @param v Value
      * @param a Alpha channel (0 - 1)
      */
-    setHSVa(h = 360, s = 0, v = 0, a = 1) {
+    setHSVA(h = 360, s = 0, v = 0, a = 1) {
 
         if (h < 0 || h > 360 || s < 0 || s > 100 || v < 0 || v > 100 || a < 0 || a > 1) {
             return;
@@ -371,11 +371,11 @@ function create(o) {
                 <div class="output" ${hidden(o.output)}>
                     <input class="result" type="text" spellcheck="false" ${hidden(o.output.input)}>
                     
-                    <input class="type" data-type="hex" value="HEX" type="button" ${hidden(o.output.hex)}>
-                    <input class="type" data-type="rgba" value="RGBa" type="button" ${hidden(o.output.rgba)}>
-                    <input class="type" data-type="hsla" value="HSLa" type="button" ${hidden(o.output.hsla)}>
-                    <input class="type" data-type="hsva" value="HSVa" type="button" ${hidden(o.output.hsva)}>
-                    <input class="type" data-type="cmyk" value="CMYK" type="button" ${hidden(o.output.cmyk)}>
+                    <input class="type" data-type="HEX" value="HEX" type="button" ${hidden(o.output.hex)}>
+                    <input class="type" data-type="RGBA" value="RGBa" type="button" ${hidden(o.output.rgba)}>
+                    <input class="type" data-type="HSLA" value="HSLa" type="button" ${hidden(o.output.hsla)}>
+                    <input class="type" data-type="HSVA" value="HSVa" type="button" ${hidden(o.output.hsva)}>
+                    <input class="type" data-type="CMYK" value="CMYK" type="button" ${hidden(o.output.cmyk)}>
                     
                     <input class="save" value="Save" type="button">
                 </div>

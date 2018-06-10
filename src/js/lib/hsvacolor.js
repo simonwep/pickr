@@ -13,31 +13,57 @@ export class HSVaColor {
         this.a = a;
     }
 
-    tohsva(raw) {
-        return raw ? [this.h, this.s, this.v, this.a] : `hsva(${this.h}, ${this.s}%, ${this.v}%, ${this.a})`;
+    toHSVA() {
+        const hsva = [this.h, this.s, this.v, this.a];
+
+        hsva.toString = function () {
+            return `hsva(${this[0]}, ${this[1]}%, ${this[2]}%, ${this[3]})`;
+        };
+
+        return hsva;
     }
 
-    tohsla(raw) {
-        const [h, s, l] = Color.hsvToHsl(this.h, this.s, this.v);
-        return raw ? [h, s, l, this.a] : `hsla(${h}, ${s}%, ${l}%, ${this.a})`;
+    toHSLA() {
+        const hsl = Color.hsvToHsl(this.h, this.s, this.v).concat([this.a]);
+
+        hsl.toString = function () {
+            return `hsla(${this[0]}, ${this[1]}%, ${this[2]}%, ${this[3]})`;
+        };
+
+        return hsl;
     }
 
 
-    torgba(raw) {
+    toRGBA() {
         const rgba = Color.hsvToRgb(this.h, this.s, this.v).concat([this.a]);
-        return raw ? rgba : `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3]})`;
+
+        rgba.toString = function () {
+            return `rgba(${this[0]}, ${this[1]}, ${this[2]}, ${this[3]})`;
+        };
+
+        return rgba;
     }
 
 
-    tohex(raw) {
+    toHEX() {
         const hex = Color.hsvToHex(this.h, this.s, this.v);
-        return raw ? hex : `#${hex.join('').toUpperCase()}`;
+
+        hex.toString = function () {
+            return `#${this.join('').toUpperCase()}`;
+        };
+
+        return hex;
     }
 
 
-    tocmyk(raw) {
+    toCMYK() {
         const cmyk = Color.hsvToCmyk(this.h, this.s, this.v);
-        return raw ? cmyk : `cmyk(${cmyk[0]}%, ${cmyk[1]}%, ${cmyk[2]}%, ${cmyk[3]}%)`;
+
+        cmyk.toString = function () {
+            `cmyk(${this[0]}%, ${this[1]}%, ${this[2]}%, ${this[3]}%)`;
+        };
+
+        return cmyk;
     }
 
     clone() {

@@ -22,7 +22,7 @@
      alt="npm package"
      src="https://img.shields.io/badge/npm-6.0.1-e74c3c.svg"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-0.0.1-f1c40f.svg">
+       src="https://img.shields.io/badge/version-0.0.2-f1c40f.svg">
 </p>
 
 <br>
@@ -73,6 +73,9 @@ const pickr = new Pickr({
 
     // Selector or element which will be replaced with the actual color-picker
     el: '.color-picker',
+    
+    // Default color
+    default: 'fff',
 
     // Defines the position of the color-picker. Available options are
     // top, left and middle relativ to the picker button.
@@ -115,22 +118,23 @@ const pickr = new Pickr({
 ## The HSVaColor object
 As default color representation is hsva (`hue`, `saturation`, `value` and `alpha`) used, but you can also convert it to other formats as listed below.
 
-* hsva.tohsva(raw`:Boolean`) _- Converts the object to a hsva string / array._
-* hsva.tohsla(raw`:Boolean`) _- Converts the object to a hsla string / array._
-* hsva.torgba(raw`:Boolean`) _- Converts the object to a rgba string / array._
-* hsva.tohex(raw`:Boolean`) _- Converts the object to a hexa-decimal string / array._
-* hsva.tocmyk(raw`:Boolean`) _- Converts the object to a cymk string / array._
+* hsva.toHSVA() _- Converts the object to a hsva string / array._
+* hsva.toHSLA() _- Converts the object to a hsla string / array._
+* hsva.toRGBA() _- Converts the object to a rgba string / array._
+* hsva.toHEX() _- Converts the object to a hexa-decimal string / array._
+* hsva.toCMYK() _- Converts the object to a cymk string / array._
 * hsva.clone() _- Clones the color object._
 
-The `raw` property describes if you want a string representation of the color or an array with the values. Example:
+The `toString()` is overriden so you can get a color representaion string.
 
 ```javascript
-hsva.torgba(true); // Returns [r, g, b, a]
-hsva.torgba();     // Returns rgba(r, g, b, a)
+hsva.toRGBA(); // Returns [r, g, b, a]
+hsva.toRGBA().toString();     // Returns rgba(r, g, b, a)
 ```
 
 ## Methods
-* pickr.setHSVa(h`:Number`,s`:Number`,v`:Number`,a`:Float`) _- Set an color._
+* pickr.setHSVA(h`:Number`,s`:Number`,v`:Number`,a`:Float`) _- Set an color._
+* pickr.setColor(string`:String`) _- Parses a string which represents a color_
 * pickr.show() _- Shows the color-picker._
 * pickr.hide() _- Hides the color-picker._
 * pickr.cancel() _- Cancels the current color picking._

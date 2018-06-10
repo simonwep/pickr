@@ -29,7 +29,7 @@
 </h3>
 
 <h3 align="center">
-  <a href="https://simonwep.github.io/pickr/">Full Featured demo</a>
+  <a href="https://simonwep.github.io/pickr/">Fully Featured demo</a>
 </h3>
 
 <br>

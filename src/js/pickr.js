@@ -200,7 +200,7 @@ class Pickr {
         ], 'mousedown', () => this.inputActive = false);
 
         // Hide on resize
-        _.on(window, 'resize', _.debounce(this, this.hide, 100));
+        // _.on(window, 'resize', _.debounce(this, this.hide, 100));
     }
 
     _rePositioningPicker(trigger) {
@@ -210,25 +210,25 @@ class Pickr {
 
         // Check if picker is out of window
         if (ab.bottom > window.innerHeight) {
-            as.top = `${bb.top - 5 - ab.height}px`;
+            as.top = `${-(ab.height) - 5}px`;
         } else if (trigger || ab.bottom + ab.height < window.innerHeight) {
-            as.top = `${bb.bottom + 5}px`;
+            as.top = `${bb.height + 5}px`;
         }
 
         // Positioner picker on the x-axis
         let pos = this.options.position || 'middle';
         switch (pos) {
             case 'left':
-                as.left = `${bb.left + bb.width - ab.width}px`;
+                as.left = `${-(ab.width) + bb.width}px`;
                 break;
             case 'middle':
-                as.left = `${bb.left + bb.width / 2 - ab.width / 2}px`;
+                as.left = `${-(ab.width / 2) + bb.width / 2}px`;
                 break;
             case 'right':
-                as.left = `${bb.left}px`;
+                as.left = `0px`;
                 break;
             default:
-                as.left = `${bb.left + bb.width / 2 - ab.width / 2}px`;
+                as.left = `${-(ab.width / 2) + bb.width}px`;
         }
     }
 

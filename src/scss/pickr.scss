@@ -3,6 +3,7 @@
 @import 'mixins';
 
 .color-picker {
+    position: relative;
     overflow: visible;
     
     * {
@@ -30,7 +31,7 @@
     flex-direction: column;
     height: 15em;
     width: 28em;
-    max-width: 95%;
+    max-width: 95vw;
     padding: 0.8em;
     border-radius: 0.1em;
     background: #ffffff;

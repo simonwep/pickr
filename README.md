@@ -15,6 +15,9 @@
      src="https://img.shields.io/badge/Webpack-4-3498db.svg"></a>
   <img alt="No dependencies"
        src="https://img.shields.io/badge/dependencies-none-27ae60.svg">
+  <a href="https://travis-ci.org/Simonwep/pickr"><img
+       alt="Build Status"
+       src="https://travis-ci.org/Simonwep/pickr.svg?branch=master"></a>
   <a href="https://www.npmjs.com/"><img
      alt="npm package"
      src="https://img.shields.io/badge/npm-6.0.1-e74c3c.svg"></a>

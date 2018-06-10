@@ -23,6 +23,7 @@ class Pickr {
         // Default values
         const def = {
             components: {output: {}},
+            default: 'fff',
             onChange: () => undefined,
             onSave: () => undefined
         };
@@ -48,6 +49,10 @@ class Pickr {
         this._rePositioningPicker(true);
         this._buildComponents();
         this._bindEvents();
+
+        // Init color and hide
+        this.setColor(this.options.default);
+        this.hide();
     }
 
     _buildRoot() {
@@ -148,10 +153,6 @@ class Pickr {
         };
 
         this.components = components;
-
-        // Initialize color and trigger hiding
-        this.setHSVA(0, 0, 100, 1);
-        this.hide();
     }
 
     _bindEvents() {
@@ -180,12 +181,7 @@ class Pickr {
 
         // Detect user input
         _.on(root.input.result, 'keyup', (e) => {
-            const parsed = Color.parseToHSV(e.target.value);
-
-            if (parsed) {
-                this.setHSVA(...parsed);
-            }
-
+            this.setColor(e.target.value);
             this.inputActive = true;
         });
 
@@ -198,9 +194,6 @@ class Pickr {
             root.opacitySlider.slider,
             root.opacitySlider.picker
         ], 'mousedown', () => this.inputActive = false);
-
-        // Hide on resize
-        // _.on(window, 'resize', _.debounce(this, this.hide, 100));
     }
 
     _rePositioningPicker(trigger) {
@@ -320,6 +313,20 @@ class Pickr {
 
         this._updateOutput();
         this.color = new HSVaColor(h, s, v, a);
+    }
+
+    /**
+     * Trys to parse a string which represents a color.
+     * Examples: #fff
+     *           rgb 10 10 200
+     *           hsva 10 20 5 0.5
+     * @param string
+     */
+    setColor(string) {
+        const parsed = Color.parseToHSV(string);
+        if (parsed) {
+            this.setHSVA(...parsed);
+        }
     }
 
     /**

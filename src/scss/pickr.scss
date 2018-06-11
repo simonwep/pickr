@@ -2,16 +2,16 @@
 @import 'variables';
 @import 'mixins';
 
-.color-picker {
+.pickr {
     position: relative;
     overflow: visible;
-    
+
     * {
         box-sizing: border-box;
     }
 }
 
-.color-picker .button {
+.pickr .pcr-button {
     position: relative;
     height: 2em;
     width: 2em;
@@ -25,7 +25,7 @@
     @include transparency-background;
 }
 
-.color-picker .app {
+.pickr .pcr-app {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -40,19 +40,19 @@
     opacity: 0;
     transition: all 0.3s;
     font-family: 'Source Sans Pro';
-    
+
     &.visible {
         visibility: visible;
         opacity: 1;
     }
 }
 
-.color-picker .app .output {
+.pickr .pcr-app .pcr-output {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 1.3em;
-    
+
     input {
         padding: 0.5em 0.5em;
         border: none;
@@ -67,13 +67,13 @@
         border-radius: $border-radius;
         margin: 0 0.2em;
         transition: all 0.15s;
-        
+
         &:hover {
             color: #808080;
         }
     }
-    
-    .result {
+
+    .pcr-result {
         color: #808080;
         text-align: left;
         flex-grow: 1;
@@ -83,27 +83,27 @@
         border-radius: $border-radius;
         background: #f8f8f8;
         cursor: text;
-        
+
         &:focus {
             color: $active-blue;
         }
-        
+
         &::selection {
             background: $active-blue;
             color: white;
         }
     }
-    
-    .type.active {
+
+    .pcr-type.active {
         color: white;
         background: $active-blue;
     }
-    
-    .save {
+
+    .pcr-save {
         background: $active-blue;
         color: white;
         width: 5em;
-        
+
         &:hover {
             background: $hover-blue;
             color: white;
@@ -111,11 +111,11 @@
     }
 }
 
-.color-picker .app .selection {
+.pickr .pcr-app .pcr-selection {
     display: flex;
     flex-grow: 1;
-    
-    .picker {
+
+    .pcr-picker {
         position: absolute;
         height: 18px;
         width: 18px;
@@ -125,8 +125,8 @@
         cursor: -moz-grab;
         cursor: -webkit-grabbing;
     }
-    
-    .color-preview {
+
+    .pcr-color-preview {
         position: relative;
         z-index: 1;
         width: 2em;
@@ -136,66 +136,66 @@
         margin-right: 1em;
         box-shadow: $small-shadow;
         @include transparency-background;
-        
-        .last-color {
+
+        .pcr-last-color {
             cursor: pointer;
             transition: background-color 0.3s;
             border-radius: 0.15em 0.15em 0 0;
         }
-        
-        .current-color {
+
+        .pcr-current-color {
             border-radius: 0 0 0.15em 0.15em;
         }
-        
-        .last-color,
-        .current-color {
+
+        .pcr-last-color,
+        .pcr-current-color {
             background: transparent;
             width: 100%;
             height: 50%;
         }
     }
-    
-    .color-palette,
-    .color-chooser,
-    .color-opacity {
+
+    .pcr-color-palette,
+    .pcr-color-chooser,
+    .pcr-color-opacity {
         position: relative;
         user-select: none;
     }
-    
-    .color-palette {
+
+    .pcr-color-palette {
         position: relative;
         flex-grow: 1;
         z-index: 1;
-        
-        .palette {
+
+        .pcr-palette {
             height: 100%;
             box-shadow: $small-shadow;
             border-radius: $border-radius;
             @include transparency-background;
         }
     }
-    
-    .color-chooser,
-    .color-opacity {
+
+    .pcr-color-chooser,
+    .pcr-color-opacity {
         margin-left: 1em;
-        
-        .picker {
+
+        .pcr-picker {
             margin-left: 50%;
             transform: translateX(-50%);
         }
-        
-        .slider {
+
+        .pcr-slider {
             width: 8px;
             height: 100%;
             border-radius: 50em;
         }
     }
-    
-    .color-chooser .slider {
+
+    .pcr-color-chooser .pcr-slider {
         background: $rainbow;
     }
-    
-    .color-opacity .slider {
+
+    .pcr-color-opacity .pcr-slider {
         background: linear-gradient(to bottom, transparent, black), $transparency-muster;
         background-size: 100%, 0.3em;
     }

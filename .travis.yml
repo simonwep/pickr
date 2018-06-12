@@ -4,7 +4,7 @@ node_js:
  - "stable"
 
 install:
- - npm install --only=dev
+ - npm ci --only=dev
 
 script:
  - npm run build

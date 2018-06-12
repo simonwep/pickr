@@ -8,3 +8,7 @@ install:
 
 script:
  - npm run build
+
+cache:
+  directories:
+    - "node_modules"

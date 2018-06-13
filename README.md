@@ -22,7 +22,7 @@
      alt="npm package"
      src="https://img.shields.io/badge/npm-6.0.1-e74c3c.svg"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-0.0.2-f1c40f.svg">
+       src="https://img.shields.io/badge/version-0.0.3-f1c40f.svg">
 </p>
 
 <br>

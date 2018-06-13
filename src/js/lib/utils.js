@@ -71,26 +71,3 @@ export function eventPath(evt) {
     path.push(document, window);
     return path;
 }
-
-/**
- * Standart debounce function
- */
-export function debounce(ctx, func, wait) {
-    let timeout;
-
-    return () => {
-        const later = function () {
-            timeout = null;
-            func.apply(ctx, arguments);
-        };
-
-        const callNow = !timeout;
-
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-
-        if (callNow) {
-            func.apply(ctx, arguments);
-        }
-    };
-};

@@ -26,14 +26,6 @@ class Selectable {
             opt.onchange();
         }
     }
-
-    enable() {
-        _.on(this.options.elements, 'click', this._ontap());
-    }
-
-    disable() {
-        _.on(this.options.elements, 'click', this._ontap());
-    }
 }
 
 export default Selectable;

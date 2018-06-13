@@ -159,7 +159,7 @@ class Pickr {
         const root = this.root;
 
         // Select last color on click
-        _.on(root.preview.lastColor, 'click', () => this.setHSVA(...this.lastColor.tohsva(true)));
+        _.on(root.preview.lastColor, 'click', () => this.setHSVA(...this.lastColor.toHSVA()));
 
         // Save and hide / show picker
         _.on(root.button, 'click', () => this.root.app.classList.contains('visible') ? this.hide() : this.show());
@@ -330,7 +330,7 @@ class Pickr {
     }
 
     /**
-     * @returns The current Hsvacolor object.
+     * @returns HSVaColor Current HSVaColor object.
      */
     getColor() {
         return this.color;
@@ -425,8 +425,6 @@ function create(o) {
             slider: element.querySelector('.pcr-app .pcr-color-opacity .pcr-opacity.pcr-slider')
         }
     };
-
-    console.log(root);
 
     // Select option which is not hidden
     Array.from(root.input.options).find(o => !o.hidden && !o.classList.add('active'));

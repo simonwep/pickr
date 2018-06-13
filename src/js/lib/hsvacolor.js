@@ -33,7 +33,6 @@ export class HSVaColor {
         return hsl;
     }
 
-
     toRGBA() {
         const rgba = Color.hsvToRgb(this.h, this.s, this.v).concat([this.a]);
 
@@ -44,7 +43,6 @@ export class HSVaColor {
         return rgba;
     }
 
-
     toHEX() {
         const hex = Color.hsvToHex(this.h, this.s, this.v);
 
@@ -54,7 +52,6 @@ export class HSVaColor {
 
         return hex;
     }
-
 
     toCMYK() {
         const cmyk = Color.hsvToCmyk(this.h, this.s, this.v);

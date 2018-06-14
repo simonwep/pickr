@@ -60,7 +60,7 @@ Link styles and add scripts
 <script src="node_modules/pickr/dist/pickr.min.js"></script>
 ```
 
-Be sure to load the `pickr.min.js` **after** `pickr.min.css`. Moreover the `link` tag won't work with a `defer` attribute.
+Be sure to load the `pickr.min.js` **after** `pickr.min.css`. Moreover the `script` tag doesn't work with the `defer` attribute.
 
 ### Usage
 ```javascript

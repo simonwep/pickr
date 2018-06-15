@@ -1,4 +1,19 @@
 /**
+ * Add an eventlistener which will be fired only once.
+ *
+ * @param element Target element
+ * @param event Event name
+ * @param fn Callback
+ * @param options Optional options
+ */
+export function once(element, event, fn, options = {}) {
+    element.addEventListener(event, function helper(e) {
+        fn(e);
+        element.removeEventListener(event, helper, options);
+    }, {capture: false, ...options});
+}
+
+/**
  * Add event(s) to element(s).
  * @param elements DOM-Elements
  * @param events Event names

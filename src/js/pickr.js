@@ -181,13 +181,7 @@ class Pickr {
             // Cancel selecting if the user taps behind the color picker
             _.on(document, 'mousedown', (e) => {
                 if (!_.eventPath(e).includes(root.root)) {
-
-                    const cancel = (() => {
-                        _.off(document, 'mouseup', cancel);
-                        this.hide();
-                    }).bind(this);
-
-                    _.on(document, 'mouseup', cancel);
+                    _.once(document, 'mouseup', () => this.hide());
                 }
             });
         }
@@ -448,6 +442,7 @@ function create(o) {
 
 // Static methods
 Pickr.utils = {
+    once: _.once,
     on: _.on,
     off: _.off,
     eventPath: _.eventPath,

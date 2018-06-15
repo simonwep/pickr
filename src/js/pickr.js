@@ -169,6 +169,16 @@ class Pickr {
     _bindEvents() {
         const root = this.root;
 
+        // Clear color
+        _.on(root.input.clear, 'click', () => {
+            root.button.style.background = 'rgba(255, 255, 255, 0.4)';
+            root.button.classList.add('clear');
+            this.hide();
+
+            // Fire listener
+            this.options.onSave(null, this);
+        });
+
         // Select last color on click
         _.on(root.preview.lastColor, 'click', () => this.setHSVA(...this.lastColor.toHSVA()));
 
@@ -263,9 +273,12 @@ class Pickr {
     }
 
     _saveColor() {
-        const cssRGBaString = this.color.toRGBA().toString();
+
+        // User changed the color so remove the clear icon
+        this.root.button.classList.remove('clear');
 
         // Change preview and current color
+        const cssRGBaString = this.color.toRGBA().toString();
         this.root.preview.lastColor.style.background = cssRGBaString;
         this.root.button.style.background = cssRGBaString;
 
@@ -385,6 +398,7 @@ function create(o) {
                 </div>
     
                 <div class="pcr-output" ${hidden(o.output)}>
+                    
                     <input class="pcr-result" type="text" spellcheck="false" ${hidden(o.output.input)}>
                     
                     <input class="pcr-type" data-type="HEX" value="HEX" type="button" ${hidden(o.output.hex)}>
@@ -394,6 +408,7 @@ function create(o) {
                     <input class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(o.output.cmyk)}>
                     
                     <input class="pcr-save" value="Save" type="button">
+                    <input class="pcr-clear" value="Clear" type="button" ${hidden(o.output.clear)}>
                 </div>
             </div>
       
@@ -409,9 +424,11 @@ function create(o) {
 
         input: {
             options: element.querySelectorAll('.pcr-app .pcr-output .pcr-type'),
+            type: () => element.querySelector('.pcr-app .pcr-output .pcr-type.active'),
             result: element.querySelector('.pcr-app .pcr-output .pcr-result'),
+
             save: element.querySelector('.pcr-app .pcr-output .pcr-save'),
-            type: () => element.querySelector('.pcr-app .pcr-output .pcr-type.active')
+            clear: element.querySelector('.pcr-app .pcr-output .pcr-clear')
         },
 
         preview: {

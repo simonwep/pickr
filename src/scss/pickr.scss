@@ -23,6 +23,22 @@
     transition: background-color 0.3s;
     font-family: 'Source Sans Pro';
     @include transparency-background;
+
+    &::after {
+        position: absolute;
+        content: '';
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background: $x-icon no-repeat center;
+        background-size: 70%;
+        opacity: 0;
+    }
+
+    &.clear::after {
+        opacity: 1;
+    }
 }
 
 .pickr .pcr-app {
@@ -65,7 +81,7 @@
         color: #c4c4c4;
         background: $input-background;
         border-radius: $border-radius;
-        margin: 0 0.2em;
+        margin-right: 0.4em;
         transition: all 0.15s;
 
         &:hover {
@@ -73,12 +89,15 @@
         }
     }
 
+    input:nth-last-child(1) {
+        margin: 0;
+    }
+
     .pcr-result {
         color: #808080;
         text-align: left;
         flex-grow: 1;
         min-width: 1em;
-        margin-right: 0.5em;
         transition: all 0.2s;
         border-radius: $border-radius;
         background: #f8f8f8;
@@ -106,6 +125,16 @@
 
         &:hover {
             background: $hover-blue;
+            color: white;
+        }
+    }
+
+    .pcr-clear {
+        background: $active-red;
+        color: white;
+
+        &:hover {
+            background: $hover-red;
             color: white;
         }
     }

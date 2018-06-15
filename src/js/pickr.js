@@ -25,6 +25,7 @@ class Pickr {
             components: {output: {}},
             default: 'fff',
             position: 'middle',
+            showAlways: false,
             onChange: () => undefined,
             onSave: () => undefined
         };
@@ -53,7 +54,16 @@ class Pickr {
 
         // Init color and hide
         this.setColor(this.options.default);
-        this.hide();
+
+        // Check showAlways option
+        if (this.options.showAlways) {
+            this.root.app.classList.add('visible');
+        } else {
+            this.hide();
+        }
+
+        // Select current color
+        this._saveColor();
     }
 
     _buildRoot() {
@@ -162,21 +172,30 @@ class Pickr {
         // Select last color on click
         _.on(root.preview.lastColor, 'click', () => this.setHSVA(...this.lastColor.toHSVA()));
 
-        // Save and hide / show picker
-        _.on(root.button, 'click', () => this.root.app.classList.contains('visible') ? this.hide() : this.show());
-        _.on(root.input.save, 'click', () => this.hide());
+        // Provide hiding / showing abilities only if showAlways is false
+        if (!this.options.showAlways) {
 
-        // Cancel selecting if the user taps behind the color picker
-        _.on(document, 'mousedown', (e) => {
+            // Save and hide / show picker
+            _.on(root.button, 'click', () => this.root.app.classList.contains('visible') ? this.hide() : this.show());
 
-            if (!_.eventPath(e).includes(root.root)) {
+            // Cancel selecting if the user taps behind the color picker
+            _.on(document, 'mousedown', (e) => {
+                if (!_.eventPath(e).includes(root.root)) {
 
-                const cancel = (() => {
-                    _.off(document, 'mouseup', cancel);
-                    this.cancel();
-                }).bind(this);
+                    const cancel = (() => {
+                        _.off(document, 'mouseup', cancel);
+                        this.hide();
+                    }).bind(this);
 
-                _.on(document, 'mouseup', cancel);
+                    _.on(document, 'mouseup', cancel);
+                }
+            });
+        }
+
+        _.on(root.input.save, 'click', () => {
+            this._saveColor();
+            if (!this.options.showAlways) {
+                this.hide();
             }
         });
 
@@ -249,12 +268,7 @@ class Pickr {
         this.options.onChange(this.color, this);
     }
 
-    /**
-     * Hides the color-picker ui.
-     */
-    hide() {
-        this.root.app.classList.remove('visible');
-
+    _saveColor() {
         const cssRGBaString = this.color.toRGBA().toString();
 
         // Change preview and current color
@@ -269,9 +283,9 @@ class Pickr {
     }
 
     /**
-     * Cancels the current color picking.
+     * Hides the color-picker ui.
      */
-    cancel() {
+    hide() {
         this.root.app.classList.remove('visible');
     }
 

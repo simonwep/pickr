@@ -13,7 +13,8 @@ const pickr = new Pickr({
             hex: true,
             rgba: true,
             hsva: true,
-            input: true
-        },
-    },
+            input: true,
+            clear: true
+        }
+    }
 });

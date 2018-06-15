@@ -60,9 +60,10 @@
             hex: true,
             rgba: true,
             hsva: true,
-            input: true
-        },
-    },
+            input: true,
+            clear: true
+        }
+    }
 });</code></pre>
     </section>
 
@@ -74,7 +75,7 @@
 
     // User has changed the color
     onChange(hsva, instance) {
-        hsva;     // HSVa color object
+        hsva;     // HSVa color object, if cleared null
         instance; // Current Pickr instance
     },
 
@@ -88,8 +89,18 @@
     <section>
         <h2>Available options</h2>
 
-        <pre><code class="prettyprint">    // Selector or element which will be replaced with the actual color-picker
+        <pre><code class="prettyprint">const pickr = new Pickr({
+
+    // Selector or element which will be replaced with the actual color-picker
     el: '.color-picker',
+
+    // Default color
+    default: 'fff',
+
+    // Option to keep the color picker always visible. You can still hide / show it via
+    // 'pickr.hide()' and 'pickr.show()'. The save button keeps his functionality, so if
+    // you click it, it will fire the onSave event.
+    showAlways: false,
 
     // Defines the position of the color-picker. Available options are
     // top, left and middle relativ to the picker button.
@@ -109,23 +120,25 @@
             hex: true,  // hex option  (hexadecimal representation of the rgb value)
             rgba: true, // rgba option (red green blue and alpha)
             hsla: true, // hsla option (hue saturation lightness and alpha)
-            hsva: true, // hsla option (hue saturation value and alpha)
+            hsva: true, // hsva option (hue saturation value and alpha)
             cmyk: true, // cmyk option (cyan mangenta yellow key )
-            input: true // input / output
+
+            input: true, // input / output element
+            clear: true  // Button which provides the ability to select no color
         },
     },
 
-
     // User has changed the color
     onChange(hsva, instance) {
-        hsva;     // HSVa color object
+        hsva;     // HSVa color object, if cleared null
         instance; // Current Pickr instance
     },
 
     // User has clicked the save button
     onSave(hsva, instance) {
         // same as onChange
-    }</code></pre>
+    }
+});</code></pre>
     </section>
 
 </main>

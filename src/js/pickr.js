@@ -20,10 +20,11 @@ class Pickr {
 
     constructor(opt) {
 
-        // Default values
+        // Default options
         const def = {
             components: {output: {}},
             default: 'fff',
+            position: 'middle',
             onChange: () => undefined,
             onSave: () => undefined
         };
@@ -209,7 +210,7 @@ class Pickr {
         }
 
         // Positioner picker on the x-axis
-        let pos = this.options.position || 'middle';
+        let pos = this.options.position;
         switch (pos) {
             case 'left':
                 as.left = `${-(ab.width) + bb.width}px`;

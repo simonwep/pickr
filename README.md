@@ -22,7 +22,7 @@
      alt="npm package"
      src="https://img.shields.io/badge/npm-6.0.1-e74c3c.svg"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-0.0.3-f1c40f.svg">
+       src="https://img.shields.io/badge/version-0.1.0-f1c40f.svg">
 </p>
 
 <br>
@@ -79,6 +79,11 @@ const pickr = new Pickr({
     // Default color
     default: 'fff',
 
+    // Option to keep the color picker always visible. You can still hide / show it via 
+    // 'pickr.hide()' and 'pickr.show()'. The save button keeps his functionality, so if 
+    // you click it, it will fire the onSave event.
+    showAlways: false,
+
     // Defines the position of the color-picker. Available options are
     // top, left and middle relativ to the picker button.
     position: 'middle',
@@ -99,14 +104,16 @@ const pickr = new Pickr({
             hsla: true, // hsla option (hue saturation lightness and alpha)
             hsva: true, // hsva option (hue saturation value and alpha)
             cmyk: true, // cmyk option (cyan mangenta yellow key )
-            input: true // input / output element
+            
+            input: true, // input / output element
+            clear: true  // Button which provides the ability to select no color
         },
     },
 
 
     // User has changed the color
     onChange(hsva, instance) {
-        hsva;     // HSVa color object
+        hsva;     // HSVa color object, if cleared null
         instance; // Current Pickr instance
     },
 
@@ -139,7 +146,6 @@ hsva.toRGBA().toString();     // Returns rgba(r, g, b, a)
 * pickr.setColor(string`:String`) _- Parses a string which represents a color_
 * pickr.show() _- Shows the color-picker._
 * pickr.hide() _- Hides the color-picker._
-* pickr.cancel() _- Cancels the current color picking._
 * pickr.getRoot()`:HTMLElement` _- Returns the root DOM-Element of the color-picker._
 * pickr.getColor()`:HSVaColor` _- Returns the current HSVaColor object._
 
@@ -148,7 +154,8 @@ hsva.toRGBA().toString();     // Returns rgba(r, g, b, a)
 * Pickr.create(options`:Object`)`:Pickr` _- Creates a new instance._
 
 **Pickr.utils**
-* on(el`:HTMLElement`, event`:String`, fn`:Function`[, options `:Object`]) _- Attach an event handler function._
-* off(el`:HTMLElement`, event`:String`, fn`:Function`[, options `:Object`]) _- Remove an event handler._
+* once(element`:HTMLElement`, event`:String`, fn`:Function`[, options `:Object`]) _- Attach an event handle which will be fired only once_
+* on(elements`:HTMLElement(s)`, events`:String(s)`, fn`:Function`[, options `:Object`]) _- Attach an event handler function._
+* off(elements`:HTMLElement(s)`, event`:String(s)`, fn`:Function`[, options `:Object`]) _- Remove an event handler._
 * createElementFromString(html`:String`)`:HTMLElement` _- Creates an new HTML Element out of this string._
 * eventPath(evt`:Event`)`:[HTMLElement]` _- A polyfill for the event-path event propery._

@@ -48,7 +48,7 @@ class Pickr {
         this.lastColor = new HSVaColor();
 
         // Initialize picker
-        this._rePositioningPicker(true);
+        this._rePositioningPicker();
         this._buildComponents();
         this._bindEvents();
 
@@ -220,33 +220,39 @@ class Pickr {
         ], 'mousedown', () => this.inputActive = false);
     }
 
-    _rePositioningPicker(trigger) {
+    _rePositioningPicker() {
         const bb = this.root.button.getBoundingClientRect();
         const ab = this.root.app.getBoundingClientRect();
         const as = this.root.app.style;
 
-        // Check if picker is out of window
+        // Check if picker is cuttet of from the top & bottom
         if (ab.bottom > window.innerHeight) {
             as.top = `${-(ab.height) - 5}px`;
-        } else if (trigger || ab.bottom + ab.height < window.innerHeight) {
+        } else if (bb.bottom + ab.height < window.innerHeight) {
             as.top = `${bb.height + 5}px`;
         }
 
-        // Positioner picker on the x-axis
-        let pos = this.options.position;
-        switch (pos) {
-            case 'left':
-                as.left = `${-(ab.width) + bb.width}px`;
-                break;
-            case 'middle':
-                as.left = `${-(ab.width / 2) + bb.width / 2}px`;
-                break;
-            case 'right':
-                as.left = `0px`;
-                break;
-            default:
-                as.left = `${-(ab.width / 2) + bb.width}px`;
+        // Positioning picker on the x-axis
+        function getLeft(pos) {
+            switch (pos) {
+                case 'left':
+                    return -(ab.width) + bb.width;
+                case 'middle':
+                    return -(ab.width / 2) + bb.width / 2;
+                case 'right':
+                    return 0;
+            }
         }
+
+        const currentLeft = parseInt(getComputedStyle(this.root.app).left, 10);
+        let newLeft = getLeft(this.options.position);
+        if ((ab.left - currentLeft) + newLeft < 0) {
+            newLeft = getLeft('right');
+        } else if ((ab.left - currentLeft) - newLeft > window.innerWidth) {
+            newLeft = getLeft('left');
+        }
+
+        as.left = `${newLeft}px`;
     }
 
     _updateOutput() {

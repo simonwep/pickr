@@ -22,7 +22,7 @@
      alt="npm package"
      src="https://img.shields.io/badge/npm-6.0.1-e74c3c.svg"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-0.1.0-f1c40f.svg">
+       src="https://img.shields.io/badge/version-0.1.1-f1c40f.svg">
 </p>
 
 <br>
@@ -73,7 +73,8 @@ const pickr = Pickr.create({
 ```javascript
 const pickr = new Pickr({
 
-    // Selector or element which will be replaced with the actual color-picker
+    // Selector or element which will be replaced with the actual color-picker.
+    // Can be a HTMLElement.
     el: '.color-picker',
     
     // Default color
@@ -86,6 +87,7 @@ const pickr = new Pickr({
 
     // Defines the position of the color-picker. Available options are
     // top, left and middle relativ to the picker button.
+    // If clipping occurs, the color picker will automatically choose his position.
     position: 'middle',
 
     // Show or hide specific components.

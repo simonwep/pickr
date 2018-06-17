@@ -56,8 +56,8 @@ $ npm install pickr-widget --save
 
 Link styles and add scripts
 ```markdown
-<link rel="stylesheet" href="node_modules/pickr/dist/pickr.min.css"/>
-<script src="node_modules/pickr/dist/pickr.min.js"></script>
+<link rel="stylesheet" href="node_modules/pickr-widget/dist/pickr.min.css"/>
+<script src="node_modules/pickr-widget/dist/pickr.min.js"></script>
 ```
 
 Be sure to load the `pickr.min.js` **after** `pickr.min.css`. Moreover the `script` tag doesn't work with the `defer` attribute.

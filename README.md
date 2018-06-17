@@ -159,3 +159,6 @@ hsva.toRGBA().toString();     // Returns rgba(r, g, b, a)
 * off(elements`:HTMLElement(s)`, event`:String(s)`, fn`:Function`[, options `:Object`]) _- Remove an event handler._
 * createElementFromString(html`:String`)`:HTMLElement` _- Creates an new HTML Element out of this string._
 * eventPath(evt`:Event`)`:[HTMLElement]` _- A polyfill for the event-path event propery._
+
+## Contributing
+If you want to open a issue, create a Pull Request or simply want to know how you can run it on your local machine, please read the [Contributing guide](https://github.com/Simonwep/pickr/blob/master/.github/CONTRIBUTING.md).

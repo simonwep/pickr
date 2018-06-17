@@ -86,3 +86,16 @@ export function eventPath(evt) {
     path.push(document, window);
     return path;
 }
+
+/**
+ * Binds all functions, wich starts with an underscord, of a es6 class to the class itself.
+ * @param context The context
+ */
+export function bindClassUnderscoreFunctions(context) {
+    const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(context));
+    for (let fn of methods) {
+        if (fn.charAt(0) === '_' && typeof context[fn] === 'function') {
+            context[fn] = context[fn].bind(context);
+        }
+    }
+}

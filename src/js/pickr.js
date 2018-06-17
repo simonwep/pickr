@@ -20,25 +20,17 @@ class Pickr {
 
     constructor(opt) {
 
-        // Default options
-        const def = {
+        // Assign default values
+        this.options = Object.assign({
             components: {output: {}},
             default: 'fff',
             position: 'middle',
             showAlways: false,
             onChange: () => undefined,
             onSave: () => undefined
-        };
+        }, opt);
 
-        this.options = Object.assign(def, opt);
-
-        // Bind all private methods
-        const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(this));
-        for (let fn of methods) {
-            if (fn.charAt(0) === '_' && typeof this[fn] === 'function') {
-                this[fn] = this[fn].bind(this);
-            }
-        }
+        _.bindClassUnderscoreFunctions(this);
 
         // Replace element with color picker
         this.root = this._buildRoot();
@@ -196,6 +188,7 @@ class Pickr {
             });
         }
 
+        // Save color
         _.on(root.input.save, 'click', () => {
             this._saveColor();
             if (!this.options.showAlways) {
@@ -319,8 +312,9 @@ class Pickr {
      */
     setHSVA(h = 360, s = 0, v = 0, a = 1) {
 
+        // Validate input
         if (h < 0 || h > 360 || s < 0 || s > 100 || v < 0 || v > 100 || a < 0 || a > 1) {
-            return;
+            return false;
         }
 
         // Calculate y position of hue slider
@@ -376,49 +370,46 @@ function create(o) {
     const hidden = (con) => con ? '' : 'style="display:none" hidden';
 
     const element = _.createElementFromString(`
-         <div class="pickr">
-    
-            <div class="pcr-button"></div>
-
-            <div class="pcr-app">
-                <div class="pcr-selection">
-                    <div class="pcr-color-preview" ${hidden(o.preview)}>
-                        <div class="pcr-last-color"></div>
-                        <div class="pcr-current-color"></div>
-                    </div>
-                
-                    <div class="pcr-color-palette">
-                        <div class="pcr-picker"></div>
-                        <div class="pcr-palette"></div>
-                    </div>
-    
-                    <div class="pcr-color-chooser" ${hidden(o.hue)}>
-                        <div class="pcr-picker"></div>
-                        <div class="pcr-hue pcr-slider"></div>
-                    </div>
-                    
-                     <div class="pcr-color-opacity" ${hidden(o.opacity)}>
-                        <div class="pcr-picker"></div>
-                        <div class="pcr-opacity pcr-slider"></div>
-                    </div>
-                </div>
-    
-                <div class="pcr-output" ${hidden(o.output)}>
-                    
-                    <input class="pcr-result" type="text" spellcheck="false" ${hidden(o.output.input)}>
-                    
-                    <input class="pcr-type" data-type="HEX" value="HEX" type="button" ${hidden(o.output.hex)}>
-                    <input class="pcr-type" data-type="RGBA" value="RGBa" type="button" ${hidden(o.output.rgba)}>
-                    <input class="pcr-type" data-type="HSLA" value="HSLa" type="button" ${hidden(o.output.hsla)}>
-                    <input class="pcr-type" data-type="HSVA" value="HSVa" type="button" ${hidden(o.output.hsva)}>
-                    <input class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(o.output.cmyk)}>
-                    
-                    <input class="pcr-save" value="Save" type="button">
-                    <input class="pcr-clear" value="Clear" type="button" ${hidden(o.output.clear)}>
-                </div>
-            </div>
-      
-        </div>
+          <div class="pickr">
+              <div class="pcr-button"></div>
+          
+              <div class="pcr-app">
+                  <div class="pcr-selection">
+                      <div class="pcr-color-preview" ${hidden(o.preview)}>
+                          <div class="pcr-last-color"></div>
+                          <div class="pcr-current-color"></div>
+                      </div>
+          
+                      <div class="pcr-color-palette">
+                          <div class="pcr-picker"></div>
+                          <div class="pcr-palette"></div>
+                      </div>
+          
+                      <div class="pcr-color-chooser" ${hidden(o.hue)}>
+                          <div class="pcr-picker"></div>
+                          <div class="pcr-hue pcr-slider"></div>
+                      </div>
+          
+                      <div class="pcr-color-opacity" ${hidden(o.opacity)}>
+                          <div class="pcr-picker"></div>
+                          <div class="pcr-opacity pcr-slider"></div>
+                      </div>
+                  </div>
+          
+                  <div class="pcr-output" ${hidden(o.output)}>
+                      <input class="pcr-result" type="text" spellcheck="false" ${hidden(o.output.input)}>
+          
+                      <input class="pcr-type" data-type="HEX" value="HEX" type="button" ${hidden(o.output.hex)}>
+                      <input class="pcr-type" data-type="RGBA" value="RGBa" type="button" ${hidden(o.output.rgba)}>
+                      <input class="pcr-type" data-type="HSLA" value="HSLa" type="button" ${hidden(o.output.hsla)}>
+                      <input class="pcr-type" data-type="HSVA" value="HSVa" type="button" ${hidden(o.output.hsva)}>
+                      <input class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(o.output.cmyk)}>
+          
+                                <input class="pcr-save" value="Save" type="button">
+                      <input class="pcr-clear" value="Clear" type="button" ${hidden(o.output.clear)}>
+                  </div>
+              </div>
+          </div>
     `);
 
     const root = {
@@ -426,7 +417,7 @@ function create(o) {
 
         button: element.querySelector('.pcr-button'),
 
-        app: element.querySelector('.pcr-app '),
+        app: element.querySelector('.pcr-app'),
 
         input: {
             options: element.querySelectorAll('.pcr-app .pcr-output .pcr-type'),

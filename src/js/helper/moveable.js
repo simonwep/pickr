@@ -4,23 +4,14 @@ class Moveable {
 
     constructor(opt) {
 
-        // Default values
-        const def = {
+        // Assign default values
+        this.options = Object.assign({
             lockX: false,
             lockY: false,
-            onchange: undefined
-        };
+            onchange: () => null
+        }, opt);
 
-        this.options = Object.assign(def, opt);
-
-        // Bind all private methods
-        const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(this));
-        for (let fn of methods) {
-            if (fn.charAt(0) === '_' && typeof this[fn] === 'function') {
-                this[fn] = this[fn].bind(this);
-            }
-        }
-
+        _.bindClassUnderscoreFunctions(this);
         _.on([this.options.wrapper, this.options.element], 'mousedown', this._tapstart);
         _.on([this.options.wrapper, this.options.element], 'touchstart', this._tapstart, {
             passive: false
@@ -66,9 +57,6 @@ class Moveable {
             y = 0;
         }
 
-        if (typeof this.options.onchange === 'function')
-            this.options.onchange(x, y);
-
         if (!this.options.lockX)
             element.style.left = (x - element.offsetWidth / 2) + 'px';
 
@@ -76,6 +64,7 @@ class Moveable {
             element.style.top = (y - element.offsetHeight / 2) + 'px';
 
         this.cache = {x, y};
+        this.options.onchange(x, y);
     }
 
     _tapstop() {

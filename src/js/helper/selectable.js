@@ -4,15 +4,13 @@ class Selectable {
 
     constructor(opt) {
 
-        // Default values
-        const def = {
+        // Assign default values
+        this.options = Object.assign({
             onchange: undefined,
             className: ''
-        };
+        }, opt);
 
-        this.options = Object.assign(def, opt);
-
-        this._ontap = this._ontap.bind(this);
+        _.bindClassUnderscoreFunctions(this);
         _.on(this.options.elements, 'click', this._ontap);
     }
 

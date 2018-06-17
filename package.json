@@ -2,6 +2,7 @@
     "name": "pickr-widget",
     "version": "0.1.1",
     "description": "Flat, Simple, Hackable Color-Picker.",
+    "main": "./dist/pickr.min.js",
     "scripts": {
         "build": "webpack --mode production",
         "dev": "webpack-dev-server --mode development"

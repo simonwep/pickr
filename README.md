@@ -22,7 +22,7 @@
      alt="npm package"
      src="https://img.shields.io/badge/npm-6.0.1-e74c3c.svg"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-0.1.1-f1c40f.svg">
+       src="https://img.shields.io/badge/version-0.1.2-f1c40f.svg">
 </p>
 
 <br>
@@ -84,6 +84,9 @@ const pickr = new Pickr({
     // 'pickr.hide()' and 'pickr.show()'. The save button keeps his functionality, so if 
     // you click it, it will fire the onSave event.
     showAlways: false,
+    
+    // If the color picker should have the body element as it's parent.
+    appendToBody: false,
 
     // Defines the position of the color-picker. Available options are
     // top, left and middle relativ to the picker button.
@@ -111,7 +114,6 @@ const pickr = new Pickr({
             clear: true  // Button which provides the ability to select no color
         },
     },
-
 
     // User has changed the color
     onChange(hsva, instance) {

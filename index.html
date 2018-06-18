@@ -91,7 +91,8 @@
 
         <pre><code class="prettyprint">const pickr = new Pickr({
 
-    // Selector or element which will be replaced with the actual color-picker
+    // Selector or element which will be replaced with the actual color-picker.
+    // Can be a HTMLElement.
     el: '.color-picker',
 
     // Default color
@@ -102,8 +103,12 @@
     // you click it, it will fire the onSave event.
     showAlways: false,
 
+    // If the color picker should have the body element as it's parent.
+    appendToBody: false,
+
     // Defines the position of the color-picker. Available options are
     // top, left and middle relativ to the picker button.
+    // If clipping occurs, the color picker will automatically choose his position.
     position: 'middle',
 
     // Show or hide specific components.

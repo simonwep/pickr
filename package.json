@@ -1,6 +1,6 @@
 {
     "name": "pickr-widget",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Flat, Simple, Hackable Color-Picker.",
     "main": "./dist/pickr.min.js",
     "scripts": {

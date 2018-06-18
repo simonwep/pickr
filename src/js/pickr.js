@@ -26,6 +26,7 @@ class Pickr {
             default: 'fff',
             position: 'middle',
             showAlways: false,
+            appendToBody: false,
             onChange: () => undefined,
             onSave: () => undefined
         }, opt);
@@ -70,6 +71,11 @@ class Pickr {
 
         // Replace element with actual color-picker
         toReplace.parentElement.replaceChild(html.root, toReplace);
+
+        // Append app on body if wanted
+        if (this.options.appendToBody) {
+            document.body.appendChild(html.app);
+        }
 
         // Return object
         return html;
@@ -211,9 +217,20 @@ class Pickr {
             root.opacitySlider.slider,
             root.opacitySlider.picker
         ], 'mousedown', () => this.inputActive = false);
+
+        // Repositioning on resize
+        _.on(window, 'resize', this._rePositioningPicker);
     }
 
     _rePositioningPicker() {
+
+        // Check appendToBody option and normalize position
+        if (this.options.appendToBody) {
+            const relative = this.root.button.getBoundingClientRect();
+            this.root.app.style.marginLeft = `${relative.left}px`;
+            this.root.app.style.marginTop = `${relative.top}px`;
+        }
+
         const bb = this.root.button.getBoundingClientRect();
         const ab = this.root.app.getBoundingClientRect();
         const as = this.root.app.style;
@@ -412,45 +429,50 @@ function create(o) {
           </div>
     `);
 
+    const select = (query) => {
+        const items = element.querySelectorAll(query);
+        return items.length === 0 ? null : items.length === 1 ? items[0] : Array.from(items);
+    };
+
     const root = {
         root: element,
 
-        button: element.querySelector('.pcr-button'),
+        button: select('.pcr-button'),
 
-        app: element.querySelector('.pcr-app'),
+        app: select('.pcr-app'),
 
         input: {
-            options: element.querySelectorAll('.pcr-app .pcr-output .pcr-type'),
-            type: () => element.querySelector('.pcr-app .pcr-output .pcr-type.active'),
-            result: element.querySelector('.pcr-app .pcr-output .pcr-result'),
+            options: select('.pcr-app .pcr-output .pcr-type'),
+            type: () => root.input.options.find(e => e.classList.contains('active')),
+            result: select('.pcr-app .pcr-output .pcr-result'),
 
-            save: element.querySelector('.pcr-app .pcr-output .pcr-save'),
-            clear: element.querySelector('.pcr-app .pcr-output .pcr-clear')
+            save: select('.pcr-app .pcr-output .pcr-save'),
+            clear: select('.pcr-app .pcr-output .pcr-clear')
         },
 
         preview: {
-            lastColor: element.querySelector('.pcr-app .pcr-color-preview .pcr-last-color'),
-            currentColor: element.querySelector('.pcr-app .pcr-color-preview .pcr-current-color')
+            lastColor: select('.pcr-app .pcr-color-preview .pcr-last-color'),
+            currentColor: select('.pcr-app .pcr-color-preview .pcr-current-color')
         },
 
         palette: {
-            picker: element.querySelector('.pcr-app .pcr-color-palette .pcr-picker'),
-            palette: element.querySelector('.pcr-app .pcr-color-palette .pcr-palette')
+            picker: select('.pcr-app .pcr-color-palette .pcr-picker'),
+            palette: select('.pcr-app .pcr-color-palette .pcr-palette')
         },
 
         hueSlider: {
-            picker: element.querySelector('.pcr-app .pcr-color-chooser .pcr-picker'),
-            slider: element.querySelector('.pcr-app .pcr-color-chooser .pcr-hue.pcr-slider')
+            picker: select('.pcr-app .pcr-color-chooser .pcr-picker'),
+            slider: select('.pcr-app .pcr-color-chooser .pcr-hue.pcr-slider')
         },
 
         opacitySlider: {
-            picker: element.querySelector('.pcr-app .pcr-color-opacity .pcr-picker'),
-            slider: element.querySelector('.pcr-app .pcr-color-opacity .pcr-opacity.pcr-slider')
+            picker: select('.pcr-app .pcr-color-opacity .pcr-picker'),
+            slider: select('.pcr-app .pcr-color-opacity .pcr-opacity.pcr-slider')
         }
     };
 
     // Select option which is not hidden
-    Array.from(root.input.options).find(o => !o.hidden && !o.classList.add('active'));
+    root.input.options.find(o => !o.hidden && !o.classList.add('active'));
     return root;
 }
 

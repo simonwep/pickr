@@ -44,10 +44,18 @@ export class HSVaColor {
     }
 
     toHEX() {
-        const hex = Color.hsvToHex(this.h, this.s, this.v);
+        const hex = Color.hsvToHex(this.h, this.s, this.v).concat([this.a]);
 
         hex.toString = function () {
-            return `#${this.join('').toUpperCase()}`;
+
+            // Check if alpha channel make sense, convert it to 255 number space, convert
+            // to hex and pad it with zeros if needet.
+            const alpha = this[3] === 1 ? '' : Number((this[3] * 255).toFixed(0))
+                .toString(16)
+                .toUpperCase()
+                .padStart(2, '0');
+
+            return `#${this.slice(0, 3).join('').toUpperCase() + alpha}`;
         };
 
         return hex;

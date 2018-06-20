@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:200,400,500');
 @import 'variables';
 @import 'mixins';
 
@@ -21,7 +20,7 @@
     cursor: pointer;
     background: transparent;
     transition: background-color 0.3s;
-    font-family: 'Source Sans Pro';
+    font-family: $font-family;
     @include transparency-background;
 
     &::after {
@@ -56,7 +55,7 @@
     visibility: hidden;
     opacity: 0;
     transition: all 0.3s;
-    font-family: 'Source Sans Pro';
+    font-family: $font-family;
 
     &.visible {
         visibility: visible;

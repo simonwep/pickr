@@ -194,7 +194,6 @@ function hslToHsv(h, s, l) {
  * @return {number[]} HSV values.
  */
 function hexToHsv(hex) {
-    if (hex.length === 3) hex += hex;
     const [r, g, b] = hex.match(/.{2}/g).map(v => parseInt(v, 16));
     return rgbToHsv(r, g, b);
 }
@@ -213,7 +212,7 @@ export function parseToHSV(str) {
         rgba: /^(rgb|rgba)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]*([0-9.]+|)/i,
         hsla: /^(hsl|hsla)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]*([0-9.]+|)/i,
         hsva: /^(hsv|hsva)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]*([0-9.]+|)/i,
-        hex: /^(#|)(([0-9A-Fa-f]{6})|([0-9A-Fa-f]{3}))$/i
+        hex: /^(#|)(([0-9A-Fa-f]{3,4})|([0-9A-Fa-f]{6})|([0-9A-Fa-f]{8}))$/i
     };
 
     /**
@@ -234,13 +233,32 @@ export function parseToHSV(str) {
         return [...cmykToHsv(c, m, y, k), 1];
     } else if (match = regex.rgba.exec(str)) {
         let [, , r, g, b, a = 1] = numarize(match);
+
         if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1)
             return null;
 
         return [...rgbToHsv(r, g, b), a];
     } else if (match = regex.hex.exec(str)) {
+        const splitAt = (s, i) => [s.substring(0, i), s.substring(i, s.length)];
         let [, , hex] = match;
-        return [...hexToHsv(hex), 1];
+
+        // Fill up opacity if not declared
+        if (hex.length === 3) {
+            hex += 'F';
+        } else if (hex.length === 6) {
+            hex += 'FF';
+        }
+
+        let alpha;
+        if (hex.length === 4) {
+            [hex, alpha] = splitAt(hex, 3).map(v => v + v);
+        } else if (hex.length === 8) {
+            [hex, alpha] = splitAt(hex, 6);
+        }
+
+        // Convert 0 - 255 to 0 - 1 for opacity
+        alpha = parseInt(alpha, 16) / 255;
+        return [...hexToHsv(hex), alpha];
     } else if (match = regex.hsla.exec(str)) {
         let [, , h, s, l, a = 1] = numarize(match);
 

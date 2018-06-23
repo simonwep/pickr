@@ -5,12 +5,14 @@
  * @param event Event name
  * @param fn Callback
  * @param options Optional options
+ * @return IArguments passed arguments
  */
 export function once(element, event, fn, options = {}) {
     element.addEventListener(event, function helper(e) {
         fn(e);
         element.removeEventListener(event, helper, options);
     }, {capture: false, ...options});
+    return arguments;
 }
 
 /**
@@ -19,9 +21,11 @@ export function once(element, event, fn, options = {}) {
  * @param events Event names
  * @param fn Callback
  * @param options Optional options
+ * @return IArguments passed arguments
  */
 export function on(elements, events, fn, options = {}) {
     eventListener(elements, events, fn, options);
+    return arguments;
 }
 
 /**
@@ -30,9 +34,11 @@ export function on(elements, events, fn, options = {}) {
  * @param events Event names
  * @param fn Callback
  * @param options Optional options
+ * @return IArguments passed arguments
  */
 export function off(elements, events, fn, options = {}) {
     eventListener(elements, events, fn, options, true);
+    return arguments;
 }
 
 function eventListener(elements, events, fn, options = {}, remove) {

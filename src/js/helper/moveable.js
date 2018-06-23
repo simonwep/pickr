@@ -83,6 +83,13 @@ class Moveable {
             clientY: wrapperBoundaries.top + y
         }));
     }
+
+    destroy(){
+        _.off([this.options.wrapper, this.options.element], 'mousedown', this._tapstart);
+        _.off([this.options.wrapper, this.options.element], 'touchstart', this._tapstart, {
+            passive: false
+        });
+    }
 }
 
 export default Moveable;

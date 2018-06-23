@@ -166,60 +166,64 @@ class Pickr {
 
     _bindEvents() {
         const root = this.root;
+        const eventBindings = [];
 
         // Clear color
-        _.on(root.input.clear, 'click', () => {
+        eventBindings.push(_.on(root.input.clear, 'click', () => {
             root.button.style.background = 'rgba(255, 255, 255, 0.4)';
             root.button.classList.add('clear');
             this.hide();
 
             // Fire listener
             this.options.onSave(null, this);
-        });
+        }));
 
         // Select last color on click
-        _.on(root.preview.lastColor, 'click', () => this.setHSVA(...this.lastColor.toHSVA()));
+        eventBindings.push(_.on(root.preview.lastColor, 'click', () => this.setHSVA(...this.lastColor.toHSVA())));
 
         // Provide hiding / showing abilities only if showAlways is false
         if (!this.options.showAlways) {
 
             // Save and hide / show picker
-            _.on(root.button, 'click', () => this.root.app.classList.contains('visible') ? this.hide() : this.show());
+            eventBindings.push(_.on(root.button, 'click', () => this.root.app.classList.contains('visible') ? this.hide() : this.show()));
 
             // Cancel selecting if the user taps behind the color picker
-            _.on(document, 'mousedown', (e) => {
+            eventBindings.push(_.on(document, 'mousedown', (e) => {
                 if (!_.eventPath(e).includes(root.root)) {
                     _.once(document, 'mouseup', () => this.hide());
                 }
-            });
+            }));
         }
 
         // Save color
-        _.on(root.input.save, 'click', () => {
+        eventBindings.push(_.on(root.input.save, 'click', () => {
             this._saveColor();
             if (!this.options.showAlways) {
                 this.hide();
             }
-        });
+        }));
 
         // Detect user input
-        _.on(root.input.result, 'keyup', (e) => {
+        eventBindings.push(_.on(root.input.result, 'keyup', (e) => {
             this.setColor(e.target.value);
             this.inputActive = true;
-        });
+        }));
 
         // Cancel input detection on color change
-        _.on([
+        eventBindings.push(_.on([
             root.palette.palette,
             root.palette.picker,
             root.hueSlider.slider,
             root.hueSlider.picker,
             root.opacitySlider.slider,
             root.opacitySlider.picker
-        ], 'mousedown', () => this.inputActive = false);
+        ], 'mousedown', () => this.inputActive = false));
 
         // Repositioning on resize
-        _.on(window, 'resize', this._rePositioningPicker);
+        eventBindings.push(_.on(window, 'resize', this._rePositioningPicker));
+
+        // Save bindings
+        this.eventBindings = eventBindings;
     }
 
     _rePositioningPicker() {
@@ -303,6 +307,19 @@ class Pickr {
 
         // Fire listener
         this.options.onSave(this.color, this);
+    }
+
+    destroy() {
+        this.eventBindings.forEach(args => _.off(...args));
+        Object.keys(this.components).forEach(key => this.components[key].destroy());
+    }
+
+    destroyAndRemove() {
+        this.destroy();
+
+        // Remove element
+        const root = this.root.root;
+        root.parentElement.removeChild(root);
     }
 
     /**

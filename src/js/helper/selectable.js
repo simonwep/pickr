@@ -24,6 +24,10 @@ class Selectable {
             opt.onchange();
         }
     }
+
+    destroy(){
+        _.off(this.options.elements, 'click', this._ontap);
+    }
 }
 
 export default Selectable;

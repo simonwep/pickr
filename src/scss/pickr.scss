@@ -118,10 +118,14 @@
         background: $active-blue;
     }
 
+    .pcr-clear,
+    .pcr-save {
+        color: white;
+        width: auto;
+    }
+
     .pcr-save {
         background: $active-blue;
-        color: white;
-        width: 5em;
 
         &:hover {
             background: $hover-blue;
@@ -131,7 +135,6 @@
 
     .pcr-clear {
         background: $active-red;
-        color: white;
 
         &:hover {
             background: $hover-red;

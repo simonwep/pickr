@@ -22,7 +22,10 @@ class Pickr {
 
         // Assign default values
         this.options = Object.assign({
+
             components: {output: {}},
+            strings: {},
+
             default: 'fff',
             position: 'middle',
             showAlways: false,
@@ -53,26 +56,27 @@ class Pickr {
     }
 
     _buildRoot() {
+        const {options} = this;
 
         // Check if element is selector
-        if (typeof this.options.el === 'string') {
-            this.options.el = document.querySelector(this.options.el);
+        if (typeof options.el === 'string') {
+            options.el = document.querySelector(options.el);
         }
 
-        const toReplace = this.options.el;
-        const root = create(this.options.components);
+        const toReplace = options.el;
+        const root = create(options.components, options.strings);
         this.root = root;
 
         // Replace element with actual color-picker
         toReplace.parentElement.replaceChild(root.root, toReplace);
 
         // Check appendToBody option
-        if (this.options.appendToBody) {
+        if (options.appendToBody) {
             document.body.appendChild(root.app);
         }
 
         // Check showAlways option
-        this.options.showAlways ? root.app.classList.add('visible') : this.hide();
+        options.showAlways ? root.app.classList.add('visible') : this.hide();
     }
 
     _buildComponents() {
@@ -406,47 +410,47 @@ class Pickr {
     }
 }
 
-function create(o) {
+function create(o, s) {
     const hidden = (con) => con ? '' : 'style="display:none" hidden';
 
     const element = _.createElementFromString(`
           <div class="pickr">
               <div class="pcr-button"></div>
-          
+
               <div class="pcr-app">
                   <div class="pcr-selection">
                       <div class="pcr-color-preview" ${hidden(o.preview)}>
                           <div class="pcr-last-color"></div>
                           <div class="pcr-current-color"></div>
                       </div>
-          
+
                       <div class="pcr-color-palette">
                           <div class="pcr-picker"></div>
                           <div class="pcr-palette"></div>
                       </div>
-          
+
                       <div class="pcr-color-chooser" ${hidden(o.hue)}>
                           <div class="pcr-picker"></div>
                           <div class="pcr-hue pcr-slider"></div>
                       </div>
-          
+
                       <div class="pcr-color-opacity" ${hidden(o.opacity)}>
                           <div class="pcr-picker"></div>
                           <div class="pcr-opacity pcr-slider"></div>
                       </div>
                   </div>
-          
+
                   <div class="pcr-output" ${hidden(o.output)}>
                       <input class="pcr-result" type="text" spellcheck="false" ${hidden(o.output.input)}>
-          
+
                       <input class="pcr-type" data-type="HEX" value="HEX" type="button" ${hidden(o.output.hex)}>
                       <input class="pcr-type" data-type="RGBA" value="RGBa" type="button" ${hidden(o.output.rgba)}>
                       <input class="pcr-type" data-type="HSLA" value="HSLa" type="button" ${hidden(o.output.hsla)}>
                       <input class="pcr-type" data-type="HSVA" value="HSVa" type="button" ${hidden(o.output.hsva)}>
                       <input class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(o.output.cmyk)}>
-          
-                      <input class="pcr-save" value="Save" type="button">
-                      <input class="pcr-clear" value="Clear" type="button" ${hidden(o.output.clear)}>
+
+                      <input class="pcr-save" value="${s.save || 'Save'}" type="button">
+                      <input class="pcr-clear" value="${s.clear || 'Clear'}" type="button" ${hidden(o.output.clear)}>
                   </div>
               </div>
           </div>

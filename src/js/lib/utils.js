@@ -8,10 +8,10 @@
  * @return IArguments passed arguments
  */
 export function once(element, event, fn, options = {}) {
-    element.addEventListener(event, function helper(e) {
+    on(element, event, function helper(e) {
         fn(e);
-        element.removeEventListener(event, helper, options);
-    }, {capture: false, ...options});
+        off(element, event, helper, options);
+    }, options);
     return arguments;
 }
 
@@ -24,7 +24,7 @@ export function once(element, event, fn, options = {}) {
  * @return IArguments passed arguments
  */
 export function on(elements, events, fn, options = {}) {
-    eventListener(elements, events, fn, options);
+    eventListener(elements, events, fn, options, 'addEventListener');
     return arguments;
 }
 
@@ -37,12 +37,11 @@ export function on(elements, events, fn, options = {}) {
  * @return IArguments passed arguments
  */
 export function off(elements, events, fn, options = {}) {
-    eventListener(elements, events, fn, options, true);
+    eventListener(elements, events, fn, options, 'removeEventListener');
     return arguments;
 }
 
-function eventListener(elements, events, fn, options = {}, remove) {
-    const method = remove ? 'removeEventListener' : 'addEventListener';
+function eventListener(elements, events, fn, options = {}, method) {
 
     // Normalize array
     if (HTMLCollection.prototype.isPrototypeOf(elements) ||

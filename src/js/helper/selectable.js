@@ -1,12 +1,12 @@
 import * as _ from './../lib/utils';
 
-class Selectable {
+export default class Selectable {
 
     constructor(opt) {
 
         // Assign default values
         this.options = Object.assign({
-            onchange: undefined,
+            onchange: () => 0,
             className: ''
         }, opt);
 
@@ -20,14 +20,10 @@ class Selectable {
         opt.elements.forEach(e => e.classList.remove(opt.className));
         evt.target.classList.add(opt.className);
 
-        if (typeof opt.onchange === 'function') {
-            opt.onchange();
-        }
+        opt.onchange();
     }
 
-    destroy(){
+    destroy() {
         _.off(this.options.elements, 'click', this._ontap);
     }
 }
-
-export default Selectable;

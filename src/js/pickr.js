@@ -27,33 +27,26 @@ class Pickr {
             position: 'middle',
             showAlways: false,
             appendToBody: false,
-            onChange: () => undefined,
-            onSave: () => undefined
+            onChange: () => 0,
+            onSave: () => 0
         }, opt);
 
         _.bindClassUnderscoreFunctions(this);
 
         // Replace element with color picker
-        this.root = this._buildRoot();
         this.inputActive = false;
 
         this.color = new HSVaColor();
         this.lastColor = new HSVaColor();
 
         // Initialize picker
+        this._buildRoot();
         this._rePositioningPicker();
         this._buildComponents();
         this._bindEvents();
 
         // Init color and hide
         this.setColor(this.options.default);
-
-        // Check showAlways option
-        if (this.options.showAlways) {
-            this.root.app.classList.add('visible');
-        } else {
-            this.hide();
-        }
 
         // Select current color
         this._saveColor();
@@ -67,18 +60,19 @@ class Pickr {
         }
 
         const toReplace = this.options.el;
-        const html = create(this.options.components);
+        const root = create(this.options.components);
+        this.root = root;
 
         // Replace element with actual color-picker
-        toReplace.parentElement.replaceChild(html.root, toReplace);
+        toReplace.parentElement.replaceChild(root.root, toReplace);
 
-        // Append app on body if wanted
+        // Check appendToBody option
         if (this.options.appendToBody) {
-            document.body.appendChild(html.app);
+            document.body.appendChild(root.app);
         }
 
-        // Return object
-        return html;
+        // Check showAlways option
+        this.options.showAlways ? root.app.classList.add('visible') : this.hide();
     }
 
     _buildComponents() {
@@ -154,7 +148,7 @@ class Pickr {
             selectable: new Selectable({
                 elements: inst.root.input.options,
                 className: 'active',
-                onchange: () => {
+                onchange() {
                     inst.inputActive = false;
                     inst.components.palette.trigger();
                 }
@@ -165,8 +159,8 @@ class Pickr {
     }
 
     _bindEvents() {
-        const root = this.root;
-        const eventBindings = [];
+        const root = this.root,
+            eventBindings = [];
 
         // Clear color
         eventBindings.push(_.on(root.input.clear, 'click', () => {
@@ -227,17 +221,19 @@ class Pickr {
     }
 
     _rePositioningPicker() {
+        const root = this.root;
+        const app = this.root.app;
 
         // Check appendToBody option and normalize position
         if (this.options.appendToBody) {
-            const relative = this.root.button.getBoundingClientRect();
-            this.root.app.style.marginLeft = `${relative.left}px`;
-            this.root.app.style.marginTop = `${relative.top}px`;
+            const relative = root.button.getBoundingClientRect();
+            app.style.marginLeft = `${relative.left}px`;
+            app.style.marginTop = `${relative.top}px`;
         }
 
-        const bb = this.root.button.getBoundingClientRect();
-        const ab = this.root.app.getBoundingClientRect();
-        const as = this.root.app.style;
+        const bb = root.button.getBoundingClientRect();
+        const ab = app.getBoundingClientRect();
+        const as = app.style;
 
         // Check if picker is cuttet of from the top & bottom
         if (ab.bottom > window.innerHeight) {
@@ -258,7 +254,7 @@ class Pickr {
             }
         }
 
-        const currentLeft = parseInt(getComputedStyle(this.root.app).left, 10);
+        const currentLeft = parseInt(getComputedStyle(app).left, 10);
         let newLeft = getLeft(this.options.position);
         if ((ab.left - currentLeft) + newLeft < 0) {
             newLeft = getLeft('right');
@@ -309,11 +305,18 @@ class Pickr {
         this.options.onSave(this.color, this);
     }
 
+    /**
+     * Destroy's all functionalitys
+     */
     destroy() {
         this.eventBindings.forEach(args => _.off(...args));
         Object.keys(this.components).forEach(key => this.components[key].destroy());
     }
 
+    /**
+     * Destroy's all functionalitys and removes
+     * the pickr element.
+     */
     destroyAndRemove() {
         this.destroy();
 
@@ -351,21 +354,24 @@ class Pickr {
             return false;
         }
 
+        // Short names
+        const {hueSlider, opacitySlider, palette} = this.components;
+
         // Calculate y position of hue slider
-        const hueWrapper = this.components.hueSlider.options.wrapper;
+        const hueWrapper = hueSlider.options.wrapper;
         const hueY = hueWrapper.offsetHeight * (h / 360);
-        this.components.hueSlider.update(0, hueY);
+        hueSlider.update(0, hueY);
 
         // Calculate y position of opacity slider
-        const opacityWrapper = this.components.opacitySlider.options.wrapper;
+        const opacityWrapper = opacitySlider.options.wrapper;
         const opacityY = opacityWrapper.offsetHeight * a;
-        this.components.opacitySlider.update(0, opacityY);
+        opacitySlider.update(0, opacityY);
 
         // Calculate y and x position of color palette
-        const pickerWrapper = this.components.palette.options.wrapper;
+        const pickerWrapper = palette.options.wrapper;
         const pickerX = pickerWrapper.offsetWidth * (s / 100);
         const pickerY = pickerWrapper.offsetHeight * (1 - (v / 100));
-        this.components.palette.update(pickerX, pickerY);
+        palette.update(pickerX, pickerY);
 
         this._updateOutput();
         this.color = new HSVaColor(h, s, v, a);
@@ -439,7 +445,7 @@ function create(o) {
                       <input class="pcr-type" data-type="HSVA" value="HSVa" type="button" ${hidden(o.output.hsva)}>
                       <input class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(o.output.cmyk)}>
           
-                                <input class="pcr-save" value="Save" type="button">
+                      <input class="pcr-save" value="Save" type="button">
                       <input class="pcr-clear" value="Clear" type="button" ${hidden(o.output.clear)}>
                   </div>
               </div>

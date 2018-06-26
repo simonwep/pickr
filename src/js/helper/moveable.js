@@ -1,6 +1,6 @@
 import * as _ from './../lib/utils';
 
-class Moveable {
+export default class Moveable {
 
     constructor(opt) {
 
@@ -8,7 +8,7 @@ class Moveable {
         this.options = Object.assign({
             lockX: false,
             lockY: false,
-            onchange: () => null
+            onchange: () => 0
         }, opt);
 
         _.bindClassUnderscoreFunctions(this);
@@ -91,5 +91,3 @@ class Moveable {
         });
     }
 }
-
-export default Moveable;

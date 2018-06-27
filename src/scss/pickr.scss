@@ -24,10 +24,7 @@
     @include transparency-background;
 
     &::after {
-        position: absolute;
-        content: '';
-        left: 0;
-        top: 0;
+        @include pseudo-reset;
         height: 100%;
         width: 100%;
         background: $x-icon no-repeat center;
@@ -50,7 +47,7 @@
     max-width: 95vw;
     padding: 0.8em;
     border-radius: 0.1em;
-    background: #ffffff;
+    background: #fff;
     box-shadow: $app-shadow;
     visibility: hidden;
     opacity: 0;
@@ -65,9 +62,12 @@
 
 .pcr-app .pcr-output {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-top: 1.3em;
+    margin: 1.3em -0.2em 0 -0.2em;
+
+    > * {
+        margin: 0 0.2em;
+    }
 
     input {
         padding: 0.5em 0.5em;
@@ -75,26 +75,20 @@
         outline: none;
         letter-spacing: 0.07em;
         font-size: 0.75em;
-        width: 4em;
         text-align: center;
         cursor: pointer;
-        color: #c4c4c4;
+        color: $light-gray;
         background: $input-background;
         border-radius: $border-radius;
-        margin-right: 0.4em;
         transition: all 0.15s;
 
         &:hover {
-            color: #808080;
+            color: $dark-gray;
         }
     }
 
-    input:nth-last-child(1) {
-        margin: 0;
-    }
-
     .pcr-result {
-        color: #808080;
+        color: $dark-gray;
         text-align: left;
         flex-grow: 1;
         min-width: 1em;
@@ -109,18 +103,18 @@
 
         &::selection {
             background: $active-blue;
-            color: white;
+            color: #fff;
         }
     }
 
     .pcr-type.active {
-        color: white;
+        color: #fff;
         background: $active-blue;
     }
 
     .pcr-clear,
     .pcr-save {
-        color: white;
+        color: #fff;
         width: auto;
     }
 
@@ -129,7 +123,7 @@
 
         &:hover {
             background: $hover-blue;
-            color: white;
+            color: #fff;
         }
     }
 
@@ -138,20 +132,21 @@
 
         &:hover {
             background: $hover-red;
-            color: white;
+            color: #fff;
         }
     }
 }
 
 .pcr-app .pcr-selection {
     display: flex;
+    justify-content: space-between;
     flex-grow: 1;
 
     .pcr-picker {
         position: absolute;
         height: 18px;
         width: 18px;
-        border: 2px solid white;
+        border: 2px solid #fff;
         border-radius: 100%;
         user-select: none;
         cursor: -moz-grab;
@@ -165,7 +160,6 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        margin-right: 1em;
         box-shadow: $small-shadow;
         @include transparency-background;
 
@@ -195,8 +189,7 @@
     }
 
     .pcr-color-palette {
-        position: relative;
-        flex-grow: 1;
+        flex-grow: 0.9;
         z-index: 1;
 
         .pcr-palette {
@@ -209,10 +202,9 @@
 
     .pcr-color-chooser,
     .pcr-color-opacity {
-        margin-left: 1em;
 
         .pcr-picker {
-            margin-left: 50%;
+            left: 50%;
             transform: translateX(-50%);
         }
 

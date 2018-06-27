@@ -22,7 +22,7 @@
      alt="npm package"
      src="https://img.shields.io/badge/npm-6.0.1-e74c3c.svg"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-0.1.3-f1c40f.svg">
+       src="https://img.shields.io/badge/version-0.1.4-f1c40f.svg">
 </p>
 
 <br>
@@ -46,6 +46,7 @@
 * Opacity control
 * Supports touch devices
 * Nodejs support
+* Lightweight, 8KB gzipped
 
 ### Install
 
@@ -115,6 +116,12 @@ const pickr = new Pickr({
         },
     },
 
+    // Button strings, brings the possibility to use a language other than English.
+    strings: {
+       save: 'Save',  // Default for save button
+       clear: 'Clear' // Default for clear button
+    },
+
     // User has changed the color
     onChange(hsva, instance) {
         hsva;     // HSVa color object, if cleared null
@@ -152,6 +159,8 @@ hsva.toRGBA().toString();     // Returns rgba(r, g, b, a)
 * pickr.hide() _- Hides the color-picker._
 * pickr.getRoot()`:HTMLElement` _- Returns the root DOM-Element of the color-picker._
 * pickr.getColor()`:HSVaColor` _- Returns the current HSVaColor object._
+* pickr.destroy()`:HSVaColor` _- Destroy's all functionality._
+* pickr.destroyAndRemove()`:HSVaColor` _- Destroy's all functionality, moreover it removes the pickr element including the button._
 
 ## Static methods
 **Pickr**

@@ -183,7 +183,7 @@ class Pickr {
         if (!this.options.showAlways) {
 
             // Save and hide / show picker
-            eventBindings.push(_.on(root.button, 'click', () => this.root.app.classList.contains('visible') ? this.hide() : this.show()));
+            eventBindings.push(_.on(root.button, 'click', () => root.app.classList.contains('visible') ? this.hide() : this.show()));
 
             // Cancel selecting if the user taps behind the color picker
             eventBindings.push(_.on(document, 'mousedown', (e) => {
@@ -413,93 +413,54 @@ class Pickr {
 function create(o, s) {
     const hidden = (con) => con ? '' : 'style="display:none" hidden';
 
-    const element = _.createElementFromString(`
-          <div class="pickr">
-              <div class="pcr-button"></div>
+    const root = _.createFromTemplate(`
+        <div data-key="root" class="pickr">
+            <div data-key="button" class="pcr-button"></div>
 
-              <div class="pcr-app">
-                  <div class="pcr-selection">
-                      <div class="pcr-color-preview" ${hidden(o.preview)}>
-                          <div class="pcr-last-color"></div>
-                          <div class="pcr-current-color"></div>
-                      </div>
+            <div data-key="app" class="pcr-app">
+                <div class="pcr-selection">
+                    <div data-con="preview" class="pcr-color-preview" ${hidden(o.preview)}>
+                        <div data-key="lastColor" class="pcr-last-color"></div>
+                        <div data-key="currentColor" class="pcr-current-color"></div>
+                    </div>
 
-                      <div class="pcr-color-palette">
-                          <div class="pcr-picker"></div>
-                          <div class="pcr-palette"></div>
-                      </div>
+                    <div data-con="palette" class="pcr-color-palette">
+                        <div data-key="picker" class="pcr-picker"></div>
+                        <div data-key="palette" class="pcr-palette"></div>
+                    </div>
 
-                      <div class="pcr-color-chooser" ${hidden(o.hue)}>
-                          <div class="pcr-picker"></div>
-                          <div class="pcr-hue pcr-slider"></div>
-                      </div>
+                    <div data-con="hueSlider" class="pcr-color-chooser" ${hidden(o.hue)}>
+                        <div data-key="picker" class="pcr-picker"></div>
+                        <div data-key="slider" class="pcr-hue pcr-slider"></div>
+                    </div>
 
-                      <div class="pcr-color-opacity" ${hidden(o.opacity)}>
-                          <div class="pcr-picker"></div>
-                          <div class="pcr-opacity pcr-slider"></div>
-                      </div>
-                  </div>
+                    <div data-con="opacitySlider" class="pcr-color-opacity" ${hidden(o.opacity)}>
+                        <div data-key="picker" class="pcr-picker"></div>
+                        <div data-key="slider" class="pcr-opacity pcr-slider"></div>
+                    </div>
+                </div>
 
-                  <div class="pcr-output" ${hidden(o.output)}>
-                      <input class="pcr-result" type="text" spellcheck="false" ${hidden(o.output.input)}>
+                <div data-con="input" class="pcr-output" ${hidden(o.output)}>
+                    <input data-key="result" class="pcr-result" type="text" spellcheck="false" ${hidden(o.output.input)}>
 
-                      <input class="pcr-type" data-type="HEX" value="HEX" type="button" ${hidden(o.output.hex)}>
-                      <input class="pcr-type" data-type="RGBA" value="RGBa" type="button" ${hidden(o.output.rgba)}>
-                      <input class="pcr-type" data-type="HSLA" value="HSLa" type="button" ${hidden(o.output.hsla)}>
-                      <input class="pcr-type" data-type="HSVA" value="HSVa" type="button" ${hidden(o.output.hsva)}>
-                      <input class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(o.output.cmyk)}>
+                    <input data-arr="options" class="pcr-type" data-type="HEX" value="HEX" type="button" ${hidden(o.output.hex)}>
+                    <input data-arr="options" class="pcr-type" data-type="RGBA" value="RGBa" type="button" ${hidden(o.output.rgba)}>
+                    <input data-arr="options" class="pcr-type" data-type="HSLA" value="HSLa" type="button" ${hidden(o.output.hsla)}>
+                    <input data-arr="options" class="pcr-type" data-type="HSVA" value="HSVa" type="button" ${hidden(o.output.hsva)}>
+                    <input data-arr="options" class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(o.output.cmyk)}>
 
-                      <input class="pcr-save" value="${s.save || 'Save'}" type="button">
-                      <input class="pcr-clear" value="${s.clear || 'Clear'}" type="button" ${hidden(o.output.clear)}>
-                  </div>
-              </div>
-          </div>
+                    <input data-key="save" class="pcr-save" value="${s.save || 'Save'}" type="button">
+                    <input data-key="clear" class="pcr-clear" value="${s.clear || 'Clear'}" type="button" ${hidden(o.output.clear)}>
+                </div>
+            </div>
+        </div>
     `);
-
-    const select = (query) => {
-        const items = element.querySelectorAll(query);
-        return items.length === 0 ? null : items.length === 1 ? items[0] : Array.from(items);
-    };
-
-    const root = {
-        root: element,
-
-        button: select('.pcr-button'),
-
-        app: select('.pcr-app'),
-
-        input: {
-            options: select('.pcr-app .pcr-output .pcr-type'),
-            type: () => root.input.options.find(e => e.classList.contains('active')),
-            result: select('.pcr-app .pcr-output .pcr-result'),
-
-            save: select('.pcr-app .pcr-output .pcr-save'),
-            clear: select('.pcr-app .pcr-output .pcr-clear')
-        },
-
-        preview: {
-            lastColor: select('.pcr-app .pcr-color-preview .pcr-last-color'),
-            currentColor: select('.pcr-app .pcr-color-preview .pcr-current-color')
-        },
-
-        palette: {
-            picker: select('.pcr-app .pcr-color-palette .pcr-picker'),
-            palette: select('.pcr-app .pcr-color-palette .pcr-palette')
-        },
-
-        hueSlider: {
-            picker: select('.pcr-app .pcr-color-chooser .pcr-picker'),
-            slider: select('.pcr-app .pcr-color-chooser .pcr-hue.pcr-slider')
-        },
-
-        opacitySlider: {
-            picker: select('.pcr-app .pcr-color-opacity .pcr-picker'),
-            slider: select('.pcr-app .pcr-color-opacity .pcr-opacity.pcr-slider')
-        }
-    };
 
     // Select option which is not hidden
     root.input.options.find(o => !o.hidden && !o.classList.add('active'));
+
+    // Create method to find currenlty active option
+    root.input.type = () => root.input.options.find(e => e.classList.contains('active'));
     return root;
 }
 
@@ -509,7 +470,9 @@ Pickr.utils = {
     on: _.on,
     off: _.off,
     eventPath: _.eventPath,
-    createElementFromString: _.createElementFromString
+    createElementFromString: _.createElementFromString,
+    removeAttribute: _.removeAttribute,
+    createFromTemplate: _.createFromTemplate
 };
 
 // Create instance via method

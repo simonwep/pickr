@@ -163,8 +163,8 @@ class Pickr {
     }
 
     _bindEvents() {
-        const root = this.root,
-            eventBindings = [];
+        const root = this.root;
+        const eventBindings = [];
 
         // Clear color
         eventBindings.push(_.on(root.input.clear, 'click', () => {
@@ -202,7 +202,7 @@ class Pickr {
         }));
 
         // Detect user input
-        eventBindings.push(_.on(root.input.result, 'keyup', (e) => {
+        eventBindings.push(_.on(root.input.result, 'input', (e) => {
             this.setColor(e.target.value);
             this.inputActive = true;
         }));

@@ -68,7 +68,8 @@ export function hsvToCmyk(h, s, v) {
     m = k === 1 ? 0 : (1 - g - k) / (1 - k);
     y = k === 1 ? 0 : (1 - b - k) / (1 - k);
 
-    return [round(c * 100),
+    return [
+        round(c * 100),
         round(m * 100),
         round(y * 100),
         round(k * 100)
@@ -208,11 +209,11 @@ export function parseToHSV(str) {
 
     // Regular expressions to match different types of color represention
     const regex = {
-        cmyk: /^cmyk[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9]+)/i,
-        rgba: /^(rgb|rgba)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]*([0-9.]+|)/i,
-        hsla: /^(hsl|hsla)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]*([0-9.]+|)/i,
-        hsva: /^(hsv|hsva)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]+([0-9]+)[^\d]*([0-9.]+|)/i,
-        hex: /^(#|)(([0-9A-Fa-f]{3,4})|([0-9A-Fa-f]{6})|([0-9A-Fa-f]{8}))$/i
+        cmyk: /^cmyk[^\d]+(\d+)[^\d]+(\d+)[^\d]+(\d+)[^\d]+(\d+)/i,
+        rgba: /^(rgb|rgba)[^\d]+(\d+)[^\d]+(\d+)[^\d]+(\d+)[^\d]*(0\.\d+|\.\d+|$)/i,
+        hsla: /^(hsl|hsla)[^\d]+(\d+)[^\d]+(\d+)[^\d]+(\d+)[^\d]*(0\.\d+|\.\d+|$)/i,
+        hsva: /^(hsv|hsva)[^\d]+(\d+)[^\d]+(\d+)[^\d]+(\d+)[^\d]*(0\.\d+|\.\d+|$)/i,
+        hex: /^(#|)(([\dA-Fa-f]{3,4})|([\dA-Fa-f]{6})|([\dA-Fa-f]{8}))$/i
     };
 
     /**
@@ -221,7 +222,7 @@ export function parseToHSV(str) {
      * @param array
      * @return {*}
      */
-    const numarize = array => array.map(v => /^(\d+|\d+\.\d+)$/.test(v) ? Number(v) : undefined);
+    const numarize = array => array.map(v => /^(|\d+)\.\d+|\d+$/.test(v) ? Number(v) : undefined);
 
     let match;
     if (match = regex.cmyk.exec(str)) {

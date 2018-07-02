@@ -6,22 +6,21 @@ $font-family:
     "Roboto",
     "Helvetica Neue", Arial, sans-serif, !default;
 
-// Shadows
-$small-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-$app-shadow: 0 0.2em 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 1em 0 rgba(0, 0, 0, 0.02);
+// Constants
+$box-shadow-app: 0 0.2em 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 1em 0 rgba(0, 0, 0, 0.02);
+$color-input-fields: #f8f8f8;
 
 // Colors
-$active-blue: #4285f4;
-$hover-blue: #4370f4;
+$color-blue-active: #4285f4;
+$color-blue-hover: #4370f4;
 
-$active-red: #f44250;
-$hover-red: #db3d49;
+$color-red-active: #f44250;
+$color-red-hover: #db3d49;
 
-$light-gray: #c4c4c4;
-$dark-gray: #808080;
+$color-gray-light: #c4c4c4;
+$color-gray-default: #808080;
 
-$input-background: #f8f8f8;
-$rainbow: linear-gradient(to bottom,
+$color-rainbow: linear-gradient(to bottom,
     hsl(0, 100%, 50%),
     hsl(60, 100%, 50%),
     hsl(120, 100%, 50%),
@@ -30,9 +29,12 @@ $rainbow: linear-gradient(to bottom,
     hsl(300, 100%, 50%),
     hsl(360, 100%, 50%));
 
-// Constants
-$border-radius: 0.15em;
+// Box shadows
+$box-shadow-small: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+
+// Border radius
+$border-radius-mid: 0.15em;
 
 // Inline SVG muster
-$transparency-muster: url('data:image/svg+xml;utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path fill="white" d="M1,0H2V1H1V0ZM0,1H1V2H0V1Z"/><path fill="gray" d="M0,0H1V1H0V0ZM1,1H2V2H1V1Z"/></svg>');
-$x-icon: url('data:image/svg+xml;utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" stroke="%2342445A" stroke-width="5px" stroke-linecap="round"><path d="M45,45L5,5"></path><path d="M45,5L5,45"></path></svg>')
+$icon-transparency: url('data:image/svg+xml;utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path fill="white" d="M1,0H2V1H1V0ZM0,1H1V2H0V1Z"/><path fill="gray" d="M0,0H1V1H0V0ZM1,1H2V2H1V1Z"/></svg>');
+$icon-x: url('data:image/svg+xml;utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" stroke="%2342445A" stroke-width="5px" stroke-linecap="round"><path d="M45,45L5,5"></path><path d="M45,5L5,45"></path></svg>')

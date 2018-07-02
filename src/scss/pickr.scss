@@ -15,8 +15,8 @@
     height: 2em;
     width: 2em;
     padding: 0.5em;
-    box-shadow: $small-shadow;
-    border-radius: $border-radius;
+    box-shadow: $box-shadow-small;
+    border-radius: $border-radius-mid;
     cursor: pointer;
     background: transparent;
     transition: background-color 0.3s;
@@ -27,7 +27,7 @@
         @include pseudo-reset;
         height: 100%;
         width: 100%;
-        background: $x-icon no-repeat center;
+        background: $icon-x no-repeat center;
         background-size: 70%;
         opacity: 0;
     }
@@ -37,7 +37,7 @@
     }
 }
 
-.pcr-app {
+.pickr .pcr-app {
     position: absolute;
     display: flex;
     top: 5px;
@@ -48,7 +48,7 @@
     padding: 0.8em;
     border-radius: 0.1em;
     background: #fff;
-    box-shadow: $app-shadow;
+    box-shadow: $box-shadow-app;
     visibility: hidden;
     opacity: 0;
     transition: all 0.3s;
@@ -60,7 +60,7 @@
     }
 }
 
-.pcr-app .pcr-output {
+.pickr .pcr-app .pcr-output {
     display: flex;
     align-items: center;
     margin: 1.3em -0.2em 0 -0.2em;
@@ -77,39 +77,39 @@
         font-size: 0.75em;
         text-align: center;
         cursor: pointer;
-        color: $light-gray;
-        background: $input-background;
-        border-radius: $border-radius;
+        color: $color-gray-light;
+        background: $color-input-fields;
+        border-radius: $border-radius-mid;
         transition: all 0.15s;
 
         &:hover {
-            color: $dark-gray;
+            color: $color-gray-default;
         }
     }
 
     .pcr-result {
-        color: $dark-gray;
+        color: $color-gray-default;
         text-align: left;
         flex-grow: 1;
         min-width: 1em;
         transition: all 0.2s;
-        border-radius: $border-radius;
-        background: #f8f8f8;
+        border-radius: $border-radius-mid;
+        background: $color-input-fields;;
         cursor: text;
 
         &:focus {
-            color: $active-blue;
+            color: $color-blue-active;
         }
 
         &::selection {
-            background: $active-blue;
+            background: $color-blue-active;
             color: #fff;
         }
     }
 
     .pcr-type.active {
         color: #fff;
-        background: $active-blue;
+        background: $color-blue-active;
     }
 
     .pcr-clear,
@@ -119,25 +119,25 @@
     }
 
     .pcr-save {
-        background: $active-blue;
+        background: $color-blue-active;
 
         &:hover {
-            background: $hover-blue;
+            background: $color-blue-hover;
             color: #fff;
         }
     }
 
     .pcr-clear {
-        background: $active-red;
+        background: $color-red-active;
 
         &:hover {
-            background: $hover-red;
+            background: $color-red-hover;
             color: #fff;
         }
     }
 }
 
-.pcr-app .pcr-selection {
+.pickr .pcr-app .pcr-selection {
     display: flex;
     justify-content: space-between;
     flex-grow: 1;
@@ -160,7 +160,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        box-shadow: $small-shadow;
+        box-shadow: $box-shadow-small;
         @include transparency-background;
 
         .pcr-last-color {
@@ -194,8 +194,8 @@
 
         .pcr-palette {
             height: 100%;
-            box-shadow: $small-shadow;
-            border-radius: $border-radius;
+            box-shadow: $box-shadow-small;
+            border-radius: $border-radius-mid;
             @include transparency-background;
         }
     }
@@ -216,11 +216,11 @@
     }
 
     .pcr-color-chooser .pcr-slider {
-        background: $rainbow;
+        background: $color-rainbow;
     }
 
     .pcr-color-opacity .pcr-slider {
-        background: linear-gradient(to bottom, transparent, black), $transparency-muster;
+        background: linear-gradient(to bottom, transparent, black), $icon-transparency;
         background-size: 100%, 0.3em;
     }
 }

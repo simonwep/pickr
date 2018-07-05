@@ -50,9 +50,6 @@ class Pickr {
 
         // Init color and hide
         this.setColor(this.options.default);
-
-        // Select current color
-        this._saveColor();
     }
 
     _buildRoot() {
@@ -187,7 +184,7 @@ class Pickr {
 
             // Cancel selecting if the user taps behind the color picker
             eventBindings.push(_.on(document, 'mousedown', (e) => {
-                if (!_.eventPath(e).includes(root.root)) {
+                if (!_.eventPath(e).includes(root.app)) {
                     _.once(document, 'mouseup', () => this.hide());
                 }
             }));
@@ -231,6 +228,7 @@ class Pickr {
         // Check appendToBody option and normalize position
         if (this.options.appendToBody) {
             const relative = root.button.getBoundingClientRect();
+            app.style.position = 'fixed';
             app.style.marginLeft = `${relative.left}px`;
             app.style.marginTop = `${relative.top}px`;
         }
@@ -376,6 +374,11 @@ class Pickr {
         const pickerX = pickerWrapper.offsetWidth * (s / 100);
         const pickerY = pickerWrapper.offsetHeight * (1 - (v / 100));
         palette.update(pickerX, pickerY);
+
+        // Also set button color if pickr isn't open
+        if (!this.root.app.classList.contains('visible')) {
+            this._saveColor();
+        }
 
         this._updateOutput();
         this.color = new HSVaColor(h, s, v, a);

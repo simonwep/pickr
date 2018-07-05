@@ -37,7 +37,7 @@
     }
 }
 
-.pickr .pcr-app {
+.pcr-app {
     position: absolute;
     display: flex;
     top: 5px;
@@ -60,7 +60,7 @@
     }
 }
 
-.pickr .pcr-app .pcr-output {
+.pcr-app .pcr-output {
     display: flex;
     align-items: center;
     margin: 1.3em -0.2em 0 -0.2em;
@@ -137,7 +137,7 @@
     }
 }
 
-.pickr .pcr-app .pcr-selection {
+.pcr-app .pcr-selection {
     display: flex;
     justify-content: space-between;
     flex-grow: 1;

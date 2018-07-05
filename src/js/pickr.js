@@ -375,11 +375,7 @@ class Pickr {
         const pickerY = pickerWrapper.offsetHeight * (1 - (v / 100));
         palette.update(pickerX, pickerY);
 
-        // Also set button color if pickr isn't open
-        if (!this.root.app.classList.contains('visible')) {
-            this._saveColor();
-        }
-
+        this._saveColor();
         this._updateOutput();
         this.color = new HSVaColor(h, s, v, a);
     }

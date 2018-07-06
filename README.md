@@ -22,7 +22,7 @@
      alt="npm package"
      src="https://img.shields.io/badge/npm-6.0.1-e74c3c.svg"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-0.1.4-f1c40f.svg">
+       src="https://img.shields.io/badge/version-0.1.5-f1c40f.svg">
 </p>
 
 <br>
@@ -149,7 +149,7 @@ The `toString()` is overriden so you can get a color representaion string.
 
 ```javascript
 hsva.toRGBA(); // Returns [r, g, b, a]
-hsva.toRGBA().toString();     // Returns rgba(r, g, b, a)
+hsva.toRGBA().toString(); // Returns rgba(r, g, b, a)
 ```
 
 ## Methods
@@ -172,6 +172,8 @@ hsva.toRGBA().toString();     // Returns rgba(r, g, b, a)
 * off(elements`:HTMLElement(s)`, event`:String(s)`, fn`:Function`[, options `:Object`]) _- Remove an event handler._
 * createElementFromString(html`:String`)`:HTMLElement` _- Creates an new HTML Element out of this string._
 * eventPath(evt`:Event`)`:[HTMLElement]` _- A polyfill for the event-path event propery._
+* removeAttribute(el`:HTMLElement`, name`:String`) _- Removes an attribute from a HTMLElement and returns the value._
+* createFromTemplate(str`:String`) _- See [inline doumentation](https://github.com/Simonwep/pickr/blob/master/src/js/lib/utils.js#L88)_
 
 ## Contributing
 If you want to open a issue, create a Pull Request or simply want to know how you can run it on your local machine, please read the [Contributing guide](https://github.com/Simonwep/pickr/blob/master/.github/CONTRIBUTING.md).

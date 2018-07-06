@@ -65,7 +65,7 @@ export class HSVaColor {
         const cmyk = Color.hsvToCmyk(this.h, this.s, this.v);
 
         cmyk.toString = function () {
-            `cmyk(${this[0]}%, ${this[1]}%, ${this[2]}%, ${this[3]}%)`;
+            return `cmyk(${this[0]}%, ${this[1]}%, ${this[2]}%, ${this[3]}%)`;
         };
 
         return cmyk;

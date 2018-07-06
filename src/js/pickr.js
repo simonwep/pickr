@@ -36,6 +36,9 @@ class Pickr {
 
         _.bindClassUnderscoreFunctions(this);
 
+        // Will be used to prevent specific actions during initilization
+        this.initializingActive = true;
+
         // Replace element with color picker
         this.inputActive = false;
 
@@ -50,6 +53,9 @@ class Pickr {
 
         // Init color and hide
         this.setColor(this.options.default);
+
+        // Initilization is finish, pickr is visible and ready to use
+        this.initializingActive = false;
     }
 
     _buildRoot() {
@@ -287,7 +293,9 @@ class Pickr {
         }
 
         // Fire listener
-        this.options.onChange(this.color, this);
+        if (!this.initializingActive) {
+            this.options.onChange(this.color, this);
+        }
     }
 
     _saveColor() {
@@ -304,7 +312,9 @@ class Pickr {
         this.lastColor = this.color.clone();
 
         // Fire listener
-        this.options.onSave(this.color, this);
+        if (!this.initializingActive) {
+            this.options.onSave(this.color, this);
+        }
     }
 
     /**

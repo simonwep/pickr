@@ -206,7 +206,7 @@ class Pickr {
 
         // Detect user input
         eventBindings.push(_.on(root.input.result, 'input', (e) => {
-            this.setColor(e.target.value);
+            this.setColor(e.target.value, true);
             this.inputActive = true;
         }));
 
@@ -358,8 +358,9 @@ class Pickr {
      * @param s Saturation
      * @param v Value
      * @param a Alpha channel (0 - 1)
+     * @param silent If the button should not change the color
      */
-    setHSVA(h = 360, s = 0, v = 0, a = 1) {
+    setHSVA(h = 360, s = 0, v = 0, a = 1, silent = false) {
 
         // Validate input
         if (h < 0 || h > 360 || s < 0 || s > 100 || v < 0 || v > 100 || a < 0 || a > 1) {
@@ -385,7 +386,10 @@ class Pickr {
         const pickerY = pickerWrapper.offsetHeight * (1 - (v / 100));
         palette.update(pickerX, pickerY);
 
-        this._saveColor();
+        if (!silent) {
+            this._saveColor();
+        }
+
         this._updateOutput();
         this.color = new HSVaColor(h, s, v, a);
     }
@@ -396,11 +400,12 @@ class Pickr {
      *           rgb 10 10 200
      *           hsva 10 20 5 0.5
      * @param string
+     * @param silent
      */
-    setColor(string) {
+    setColor(string, silent) {
         const parsed = Color.parseToHSV(string);
         if (parsed) {
-            this.setHSVA(...parsed);
+            this.setHSVA(...parsed, silent);
         }
     }
 

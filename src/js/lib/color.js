@@ -209,11 +209,11 @@ export function parseToHSV(str) {
 
     // Regular expressions to match different types of color represention
     const regex = {
-        cmyk: /^cmyk[^\d]+(\d+)[^\d]+(\d+)[^\d]+(\d+)[^\d]+(\d+)/i,
-        rgba: /^(rgb|rgba)[^\d]+(\d+)[^\d]+(\d+)[^\d]+(\d+)[^\d]*(0\.\d+|\.\d+|\d+|$)/i,
-        hsla: /^(hsl|hsla)[^\d]+(\d+)[^\d]+(\d+)[^\d]+(\d+)[^\d]*(0\.\d+|\.\d+|\d+|$)/i,
-        hsva: /^(hsv|hsva)[^\d]+(\d+)[^\d]+(\d+)[^\d]+(\d+)[^\d]*(0\.\d+|\.\d+|\d+|$)/i,
-        hex: /^(#|)(([\dA-Fa-f]{3,4})|([\dA-Fa-f]{6})|([\dA-Fa-f]{8}))$/i
+        cmyk: /^cmyk[\D]+(\d+)[\D]+(\d+)[\D]+(\d+)[\D]+(\d+)/i,
+        rgba: /^(rgb|rgba)[\D]+(\d+)[\D]+(\d+)[\D]+(\d+)[\D]*?([\d.]+|$)/i,
+        hsla: /^(hsl|hsla)[\D]+(\d+)[\D]+(\d+)[\D]+(\d+)[\D]*?([\d.]+|$)/i,
+        hsva: /^(hsv|hsva)[\D]+(\d+)[\D]+(\d+)[\D]+(\d+)[\D]*?([\d.]+|$)/i,
+        hex: /^#?(([\dA-Fa-f]{3,4})|([\dA-Fa-f]{6})|([\dA-Fa-f]{8}))$/i
     };
 
     /**
@@ -225,55 +225,69 @@ export function parseToHSV(str) {
     const numarize = array => array.map(v => /^(|\d+)\.\d+|\d+$/.test(v) ? Number(v) : undefined);
 
     let match;
-    if (match = regex.cmyk.exec(str)) {
-        let [, c, m, y, k] = numarize(match);
+    for (let type in regex) {
 
-        if (c > 100 || m > 100 || y > 100 || k > 100)
-            return null;
+        // Check if current scheme passed
+        if (!(match = regex[type].exec(str)))
+            continue;
 
-        return [...cmykToHsv(c, m, y, k), 1];
-    } else if (match = regex.rgba.exec(str)) {
-        let [, , r, g, b, a = 1] = numarize(match);
+        // Try to convert
+        switch (type) {
+            case 'cmyk': {
+                let [, c, m, y, k] = numarize(match);
 
-        if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1)
-            return null;
+                if (c > 100 || m > 100 || y > 100 || k > 100)
+                    return null;
 
-        return [...rgbToHsv(r, g, b), a];
-    } else if (match = regex.hex.exec(str)) {
-        const splitAt = (s, i) => [s.substring(0, i), s.substring(i, s.length)];
-        let [, , hex] = match;
+                return [...cmykToHsv(c, m, y, k), 1];
+            }
+            case 'rgba': {
+                let [, , r, g, b, a = 1] = numarize(match);
 
-        // Fill up opacity if not declared
-        if (hex.length === 3) {
-            hex += 'F';
-        } else if (hex.length === 6) {
-            hex += 'FF';
+                if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1)
+                    return null;
+
+                return [...rgbToHsv(r, g, b), a];
+            }
+            case 'hex': {
+                const splitAt = (s, i) => [s.substring(0, i), s.substring(i, s.length)];
+                let [, hex] = match;
+
+                // Fill up opacity if not declared
+                if (hex.length === 3) {
+                    hex += 'F';
+                } else if (hex.length === 6) {
+                    hex += 'FF';
+                }
+
+                let alpha;
+                if (hex.length === 4) {
+                    [hex, alpha] = splitAt(hex, 3).map(v => v + v);
+                } else if (hex.length === 8) {
+                    [hex, alpha] = splitAt(hex, 6);
+                }
+
+                // Convert 0 - 255 to 0 - 1 for opacity
+                alpha = parseInt(alpha, 16) / 255;
+                return [...hexToHsv(hex), alpha];
+            }
+            case 'hsla': {
+                let [, , h, s, l, a = 1] = numarize(match);
+
+                if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1)
+                    return null;
+
+                return [...hslToHsv(h, s, l), a];
+            }
+            case 'hsva': {
+                let [, , h, s, v, a = 1] = numarize(match);
+
+                if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1)
+                    return null;
+
+                return [h, s, v, a];
+            }
         }
-
-        let alpha;
-        if (hex.length === 4) {
-            [hex, alpha] = splitAt(hex, 3).map(v => v + v);
-        } else if (hex.length === 8) {
-            [hex, alpha] = splitAt(hex, 6);
-        }
-
-        // Convert 0 - 255 to 0 - 1 for opacity
-        alpha = parseInt(alpha, 16) / 255;
-        return [...hexToHsv(hex), alpha];
-    } else if (match = regex.hsla.exec(str)) {
-        let [, , h, s, l, a = 1] = numarize(match);
-
-        if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1)
-            return null;
-
-        return [...hslToHsv(h, s, l), a];
-    } else if (match = regex.hsva.exec(str)) {
-        let [, , h, s, v, a = 1] = numarize(match);
-
-        if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1)
-            return null;
-
-        return [h, s, v, a];
     }
 
     return null;

@@ -138,11 +138,11 @@ const pickr = new Pickr({
 ## The HSVaColor object
 As default color representation is hsva (`hue`, `saturation`, `value` and `alpha`) used, but you can also convert it to other formats as listed below.
 
-* hsva.toHSVA() _- Converts the object to a hsva string / array._
-* hsva.toHSLA() _- Converts the object to a hsla string / array._
-* hsva.toRGBA() _- Converts the object to a rgba string / array._
-* hsva.toHEX() _- Converts the object to a hexa-decimal string / array._
-* hsva.toCMYK() _- Converts the object to a cymk string / array._
+* hsva.toHSVA() _- Converts the object to a hsva array._
+* hsva.toHSLA() _- Converts the object to a hsla array._
+* hsva.toRGBA() _- Converts the object to a rgba array._
+* hsva.toHEX() _- Converts the object to a hexa-decimal array._
+* hsva.toCMYK() _- Converts the object to a cymk array._
 * hsva.clone() _- Clones the color object._
 
 The `toString()` is overriden so you can get a color representaion string.

@@ -114,7 +114,7 @@ export function createFromTemplate(str) {
         }
 
         // Check all childrens
-        const childrens = element.children;
+        const childrens = Array.from(element.children);
         const subtree = con ? (base[con] = {}) : base;
         for (let child of childrens) {
 

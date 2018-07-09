@@ -88,31 +88,6 @@ main section.demo .center {
     display: inline-block;
 }
 
-main section.demo .hint {
-    position: absolute;
-    -webkit-animation: fadeIn 1.5s ease;
-    animation: fadeIn 1.5s ease;
-    -webkit-transform: translate3d(2em, 0.5em, 0);
-    transform: translate3d(2em, 0.5em, 0);
-    z-index: -1;
-}
-
-main section.demo .hint svg {
-    fill: transparent;
-    stroke-width: 0.1em;
-    stroke-linecap: round;
-    stroke: rgba(66, 68, 90, 0.35);
-    overflow: visible;
-}
-
-main section.demo .hint span {
-    display: inline-block;
-    -webkit-transform: translate3d(3.5em, -2.5em, 0);
-    transform: translate3d(3.5em, -2.5em, 0);
-    font-family: 'Montserrat';
-    font-weight: 500;
-    color: rgba(66, 68, 90, 0.35);
-}
 
 @-webkit-keyframes fadeIn {
     from {

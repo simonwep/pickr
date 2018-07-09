@@ -30,13 +30,6 @@
 
         <div class="center">
             <div class="color-picker"></div>
-
-            <div class="hint">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 93 31">
-                    <path d="M10,7C27.616,28.845,69.49,37.638,93,22M0.053,28.141Q2.015,15.489,3.98,2.847A3.75,3.75,0,0,1,7.674.028Q20.7,1.634,33.721,3.236"/>
-                </svg>
-                <span>Pick a color!</span>
-            </div>
         </div>
 
     </section>
@@ -106,6 +99,10 @@
 
     // If the color picker should have the body element as it's parent.
     appendToBody: false,
+
+    // Close pickr with this specific key.
+    // Default is 'Escape'. Can be the event key or code.
+    closeWithKey: 'Escape',
 
     // Defines the position of the color-picker. Available options are
     // top, left and middle relativ to the picker button.

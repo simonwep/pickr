@@ -22,7 +22,7 @@
      alt="npm package"
      src="https://img.shields.io/badge/npm-6.0.1-e74c3c.svg"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-0.1.6-f1c40f.svg">
+       src="https://img.shields.io/badge/version-0.1.7-f1c40f.svg">
 </p>
 
 <br>
@@ -88,6 +88,10 @@ const pickr = new Pickr({
     
     // If the color picker should have the body element as it's parent.
     appendToBody: false,
+
+    // Close pickr with this specific key.
+    // Default is 'Escape'. Can be the event key or code.
+    closeWithKey: 'Escape',
 
     // Defines the position of the color-picker. Available options are
     // top, left and middle relativ to the picker button.
@@ -160,6 +164,7 @@ If `silent` is true (Default is false), the button won't change the current colo
 
 * pickr.show() _- Shows the color-picker._
 * pickr.hide() _- Hides the color-picker._
+* pickr.isOpen() _- Returns true if the color picker is currently open._
 * pickr.getRoot()`:HTMLElement` _- Returns the root DOM-Element of the color-picker._
 * pickr.getColor()`:HSVaColor` _- Returns the current HSVaColor object._
 * pickr.destroy()`:HSVaColor` _- Destroy's all functionality._

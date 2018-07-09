@@ -30,6 +30,8 @@ class Pickr {
             position: 'middle',
             showAlways: false,
             appendToBody: false,
+
+            closeWithKey: 'Escape',
             onChange: () => 0,
             onSave: () => 0
         }, opt);
@@ -166,7 +168,7 @@ class Pickr {
     }
 
     _bindEvents() {
-        const root = this.root;
+        const {root, options} = this;
         const eventBindings = [];
 
         // Clear color
@@ -176,17 +178,21 @@ class Pickr {
             this.hide();
 
             // Fire listener
-            this.options.onSave(null, this);
+            options.onSave(null, this);
         }));
 
         // Select last color on click
         eventBindings.push(_.on(root.preview.lastColor, 'click', () => this.setHSVA(...this.lastColor.toHSVA())));
 
         // Provide hiding / showing abilities only if showAlways is false
-        if (!this.options.showAlways) {
+        if (!options.showAlways) {
 
             // Save and hide / show picker
-            eventBindings.push(_.on(root.button, 'click', () => root.app.classList.contains('visible') ? this.hide() : this.show()));
+            eventBindings.push(_.on(root.button, 'click', () => this.isOpen() ? this.hide() : this.show()));
+
+            // Close with escape key
+            const ck = options.closeWithKey;
+            eventBindings.push(_.on(document, 'keyup', e => this.isOpen() && (e.key === ck || e.code === ck) && this.hide()));
 
             // Cancel selecting if the user taps behind the color picker
             eventBindings.push(_.on(document, 'mousedown', (e) => {
@@ -199,7 +205,7 @@ class Pickr {
         // Save color
         eventBindings.push(_.on(root.input.save, 'click', () => {
             this._saveColor();
-            if (!this.options.showAlways) {
+            if (!options.showAlways) {
                 this.hide();
             }
         }));
@@ -350,6 +356,13 @@ class Pickr {
     show() {
         this.root.app.classList.add('visible');
         this._rePositioningPicker();
+    }
+
+    /**
+     * @return {boolean} If the color picker is currently open
+     */
+    isOpen() {
+        return this.root.app.classList.contains('visible');
     }
 
     /**

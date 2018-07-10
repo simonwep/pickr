@@ -11,6 +11,8 @@ export default class Moveable {
             onchange: () => 0
         }, opt);
 
+        this.wrapperRect = this.options.wrapper.getBoundingClientRect();
+
         _.bindClassUnderscoreFunctions(this);
         _.on([this.options.wrapper, this.options.element], 'mousedown', this._tapstart);
         _.on([this.options.wrapper, this.options.element], 'touchstart', this._tapstart, {
@@ -23,16 +25,15 @@ export default class Moveable {
         _.on(document, ['mousemove', 'touchmove'], this._tapmove);
 
         // Trigger move
-        this._tapmove(evt);
+        this.trigger(evt);
 
         // Prevent default touch event
         evt.preventDefault();
     }
 
     _tapmove(evt) {
-        const wrapper = this.options.wrapper;
         const element = this.options.element;
-        const b = wrapper.getBoundingClientRect();
+        const b = this.wrapperRect;
 
         let x, y;
         if (evt) {
@@ -72,15 +73,15 @@ export default class Moveable {
         _.off(document, ['mousemove', 'touchmove'], this._tapmove);
     }
 
-    trigger() {
-        this._tapmove();
+    trigger(evt) {
+        this.wrapperRect = this.options.wrapper.getBoundingClientRect();
+        this._tapmove(evt);
     }
 
     update(x = 0, y = 0) {
-        const wrapperBoundaries = this.options.wrapper.getBoundingClientRect();
         this._tapmove(new MouseEvent('mousemove', {
-            clientX: wrapperBoundaries.left + x,
-            clientY: wrapperBoundaries.top + y
+            clientX: this.wrapperRect.left + x,
+            clientY: this.wrapperRect.top + y
         }));
     }
 

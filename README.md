@@ -23,6 +23,9 @@
      src="https://img.shields.io/badge/npm-6.0.1-e74c3c.svg"></a>
   <img alt="Current version"
        src="https://img.shields.io/badge/version-0.1.7-f1c40f.svg">
+  <a href="https://www.patreon.com/simonwep"><img
+     alt="Support me"
+     src="https://img.shields.io/badge/patreon-support-f1c40f.svg"></a>
 </p>
 
 <br>

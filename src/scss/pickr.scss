@@ -40,19 +40,19 @@
 .pcr-app {
     position: absolute;
     display: flex;
-    top: 5px;
     flex-direction: column;
+    font-family: $font-family;
+    box-shadow: $box-shadow-app;
+    top: 5px;
     height: 15em;
     width: 28em;
     max-width: 95vw;
     padding: 0.8em;
     border-radius: 0.1em;
     background: #fff;
-    box-shadow: $box-shadow-app;
-    visibility: hidden;
     opacity: 0;
-    transition: all 0.3s;
-    font-family: $font-family;
+    visibility: hidden;
+    transition: opacity 0.3s;
 
     &.visible {
         visibility: visible;

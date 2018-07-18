@@ -5,15 +5,12 @@
  * @param event Event name
  * @param fn Callback
  * @param options Optional options
- * @return IArguments passed arguments
+ * @return Array passed arguments
  */
-export function once(element, event, fn, options = {}) {
-    on(element, event, function helper(e) {
-        fn(e);
-        off(element, event, helper, options);
-    }, options);
-    return arguments;
-}
+export const once = (element, event, fn, options) => on(element, event, function helper() {
+    fn.apply(this, arguments);
+    this.removeEventListener(event, helper);
+}, options);
 
 /**
  * Add event(s) to element(s).
@@ -21,12 +18,9 @@ export function once(element, event, fn, options = {}) {
  * @param events Event names
  * @param fn Callback
  * @param options Optional options
- * @return IArguments passed arguments
+ * @return Array passed arguments
  */
-export function on(elements, events, fn, options = {}) {
-    eventListener(elements, events, fn, options, 'addEventListener');
-    return arguments;
-}
+export const on = eventListener.bind(null, 'addEventListener');
 
 /**
  * Remove event(s) from element(s).
@@ -34,18 +28,14 @@ export function on(elements, events, fn, options = {}) {
  * @param events Event names
  * @param fn Callback
  * @param options Optional options
- * @return IArguments passed arguments
+ * @return Array passed arguments
  */
-export function off(elements, events, fn, options = {}) {
-    eventListener(elements, events, fn, options, 'removeEventListener');
-    return arguments;
-}
+export const off = eventListener.bind(null, 'removeEventListener');
 
-function eventListener(elements, events, fn, options = {}, method) {
+function eventListener(method, elements, events, fn, options = {}) {
 
     // Normalize array
-    if (HTMLCollection.prototype.isPrototypeOf(elements) ||
-        NodeList.prototype.isPrototypeOf(elements)) {
+    if (elements instanceof HTMLCollection || elements instanceof NodeList) {
         elements = Array.from(elements);
     } else if (!Array.isArray(elements)) {
         elements = [elements];
@@ -60,6 +50,8 @@ function eventListener(elements, events, fn, options = {}, method) {
             element[method](event, fn, {capture: false, ...options});
         }
     }
+
+    return Array.prototype.slice.call(arguments, 1);
 }
 
 /**
@@ -90,12 +82,12 @@ export function removeAttribute(el, name) {
  * a 'data-key' attribute will be saved in a object (which will be returned)
  * where the value of 'data-key' ist the object-key and the value the HTMLElement.
  *
- * It's possible to create a hierachy if you add a 'data-con' attribute. Every
+ * It's possible to create a hierarchy if you add a 'data-con' attribute. Every
  * sibling will be added to the object which will get the name from the 'data-con' attribute.
  *
- * If you want to create an Array out of multiple elements, youcan use the 'data-arr' attribute,
+ * If you want to create an Array out of multiple elements, you can use the 'data-arr' attribute,
  * the value defines the key and all elements, which has the same parent and the same 'data-arr' attribute,
- * would be addet to it.
+ * would be added to it.
  *
  * @param str - The HTML String.
  */
@@ -113,10 +105,10 @@ export function createFromTemplate(str) {
             base[key] = element;
         }
 
-        // Check all childrens
-        const childrens = Array.from(element.children);
+        // Check all children
+        const children = Array.from(element.children);
         const subtree = con ? (base[con] = {}) : base;
-        for (let child of childrens) {
+        for (let child of children) {
 
             // Check if element should be saved as array
             const arr = removeAttribute(child, 'data-arr');
@@ -145,22 +137,20 @@ export function eventPath(evt) {
     if (path) return path;
 
     let el = evt.target.parentElement;
-
-    for (path = [evt.target]; el; el = el.parentElement) {
-        path.push(el);
-    }
+    path = [evt.target, el];
+    while (el = el.parentElement) path.push(el);
 
     path.push(document, window);
     return path;
 }
 
 /**
- * Binds all functions, wich starts with an underscord, of a es6 class to the class itself.
+ * Binds all functions of an ES6 class, starting with an underscore, to the class itself.
  * @param context The context
  */
 export function bindClassUnderscoreFunctions(context) {
     const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(context));
-    for (let fn of methods) {
+    for (const fn of methods) {
         if (fn.charAt(0) === '_' && typeof context[fn] === 'function') {
             context[fn] = context[fn].bind(context);
         }

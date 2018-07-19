@@ -62,18 +62,25 @@ class Pickr {
 
     _buildRoot() {
         const {options} = this;
+        let {el} = options;
 
         // Check if element is selector
-        if (typeof options.el === 'string') {
-            options.el = document.querySelector(options.el);
+        if (typeof el === 'string') {
+            el = document.querySelector(el);
         }
 
-        const toReplace = options.el;
-        const root = create(options.components, options.strings);
+        const root = create(options);
         this.root = root;
 
-        // Replace element with actual color-picker
-        toReplace.parentElement.replaceChild(root.root, toReplace);
+        // Don't replace the the element if a custom button is used
+        if (!options.useAsButton) {
+
+            // Replace element with actual color-picker
+            el.parentElement.replaceChild(root.root, el);
+        } else {
+            options.appendToBody = true;
+            this.root.button = el;
+        }
 
         // Check appendToBody option
         if (options.appendToBody) {
@@ -239,6 +246,7 @@ class Pickr {
 
         // Check appendToBody option and normalize position
         if (this.options.appendToBody) {
+            console.log(root);
             const relative = root.button.getBoundingClientRect();
             app.style.position = 'fixed';
             app.style.marginLeft = `${relative.left}px`;
@@ -305,14 +313,21 @@ class Pickr {
     }
 
     _saveColor() {
-
-        // User changed the color so remove the clear icon
-        this.root.button.classList.remove('clear');
+        const {preview, button} = this.root;
 
         // Change preview and current color
         const cssRGBaString = this.color.toRGBA().toString();
-        this.root.preview.lastColor.style.background = cssRGBaString;
-        this.root.button.style.background = cssRGBaString;
+        preview.lastColor.style.background = cssRGBaString;
+
+        // Check if the button isn't customized
+        if (!this.options.useAsButton) {
+
+            // Change button color
+            button.style.background = cssRGBaString;
+
+            // User changed the color so remove the clear icon
+            button.classList.remove('clear');
+        }
 
         // Save last color
         this.lastColor = this.color.clone();
@@ -437,16 +452,18 @@ class Pickr {
     }
 }
 
-function create(o, s) {
+function create(options) {
+    const {components, strings, useAsButton} = options;
     const hidden = (con) => con ? '' : 'style="display:none" hidden';
 
     const root = _.createFromTemplate(`
         <div data-key="root" class="pickr">
-            <div data-key="button" class="pcr-button"></div>
+        
+            ${useAsButton ? '' : '<div data-key="button" class="pcr-button"></div>'}
 
             <div data-key="app" class="pcr-app">
                 <div class="pcr-selection">
-                    <div data-con="preview" class="pcr-color-preview" ${hidden(o.preview)}>
+                    <div data-con="preview" class="pcr-color-preview" ${hidden(components.preview)}>
                         <div data-key="lastColor" class="pcr-last-color"></div>
                         <div data-key="currentColor" class="pcr-current-color"></div>
                     </div>
@@ -456,28 +473,28 @@ function create(o, s) {
                         <div data-key="palette" class="pcr-palette"></div>
                     </div>
 
-                    <div data-con="hueSlider" class="pcr-color-chooser" ${hidden(o.hue)}>
+                    <div data-con="hueSlider" class="pcr-color-chooser" ${hidden(components.hue)}>
                         <div data-key="picker" class="pcr-picker"></div>
                         <div data-key="slider" class="pcr-hue pcr-slider"></div>
                     </div>
 
-                    <div data-con="opacitySlider" class="pcr-color-opacity" ${hidden(o.opacity)}>
+                    <div data-con="opacitySlider" class="pcr-color-opacity" ${hidden(components.opacity)}>
                         <div data-key="picker" class="pcr-picker"></div>
                         <div data-key="slider" class="pcr-opacity pcr-slider"></div>
                     </div>
                 </div>
 
-                <div data-con="input" class="pcr-output" ${hidden(o.output)}>
-                    <input data-key="result" class="pcr-result" type="text" spellcheck="false" ${hidden(o.output.input)}>
+                <div data-con="input" class="pcr-output" ${hidden(components.output)}>
+                    <input data-key="result" class="pcr-result" type="text" spellcheck="false" ${hidden(components.output.input)}>
 
-                    <input data-arr="options" class="pcr-type" data-type="HEX" value="HEX" type="button" ${hidden(o.output.hex)}>
-                    <input data-arr="options" class="pcr-type" data-type="RGBA" value="RGBa" type="button" ${hidden(o.output.rgba)}>
-                    <input data-arr="options" class="pcr-type" data-type="HSLA" value="HSLa" type="button" ${hidden(o.output.hsla)}>
-                    <input data-arr="options" class="pcr-type" data-type="HSVA" value="HSVa" type="button" ${hidden(o.output.hsva)}>
-                    <input data-arr="options" class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(o.output.cmyk)}>
+                    <input data-arr="options" class="pcr-type" data-type="HEX" value="HEX" type="button" ${hidden(components.output.hex)}>
+                    <input data-arr="options" class="pcr-type" data-type="RGBA" value="RGBa" type="button" ${hidden(components.output.rgba)}>
+                    <input data-arr="options" class="pcr-type" data-type="HSLA" value="HSLa" type="button" ${hidden(components.output.hsla)}>
+                    <input data-arr="options" class="pcr-type" data-type="HSVA" value="HSVa" type="button" ${hidden(components.output.hsva)}>
+                    <input data-arr="options" class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(components.output.cmyk)}>
 
-                    <input data-key="save" class="pcr-save" value="${s.save || 'Save'}" type="button">
-                    <input data-key="clear" class="pcr-clear" value="${s.clear || 'Clear'}" type="button" ${hidden(o.output.clear)}>
+                    <input data-key="save" class="pcr-save" value="${strings.save || 'Save'}" type="button">
+                    <input data-key="clear" class="pcr-clear" value="${strings.clear || 'Clear'}" type="button" ${hidden(components.output.clear)}>
                 </div>
             </div>
         </div>

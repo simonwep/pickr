@@ -22,6 +22,8 @@ class Pickr {
 
         // Assign default values
         this.options = Object.assign({
+            useAsButton: false,
+            disabled: false,
 
             components: {output: {}},
             strings: {},
@@ -61,34 +63,38 @@ class Pickr {
     }
 
     _buildRoot() {
-        const {options} = this;
-        let {el} = options;
+        const opt = this.options;
 
         // Check if element is selector
-        if (typeof el === 'string') {
-            el = document.querySelector(el);
+        if (typeof opt.el === 'string') {
+            opt.el = document.querySelector(opt.el);
         }
 
-        const root = create(options);
+        const root = create(opt);
         this.root = root;
 
         // Don't replace the the element if a custom button is used
-        if (!options.useAsButton) {
+        if (!opt.useAsButton) {
 
             // Replace element with actual color-picker
-            el.parentElement.replaceChild(root.root, el);
+            opt.el.parentElement.replaceChild(root.root, opt.el);
         } else {
-            options.appendToBody = true;
-            this.root.button = el;
+            opt.appendToBody = true;
+            this.root.button = opt.el;
         }
 
         // Check appendToBody option
-        if (options.appendToBody) {
+        if (opt.appendToBody) {
             document.body.appendChild(root.app);
         }
 
+        // Call disable to also add the disabled class
+        if (opt.disabled) {
+            this.disable();
+        }
+
         // Check showAlways option
-        options.showAlways ? root.app.classList.add('visible') : this.hide();
+        opt.showAlways ? root.app.classList.add('visible') : this.hide();
     }
 
     _buildComponents() {
@@ -180,7 +186,12 @@ class Pickr {
 
         // Clear color
         eventBindings.push(_.on(root.input.clear, 'click', () => {
-            root.button.style.background = 'rgba(255, 255, 255, 0.4)';
+
+            // Change only the button color if it isn't customized
+            if (!options.useAsButton) {
+                root.button.style.background = 'rgba(255, 255, 255, 0.4)';
+            }
+
             root.button.classList.add('clear');
             this.hide();
 
@@ -319,15 +330,13 @@ class Pickr {
         const cssRGBaString = this.color.toRGBA().toString();
         preview.lastColor.style.background = cssRGBaString;
 
-        // Check if the button isn't customized
+        // Change only the button color if it isn't customized
         if (!this.options.useAsButton) {
-
-            // Change button color
             button.style.background = cssRGBaString;
-
-            // User changed the color so remove the clear icon
-            button.classList.remove('clear');
         }
+
+        // User changed the color so remove the clear clas
+        button.classList.remove('clear');
 
         // Save last color
         this.lastColor = this.color.clone();
@@ -369,6 +378,7 @@ class Pickr {
      * Shows the color-picker ui.
      */
     show() {
+        if (this.options.disabled) return;
         this.root.app.classList.add('visible');
         this._rePositioningPicker();
     }
@@ -449,6 +459,23 @@ class Pickr {
      */
     getRoot() {
         return this.root;
+    }
+
+
+    /**
+     * Disable pickr
+     */
+    disable() {
+        this.options.disabled = true;
+        this.root.button.classList.add('disabled');
+    }
+
+    /**
+     * Enable pickr
+     */
+    enable() {
+        this.options.disabled = false;
+        this.root.button.classList.remove('disabled');
     }
 }
 

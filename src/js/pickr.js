@@ -129,7 +129,11 @@ class Pickr {
 
                     // Change current color
                     inst.root.preview.currentColor.style.background = cssRGBaString;
-                    inst._updateOutput();
+
+                    // Update the input field only if the user is currently not typing
+                    if (!inst.inputActive) {
+                        inst._updateOutput();
+                    }
                 }
             }),
 
@@ -229,7 +233,7 @@ class Pickr {
         }));
 
         // Detect user input
-        eventBindings.push(_.on(root.input.result, 'input', (e) => {
+        eventBindings.push(_.on(root.input.result, ['input', 'focus'], (e) => {
             this.setColor(e.target.value, true);
             this.inputActive = true;
         }));

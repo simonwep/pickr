@@ -372,6 +372,7 @@ class Pickr {
      */
     hide() {
         this.root.app.classList.remove('visible');
+        return this;
     }
 
     /**
@@ -381,6 +382,7 @@ class Pickr {
         if (this.options.disabled) return;
         this.root.app.classList.add('visible');
         this._rePositioningPicker();
+        return this;
     }
 
     /**
@@ -397,6 +399,7 @@ class Pickr {
      * @param v Value
      * @param a Alpha channel (0 - 1)
      * @param silent If the button should not change the color
+     * @return true if the color has been accepted
      */
     setHSVA(h = 360, s = 0, v = 0, a = 1, silent = false) {
 
@@ -423,13 +426,14 @@ class Pickr {
         const pickerX = pickerWrapper.offsetWidth * (s / 100);
         const pickerY = pickerWrapper.offsetHeight * (1 - (v / 100));
         palette.update(pickerX, pickerY);
+        this.color = new HSVaColor(h, s, v, a);
 
+        // Check if call is silent
         if (!silent) {
             this._saveColor();
         }
 
-        this._updateOutput();
-        this.color = new HSVaColor(h, s, v, a);
+        return true;
     }
 
     /**
@@ -440,10 +444,12 @@ class Pickr {
      * @param string
      * @param silent
      */
-    setColor(string, silent) {
+    setColor(string, silent = false) {
         const parsed = Color.parseToHSV(string);
+
+        // Check if color is ok
         if (parsed) {
-            this.setHSVA(...parsed, silent);
+            return this.setHSVA(...parsed, silent);
         }
     }
 
@@ -468,6 +474,7 @@ class Pickr {
     disable() {
         this.options.disabled = true;
         this.root.button.classList.add('disabled');
+        return this;
     }
 
     /**
@@ -476,6 +483,7 @@ class Pickr {
     enable() {
         this.options.disabled = false;
         this.root.button.classList.remove('disabled');
+        return this;
     }
 }
 

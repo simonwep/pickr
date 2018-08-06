@@ -85,9 +85,17 @@
 
         <pre><code class="prettyprint">const pickr = new Pickr({
 
+
     // Selector or element which will be replaced with the actual color-picker.
     // Can be a HTMLElement.
     el: '.color-picker',
+
+    // Using the 'el' Element as button, won't replace it with the pickr-button.
+    // If true, appendToBody will also be automatically true.
+    useAsButton: false,
+
+    // Start state. If true 'disabled' will be added to the button's classlist.
+    disabled: false,
 
     // Default color
     default: 'fff',

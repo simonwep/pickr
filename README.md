@@ -22,7 +22,7 @@
      alt="npm package"
      src="https://img.shields.io/badge/npm-6.0.1-e74c3c.svg"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-0.1.7-f1c40f.svg">
+       src="https://img.shields.io/badge/version-0.1.8-f1c40f.svg">
   <a href="https://www.patreon.com/simonwep"><img
      alt="Support me"
      src="https://img.shields.io/badge/patreon-support-f1c40f.svg"></a>
@@ -80,15 +80,22 @@ const pickr = new Pickr({
     // Selector or element which will be replaced with the actual color-picker.
     // Can be a HTMLElement.
     el: '.color-picker',
-    
+
+    // Using the 'el' Element as button, won't replace it with the pickr-button.
+    // If true, appendToBody will also be automatically true.
+    useAsButton: false,
+
+    // Start state. If true 'disabled' will be added to the button's classlist.
+    disabled: false,
+
     // Default color
     default: 'fff',
 
-    // Option to keep the color picker always visible. You can still hide / show it via 
-    // 'pickr.hide()' and 'pickr.show()'. The save button keeps his functionality, so if 
+    // Option to keep the color picker always visible. You can still hide / show it via
+    // 'pickr.hide()' and 'pickr.show()'. The save button keeps his functionality, so if
     // you click it, it will fire the onSave event.
     showAlways: false,
-    
+
     // If the color picker should have the body element as it's parent.
     appendToBody: false,
 
@@ -117,7 +124,7 @@ const pickr = new Pickr({
             hsla: true, // hsla option (hue saturation lightness and alpha)
             hsva: true, // hsva option (hue saturation value and alpha)
             cmyk: true, // cmyk option (cyan mangenta yellow key )
-            
+
             input: true, // input / output element
             clear: true  // Button which provides the ability to select no color
         },
@@ -160,13 +167,15 @@ hsva.toRGBA().toString(); // Returns rgba(r, g, b, a)
 ```
 
 ## Methods
-* pickr.setHSVA(h`:Number`,s`:Number`,v`:Number`,a`:Float`, silent`:Boolean`) _- Set an color._
-* pickr.setColor(string`:String`, silent`:Boolean`) _- Parses a string which represents a color (e.g. `#fff`, `rgb(10, 156, 23)`)._
+* pickr.setHSVA(h`:Number`,s`:Number`,v`:Number`,a`:Float`, silent`:Boolean`) _- Set an color, returns true if the color has been accepted._
+* pickr.setColor(string`:String`, silent`:Boolean`) _- Parses a string which represents a color (e.g. `#fff`, `rgb(10, 156, 23)`), returns true if the color has been accepted._
 
 If `silent` is true (Default is false), the button won't change the current color.
 
-* pickr.show() _- Shows the color-picker._
-* pickr.hide() _- Hides the color-picker._
+* pickr.show() _- Shows the color-picker, returns instance._
+* pickr.hide() _- Hides the color-picker, returns instance._
+* pickr.disable() _- Disables pickr and adds the `disabled` class to the button, returns instance._
+* pickr.enable() _- Enables pickr and removes the `disabled` class from the button, returns instance._
 * pickr.isOpen() _- Returns true if the color picker is currently open._
 * pickr.getRoot()`:HTMLElement` _- Returns the root DOM-Element of the color-picker._
 * pickr.getColor()`:HSVaColor` _- Returns the current HSVaColor object._

@@ -24,6 +24,7 @@ class Pickr {
         this.options = Object.assign({
             useAsButton: false,
             disabled: false,
+            comparison: true,
 
             components: {output: {}},
             strings: {},
@@ -46,6 +47,7 @@ class Pickr {
         // Replace element with color picker
         this.inputActive = false;
 
+        // Current and last color for comparison
         this.color = new HSVaColor();
         this.lastColor = new HSVaColor();
 
@@ -54,6 +56,14 @@ class Pickr {
         this._rePositioningPicker();
         this._buildComponents();
         this._bindEvents();
+
+        // Check if color comparison is disabled, if yes - remove transitions so everything keeps smoothly
+        if (!this.options.comparison) {
+            this.root.button.style.transition = 'none';
+            if (!this.options.useAsButton) {
+                this.root.preview.lastColor.style.transition = 'none';
+            }
+        }
 
         // Init color and hide
         this.setColor(this.options.default);
@@ -110,7 +120,7 @@ class Pickr {
                 wrapper: inst.root.palette.palette,
 
                 onchange(x, y) {
-                    const color = inst.color;
+                    const {color, root, options} = inst;
 
                     // Calculate saturation based on the position
                     color.s = Math.round((x / this.wrapper.offsetWidth) * 100);
@@ -118,22 +128,33 @@ class Pickr {
                     // Calculate the value
                     color.v = Math.round(100 - ((y / this.wrapper.offsetHeight) * 100));
 
-                    const cssRGBaString = color.toRGBA().toString();
-
                     // Set picker and gradient color
+                    const cssRGBaString = color.toRGBA().toString();
                     this.element.style.background = cssRGBaString;
                     this.wrapper.style.background = `
                         linear-gradient(to top, rgba(0, 0, 0, ${color.a}), transparent), 
                         linear-gradient(to left, hsla(${color.h}, 100%, 50%, ${color.a}), rgba(255, 255, 255, ${color.a}))
                     `;
 
+                    // Check if color is locked
+                    if (!options.comparison) {
+                        root.button.style.background = cssRGBaString;
+
+                        if (!options.useAsButton) {
+                            root.preview.lastColor.style.background = cssRGBaString;
+                        }
+                    }
+
                     // Change current color
-                    inst.root.preview.currentColor.style.background = cssRGBaString;
+                    root.preview.currentColor.style.background = cssRGBaString;
 
                     // Update the input field only if the user is currently not typing
                     if (!inst.inputActive) {
                         inst._updateOutput();
                     }
+
+                    // If the user changes the color, remove the cleared icon
+                    root.button.classList.remove('clear');
                 }
             }),
 
@@ -217,7 +238,7 @@ class Pickr {
             eventBindings.push(_.on(document, 'keyup', e => this.isOpen() && (e.key === ck || e.code === ck) && this.hide()));
 
             // Cancel selecting if the user taps behind the color picker
-            eventBindings.push(_.on(document, 'mousedown', (e) => {
+            eventBindings.push(_.on(document, 'mousedown', e => {
                 if (!_.eventPath(e).includes(root.app)) {
                     _.once(document, 'mouseup', () => this.hide());
                 }
@@ -233,7 +254,7 @@ class Pickr {
         }));
 
         // Detect user input
-        eventBindings.push(_.on(root.input.result, ['input', 'focus'], (e) => {
+        eventBindings.push(_.on(root.input.result, ['input', 'focus'], e => {
             this.setColor(e.target.value, true);
             this.inputActive = true;
         }));
@@ -441,7 +462,7 @@ class Pickr {
     }
 
     /**
-     * Trys to parse a string which represents a color.
+     * Tries to parse a string which represents a color.
      * Examples: #fff
      *           rgb 10 10 200
      *           hsva 10 20 5 0.5
@@ -493,7 +514,7 @@ class Pickr {
 
 function create(options) {
     const {components, strings, useAsButton} = options;
-    const hidden = (con) => con ? '' : 'style="display:none" hidden';
+    const hidden = con => con ? '' : 'style="display:none" hidden';
 
     const root = _.createFromTemplate(`
         <div data-key="root" class="pickr">

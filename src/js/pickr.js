@@ -553,7 +553,7 @@ function create(options) {
                     <input data-arr="options" class="pcr-type" data-type="HSVA" value="HSVa" type="button" ${hidden(components.output.hsva)}>
                     <input data-arr="options" class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(components.output.cmyk)}>
 
-                    <input data-key="save" class="pcr-save" value="${strings.save || 'Save'}" type="button">
+                    <input data-key="save" class="pcr-save" value="${strings.save || 'Save'}" type="button" ${hidden(components.output.save)}>
                     <input data-key="clear" class="pcr-clear" value="${strings.clear || 'Clear'}" type="button" ${hidden(components.output.clear)}>
                 </div>
             </div>

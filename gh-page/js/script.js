@@ -14,7 +14,8 @@ const pickr = new Pickr({
             rgba: true,
             hsva: true,
             input: true,
-            clear: true
+            clear: true,
+            save: true
         }
     }
 });

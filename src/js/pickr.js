@@ -583,5 +583,5 @@ Pickr.utils = {
 Pickr.create = (options) => new Pickr(options);
 
 // Export
-Pickr.version = '0.1.8';
+Pickr.version = '0.1.9';
 module.exports = Pickr;

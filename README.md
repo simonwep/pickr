@@ -22,7 +22,7 @@
      alt="npm package"
      src="https://img.shields.io/badge/npm-6.0.1-e74c3c.svg"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-0.1.8-f1c40f.svg">
+       src="https://img.shields.io/badge/version-0.1.9-f1c40f.svg">
   <a href="https://www.patreon.com/simonwep"><img
      alt="Support me"
      src="https://img.shields.io/badge/patreon-support-f1c40f.svg"></a>
@@ -88,6 +88,9 @@ const pickr = new Pickr({
     // Start state. If true 'disabled' will be added to the button's classlist.
     disabled: false,
 
+    // If set to false it would directly apply the selected color on the button and preview.
+    comparison: true,
+
     // Default color
     default: 'fff',
 
@@ -126,7 +129,8 @@ const pickr = new Pickr({
             cmyk: true, // cmyk option (cyan mangenta yellow key )
 
             input: true, // input / output element
-            clear: true  // Button which provides the ability to select no color
+            clear: true, // Button which provides the ability to select no color,
+            save: true   // Save button
         },
     },
 

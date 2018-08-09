@@ -51,29 +51,63 @@
 * Nodejs support
 * Lightweight, 8KB gzipped
 
-### Install
+## Setup
 
-Via npm
-```
+### Node
+Install package: 
+```shell
 $ npm install pickr-widget --save
+``` 
+
+Include code and style:
+```js
+import '/node_modules/pickr-widget/dist/pickr.min.css';           // Styles
+import {Pickr} from '/node_modules/pickr-widget/dist/pickr.min';  // Javascript
+...your awesome code
+```
+---
+### Browser
+
+jsdelivr:
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pickr-widget/dist/pickr.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/pickr-widget/dist/pickr.min.js"></script>
 ```
 
-Link styles and add scripts
-```markdown
+Directly:
+```html
 <link rel="stylesheet" href="node_modules/pickr-widget/dist/pickr.min.css"/>
 <script src="node_modules/pickr-widget/dist/pickr.min.js"></script>
 ```
 
 Be sure to load the `pickr.min.js` **after** `pickr.min.css`. Moreover the `script` tag doesn't work with the `defer` attribute.
-
-### Usage
+## Usage
 ```javascript
+// Simple example, see optional options for more configuration.
 const pickr = Pickr.create({
-    el: '.color-picker'
+    el: '.color-picker',
+
+    components: {
+
+        // Main components
+        preview: true,
+        opacity: true,
+        hue: true,
+
+        // Input / output Options
+        output: {
+            hex: true,
+            rgba: true,
+            hsva: true,
+            input: true,
+            clear: true,
+            save: true
+        }
+    }
 });
 ```
 
-### Optional options
+## Optional options
 ```javascript
 const pickr = new Pickr({
 

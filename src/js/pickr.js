@@ -26,7 +26,7 @@ class Pickr {
             disabled: false,
             comparison: true,
 
-            components: {output: {}},
+            components: {interaction: {}},
             strings: {},
 
             default: 'fff',
@@ -39,6 +39,11 @@ class Pickr {
             onChange: () => 0,
             onSave: () => 0
         }, opt);
+
+        // Check interaction section
+        if (!this.options.components.interaction) {
+            this.options.components.interaction = {};
+        }
 
         _.bindClassUnderscoreFunctions(this);
 
@@ -194,7 +199,7 @@ class Pickr {
             }),
 
             selectable: new Selectable({
-                elements: inst.root.input.options,
+                elements: inst.root.interaction.options,
                 className: 'active',
                 onchange() {
                     inst.inputActive = false;
@@ -211,7 +216,7 @@ class Pickr {
         const eventBindings = [];
 
         // Clear color
-        eventBindings.push(_.on(root.input.clear, 'click', () => {
+        eventBindings.push(_.on(root.interaction.clear, 'click', () => {
 
             // Change only the button color if it isn't customized
             if (!options.useAsButton) {
@@ -247,7 +252,7 @@ class Pickr {
         }
 
         // Save color
-        eventBindings.push(_.on(root.input.save, 'click', () => {
+        eventBindings.push(_.on(root.interaction.save, 'click', () => {
             this._saveColor();
             if (!options.showAlways) {
                 this.hide();
@@ -255,7 +260,7 @@ class Pickr {
         }));
 
         // Detect user input
-        eventBindings.push(_.on(root.input.result, ['input', 'focus'], e => {
+        eventBindings.push(_.on(root.interaction.result, ['input', 'focus'], e => {
             this.setColor(e.target.value, true);
             this.inputActive = true;
         }));
@@ -275,7 +280,7 @@ class Pickr {
 
         // Make input adjustable if enabled
         if (options.adjustableNumbers) {
-            _.adjustableInputNumbers(root.input.result);
+            _.adjustableInputNumbers(root.interaction.result);
         }
 
         // Save bindings
@@ -332,13 +337,13 @@ class Pickr {
     _updateOutput() {
 
         // Check if component is present
-        if (!this.inputActive && this.root.input.type()) {
+        if (!this.inputActive && this.root.interaction.type()) {
 
             // Update infobox
-            this.root.input.result.value = (() => {
+            this.root.interaction.result.value = (() => {
 
                 // Construct function name and call if present
-                const method = 'to' + this.root.input.type().getAttribute('data-type');
+                const method = 'to' + this.root.interaction.type().getAttribute('data-type');
 
                 if (typeof this.color[method] === 'function') {
                     return this.color[method]().toString();
@@ -550,27 +555,27 @@ function create(options) {
                     </div>
                 </div>
 
-                <div data-con="input" class="pcr-output" ${hidden(components.output)}>
-                    <input data-key="result" class="pcr-result" type="text" spellcheck="false" ${hidden(components.output.input)}>
+                <div data-con="interaction" class="pcr-interaction" ${hidden(components.interaction)}>
+                    <input data-key="result" class="pcr-result" type="text" spellcheck="false" ${hidden(components.interaction.input)}>
 
-                    <input data-arr="options" class="pcr-type" data-type="HEX" value="HEX" type="button" ${hidden(components.output.hex)}>
-                    <input data-arr="options" class="pcr-type" data-type="RGBA" value="RGBa" type="button" ${hidden(components.output.rgba)}>
-                    <input data-arr="options" class="pcr-type" data-type="HSLA" value="HSLa" type="button" ${hidden(components.output.hsla)}>
-                    <input data-arr="options" class="pcr-type" data-type="HSVA" value="HSVa" type="button" ${hidden(components.output.hsva)}>
-                    <input data-arr="options" class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(components.output.cmyk)}>
+                    <input data-arr="options" class="pcr-type" data-type="HEX" value="HEX" type="button" ${hidden(components.interaction.hex)}>
+                    <input data-arr="options" class="pcr-type" data-type="RGBA" value="RGBa" type="button" ${hidden(components.interaction.rgba)}>
+                    <input data-arr="options" class="pcr-type" data-type="HSLA" value="HSLa" type="button" ${hidden(components.interaction.hsla)}>
+                    <input data-arr="options" class="pcr-type" data-type="HSVA" value="HSVa" type="button" ${hidden(components.interaction.hsva)}>
+                    <input data-arr="options" class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(components.interaction.cmyk)}>
 
-                    <input data-key="save" class="pcr-save" value="${strings.save || 'Save'}" type="button" ${hidden(components.output.save)}>
-                    <input data-key="clear" class="pcr-clear" value="${strings.clear || 'Clear'}" type="button" ${hidden(components.output.clear)}>
+                    <input data-key="save" class="pcr-save" value="${strings.save || 'Save'}" type="button" ${hidden(components.interaction.save)}>
+                    <input data-key="clear" class="pcr-clear" value="${strings.clear || 'Clear'}" type="button" ${hidden(components.interaction.clear)}>
                 </div>
             </div>
         </div>
     `);
 
     // Select option which is not hidden
-    root.input.options.find(o => !o.hidden && !o.classList.add('active'));
+    root.interaction.options.find(o => !o.hidden && !o.classList.add('active'));
 
     // Create method to find currenlty active option
-    root.input.type = () => root.input.options.find(e => e.classList.contains('active'));
+    root.interaction.type = () => root.interaction.options.find(e => e.classList.contains('active'));
     return root;
 }
 

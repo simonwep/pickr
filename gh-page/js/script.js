@@ -9,7 +9,7 @@ const pickr = new Pickr({
         opacity: true,
         hue: true,
 
-        output: {
+        interaction: {
             hex: true,
             rgba: true,
             hsva: true,

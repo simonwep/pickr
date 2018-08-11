@@ -185,7 +185,7 @@ class Pickr {
                     if (!comp.opacity) return;
 
                     // Calculate opacity
-                    inst.color.a = Math.round((y / this.wrapper.offsetHeight) * 1e2) / 1e2;
+                    inst.color.a = Math.ceil((y / this.wrapper.offsetHeight) * 100) / 100;
 
                     // Update color
                     this.element.style.background = `rgba(0, 0, 0, ${inst.color.a})`;

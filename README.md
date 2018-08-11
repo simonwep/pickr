@@ -95,7 +95,7 @@ const pickr = Pickr.create({
         hue: true,
 
         // Input / output Options
-        output: {
+        interaction: {
             hex: true,
             rgba: true,
             hsva: true,
@@ -157,7 +157,7 @@ const pickr = new Pickr({
         opacity: true, // Opacity slider
         hue: true,     // Hue slider
 
-        // Bottom output bar, theoretically you could use 'true' as propery.
+        // Bottom interaction bar, theoretically you could use 'true' as propery.
         // But this would also hide the save-button.
         interaction: {
             hex: true,  // hex option  (hexadecimal representation of the rgba value)

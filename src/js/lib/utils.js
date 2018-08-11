@@ -156,3 +156,57 @@ export function bindClassUnderscoreFunctions(context) {
         }
     }
 }
+
+/**
+ * Creates the ability to change numbers in an input field with the scroll-wheel.
+ * @param el
+ */
+export function adjustableInputNumbers(el) {
+
+    // Check if a char represents a number
+    const isNumChar = c => (c >= '0' && c <= '9') || c === '-' || c === '.';
+
+    function handleScroll(e) {
+        const val = el.value;
+        const off = el.selectionStart;
+        let numStart = off;
+        let num = ''; // Will be the number as string
+
+        // Look back
+        for (let i = off - 1; i > 0 && isNumChar(val[i]); i--) {
+            num = val[i] + num;
+            numStart--; // Find start of number
+        }
+
+        // Look forward
+        for (let i = off; i < val.length && isNumChar(val[i]); i++) {
+            num += val[i];
+        }
+
+        // Check if number is valid
+        if (num.length > 0 && !isNaN(num) && isFinite(num)) {
+
+            const mul = e.deltaY < 0 ? 1 : -1;
+            const inc = e.ctrlKey ? mul * 5 : mul;
+
+            const newNum = Number(num) + inc;
+            const newStr = val.substr(0, numStart) + newNum + val.substring(numStart + num.length, val.length);
+            const curPos = numStart + String(newNum).length;
+
+            // Update value and set cursor
+            el.value = newStr;
+            el.focus();
+            el.setSelectionRange(curPos, curPos);
+        }
+
+        // Prevent default
+        e.preventDefault();
+
+        // Trigger input event
+        el.dispatchEvent(new Event('input'));
+    }
+
+    // Bind events
+    on(el, 'focus', () => on(window, 'wheel', handleScroll));
+    on(el, 'blur', () => off(window, 'wheel', handleScroll));
+}

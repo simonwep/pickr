@@ -31,6 +31,7 @@ class Pickr {
 
             default: 'fff',
             position: 'middle',
+            adjustableNumbers: true,
             showAlways: false,
             appendToBody: false,
 
@@ -271,6 +272,11 @@ class Pickr {
 
         // Repositioning on resize
         eventBindings.push(_.on(window, 'resize', this._rePositioningPicker));
+
+        // Make input adjustable if enabled
+        if (options.adjustableNumbers) {
+            _.adjustableInputNumbers(root.input.result);
+        }
 
         // Save bindings
         this.eventBindings = eventBindings;

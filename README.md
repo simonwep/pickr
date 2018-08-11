@@ -22,7 +22,7 @@
      alt="npm package"
      src="https://img.shields.io/badge/npm-6.0.1-e74c3c.svg"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-0.1.9-f1c40f.svg">
+       src="https://img.shields.io/badge/version-0.2.0-f1c40f.svg">
   <a href="https://www.patreon.com/simonwep"><img
      alt="Support me"
      src="https://img.shields.io/badge/patreon-support-f1c40f.svg"></a>
@@ -54,10 +54,10 @@
 ## Setup
 
 ### Node
-Install package: 
+Install package:
 ```shell
 $ npm install pickr-widget --save
-``` 
+```
 
 Include code and style:
 ```js
@@ -145,6 +145,10 @@ const pickr = new Pickr({
     // If clipping occurs, the color picker will automatically choose his position.
     position: 'middle',
 
+    // Enables the ability to change numbers in an input field with the scroll-wheel.
+    // To use it set the cursor on a position where a number is and scroll, use ctrl to make steps of five
+    adjustableNumbers: true,
+
     // Show or hide specific components.
     // By default only the palette (and the save button) is visible.
     components: {
@@ -155,7 +159,7 @@ const pickr = new Pickr({
 
         // Bottom output bar, theoretically you could use 'true' as propery.
         // But this would also hide the save-button.
-        output: {
+        interaction: {
             hex: true,  // hex option  (hexadecimal representation of the rgba value)
             rgba: true, // rgba option (red green blue and alpha)
             hsla: true, // hsla option (hue saturation lightness and alpha)

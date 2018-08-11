@@ -148,6 +148,10 @@
     // If clipping occurs, the color picker will automatically choose his position.
     position: 'middle',
 
+    // Enables the ability to change numbers in an input field with the scroll-wheel.
+    // To use it set the cursor on a position where a number is and scroll, use ctrl to make steps of five
+    adjustableNumbers: true,
+
     // Show or hide specific components.
     // By default only the palette (and the save button) is visible.
     components: {
@@ -158,7 +162,7 @@
 
         // Bottom output bar, theoretically you could use 'true' as propery.
         // But this would also hide the save-button.
-        output: {
+        interaction: {
             hex: true,  // hex option  (hexadecimal representation of the rgba value)
             rgba: true, // rgba option (red green blue and alpha)
             hsla: true, // hsla option (hue saturation lightness and alpha)

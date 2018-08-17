@@ -160,8 +160,9 @@ export function bindClassUnderscoreFunctions(context) {
 /**
  * Creates the ability to change numbers in an input field with the scroll-wheel.
  * @param el
+ * @param negative
  */
-export function adjustableInputNumbers(el) {
+export function adjustableInputNumbers(el, negative = true) {
 
     // Check if a char represents a number
     const isNumChar = c => (c >= '0' && c <= '9') || c === '-' || c === '.';
@@ -188,8 +189,12 @@ export function adjustableInputNumbers(el) {
 
             const mul = e.deltaY < 0 ? 1 : -1;
             const inc = e.ctrlKey ? mul * 5 : mul;
+            let newNum = Number(num) + inc;
 
-            const newNum = Number(num) + inc;
+            if(!negative && newNum < 0){
+                newNum = 0;
+            }
+
             const newStr = val.substr(0, numStart) + newNum + val.substring(numStart + num.length, val.length);
             const curPos = numStart + String(newNum).length;
 

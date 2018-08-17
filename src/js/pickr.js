@@ -280,7 +280,7 @@ class Pickr {
 
         // Make input adjustable if enabled
         if (options.adjustableNumbers) {
-            _.adjustableInputNumbers(root.interaction.result);
+            _.adjustableInputNumbers(root.interaction.result, false);
         }
 
         // Save bindings

@@ -1,29 +1,28 @@
 import * as _ from './../lib/utils';
 
-export default class Selectable {
-
-    constructor(opt) {
+export default function Selectable(opt = {}) {
+    const that = {
 
         // Assign default values
-        this.options = Object.assign({
+        options: Object.assign({
             onchange: () => 0,
             className: ''
-        }, opt);
+        }, opt),
 
-        _.bindClassUnderscoreFunctions(this);
-        _.on(this.options.elements, 'click', this._ontap);
-    }
+        _ontap(evt) {
+            const opt = that.options;
+            opt.elements.forEach(e =>
+                e.classList[evt.target === e ? 'add' : 'remove'](opt.className)
+            );
 
-    _ontap(evt) {
-        const opt = this.options;
+            opt.onchange();
+        },
 
-        opt.elements.forEach(e => e.classList.remove(opt.className));
-        evt.target.classList.add(opt.className);
+        destroy() {
+            _.off(that.options.elements, 'click', this._ontap);
+        }
+    };
 
-        opt.onchange();
-    }
-
-    destroy() {
-        _.off(this.options.elements, 'click', this._ontap);
-    }
+    _.on(that.options.elements, 'click', that._ontap);
+    return that;
 }

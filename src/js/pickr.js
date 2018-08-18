@@ -213,25 +213,55 @@ class Pickr {
 
     _bindEvents() {
         const {root, options} = this;
-        const eventBindings = [];
 
-        // Clear color
-        eventBindings.push(_.on(root.interaction.clear, 'click', () => {
+        const eventBindings = [
 
-            // Change only the button color if it isn't customized
-            if (!options.useAsButton) {
-                root.button.style.background = 'rgba(255, 255, 255, 0.4)';
-            }
+            // Clear color
+            _.on(root.interaction.clear, 'click', () => {
 
-            root.button.classList.add('clear');
-            this.hide();
+                // Change only the button color if it isn't customized
+                if (!options.useAsButton) {
+                    root.button.style.background = 'rgba(255, 255, 255, 0.4)';
+                }
 
-            // Fire listener
-            options.onSave(null, this);
-        }));
+                root.button.classList.add('clear');
 
-        // Select last color on click
-        eventBindings.push(_.on(root.preview.lastColor, 'click', () => this.setHSVA(...this.lastColor.toHSVA())));
+                if (!options.showAlways){
+                    this.hide();
+                }
+
+                // Fire listener
+                options.onSave(null, this);
+            }),
+
+            // Select last color on click
+            _.on(root.preview.lastColor, 'click', () => this.setHSVA(...this.lastColor.toHSVA())),
+
+            // Save color
+            _.on(root.interaction.save, 'click', () => {
+                !this._saveColor() && !options.showAlways && this.hide();
+            }),
+
+            // Detect user input
+            _.on(root.interaction.result, ['input', 'focus'], e => {
+                this.setColor(e.target.value, true);
+                this.inputActive = true;
+            }),
+
+            // Cancel input detection on color change
+            _.on([
+                root.palette.palette,
+                root.palette.picker,
+                root.hueSlider.slider,
+                root.hueSlider.picker,
+                root.opacitySlider.slider,
+                root.opacitySlider.picker
+            ], 'mousedown', () => this.inputActive = false),
+
+
+            // Repositioning on resize
+            _.on(window, 'resize', this._rePositioningPicker)
+        ];
 
         // Provide hiding / showing abilities only if showAlways is false
         if (!options.showAlways) {
@@ -250,33 +280,6 @@ class Pickr {
                 }
             }));
         }
-
-        // Save color
-        eventBindings.push(_.on(root.interaction.save, 'click', () => {
-            this._saveColor();
-            if (!options.showAlways) {
-                this.hide();
-            }
-        }));
-
-        // Detect user input
-        eventBindings.push(_.on(root.interaction.result, ['input', 'focus'], e => {
-            this.setColor(e.target.value, true);
-            this.inputActive = true;
-        }));
-
-        // Cancel input detection on color change
-        eventBindings.push(_.on([
-            root.palette.palette,
-            root.palette.picker,
-            root.hueSlider.slider,
-            root.hueSlider.picker,
-            root.opacitySlider.slider,
-            root.opacitySlider.picker
-        ], 'mousedown', () => this.inputActive = false));
-
-        // Repositioning on resize
-        eventBindings.push(_.on(window, 'resize', this._rePositioningPicker));
 
         // Make input adjustable if enabled
         if (options.adjustableNumbers) {

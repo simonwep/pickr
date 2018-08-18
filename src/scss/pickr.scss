@@ -15,7 +15,6 @@
     height: 2em;
     width: 2em;
     padding: 0.5em;
-    box-shadow: $box-shadow-small;
     border-radius: $border-radius-mid;
     cursor: pointer;
     background: transparent;
@@ -67,14 +66,14 @@
 .pcr-app .pcr-interaction {
     display: flex;
     align-items: center;
-    margin: 1.3em -0.2em 0 -0.2em;
+    margin: 1em -0.2em 0 -0.2em;
 
     > * {
         margin: 0 0.2em;
     }
 
     input {
-        padding: 0.5em 0.5em;
+        padding: 0.5em 0.6em;
         border: none;
         outline: none;
         letter-spacing: 0.07em;
@@ -100,6 +99,7 @@
         border-radius: $border-radius-mid;
         background: $color-input-fields;;
         cursor: text;
+        padding-left: 0.8em;
 
         &:focus {
             color: $color-blue-active;
@@ -164,7 +164,6 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        box-shadow: $box-shadow-small;
         @include transparency-background;
 
         .pcr-last-color {
@@ -198,7 +197,6 @@
 
         .pcr-palette {
             height: 100%;
-            box-shadow: $box-shadow-small;
             border-radius: $border-radius-mid;
             @include transparency-background;
         }
@@ -225,6 +223,6 @@
 
     .pcr-color-opacity .pcr-slider {
         background: linear-gradient(to bottom, transparent, black), $icon-transparency;
-        background-size: 100%, 0.3em;
+        background-size: 100%, 50%;
     }
 }

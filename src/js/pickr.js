@@ -296,7 +296,6 @@ class Pickr {
 
         // Check appendToBody option and normalize position
         if (this.options.appendToBody) {
-            console.log(root);
             const relative = root.button.getBoundingClientRect();
             app.style.position = 'fixed';
             app.style.marginLeft = `${relative.left}px`;

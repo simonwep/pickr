@@ -62,9 +62,8 @@ export default function Moveable(opt) {
             _.off(document, ['mousemove', 'touchmove'], that._tapmove);
         },
 
-        trigger(evt) {
-            that.wrapperRect = that.options.wrapper.getBoundingClientRect();
-            that._tapmove(evt);
+        trigger() {
+            that._tapmove();
         },
 
         update(x = 0, y = 0) {

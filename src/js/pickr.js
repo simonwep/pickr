@@ -121,18 +121,19 @@ class Pickr {
 
         const components = {
 
-            palette: new Moveable({
+            palette: Moveable({
                 element: inst.root.palette.picker,
                 wrapper: inst.root.palette.palette,
 
                 onchange(x, y) {
                     const {color, root, options} = inst;
+                    const round = n => Math.round(n * 10) / 10;
 
                     // Calculate saturation based on the position
-                    color.s = Math.round((x / this.wrapper.offsetWidth) * 100);
+                    color.s = round((x / this.wrapper.offsetWidth) * 100);
 
                     // Calculate the value
-                    color.v = Math.round(100 - ((y / this.wrapper.offsetHeight) * 100));
+                    color.v = round(100 - ((y / this.wrapper.offsetHeight) * 100));
 
                     // Set picker and gradient color
                     const cssRGBaString = color.toRGBA().toString();
@@ -164,7 +165,7 @@ class Pickr {
                 }
             }),
 
-            hueSlider: new Moveable({
+            hueSlider: Moveable({
                 lockX: true,
                 element: inst.root.hueSlider.picker,
                 wrapper: inst.root.hueSlider.slider,
@@ -181,7 +182,7 @@ class Pickr {
                 }
             }),
 
-            opacitySlider: new Moveable({
+            opacitySlider: Moveable({
                 lockX: true,
                 element: inst.root.opacitySlider.picker,
                 wrapper: inst.root.opacitySlider.slider,
@@ -198,7 +199,7 @@ class Pickr {
                 }
             }),
 
-            selectable: new Selectable({
+            selectable: Selectable({
                 elements: inst.root.interaction.options,
                 className: 'active',
                 onchange() {
@@ -226,7 +227,7 @@ class Pickr {
 
                 root.button.classList.add('clear');
 
-                if (!options.showAlways){
+                if (!options.showAlways) {
                     this.hide();
                 }
 
@@ -243,10 +244,8 @@ class Pickr {
             }),
 
             // Detect user input
-            _.on(root.interaction.result, ['input', 'focus'], e => {
-                this.setColor(e.target.value, true);
-                this.inputActive = true;
-            }),
+            _.on(root.interaction.result, 'focus', () => this.inputActive = true),
+            _.on(root.interaction.result, 'input', e => this.setColor(e.target.value, true)),
 
             // Cancel input detection on color change
             _.on([

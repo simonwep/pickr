@@ -63,6 +63,7 @@ export default function Moveable(opt) {
         },
 
         trigger() {
+            that.wrapperRect = that.options.wrapper.getBoundingClientRect();
             that._tapmove();
         },
 

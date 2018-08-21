@@ -17,7 +17,11 @@ export class HSVaColor {
         const hsva = [this.h, this.s, this.v, this.a];
 
         hsva.toString = function () {
-            return `hsva(${this[0]}, ${this[1]}%, ${this[2]}%, ${this[3]})`;
+
+            // HSVA has floating point precision but the string
+            // representation should use integers.
+            const g = n => Math.round(this[n]);
+            return `hsva(${g(0)}, ${g(1)}%, ${g(2)}%, ${g(3)})`;
         };
 
         return hsva;

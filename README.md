@@ -98,7 +98,9 @@ const pickr = Pickr.create({
         interaction: {
             hex: true,
             rgba: true,
+            hsla: true,
             hsva: true,
+            cmyk: true,
             input: true,
             clear: true,
             save: true

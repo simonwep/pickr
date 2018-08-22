@@ -14,64 +14,44 @@ export class HSVaColor {
     }
 
     toHSVA() {
-        const hsva = [this.h, this.s, this.v, this.a];
-
-        hsva.toString = function () {
-
-            // HSVA has floating point precision but the string
-            // representation should use integers.
-            const g = n => Math.round(this[n]);
-            return `hsva(${g(0)}, ${g(1)}%, ${g(2)}%, ${g(3)})`;
-        };
-
-        return hsva;
+        const hsv = [this.h, this.s, this.v].map(Math.round);
+        hsv.toString = () => `hsva(${hsv[0]}, ${hsv[1]}%, ${hsv[2]}%, ${this.a.toFixed(1)})`;
+        return hsv;
     }
 
     toHSLA() {
-        const hsl = Color.hsvToHsl(this.h, this.s, this.v).concat([this.a]);
-
-        hsl.toString = function () {
-            return `hsla(${this[0]}, ${this[1]}%, ${this[2]}%, ${this[3]})`;
-        };
-
+        const hsl = Color.hsvToHsl(this.h, this.s, this.v).map(Math.round);
+        hsl.toString = () => `hsla(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%, ${this.a.toFixed(1)})`;
         return hsl;
     }
 
     toRGBA() {
-        const rgba = Color.hsvToRgb(this.h, this.s, this.v).concat([this.a]);
-
-        rgba.toString = function () {
-            return `rgba(${this[0]}, ${this[1]}, ${this[2]}, ${this[3]})`;
-        };
-
-        return rgba;
+        const rgb = Color.hsvToRgb(this.h, this.s, this.v).map(Math.round);
+        rgb.toString = () => `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${this.a.toFixed(1)})`;
+        return rgb;
     }
 
     toHEX() {
-        const hex = Color.hsvToHex(this.h, this.s, this.v).concat([this.a]);
+        const hex = Color.hsvToHex(...[this.h, this.s, this.v]).concat([this.a]);
 
-        hex.toString = function () {
+        hex.toString = () => {
 
             // Check if alpha channel make sense, convert it to 255 number space, convert
             // to hex and pad it with zeros if needet.
-            const alpha = this[3] === 1 ? '' : Number((this[3] * 255).toFixed(0))
+            const alpha = hex[3] >= 1 ? '' : Number((hex[3] * 255).toFixed(0))
                 .toString(16)
                 .toUpperCase()
                 .padStart(2, '0');
 
-            return `#${this.slice(0, 3).join('').toUpperCase() + alpha}`;
+            return `#${hex.slice(0, 3).join('').toUpperCase() + alpha}`;
         };
 
         return hex;
     }
 
     toCMYK() {
-        const cmyk = Color.hsvToCmyk(this.h, this.s, this.v);
-
-        cmyk.toString = function () {
-            return `cmyk(${this[0]}%, ${this[1]}%, ${this[2]}%, ${this[3]}%)`;
-        };
-
+        const cmyk = Color.hsvToCmyk(this.h, this.s, this.v).map(Math.round);
+        cmyk.toString = () => `cmyk(${cmyk[0]}%, ${cmyk[1]}%, ${cmyk[2]}%, ${cmyk[3]}%)`;
         return cmyk;
     }
 

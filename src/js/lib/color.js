@@ -1,6 +1,5 @@
 // Shorthands
-const round = Math.round,
-    min = Math.min,
+const min = Math.min,
     max = Math.max;
 
 
@@ -29,9 +28,9 @@ export function hsvToRgb(h, s, v) {
     let b = [p, p, t, v, v, q][mod];
 
     return [
-        round(r * 255),
-        round(g * 255),
-        round(b * 255)
+        r * 255,
+        g * 255,
+        b * 255
     ];
 }
 
@@ -43,8 +42,7 @@ export function hsvToRgb(h, s, v) {
  * @returns {string[]} Hex values
  */
 export function hsvToHex(h, s, v) {
-    const rgb = hsvToRgb(h, s, v);
-    return rgb.map(v => v.toString(16).padStart(2, '0'));
+    return hsvToRgb(h, s, v).map(v => Math.round(v).toString(16).padStart(2, '0'));
 }
 
 /**
@@ -69,10 +67,10 @@ export function hsvToCmyk(h, s, v) {
     y = k === 1 ? 0 : (1 - b - k) / (1 - k);
 
     return [
-        round(c * 100),
-        round(m * 100),
-        round(y * 100),
-        round(k * 100)
+        c * 100,
+        m * 100,
+        y * 100,
+        k * 100
     ];
 }
 
@@ -99,9 +97,9 @@ export function hsvToHsl(h, s, v) {
     }
 
     return [
-        round(h),
-        round(s * 100),
-        round(l * 100)
+        h,
+        s * 100,
+        l * 100
     ];
 }
 
@@ -145,9 +143,9 @@ function rgbToHsv(r, g, b) {
     }
 
     return [
-        round(h * 360),
-        round(s * 100),
-        round(v * 100)
+        h * 360,
+        s * 100,
+        v * 100
     ];
 }
 
@@ -166,9 +164,9 @@ function cmykToHsv(c, m, y, k) {
     let g = 1 - min(1, m * (1 - k) + k);
     let b = 1 - min(1, y * (1 - k) + k);
 
-    r = round(r * 255);
-    g = round(g * 255);
-    b = round(b * 255);
+    r = r * 255;
+    g = g * 255;
+    b = b * 255;
 
     return [...rgbToHsv(r, g, b)];
 }
@@ -184,8 +182,8 @@ function hslToHsv(h, s, l) {
     s /= 100, l /= 100;
     s *= l < 0.5 ? l : 1 - l;
 
-    let ns = round((2 * s / (l + s)) * 100);
-    let v = round((l + s) * 100);
+    let ns = (2 * s / (l + s)) * 100;
+    let v = (l + s) * 100;
     return [h, ns, v];
 }
 
@@ -195,8 +193,7 @@ function hslToHsv(h, s, l) {
  * @return {number[]} HSV values.
  */
 function hexToHsv(hex) {
-    const [r, g, b] = hex.match(/.{2}/g).map(v => parseInt(v, 16));
-    return rgbToHsv(r, g, b);
+    return rgbToHsv(...hex.match(/.{2}/g).map(v => parseInt(v, 16)));
 }
 
 /**

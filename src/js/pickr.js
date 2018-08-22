@@ -127,13 +127,12 @@ class Pickr {
 
                 onchange(x, y) {
                     const {color, root, options} = inst;
-                    const round = n => Math.round(n * 10) / 10;
 
                     // Calculate saturation based on the position
-                    color.s = round((x / this.wrapper.offsetWidth) * 100);
+                    color.s = (x / this.wrapper.offsetWidth) * 100;
 
                     // Calculate the value
-                    color.v = round(100 - ((y / this.wrapper.offsetHeight) * 100));
+                    color.v = 100 - (y / this.wrapper.offsetHeight) * 100;
 
                     // Set picker and gradient color
                     const cssRGBaString = color.toRGBA().toString();
@@ -174,7 +173,7 @@ class Pickr {
                     if (!comp.hue) return;
 
                     // Calculate hue
-                    inst.color.h = Math.round((y / this.wrapper.offsetHeight) * 360);
+                    inst.color.h = (y / this.wrapper.offsetHeight) * 360;
 
                     // Update color
                     this.element.style.backgroundColor = `hsl(${inst.color.h}, 100%, 50%)`;
@@ -191,7 +190,7 @@ class Pickr {
                     if (!comp.opacity) return;
 
                     // Calculate opacity
-                    inst.color.a = Math.ceil((y / this.wrapper.offsetHeight) * 100) / 100;
+                    inst.color.a = Math.round(((y / this.wrapper.offsetHeight)) * 1e2) / 100;
 
                     // Update color
                     this.element.style.background = `rgba(0, 0, 0, ${inst.color.a})`;
@@ -203,8 +202,7 @@ class Pickr {
                 elements: inst.root.interaction.options,
                 className: 'active',
                 onchange() {
-                    inst.inputActive = false;
-                    inst.components.palette.trigger();
+                    inst._updateOutput();
                 }
             })
         };
@@ -338,7 +336,7 @@ class Pickr {
     _updateOutput() {
 
         // Check if component is present
-        if (!this.inputActive && this.root.interaction.type()) {
+        if (this.root.interaction.type()) {
 
             // Update infobox
             this.root.interaction.result.value = (() => {

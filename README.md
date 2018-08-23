@@ -22,7 +22,7 @@
      alt="npm package"
      src="https://img.shields.io/badge/npm-6.0.1-e74c3c.svg"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-0.2.1-f1c40f.svg">
+       src="https://img.shields.io/badge/version-0.2.2-f1c40f.svg">
   <a href="https://www.patreon.com/simonwep"><img
      alt="Support me"
      src="https://img.shields.io/badge/patreon-support-f1c40f.svg"></a>
@@ -130,6 +130,10 @@ const pickr = new Pickr({
     // Default color
     default: 'fff',
 
+    // Default color representation.
+    // Valid options are `HEX`, `RGBA`, `HSVA`, `HSLA` and `CMYK`.
+    defaultRepresentation: 'HEX',
+
     // Option to keep the color picker always visible. You can still hide / show it via
     // 'pickr.hide()' and 'pickr.show()'. The save button keeps his functionality, so if
     // you click it, it will fire the onSave event.
@@ -225,6 +229,7 @@ If `silent` is true (Default is false), the button won't change the current colo
 * pickr.getColor()`:HSVaColor` _- Returns the current HSVaColor object._
 * pickr.destroy()`:HSVaColor` _- Destroy's all functionality._
 * pickr.destroyAndRemove()`:HSVaColor` _- Destroy's all functionality, moreover it removes the pickr element including the button._
+* pickr.setColorRepresentation(type`:String`) _- Change the current color-representation. Valid options are `HEX`, `RGBA`, `HSVA`, `HSLA` and `CMYK`, returns false if type was invalid._
 
 ## Static methods
 **Pickr**
@@ -238,6 +243,7 @@ If `silent` is true (Default is false), the button won't change the current colo
 * eventPath(evt`:Event`)`:[HTMLElement]` _- A polyfill for the event-path event propery._
 * removeAttribute(el`:HTMLElement`, name`:String`) _- Removes an attribute from a HTMLElement and returns the value._
 * createFromTemplate(str`:String`) _- See [inline doumentation](https://github.com/Simonwep/pickr/blob/master/src/js/lib/utils.js#L88)_
+* adjustableInputNumbers(el`:InputElement`, negative`:boolean`) _- Creates the possibility to change the numbers in an inputfield via mouse scrolling._
 
 ## Contributing
 If you want to open a issue, create a Pull Request or simply want to know how you can run it on your local machine, please read the [Contributing guide](https://github.com/Simonwep/pickr/blob/master/.github/CONTRIBUTING.md).

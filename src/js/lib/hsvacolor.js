@@ -6,53 +6,63 @@ import * as Color from './color';
  */
 export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
 
+    const round = Math.round;
+
     const that = {
         h, s, v, a,
 
         toHSVA() {
-            const hsv = [that.h, that.s, that.v].map(Math.round);
-            hsv.toString = () => `hsva(${hsv[0]}, ${hsv[1]}%, ${hsv[2]}%, ${that.a.toFixed(1)})`;
+            const hsv = [that.h, that.s, that.v];
+            const rhsv = hsv.map(Math.round);
+
+            hsv.toString = () => `hsva(${rhsv[0]}, ${rhsv[1]}%, ${rhsv[2]}%, ${that.a.toFixed(1)})`;
             return hsv;
         },
 
         toHSLA() {
-            const hsl = Color.hsvToHsl(that.h, that.s, that.v).map(Math.round);
-            hsl.toString = () => `hsla(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%, ${that.a.toFixed(1)})`;
+            const hsl = Color.hsvToHsl(that.h, that.s, that.v);
+            const rhsl = hsl.map(Math.round);
+
+            hsl.toString = () => `hsla(${rhsl[0]}, ${rhsl[1]}%, ${rhsl[2]}%, ${that.a.toFixed(1)})`;
             return hsl;
         },
 
         toRGBA() {
-            const rgb = Color.hsvToRgb(that.h, that.s, that.v).map(Math.round);
-            rgb.toString = () => `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${that.a.toFixed(1)})`;
+            const rgb = Color.hsvToRgb(that.h, that.s, that.v);
+            const rrgb = rgb.map(Math.round);
+
+            rgb.toString = () => `rgba(${rrgb[0]}, ${rrgb[1]}, ${rrgb[2]}, ${that.a.toFixed(1)})`;
             return rgb;
         },
 
+        toCMYK() {
+            const cmyk = Color.hsvToCmyk(that.h, that.s, that.v);
+            const rcmyk = cmyk.map(Math.round);
+
+            cmyk.toString = () => `cmyk(${rcmyk[0]}%, ${rcmyk[1]}%, ${rcmyk[2]}%, ${rcmyk[3]}%)`;
+            return cmyk;
+        },
+
         toHEX() {
-            const hex = Color.hsvToHex(...[that.h, that.s, that.v]).concat([that.a]);
+            const hex = Color.hsvToHex(...[that.h, that.s, that.v]);
 
             hex.toString = () => {
 
                 // Check if alpha channel make sense, convert it to 255 number space, convert
                 // to hex and pad it with zeros if needet.
-                const alpha = hex[3] >= 1 ? '' : Number((hex[3] * 255).toFixed(0))
+                const alpha = that.a >= 1 ? '' : Number((that.a * 255).toFixed(0))
                     .toString(16)
                     .toUpperCase()
                     .padStart(2, '0');
 
-                return `#${hex.slice(0, 3).join('').toUpperCase() + alpha}`;
+                return `#${hex.join('').toUpperCase() + alpha}`;
             };
 
             return hex;
         },
 
-        toCMYK() {
-            const cmyk = Color.hsvToCmyk(that.h, that.s, that.v).map(Math.round);
-            cmyk.toString = () => `cmyk(${cmyk[0]}%, ${cmyk[1]}%, ${cmyk[2]}%, ${cmyk[3]}%)`;
-            return cmyk;
-        },
-
         clone() {
-            return new HSVaColor(that.h, that.s, that.v, that.a);
+            return HSVaColor(that.h, that.s, that.v, that.a);
         }
     };
 

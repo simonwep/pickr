@@ -527,6 +527,7 @@ class Pickr {
      * Disable pickr
      */
     disable() {
+        this.hide();
         this.options.disabled = true;
         this.root.button.classList.add('disabled');
         return this;
@@ -590,11 +591,13 @@ function create(options) {
         </div>
     `);
 
+    const int = root.interaction;
+
     // Select option which is not hidden
-    root.interaction.options.find(o => !o.hidden && !o.classList.add('active'));
+    int.options.find(o => !o.hidden && !o.classList.add('active'));
 
     // Create method to find currenlty active option
-    root.interaction.type = () => root.interaction.options.find(e => e.classList.contains('active'));
+    int.type = () => int.options.find(e => e.classList.contains('active'));
     return root;
 }
 
@@ -605,6 +608,7 @@ Pickr.utils = {
     off: _.off,
     eventPath: _.eventPath,
     createElementFromString: _.createElementFromString,
+    adjustableInputNumbers:_.adjustableInputNumbers,
     removeAttribute: _.removeAttribute,
     createFromTemplate: _.createFromTemplate
 };

@@ -6,7 +6,8 @@ export default function Selectable(opt = {}) {
         // Assign default values
         options: Object.assign({
             onchange: () => 0,
-            className: ''
+            className: '',
+            elements: []
         }, opt),
 
         _ontap(evt) {

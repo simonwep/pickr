@@ -45,11 +45,11 @@ function eventListener(method, elements, events, fn, options = {}) {
         events = [events];
     }
 
-    for (let element of elements) {
-        for (let event of events) {
-            element[method](event, fn, {capture: false, ...options});
-        }
-    }
+    elements.forEach(el =>
+        events.forEach(ev =>
+            el[method](ev, fn, {capture: false, ...options})
+        )
+    );
 
     return Array.prototype.slice.call(arguments, 1);
 }
@@ -180,7 +180,7 @@ export function adjustableInputNumbers(el, negative = true) {
         }
 
         // Look forward
-        for (let i = off; i < val.length && isNumChar(val[i]); i++) {
+        for (let i = off, n = val.length; i < n && isNumChar(val[i]); i++) {
             num += val[i];
         }
 
@@ -191,7 +191,7 @@ export function adjustableInputNumbers(el, negative = true) {
             const inc = e.ctrlKey ? mul * 5 : mul;
             let newNum = Number(num) + inc;
 
-            if(!negative && newNum < 0){
+            if (!negative && newNum < 0) {
                 newNum = 0;
             }
 

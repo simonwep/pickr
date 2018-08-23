@@ -160,13 +160,9 @@ function rgbToHsv(r, g, b) {
 function cmykToHsv(c, m, y, k) {
     c /= 100, m /= 100, y /= 100, k /= 100;
 
-    let r = 1 - min(1, c * (1 - k) + k);
-    let g = 1 - min(1, m * (1 - k) + k);
-    let b = 1 - min(1, y * (1 - k) + k);
-
-    r = r * 255;
-    g = g * 255;
-    b = b * 255;
+    const r = (1 - min(1, c * (1 - k) + k)) * 255;
+    const g = (1 - min(1, m * (1 - k) + k)) * 255;
+    const b = (1 - min(1, y * (1 - k) + k)) * 255;
 
     return [...rgbToHsv(r, g, b)];
 }

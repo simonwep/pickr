@@ -6,11 +6,9 @@
 
 // Import styles
 import '../scss/pickr.scss';
-
 // Import utils
 import * as _ from './lib/utils';
 import * as Color from './lib/color';
-
 // Import classes
 import {HSVaColor} from './lib/hsvacolor';
 import Moveable from './helper/moveable';
@@ -51,7 +49,7 @@ class Pickr {
         this.initializingActive = true;
 
         // Replace element with color picker
-        this.inputActive = false;
+        this.recalc = true;
 
         // Current and last color for comparison
         this.color = new HSVaColor();
@@ -155,7 +153,7 @@ class Pickr {
                     root.preview.currentColor.style.background = cssRGBaString;
 
                     // Update the input field only if the user is currently not typing
-                    if (!inst.inputActive) {
+                    if (inst.recalc) {
                         inst._updateOutput();
                     }
 
@@ -242,7 +240,7 @@ class Pickr {
             }),
 
             // Detect user input
-            _.on(root.interaction.result, 'focus', () => this.inputActive = true),
+            _.on(root.interaction.result, 'focus', () => this.recalc = false),
             _.on(root.interaction.result, 'input', e => this.setColor(e.target.value, true)),
 
             // Cancel input detection on color change
@@ -253,7 +251,7 @@ class Pickr {
                 root.hueSlider.picker,
                 root.opacitySlider.slider,
                 root.opacitySlider.picker
-            ], 'mousedown', () => this.inputActive = false),
+            ], 'mousedown', () => this.recalc = true),
 
 
             // Repositioning on resize
@@ -338,17 +336,11 @@ class Pickr {
         // Check if component is present
         if (this.root.interaction.type()) {
 
-            // Update infobox
             this.root.interaction.result.value = (() => {
 
                 // Construct function name and call if present
                 const method = 'to' + this.root.interaction.type().getAttribute('data-type');
-
-                if (typeof this.color[method] === 'function') {
-                    return this.color[method]().toString();
-                }
-
-                return '';
+                return typeof this.color[method] === 'function' ? this.color[method]().toString() : '';
             })();
         }
 
@@ -438,6 +430,10 @@ class Pickr {
      */
     setHSVA(h = 360, s = 0, v = 0, a = 1, silent = false) {
 
+        // Deactivate color calculation
+        const recalc = this.recalc; // Save state
+        this.recalc = false;
+
         // Validate input
         if (h < 0 || h > 360 || s < 0 || s > 100 || v < 0 || v > 100 || a < 0 || a > 1) {
             return false;
@@ -461,7 +457,13 @@ class Pickr {
         const pickerX = pickerWrapper.offsetWidth * (s / 100);
         const pickerY = pickerWrapper.offsetHeight * (1 - (v / 100));
         palette.update(pickerX, pickerY);
+
+        // Override current color and re-active color calculation
         this.color = new HSVaColor(h, s, v, a);
+        this.recalc = recalc; // Restore old state
+
+        // Update output
+        this._updateOutput();
 
         // Check if call is silent
         if (!silent) {

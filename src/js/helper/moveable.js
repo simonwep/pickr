@@ -15,9 +15,6 @@ export default function Moveable(opt) {
             _.on(document, ['mouseup', 'touchend', 'touchcancel'], that._tapstop);
             _.on(document, ['mousemove', 'touchmove'], that._tapmove);
 
-            // Trigger move
-            that.trigger(evt);
-
             // Prevent default touch event
             evt.preventDefault();
         },
@@ -68,6 +65,7 @@ export default function Moveable(opt) {
         },
 
         update(x = 0, y = 0) {
+            that.wrapperRect = that.options.wrapper.getBoundingClientRect();
             that._tapmove(new MouseEvent('mousemove', {
                 clientX: that.wrapperRect.left + x,
                 clientY: that.wrapperRect.top + y

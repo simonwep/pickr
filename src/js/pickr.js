@@ -28,6 +28,7 @@ class Pickr {
             strings: {},
 
             default: 'fff',
+            defaultRepresentation: 'HEX',
             position: 'middle',
             adjustableNumbers: true,
             showAlways: false,
@@ -71,6 +72,9 @@ class Pickr {
 
         // Init color and hide
         this.setColor(this.options.default);
+
+        // Init color representation
+        this.setColorRepresentation(this.options.defaultRepresentation);
 
         // Initilization is finish, pickr is visible and ready to use
         this.initializingActive = false;
@@ -491,6 +495,21 @@ class Pickr {
     }
 
     /**
+     * Changes the color representation.
+     * Allowed values are HEX, RGBA, HSVA, HSLA and CMYK
+     * @param type
+     * @returns {boolean} if the selected type was valid.
+     */
+    setColorRepresentation(type) {
+
+        // Force uppercase to allow a case-sensitiv comparison
+        type = type.toUpperCase();
+
+        // Find button with given type and trigger click event
+        return !!this.root.interaction.options.find(v => v.getAttribute('data-type') === type && !v.click());
+    }
+
+    /**
      * @returns HSVaColor Current HSVaColor object.
      */
     getColor() {
@@ -503,7 +522,6 @@ class Pickr {
     getRoot() {
         return this.root;
     }
-
 
     /**
      * Disable pickr

@@ -16,7 +16,7 @@ export default function Selectable(opt = {}) {
                 e.classList[evt.target === e ? 'add' : 'remove'](opt.className)
             );
 
-            opt.onchange();
+            opt.onchange(evt);
         },
 
         destroy() {

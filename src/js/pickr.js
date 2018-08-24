@@ -74,7 +74,8 @@ class Pickr {
         this.setColor(this.options.default);
 
         // Init color representation
-        this.setColorRepresentation(this.options.defaultRepresentation);
+        this.representation = this.options.defaultRepresentation;
+        this.setColorRepresentation(this.representation);
 
         // Initilization is finish, pickr is visible and ready to use
         this.initializingActive = false;
@@ -203,7 +204,8 @@ class Pickr {
             selectable: Selectable({
                 elements: inst.root.interaction.options,
                 className: 'active',
-                onchange() {
+                onchange(e) {
+                    inst.representation = e.target.getAttribute('data-type').toUpperCase();
                     inst._updateOutput();
                 }
             })
@@ -510,6 +512,14 @@ class Pickr {
     }
 
     /**
+     * Returns the current color representaion. See setColorRepresentation
+     * @returns {*}
+     */
+    getColorRepresentation() {
+        return this.representation;
+    }
+
+    /**
      * @returns HSVaColor Current HSVaColor object.
      */
     getColor() {
@@ -608,7 +618,7 @@ Pickr.utils = {
     off: _.off,
     eventPath: _.eventPath,
     createElementFromString: _.createElementFromString,
-    adjustableInputNumbers:_.adjustableInputNumbers,
+    adjustableInputNumbers: _.adjustableInputNumbers,
     removeAttribute: _.removeAttribute,
     createFromTemplate: _.createFromTemplate
 };

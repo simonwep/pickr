@@ -62,7 +62,7 @@ $ npm install pickr-widget --save
 Include code and style:
 ```js
 import '/node_modules/pickr-widget/dist/pickr.min.css';           // Styles
-import {Pickr} from '/node_modules/pickr-widget/dist/pickr.min';  // Javascript
+import Pickr from '/node_modules/pickr-widget/dist/pickr.min';  // Javascript
 ...your awesome code
 ```
 ---

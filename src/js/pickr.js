@@ -6,9 +6,11 @@
 
 // Import styles
 import '../scss/pickr.scss';
+
 // Import utils
 import * as _ from './lib/utils';
 import * as Color from './lib/color';
+
 // Import classes
 import {HSVaColor} from './lib/hsvacolor';
 import Moveable from './helper/moveable';
@@ -57,31 +59,27 @@ class Pickr {
         this.lastColor = new HSVaColor();
 
         // Initialize picker
-        this._buildRoot();
+        this._preBuild();
         this._rePositioningPicker();
         this._buildComponents();
         this._bindEvents();
 
-        // Check if color comparison is disabled, if yes - remove transitions so everything keeps smoothly
-        if (!this.options.comparison) {
-            this.root.button.style.transition = 'none';
-            if (!this.options.useAsButton) {
-                this.root.preview.lastColor.style.transition = 'none';
-            }
-        }
-
-        // Init color and hide
+        // Initialize color
         this.setColor(this.options.default);
 
-        // Init color representation
+        // Initialize color representation
         this.representation = this.options.defaultRepresentation;
         this.setColorRepresentation(this.representation);
 
         // Initilization is finish, pickr is visible and ready to use
         this.initializingActive = false;
+
+        // Finalize build
+        this._finalBuild();
     }
 
-    _buildRoot() {
+    // Does only the absolutly basic thing to initialize the components
+    _preBuild() {
         const opt = this.options;
 
         // Check if element is selector
@@ -89,8 +87,18 @@ class Pickr {
             opt.el = document.querySelector(opt.el);
         }
 
-        const root = create(opt);
-        this.root = root;
+        // Create element and append it to body to
+        // prevent initialization errors
+        this.root = create(opt);
+        document.body.appendChild(this.root.root);
+    }
+
+    _finalBuild() {
+        const opt = this.options;
+        const root = this.root;
+
+        // Remove from body
+        document.body.removeChild(root.root);
 
         // Don't replace the the element if a custom button is used
         if (!opt.useAsButton) {
@@ -99,7 +107,7 @@ class Pickr {
             opt.el.parentElement.replaceChild(root.root, opt.el);
         } else {
             opt.appendToBody = true;
-            this.root.button = opt.el;
+            this.root.button = opt.el; // Replace button with customized button
         }
 
         // Check appendToBody option
@@ -110,6 +118,14 @@ class Pickr {
         // Call disable to also add the disabled class
         if (opt.disabled) {
             this.disable();
+        }
+
+        // Check if color comparison is disabled, if yes - remove transitions so everything keeps smoothly
+        if (!opt.comparison) {
+            root.button.style.transition = 'none';
+            if (!opt.useAsButton) {
+                root.preview.lastColor.style.transition = 'none';
+            }
         }
 
         // Check showAlways option

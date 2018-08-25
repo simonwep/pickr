@@ -6,14 +6,13 @@ import * as Color from './color';
  */
 export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
 
-    const round = Math.round;
-
+    const ceil = Math.ceil;
     const that = {
         h, s, v, a,
 
         toHSVA() {
             const hsv = [that.h, that.s, that.v];
-            const rhsv = hsv.map(Math.round);
+            const rhsv = hsv.map(ceil);
 
             hsv.toString = () => `hsva(${rhsv[0]}, ${rhsv[1]}%, ${rhsv[2]}%, ${that.a.toFixed(1)})`;
             return hsv;
@@ -21,7 +20,7 @@ export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
 
         toHSLA() {
             const hsl = Color.hsvToHsl(that.h, that.s, that.v);
-            const rhsl = hsl.map(Math.round);
+            const rhsl = hsl.map(ceil);
 
             hsl.toString = () => `hsla(${rhsl[0]}, ${rhsl[1]}%, ${rhsl[2]}%, ${that.a.toFixed(1)})`;
             return hsl;
@@ -29,7 +28,7 @@ export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
 
         toRGBA() {
             const rgb = Color.hsvToRgb(that.h, that.s, that.v);
-            const rrgb = rgb.map(Math.round);
+            const rrgb = rgb.map(ceil);
 
             rgb.toString = () => `rgba(${rrgb[0]}, ${rrgb[1]}, ${rrgb[2]}, ${that.a.toFixed(1)})`;
             return rgb;
@@ -37,7 +36,7 @@ export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
 
         toCMYK() {
             const cmyk = Color.hsvToCmyk(that.h, that.s, that.v);
-            const rcmyk = cmyk.map(Math.round);
+            const rcmyk = cmyk.map(ceil);
 
             cmyk.toString = () => `cmyk(${rcmyk[0]}%, ${rcmyk[1]}%, ${rcmyk[2]}%, ${rcmyk[3]}%)`;
             return cmyk;

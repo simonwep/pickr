@@ -49,14 +49,14 @@ class Pickr {
         _.bindClassUnderscoreFunctions(this);
 
         // Will be used to prevent specific actions during initilization
-        this.initializingActive = true;
+        this._initializingActive = true;
 
         // Replace element with color picker
-        this.recalc = true;
+        this._recalc = true;
 
         // Current and last color for comparison
-        this.color = new HSVaColor();
-        this.lastColor = new HSVaColor();
+        this._color = new HSVaColor();
+        this._lastColor = new HSVaColor();
 
         // Initialize picker
         this._preBuild();
@@ -67,12 +67,12 @@ class Pickr {
         // Initialize color
         this.setColor(this.options.default);
 
-        // Initialize color representation
-        this.representation = this.options.defaultRepresentation;
-        this.setColorRepresentation(this.representation);
+        // Initialize color _epresentation
+        this._representation = this.options.defaultRepresentation;
+        this.setColorRepresentation(this._representation);
 
         // Initilization is finish, pickr is visible and ready to use
-        this.initializingActive = false;
+        this._initializingActive = false;
 
         // Finalize build
         this._finalBuild();
@@ -89,13 +89,13 @@ class Pickr {
 
         // Create element and append it to body to
         // prevent initialization errors
-        this.root = create(opt);
-        document.body.appendChild(this.root.root);
+        this._root = create(opt);
+        document.body.appendChild(this._root.root);
     }
 
     _finalBuild() {
         const opt = this.options;
-        const root = this.root;
+        const root = this._root;
 
         // Remove from body
         document.body.removeChild(root.root);
@@ -107,7 +107,7 @@ class Pickr {
             opt.el.parentElement.replaceChild(root.root, opt.el);
         } else {
             opt.appendToBody = true;
-            this.root.button = opt.el; // Replace button with customized button
+            this._root.button = opt.el; // Replace button with customized button
         }
 
         // Check appendToBody option
@@ -141,87 +141,87 @@ class Pickr {
         const components = {
 
             palette: Moveable({
-                element: inst.root.palette.picker,
-                wrapper: inst.root.palette.palette,
+                element: inst._root.palette.picker,
+                wrapper: inst._root.palette.palette,
 
                 onchange(x, y) {
-                    const {color, root, options} = inst;
+                    const {_color, _root, options} = inst;
 
                     // Calculate saturation based on the position
-                    color.s = (x / this.wrapper.offsetWidth) * 100;
+                    _color.s = (x / this.wrapper.offsetWidth) * 100;
 
                     // Calculate the value
-                    color.v = 100 - (y / this.wrapper.offsetHeight) * 100;
+                    _color.v = 100 - (y / this.wrapper.offsetHeight) * 100;
 
                     // Set picker and gradient color
-                    const cssRGBaString = color.toRGBA().toString();
+                    const cssRGBaString = _color.toRGBA().toString();
                     this.element.style.background = cssRGBaString;
                     this.wrapper.style.background = `
-                        linear-gradient(to top, rgba(0, 0, 0, ${color.a}), transparent), 
-                        linear-gradient(to left, hsla(${color.h}, 100%, 50%, ${color.a}), rgba(255, 255, 255, ${color.a}))
+                        linear-gradient(to top, rgba(0, 0, 0, ${_color.a}), transparent), 
+                        linear-gradient(to left, hsla(${_color.h}, 100%, 50%, ${_color.a}), rgba(255, 255, 255, ${_color.a}))
                     `;
 
                     // Check if color is locked
                     if (!options.comparison) {
-                        root.button.style.background = cssRGBaString;
+                        _root.button.style.background = cssRGBaString;
 
                         if (!options.useAsButton) {
-                            root.preview.lastColor.style.background = cssRGBaString;
+                            _root.preview.lastColor.style.background = cssRGBaString;
                         }
                     }
 
                     // Change current color
-                    root.preview.currentColor.style.background = cssRGBaString;
+                    _root.preview.currentColor.style.background = cssRGBaString;
 
                     // Update the input field only if the user is currently not typing
-                    if (inst.recalc) {
+                    if (inst._recalc) {
                         inst._updateOutput();
                     }
 
                     // If the user changes the color, remove the cleared icon
-                    root.button.classList.remove('clear');
+                    _root.button.classList.remove('clear');
                 }
             }),
 
             hueSlider: Moveable({
                 lockX: true,
-                element: inst.root.hueSlider.picker,
-                wrapper: inst.root.hueSlider.slider,
+                element: inst._root.hueSlider.picker,
+                wrapper: inst._root.hueSlider.slider,
 
                 onchange(x, y) {
                     if (!comp.hue) return;
 
                     // Calculate hue
-                    inst.color.h = (y / this.wrapper.offsetHeight) * 360;
+                    inst._color.h = (y / this.wrapper.offsetHeight) * 360;
 
                     // Update color
-                    this.element.style.backgroundColor = `hsl(${inst.color.h}, 100%, 50%)`;
+                    this.element.style.backgroundColor = `hsl(${inst._color.h}, 100%, 50%)`;
                     components.palette.trigger();
                 }
             }),
 
             opacitySlider: Moveable({
                 lockX: true,
-                element: inst.root.opacitySlider.picker,
-                wrapper: inst.root.opacitySlider.slider,
+                element: inst._root.opacitySlider.picker,
+                wrapper: inst._root.opacitySlider.slider,
 
                 onchange(x, y) {
                     if (!comp.opacity) return;
 
                     // Calculate opacity
-                    inst.color.a = Math.round(((y / this.wrapper.offsetHeight)) * 1e2) / 100;
+                    inst._color.a = Math.round(((y / this.wrapper.offsetHeight)) * 1e2) / 100;
 
                     // Update color
-                    this.element.style.background = `rgba(0, 0, 0, ${inst.color.a})`;
+                    this.element.style.background = `rgba(0, 0, 0, ${inst._color.a})`;
                     inst.components.palette.trigger();
                 }
             }),
 
             selectable: Selectable({
-                elements: inst.root.interaction.options,
+                elements: inst._root.interaction.options,
                 className: 'active',
                 onchange(e) {
-                    inst.representation = e.target.getAttribute('data-type').toUpperCase();
+                    inst._representation = e.target.getAttribute('data-type').toUpperCase();
                     inst._updateOutput();
                 }
             })
@@ -231,19 +231,19 @@ class Pickr {
     }
 
     _bindEvents() {
-        const {root, options} = this;
+        const {_root, options} = this;
 
         const eventBindings = [
 
             // Clear color
-            _.on(root.interaction.clear, 'click', () => {
+            _.on(_root.interaction.clear, 'click', () => {
 
                 // Change only the button color if it isn't customized
                 if (!options.useAsButton) {
-                    root.button.style.background = 'rgba(255, 255, 255, 0.4)';
+                    _root.button.style.background = 'rgba(255, 255, 255, 0.4)';
                 }
 
-                root.button.classList.add('clear');
+                _root.button.classList.add('clear');
 
                 if (!options.showAlways) {
                     this.hide();
@@ -254,26 +254,26 @@ class Pickr {
             }),
 
             // Select last color on click
-            _.on(root.preview.lastColor, 'click', () => this.setHSVA(...this.lastColor.toHSVA())),
+            _.on(_root.preview.lastColor, 'click', () => this.setHSVA(...this._lastColor.toHSVA())),
 
             // Save color
-            _.on(root.interaction.save, 'click', () => {
+            _.on(_root.interaction.save, 'click', () => {
                 !this._saveColor() && !options.showAlways && this.hide();
             }),
 
             // Detect user input
-            _.on(root.interaction.result, 'focus', () => this.recalc = false),
-            _.on(root.interaction.result, 'input', e => this.setColor(e.target.value, true)),
+            _.on(_root.interaction.result, 'focus', () => this._recalc = false),
+            _.on(_root.interaction.result, 'input', e => this.setColor(e.target.value, true)),
 
             // Cancel input detection on color change
             _.on([
-                root.palette.palette,
-                root.palette.picker,
-                root.hueSlider.slider,
-                root.hueSlider.picker,
-                root.opacitySlider.slider,
-                root.opacitySlider.picker
-            ], 'mousedown', () => this.recalc = true),
+                _root.palette.palette,
+                _root.palette.picker,
+                _root.hueSlider.slider,
+                _root.hueSlider.picker,
+                _root.opacitySlider.slider,
+                _root.opacitySlider.picker
+            ], 'mousedown', () => this._recalc = true),
 
 
             // Repositioning on resize
@@ -284,7 +284,7 @@ class Pickr {
         if (!options.showAlways) {
 
             // Save and hide / show picker
-            eventBindings.push(_.on(root.button, 'click', () => this.isOpen() ? this.hide() : this.show()));
+            eventBindings.push(_.on(_root.button, 'click', () => this.isOpen() ? this.hide() : this.show()));
 
             // Close with escape key
             const ck = options.closeWithKey;
@@ -292,7 +292,7 @@ class Pickr {
 
             // Cancel selecting if the user taps behind the color picker
             eventBindings.push(_.on(document, 'mousedown', e => {
-                if (!_.eventPath(e).includes(root.app)) {
+                if (!_.eventPath(e).includes(_root.app)) {
                     _.once(document, 'mouseup', () => this.hide());
                 }
             }));
@@ -300,16 +300,16 @@ class Pickr {
 
         // Make input adjustable if enabled
         if (options.adjustableNumbers) {
-            _.adjustableInputNumbers(root.interaction.result, false);
+            _.adjustableInputNumbers(_root.interaction.result, false);
         }
 
         // Save bindings
-        this.eventBindings = eventBindings;
+        this._eventBindings = eventBindings;
     }
 
     _rePositioningPicker() {
-        const root = this.root;
-        const app = this.root.app;
+        const root = this._root;
+        const app = this._root.app;
 
         // Check appendToBody option and normalize position
         if (this.options.appendToBody) {
@@ -356,27 +356,27 @@ class Pickr {
     _updateOutput() {
 
         // Check if component is present
-        if (this.root.interaction.type()) {
+        if (this._root.interaction.type()) {
 
-            this.root.interaction.result.value = (() => {
+            this._root.interaction.result.value = (() => {
 
                 // Construct function name and call if present
-                const method = 'to' + this.root.interaction.type().getAttribute('data-type');
-                return typeof this.color[method] === 'function' ? this.color[method]().toString() : '';
+                const method = 'to' + this._root.interaction.type().getAttribute('data-type');
+                return typeof this._color[method] === 'function' ? this._color[method]().toString() : '';
             })();
         }
 
         // Fire listener
-        if (!this.initializingActive) {
-            this.options.onChange(this.color, this);
+        if (!this._initializingActive) {
+            this.options.onChange(this._color, this);
         }
     }
 
     _saveColor() {
-        const {preview, button} = this.root;
+        const {preview, button} = this._root;
 
         // Change preview and current color
-        const cssRGBaString = this.color.toRGBA().toString();
+        const cssRGBaString = this._color.toRGBA().toString();
         preview.lastColor.style.background = cssRGBaString;
 
         // Change only the button color if it isn't customized
@@ -388,11 +388,11 @@ class Pickr {
         button.classList.remove('clear');
 
         // Save last color
-        this.lastColor = this.color.clone();
+        this._lastColor = this._color.clone();
 
         // Fire listener
-        if (!this.initializingActive) {
-            this.options.onSave(this.color, this);
+        if (!this._initializingActive) {
+            this.options.onSave(this._color, this);
         }
     }
 
@@ -400,7 +400,7 @@ class Pickr {
      * Destroy's all functionalitys
      */
     destroy() {
-        this.eventBindings.forEach(args => _.off(...args));
+        this._eventBindings.forEach(args => _.off(...args));
         Object.keys(this.components).forEach(key => this.components[key].destroy());
     }
 
@@ -412,7 +412,7 @@ class Pickr {
         this.destroy();
 
         // Remove element
-        const root = this.root.root;
+        const root = this._root.root;
         root.parentElement.removeChild(root);
     }
 
@@ -420,7 +420,7 @@ class Pickr {
      * Hides the color-picker ui.
      */
     hide() {
-        this.root.app.classList.remove('visible');
+        this._root.app.classList.remove('visible');
         return this;
     }
 
@@ -429,7 +429,7 @@ class Pickr {
      */
     show() {
         if (this.options.disabled) return;
-        this.root.app.classList.add('visible');
+        this._root.app.classList.add('visible');
         this._rePositioningPicker();
         return this;
     }
@@ -438,7 +438,7 @@ class Pickr {
      * @return {boolean} If the color picker is currently open
      */
     isOpen() {
-        return this.root.app.classList.contains('visible');
+        return this._root.app.classList.contains('visible');
     }
 
     /**
@@ -453,8 +453,8 @@ class Pickr {
     setHSVA(h = 360, s = 0, v = 0, a = 1, silent = false) {
 
         // Deactivate color calculation
-        const recalc = this.recalc; // Save state
-        this.recalc = false;
+        const recalc = this._recalc; // Save state
+        this._recalc = false;
 
         // Validate input
         if (h < 0 || h > 360 || s < 0 || s > 100 || v < 0 || v > 100 || a < 0 || a > 1) {
@@ -481,11 +481,13 @@ class Pickr {
         palette.update(pickerX, pickerY);
 
         // Override current color and re-active color calculation
-        this.color = new HSVaColor(h, s, v, a);
-        this.recalc = recalc; // Restore old state
+        this._color = new HSVaColor(h, s, v, a);
+        this._recalc = recalc; // Restore old state
 
-        // Update output
-        this._updateOutput();
+        // Update output if recalculation is enabled
+        if (this._recalc) {
+            this._updateOutput();
+        }
 
         // Check if call is silent
         if (!silent) {
@@ -513,7 +515,7 @@ class Pickr {
     }
 
     /**
-     * Changes the color representation.
+     * Changes the color _representation.
      * Allowed values are HEX, RGBA, HSVA, HSLA and CMYK
      * @param type
      * @returns {boolean} if the selected type was valid.
@@ -524,7 +526,7 @@ class Pickr {
         type = type.toUpperCase();
 
         // Find button with given type and trigger click event
-        return !!this.root.interaction.options.find(v => v.getAttribute('data-type') === type && !v.click());
+        return !!this._root.interaction.options.find(v => v.getAttribute('data-type') === type && !v.click());
     }
 
     /**
@@ -532,21 +534,21 @@ class Pickr {
      * @returns {*}
      */
     getColorRepresentation() {
-        return this.representation;
+        return this._representation;
     }
 
     /**
      * @returns HSVaColor Current HSVaColor object.
      */
     getColor() {
-        return this.color;
+        return this._color;
     }
 
     /**
      * @returns The root HTMLElement with all his components.
      */
     getRoot() {
-        return this.root;
+        return this._root;
     }
 
     /**
@@ -555,7 +557,7 @@ class Pickr {
     disable() {
         this.hide();
         this.options.disabled = true;
-        this.root.button.classList.add('disabled');
+        this._root.button.classList.add('disabled');
         return this;
     }
 
@@ -564,7 +566,7 @@ class Pickr {
      */
     enable() {
         this.options.disabled = false;
-        this.root.button.classList.remove('disabled');
+        this._root.button.classList.remove('disabled');
         return this;
     }
 }

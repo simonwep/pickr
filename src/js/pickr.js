@@ -183,10 +183,10 @@ class Pickr {
                 }
             }),
 
-            hueSlider: Moveable({
+            hue: Moveable({
                 lockX: true,
-                element: inst._root.hueSlider.picker,
-                wrapper: inst._root.hueSlider.slider,
+                element: inst._root.hue.picker,
+                wrapper: inst._root.hue.slider,
 
                 onchange(x, y) {
                     if (!comp.hue) return;
@@ -200,10 +200,10 @@ class Pickr {
                 }
             }),
 
-            opacitySlider: Moveable({
+            opacity: Moveable({
                 lockX: true,
-                element: inst._root.opacitySlider.picker,
-                wrapper: inst._root.opacitySlider.slider,
+                element: inst._root.opacity.picker,
+                wrapper: inst._root.opacity.slider,
 
                 onchange(x, y) {
                     if (!comp.opacity) return;
@@ -261,18 +261,20 @@ class Pickr {
                 !this._saveColor() && !options.showAlways && this.hide();
             }),
 
-            // Detect user input
-            _.on(_root.interaction.result, 'focus', () => this._recalc = false),
-            _.on(_root.interaction.result, 'input', e => this.setColor(e.target.value, true)),
+            // Detect user input and disable auto-recalculation
+            _.on(_root.interaction.result, 'input', e => {
+                this._recalc = false;
+                this.setColor(e.target.value, true);
+            }),
 
             // Cancel input detection on color change
             _.on([
                 _root.palette.palette,
                 _root.palette.picker,
-                _root.hueSlider.slider,
-                _root.hueSlider.picker,
-                _root.opacitySlider.slider,
-                _root.opacitySlider.picker
+                _root.hue.slider,
+                _root.hue.picker,
+                _root.opacity.slider,
+                _root.opacity.picker
             ], 'mousedown', () => this._recalc = true),
 
 
@@ -462,17 +464,17 @@ class Pickr {
         }
 
         // Short names
-        const {hueSlider, opacitySlider, palette} = this.components;
+        const {hue, opacity, palette} = this.components;
 
         // Calculate y position of hue slider
-        const hueWrapper = hueSlider.options.wrapper;
+        const hueWrapper = hue.options.wrapper;
         const hueY = hueWrapper.offsetHeight * (h / 360);
-        hueSlider.update(0, hueY);
+        hue.update(0, hueY);
 
         // Calculate y position of opacity slider
-        const opacityWrapper = opacitySlider.options.wrapper;
+        const opacityWrapper = opacity.options.wrapper;
         const opacityY = opacityWrapper.offsetHeight * a;
-        opacitySlider.update(0, opacityY);
+        opacity.update(0, opacityY);
 
         // Calculate y and x position of color palette
         const pickerWrapper = palette.options.wrapper;
@@ -592,12 +594,12 @@ function create(options) {
                         <div data-key="palette" class="pcr-palette"></div>
                     </div>
 
-                    <div data-con="hueSlider" class="pcr-color-chooser" ${hidden(components.hue)}>
+                    <div data-con="hue" class="pcr-color-chooser" ${hidden(components.hue)}>
                         <div data-key="picker" class="pcr-picker"></div>
                         <div data-key="slider" class="pcr-hue pcr-slider"></div>
                     </div>
 
-                    <div data-con="opacitySlider" class="pcr-color-opacity" ${hidden(components.opacity)}>
+                    <div data-con="opacity" class="pcr-color-opacity" ${hidden(components.opacity)}>
                         <div data-key="picker" class="pcr-picker"></div>
                         <div data-key="slider" class="pcr-opacity pcr-slider"></div>
                     </div>

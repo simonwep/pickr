@@ -116,7 +116,6 @@
 
         <pre><code class="prettyprint">const pickr = new Pickr({
 
-
     // Selector or element which will be replaced with the actual color-picker.
     // Can be a HTMLElement.
     el: '.color-picker',
@@ -128,8 +127,15 @@
     // Start state. If true 'disabled' will be added to the button's classlist.
     disabled: false,
 
+    // If set to false it would directly apply the selected color on the button and preview.
+    comparison: true,
+
     // Default color
     default: 'fff',
+
+    // Default color representation.
+    // Valid options are `HEX`, `RGBA`, `HSVA`, `HSLA` and `CMYK`.
+    defaultRepresentation: 'HEX',
 
     // Option to keep the color picker always visible. You can still hide / show it via
     // 'pickr.hide()' and 'pickr.show()'. The save button keeps his functionality, so if

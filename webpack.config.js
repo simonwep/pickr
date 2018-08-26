@@ -4,8 +4,17 @@ const UglifyJs = require('uglifyjs-webpack-plugin');
 module.exports = {
 
     plugins: [
+
         new MiniCssExtractPlugin({
             filename: 'pickr.min.css'
+        }),
+
+        new UglifyJs({
+            uglifyOptions: {
+                output: {
+                    comments: false
+                }
+            }
         })
     ],
 
@@ -44,18 +53,6 @@ module.exports = {
                     'sass-loader'
                 ]
             }
-        ]
-    },
-
-    optimization: {
-        minimizer: [
-            new UglifyJs({
-                uglifyOptions: {
-                    output: {
-                        comments: false
-                    }
-                }
-            })
         ]
     }
 };

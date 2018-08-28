@@ -90,6 +90,13 @@ class Pickr {
         // Create element and append it to body to
         // prevent initialization errors
         this._root = create(opt);
+
+        // Check if a custom button is used
+        if (opt.useAsButton) {
+            opt.appendToBody = true;
+            this._root.button = opt.el; // Replace button with customized button
+        }
+
         document.body.appendChild(this._root.root);
     }
 
@@ -100,19 +107,16 @@ class Pickr {
         // Remove from body
         document.body.removeChild(root.root);
 
+        // Check appendToBody option
+        if (opt.appendToBody) {
+            document.body.appendChild(root.app);
+        }
+
         // Don't replace the the element if a custom button is used
         if (!opt.useAsButton) {
 
             // Replace element with actual color-picker
             opt.el.parentElement.replaceChild(root.root, opt.el);
-        } else {
-            opt.appendToBody = true;
-            this._root.button = opt.el; // Replace button with customized button
-        }
-
-        // Check appendToBody option
-        if (opt.appendToBody) {
-            document.body.appendChild(root.app);
         }
 
         // Call disable to also add the disabled class

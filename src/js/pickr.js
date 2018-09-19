@@ -251,9 +251,10 @@ class Pickr {
             }),
 
             // Detect user input and disable auto-recalculation
-            _.on(_root.interaction.result, 'input', e => {
+            _.on(_root.interaction.result, ['keyup', 'input'], e => {
                 this._recalc = false;
                 this.setColor(e.target.value, true);
+                e.stopImmediatePropagation();
             }),
 
             // Cancel input detection on color change

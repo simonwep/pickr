@@ -216,7 +216,7 @@ hsva.toRGBA().toString(); // Returns rgba(r, g, b, a)
 
 ## Methods
 * pickr.setHSVA(h`:Number`,s`:Number`,v`:Number`,a`:Float`, silent`:Boolean`) _- Set an color, returns true if the color has been accepted._
-* pickr.setColor(string`:String`, silent`:Boolean`) _- Parses a string which represents a color (e.g. `#fff`, `rgb(10, 156, 23)`), returns true if the color has been accepted._
+* pickr.setColor(string`:String`, silent`:Boolean`) _- Parses a string which represents a color (e.g. `#fff`, `rgb(10, 156, 23)`), returns true if the color has been accepted. `null` will clear the color._
 
 If `silent` is true (Default is false), the button won't change the current color.
 

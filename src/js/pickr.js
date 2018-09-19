@@ -240,22 +240,7 @@ class Pickr {
         const eventBindings = [
 
             // Clear color
-            _.on(_root.interaction.clear, 'click', () => {
-
-                // Change only the button color if it isn't customized
-                if (!options.useAsButton) {
-                    _root.button.style.background = 'rgba(255, 255, 255, 0.4)';
-                }
-
-                _root.button.classList.add('clear');
-
-                if (!options.showAlways) {
-                    this.hide();
-                }
-
-                // Fire listener
-                options.onSave(null, this);
-            }),
+            _.on(_root.interaction.clear, 'click', () => this._clearColor()),
 
             // Select last color on click
             _.on(_root.preview.lastColor, 'click', () => this.setHSVA(...this._lastColor.toHSVA())),
@@ -402,6 +387,24 @@ class Pickr {
         }
     }
 
+    _clearColor() {
+        const {_root, options} = this;
+
+        // Change only the button color if it isn't customized
+        if (!options.useAsButton) {
+            _root.button.style.background = 'rgba(255, 255, 255, 0.4)';
+        }
+
+        _root.button.classList.add('clear');
+
+        if (!options.showAlways) {
+            this.hide();
+        }
+
+        // Fire listener
+        options.onSave(null, this);
+    }
+
     /**
      * Destroy's all functionalitys
      */
@@ -512,6 +515,13 @@ class Pickr {
      * @param silent
      */
     setColor(string, silent = false) {
+
+        // Check if null
+        if (string === null) {
+            this._clearColor();
+            return true;
+        }
+
         const parsed = Color.parseToHSV(string);
 
         // Check if color is ok

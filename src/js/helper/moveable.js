@@ -18,6 +18,9 @@ export default function Moveable(opt) {
             // Prevent default touch event
             evt.preventDefault();
             that.wrapperRect = that.options.wrapper.getBoundingClientRect();
+
+            // Trigger
+            that._tapmove(evt);
         },
 
         _tapmove(evt) {

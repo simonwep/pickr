@@ -253,7 +253,12 @@ class Pickr {
             // Detect user input and disable auto-recalculation
             _.on(_root.interaction.result, ['keyup', 'input'], e => {
                 this._recalc = false;
-                this.setColor(e.target.value, true);
+
+                // Fire listener if initialization is finish and changed color was valid
+                if (this.setColor(e.target.value, true) && !this._initializingActive) {
+                    this.options.onChange(this._color, this);
+                }
+
                 e.stopImmediatePropagation();
             }),
 
@@ -358,7 +363,7 @@ class Pickr {
             })();
         }
 
-        // Fire listener
+        // Fire listener if initialization is finish
         if (!this._initializingActive) {
             this.options.onChange(this._color, this);
         }

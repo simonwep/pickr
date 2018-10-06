@@ -49,7 +49,7 @@
 * Opacity control
 * Supports touch devices
 * Nodejs support
-* Lightweight, 8KB gzipped
+* Lightweight, 7KB gzipped
 
 ## Setup
 

@@ -46,8 +46,6 @@ class Pickr {
             this.options.components.interaction = {};
         }
 
-        _.bindClassUnderscoreFunctions(this);
-
         // Will be used to prevent specific actions during initilization
         this._initializingActive = true;
 
@@ -274,7 +272,7 @@ class Pickr {
 
 
             // Repositioning on resize
-            _.on(window, 'resize', this._rePositioningPicker)
+            _.on(window, 'resize', () => this._rePositioningPicker)
         ];
 
         // Provide hiding / showing abilities only if showAlways is false

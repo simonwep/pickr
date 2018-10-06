@@ -145,19 +145,6 @@ export function eventPath(evt) {
 }
 
 /**
- * Binds all functions of an ES6 class, starting with an underscore, to the class itself.
- * @param context The context
- */
-export function bindClassUnderscoreFunctions(context) {
-    const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(context));
-    for (const fn of methods) {
-        if (fn.charAt(0) === '_' && typeof context[fn] === 'function') {
-            context[fn] = context[fn].bind(context);
-        }
-    }
-}
-
-/**
  * Creates the ability to change numbers in an input field with the scroll-wheel.
  * @param el
  * @param negative

@@ -286,9 +286,9 @@ class Pickr {
             eventBindings.push(_.on(document, 'keyup', e => this.isOpen() && (e.key === ck || e.code === ck) && this.hide()));
 
             // Cancel selecting if the user taps behind the color picker
-            eventBindings.push(_.on(document, 'mousedown', e => {
-                if (!_.eventPath(e).includes(_root.app)) {
-                    _.once(document, 'mouseup', () => this.hide());
+            eventBindings.push(_.on(document, 'click', e => {
+                if (!_.eventPath(e).includes(_root.root)) {
+                    this.isOpen() && this.hide();
                 }
             }));
         }
@@ -326,23 +326,18 @@ class Pickr {
         }
 
         // Positioning picker on the x-axis
-        function getLeft(pos) {
-            switch (pos) {
-                case 'left':
-                    return -(ab.width) + bb.width;
-                case 'middle':
-                    return -(ab.width / 2) + bb.width / 2;
-                case 'right':
-                    return 0;
-            }
-        }
+        const pos = {
+            left: -(ab.width) + bb.width,
+            middle: -(ab.width / 2) + bb.width / 2,
+            right: 0
+        };
 
         const currentLeft = parseInt(getComputedStyle(app).left, 10);
-        let newLeft = getLeft(this.options.position);
+        let newLeft = pos[this.options.position];
         if ((ab.left - currentLeft) + newLeft < 0) {
-            newLeft = getLeft('right');
+            newLeft = pos['right'];
         } else if ((ab.left - currentLeft) - newLeft > window.innerWidth) {
-            newLeft = getLeft('left');
+            newLeft = pos['left'];
         }
 
         as.left = `${newLeft}px`;

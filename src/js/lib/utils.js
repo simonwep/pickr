@@ -57,12 +57,12 @@ function eventListener(method, elements, events, fn, options = {}) {
 /**
  * Creates an DOM-Element out of a string (Single element).
  * @param html HTML representing a single element
- * @returns {HTMLElement} The element.
+ * @returns {Element | null} The element.
  */
 export function createElementFromString(html) {
-    const template = document.createElement('template');
-    template.innerHTML = html.trim();
-    return template.content.firstChild;
+    const div = document.createElement('div');
+    div.innerHTML = html.trim();
+    return div.firstElementChild;
 }
 
 /**

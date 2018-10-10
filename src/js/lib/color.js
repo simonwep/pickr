@@ -15,7 +15,7 @@ export function hsvToRgb(h, s, v) {
     s /= 100;
     v /= 100;
 
-    let i = Math.floor(h);
+    let i = Math.round(h);
 
     let f = h - i;
     let p = v * (1 - s);
@@ -42,7 +42,7 @@ export function hsvToRgb(h, s, v) {
  * @returns {string[]} Hex values
  */
 export function hsvToHex(h, s, v) {
-    return hsvToRgb(h, s, v).map(v => Math.ceil(v).toString(16).padStart(2, '0'));
+    return hsvToRgb(h, s, v).map(v => Math.round(v).toString(16).padStart(2, '0'));
 }
 
 /**

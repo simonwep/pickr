@@ -34,7 +34,7 @@ class Pickr {
             position: 'middle',
             adjustableNumbers: true,
             showAlways: false,
-            appendToBody: false,
+            parent: undefined,
 
             closeWithKey: 'Escape',
             onChange: () => 0,
@@ -91,7 +91,12 @@ class Pickr {
 
         // Check if a custom button is used
         if (opt.useAsButton) {
-            opt.appendToBody = true;
+
+            // Check if the user has an alternative location defined, used body as fallback
+            if (!opt.parent) {
+                opt.parent = 'body';
+            }
+
             this._root.button = opt.el; // Replace button with customized button
         }
 
@@ -105,9 +110,15 @@ class Pickr {
         // Remove from body
         document.body.removeChild(root.root);
 
-        // Check appendToBody option
-        if (opt.appendToBody) {
-            document.body.appendChild(root.app);
+        // Check parent option
+        if (opt.parent) {
+
+            // Check if element is selector
+            if (typeof opt.parent === 'string') {
+                opt.parent = document.querySelector(opt.parent);
+            }
+
+            opt.parent.appendChild(root.app);
         }
 
         // Don't replace the the element if a custom button is used
@@ -306,8 +317,8 @@ class Pickr {
         const root = this._root;
         const app = this._root.app;
 
-        // Check appendToBody option and normalize position
-        if (this.options.appendToBody) {
+        // Check if user has defined a parent
+        if (this.options.parent) {
             const relative = root.button.getBoundingClientRect();
             app.style.position = 'fixed';
             app.style.marginLeft = `${relative.left}px`;

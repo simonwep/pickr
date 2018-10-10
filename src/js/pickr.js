@@ -287,7 +287,7 @@ class Pickr {
 
             // Cancel selecting if the user taps behind the color picker
             eventBindings.push(_.on(document, 'click', e => {
-                if (!_.eventPath(e).includes(_root.root)) {
+                if (!_.eventPath(e).some(el => el === _root.root || el === _root.button)) {
                     this.isOpen() && this.hide();
                 }
             }));

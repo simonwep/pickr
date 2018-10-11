@@ -279,7 +279,7 @@ class Pickr {
                 _root.hue.picker,
                 _root.opacity.slider,
                 _root.opacity.picker
-            ], 'mousedown', () => this._recalc = true),
+            ], ['mousedown', 'touchstart'], () => this._recalc = true),
 
 
             // Repositioning on resize

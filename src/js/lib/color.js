@@ -15,7 +15,7 @@ export function hsvToRgb(h, s, v) {
     s /= 100;
     v /= 100;
 
-    let i = Math.round(h);
+    let i = Math.floor(h);
 
     let f = h - i;
     let p = v * (1 - s);

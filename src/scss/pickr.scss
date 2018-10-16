@@ -189,6 +189,8 @@
     .pcr-color-opacity {
         position: relative;
         user-select: none;
+        display: flex;
+        flex-direction: column;
     }
 
     .pcr-color-palette {

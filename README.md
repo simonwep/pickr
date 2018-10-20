@@ -9,23 +9,23 @@
 <p align="center">
   <a href="https://choosealicense.com/licenses/mit/"><img
 	  alt="License MIT"
-	  src="https://img.shields.io/badge/licence-MIT-3498db.svg"></a>
+	  src="https://img.shields.io/badge/licence-MIT-3498db.svg?style=popout-square"></a>
   <a href="https://webpack.js.org/"><img
      alt="Webpack"
-     src="https://img.shields.io/badge/Webpack-4-3498db.svg"></a>
+     src="https://img.shields.io/badge/Webpack-4-3498db.svg?style=popout-square"></a>
   <img alt="No dependencies"
-       src="https://img.shields.io/badge/dependencies-none-27ae60.svg">
+       src="https://img.shields.io/badge/dependencies-none-27ae60.svg?style=popout-square">
   <a href="https://travis-ci.org/Simonwep/pickr"><img
-       alt="Build Status"
-       src="https://travis-ci.org/Simonwep/pickr.svg?branch=master"></a>
+     alt="Build Status"
+     src="https://travis-ci.org/Simonwep/pickr.svg?branch=master"></a>
   <a href="https://www.npmjs.com/"><img
-     alt="npm package"
-     src="https://img.shields.io/badge/npm-6.0.1-e74c3c.svg"></a>
+     alt="Download count"
+     src="https://img.shields.io/npm/dm/pickr-widget.svg?style=popout-square"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-0.3.0-f1c40f.svg">
+       src="https://img.shields.io/badge/version-0.3.0-f1c40f.svg?style=popout-square">
   <a href="https://www.patreon.com/simonwep"><img
      alt="Support me"
-     src="https://img.shields.io/badge/patreon-support-f1c40f.svg"></a>
+     src="https://img.shields.io/badge/patreon-support-f1c40f.svg?style=popout-square"></a>
 </p>
 
 <br>

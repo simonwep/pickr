@@ -301,7 +301,7 @@ class Pickr {
                 if (!_.eventPath(e).some(el => el === _root.app || el === _root.button)) {
                     this.isOpen() && this.hide();
                 }
-            }));
+            }, {capture: true}));
         }
 
         // Make input adjustable if enabled

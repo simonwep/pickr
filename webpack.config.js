@@ -1,4 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJs = require('uglifyjs-webpack-plugin');
 
 module.exports = {
@@ -7,6 +8,12 @@ module.exports = {
 
         new MiniCssExtractPlugin({
             filename: 'pickr.min.css'
+        }),
+
+        new OptimizeCssAssetsPlugin({
+            cssProcessorPluginOptions: {
+                preset: ['default', {discardComments: {removeAll: true}}]
+            }
         }),
 
         new UglifyJs({
@@ -25,6 +32,7 @@ module.exports = {
         publicPath: 'dist/',
         filename: 'pickr.min.js',
         library: 'Pickr',
+        libraryExport: 'default',
         libraryTarget: 'umd'
     },
 

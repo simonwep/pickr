@@ -166,6 +166,9 @@ class Pickr {
                     // Calculate the value
                     _color.v = 100 - (y / this.wrapper.offsetHeight) * 100;
 
+                    // Prevent falling under zero
+                    _color.v < 0 ? _color.v = 0 : 0;
+
                     // Set picker and gradient color
                     const cssRGBaString = _color.toRGBA().toString();
                     this.element.style.background = cssRGBaString;

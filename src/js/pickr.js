@@ -535,11 +535,24 @@ class Pickr {
             return true;
         }
 
-        const parsed = Color.parseToHSV(string);
+        const {values, type} = Color.parseToHSV(string);
 
         // Check if color is ok
-        if (parsed) {
-            return this.setHSVA(...parsed, silent);
+        if (values) {
+
+            // Change selected color format
+            const utype = type.toUpperCase();
+            const {options} = this._root.interaction;
+            const target = options.find(el => el.getAttribute('data-type') === utype);
+
+            // Auto select only if not hidden
+            if (!target.hidden) {
+                for (const el of options) {
+                    el.classList[el === target ? 'add' : 'remove']('active');
+                }
+            }
+
+            return this.setHSVA(...values, silent);
         }
     }
 

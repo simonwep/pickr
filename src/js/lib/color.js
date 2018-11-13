@@ -2,7 +2,6 @@
 const min = Math.min,
     max = Math.max;
 
-
 /**
  * Convert HSV spectrum to RGB.
  * @param h Hue
@@ -230,17 +229,17 @@ export function parseToHSV(str) {
                 let [, c, m, y, k] = numarize(match);
 
                 if (c > 100 || m > 100 || y > 100 || k > 100)
-                    return null;
+                    break;
 
-                return [...cmykToHsv(c, m, y, k), 1];
+                return {values: [...cmykToHsv(c, m, y, k), 1], type};
             }
             case 'rgba': {
                 let [, , r, g, b, a = 1] = numarize(match);
 
                 if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1)
-                    return null;
+                    break;
 
-                return [...rgbToHsv(r, g, b), a];
+                return {values: [...rgbToHsv(r, g, b), a], type};
             }
             case 'hex': {
                 const splitAt = (s, i) => [s.substring(0, i), s.substring(i, s.length)];
@@ -262,26 +261,26 @@ export function parseToHSV(str) {
 
                 // Convert 0 - 255 to 0 - 1 for opacity
                 alpha = parseInt(alpha, 16) / 255;
-                return [...hexToHsv(hex), alpha];
+                return {values: [...hexToHsv(hex), alpha], type};
             }
             case 'hsla': {
                 let [, , h, s, l, a = 1] = numarize(match);
 
                 if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1)
-                    return null;
+                    break;
 
-                return [...hslToHsv(h, s, l), a];
+                return {values: [...hslToHsv(h, s, l), a], type};
             }
             case 'hsva': {
                 let [, , h, s, v, a = 1] = numarize(match);
 
                 if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1)
-                    return null;
+                    break;
 
-                return [h, s, v, a];
+                return {values: [h, s, v, a], type};
             }
         }
     }
 
-    return null;
+    return {values: null, type: null};
 }

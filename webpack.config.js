@@ -1,29 +1,8 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const UglifyJs = require('uglifyjs-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
-
-    plugins: [
-
-        new MiniCssExtractPlugin({
-            filename: 'pickr.min.css'
-        }),
-
-        new OptimizeCssAssetsPlugin({
-            cssProcessorPluginOptions: {
-                preset: ['default', {discardComments: {removeAll: true}}]
-            }
-        }),
-
-        new UglifyJs({
-            uglifyOptions: {
-                output: {
-                    comments: false
-                }
-            }
-        })
-    ],
 
     entry: './src/js/pickr.js',
 
@@ -62,5 +41,22 @@ module.exports = {
                 ]
             }
         ]
-    }
+    },
+
+    plugins: [
+
+        new MiniCssExtractPlugin({
+            filename: 'pickr.min.css'
+        }),
+
+        new OptimizeCssAssetsPlugin({
+            cssProcessorPluginOptions: {
+                preset: ['default', {discardComments: {removeAll: true}}]
+            }
+        }),
+
+        new webpack.SourceMapDevToolPlugin({
+            filename: 'pickr.min.js.map'
+        })
+    ]
 };

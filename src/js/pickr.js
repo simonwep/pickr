@@ -1,8 +1,3 @@
-/**
- * Flat UI color-picker.
- * @author  Simon Reinisch <toports@gmx.de>
- * @license MIT
- */
 
 // Import styles
 import '../scss/pickr.scss';

@@ -4,6 +4,7 @@
 .pickr {
     position: relative;
     overflow: visible;
+    z-index: 1;
 
     * {
         box-sizing: border-box;

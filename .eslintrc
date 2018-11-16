@@ -1,0 +1,15 @@
+{
+    "extends": [
+        "eslint:recommended"
+    ],
+    "env": {
+        "browser": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "rules": {
+        "no-cond-assign": "off"
+    }
+}

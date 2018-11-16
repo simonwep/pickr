@@ -1,4 +1,3 @@
-
 // Import styles
 import '../scss/pickr.scss';
 
@@ -33,7 +32,8 @@ class Pickr {
 
             closeWithKey: 'Escape',
             onChange: () => 0,
-            onSave: () => 0
+            onSave: () => 0,
+            onClear: () => 0
         }, opt);
 
         // Check interaction section
@@ -278,7 +278,6 @@ class Pickr {
                 _root.opacity.slider,
                 _root.opacity.picker
             ], ['mousedown', 'touchstart'], () => this._recalc = true),
-
 
             // Repositioning on resize
             _.on(window, 'resize', () => this._rePositioningPicker)

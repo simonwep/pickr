@@ -12,7 +12,8 @@
     "main": "./dist/pickr.min.js",
     "scripts": {
         "build": "webpack --mode production",
-        "dev": "webpack-dev-server --mode development"
+        "dev": "webpack-dev-server --mode development",
+        "eslint": "eslint ./src"
     },
     "devDependencies": {
         "@babel/core": "^7.1.5",
@@ -20,6 +21,8 @@
         "@babel/preset-env": "^7.1.5",
         "babel-loader": "^8.0.4",
         "css-loader": "^1.0.1",
+        "eslint": "^5.9.0",
+        "eslint-loader": "^2.1.1",
         "mini-css-extract-plugin": "^0.4.4",
         "node-sass": "^4.10.0",
         "optimize-css-assets-webpack-plugin": "^5.0.1",

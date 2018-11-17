@@ -340,11 +340,30 @@ class Pickr {
             right: 0
         };
 
-        const currentLeft = parseInt(getComputedStyle(app).left, 10);
+        const cl = parseInt(getComputedStyle(app).left, 10);
         let newLeft = pos[this.options.position];
-        if ((ab.left - currentLeft) + newLeft < 0) {
+        const leftClip = (ab.left - cl) + newLeft;
+        const rightClip = (ab.left - cl) + newLeft + ab.width;
+
+        /**
+         * First check if position is left or right but
+         * pickr-app cannot set to left AND right because it would
+         * be clipped by the browser width. If so, wrap it and position
+         * pickr below button via the pos[middle] value.
+         * The current selected posiotion should'nt be the middle.di
+         */
+        if (this.options.position !== 'middle' && (
+            (leftClip < 0 && -leftClip < ab.width / 2) ||
+            (rightClip > window.innerWidth && rightClip - window.innerWidth < ab.width / 2))) {
+            newLeft = pos['middle'];
+
+            /**
+             * Even if set to middle pickr is getting clipped, so
+             * set it to left / right.
+             */
+        } else if (leftClip < 0) {
             newLeft = pos['right'];
-        } else if ((ab.left - currentLeft) - newLeft > window.innerWidth) {
+        } else if (rightClip > window.innerWidth) {
             newLeft = pos['left'];
         }
 

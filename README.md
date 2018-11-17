@@ -47,8 +47,8 @@
 * Multiple color representations
 * Color comparison
 * Opacity control
+* Responsive and auto-positioning
 * Supports touch devices
-* Nodejs support
 * Lightweight, 7KB gzipped
 
 ## Setup

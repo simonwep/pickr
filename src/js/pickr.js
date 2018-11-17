@@ -53,7 +53,6 @@ class Pickr {
 
         // Initialize picker
         this._preBuild();
-        this._rePositioningPicker();
         this._buildComponents();
         this._bindEvents();
 
@@ -69,6 +68,7 @@ class Pickr {
 
         // Finalize build
         this._finalBuild();
+        this._rePositioningPicker();
     }
 
     // Does only the absolutly basic thing to initialize the components

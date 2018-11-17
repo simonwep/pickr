@@ -658,7 +658,7 @@ function create(options) {
                     </div>
                 </div>
 
-                <div data-con="interaction" class="pcr-interaction" ${hidden(components.interaction)}>
+                <div data-con="interaction" class="pcr-interaction" ${hidden(Object.keys(components.interaction).length)}>
                     <input data-key="result" class="pcr-result" type="text" spellcheck="false" ${hidden(components.interaction.input)}>
 
                     <input data-arr="options" class="pcr-type" data-type="HEX" value="HEX" type="button" ${hidden(components.interaction.hex)}>

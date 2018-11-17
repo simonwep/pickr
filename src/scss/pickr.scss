@@ -167,6 +167,7 @@
         flex-direction: column;
         justify-content: space-between;
         @include transparency-background;
+        margin-right: 0.75em;
 
         .pcr-last-color {
             cursor: pointer;
@@ -196,7 +197,7 @@
     }
 
     .pcr-color-palette {
-        width: 80%;
+        width: 100%;
         z-index: 1;
 
         .pcr-palette {
@@ -208,6 +209,7 @@
 
     .pcr-color-chooser,
     .pcr-color-opacity {
+        margin-left: 0.75em;
 
         .pcr-picker {
             left: 50%;

@@ -48,7 +48,6 @@
     z-index: 10000;
     font-family: $font-family;
     box-shadow: $box-shadow-app;
-    top: 5px;
     height: 15em;
     width: 28em;
     max-width: 95vw;
@@ -58,7 +57,9 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s;
-
+    &--fixed {
+        top: 5px;
+    }
     &.visible {
         visibility: visible;
         opacity: 1;

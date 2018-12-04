@@ -1,4 +1,4 @@
-import * as _ from './../lib/utils';
+import * as _ from '../lib/utils';
 
 export default function Selectable(opt = {}) {
     const that = {

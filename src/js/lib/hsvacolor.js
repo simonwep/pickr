@@ -6,67 +6,67 @@ import * as Color from './color';
  */
 class HSVaColor {
 
-  toHSVA(){
-    const hsv = [this.h, this.s, this.v];
-    const rhsv = hsv.map(this.ceil);
+    toHSVA(){
+        const hsv = [this.h, this.s, this.v];
+        const rhsv = hsv.map(this.ceil);
 
-    hsv.toString = () => `hsva(${rhsv[0]}, ${rhsv[1]}%, ${rhsv[2]}%, ${this.a.toFixed(1)})`;
-    return hsv;
-  }
+        hsv.toString = () => `hsva(${rhsv[0]}, ${rhsv[1]}%, ${rhsv[2]}%, ${this.a.toFixed(1)})`;
+        return hsv;
+    }
 
-  toHSLA(){
-    const hsl = Color.hsvToHsl(this.h, this.s, this.v);
-    const rhsl = hsl.map(this.ceil);
+    toHSLA(){
+        const hsl = Color.hsvToHsl(this.h, this.s, this.v);
+        const rhsl = hsl.map(this.ceil);
 
-    hsl.toString = () => `hsla(${rhsl[0]}, ${rhsl[1]}%, ${rhsl[2]}%, ${this.a.toFixed(1)})`;
-    return hsl;
-  }
+        hsl.toString = () => `hsla(${rhsl[0]}, ${rhsl[1]}%, ${rhsl[2]}%, ${this.a.toFixed(1)})`;
+        return hsl;
+    }
 
-  toRGBA(){
-    const rgb = Color.hsvToRgb(this.h, this.s, this.v);
-    const rrgb = rgb.map(this.ceil);
+    toRGBA(){
+        const rgb = Color.hsvToRgb(this.h, this.s, this.v);
+        const rrgb = rgb.map(this.ceil);
 
-    rgb.toString = () => `rgba(${rrgb[0]}, ${rrgb[1]}, ${rrgb[2]}, ${this.a.toFixed(1)})`;
-    return rgb;
-  }
+        rgb.toString = () => `rgba(${rrgb[0]}, ${rrgb[1]}, ${rrgb[2]}, ${this.a.toFixed(1)})`;
+        return rgb;
+    }
 
-  toCMYK(){
-    const cmyk = Color.hsvToCmyk(this.h, this.s, this.v);
-    const rcmyk = cmyk.map(this.ceil);
+    toCMYK(){
+        const cmyk = Color.hsvToCmyk(this.h, this.s, this.v);
+        const rcmyk = cmyk.map(this.ceil);
 
-    cmyk.toString = () => `cmyk(${rcmyk[0]}%, ${rcmyk[1]}%, ${rcmyk[2]}%, ${rcmyk[3]}%)`;
-    return cmyk;
-  }
+        cmyk.toString = () => `cmyk(${rcmyk[0]}%, ${rcmyk[1]}%, ${rcmyk[2]}%, ${rcmyk[3]}%)`;
+        return cmyk;
+    }
 
-  toHEX(){
-    const hex = Color.hsvToHex(...[this.h, this.s, this.v]);
+    toHEX(){
+        const hex = Color.hsvToHex(...[this.h, this.s, this.v]);
 
-    hex.toString = () => {
+        hex.toString = () => {
 
-      // Check if alpha channel make sense, convert it to 255 number space, convert
-      // to hex and pad it with zeros if needet.
-      const alpha = this.a >= 1 ? '' : Number((this.a * 255).toFixed(0))
-        .toString(16)
-        .toUpperCase()
-        .padStart(2, '0');
+          // Check if alpha channel make sense, convert it to 255 number space, convert
+          // to hex and pad it with zeros if needet.
+          const alpha = this.a >= 1 ? '' : Number((this.a * 255).toFixed(0))
+            .toString(16)
+            .toUpperCase()
+            .padStart(2, '0');
 
-      return `#${hex.join('').toUpperCase() + alpha}`;
-    };
+          return `#${hex.join('').toUpperCase() + alpha}`;
+        };
 
-    return hex;
-  }
+        return hex;
+    }
 
-  clone(){
-    return new HSVaColor(this.h, this.s, this.v, this.a);
-  }
+    clone(){
+        return new HSVaColor(this.h, this.s, this.v, this.a);
+    }
 
-  constructor(h = 0, s = 0, v = 0, a = 1) {
-    this.ceil = Math.ceil;
-    this.h = h;
-    this.s = s;
-    this.v = v;
-    this.a = a;
-  }
+    constructor(h = 0, s = 0, v = 0, a = 1) {
+        this.ceil = Math.ceil;
+        this.h = h;
+        this.s = s;
+        this.v = v;
+        this.a = a;
+    }
 }
 
 export default HSVaColor;

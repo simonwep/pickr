@@ -6,7 +6,7 @@ import * as Color from './color';
  */
 class HSVaColor {
 
-    toHSVA(){
+    toHSVA() {
         const hsv = [this.h, this.s, this.v];
         const rhsv = hsv.map(this.ceil);
 
@@ -14,7 +14,7 @@ class HSVaColor {
         return hsv;
     }
 
-    toHSLA(){
+    toHSLA() {
         const hsl = Color.hsvToHsl(this.h, this.s, this.v);
         const rhsl = hsl.map(this.ceil);
 
@@ -22,7 +22,7 @@ class HSVaColor {
         return hsl;
     }
 
-    toRGBA(){
+    toRGBA() {
         const rgb = Color.hsvToRgb(this.h, this.s, this.v);
         const rrgb = rgb.map(this.ceil);
 
@@ -30,7 +30,7 @@ class HSVaColor {
         return rgb;
     }
 
-    toCMYK(){
+    toCMYK() {
         const cmyk = Color.hsvToCmyk(this.h, this.s, this.v);
         const rcmyk = cmyk.map(this.ceil);
 
@@ -38,17 +38,17 @@ class HSVaColor {
         return cmyk;
     }
 
-    toHEX(){
+    toHEX() {
         const hex = Color.hsvToHex(...[this.h, this.s, this.v]);
 
         hex.toString = () => {
 
-          // Check if alpha channel make sense, convert it to 255 number space, convert
-          // to hex and pad it with zeros if needet.
-          const alpha = this.a >= 1 ? '' : Number((this.a * 255).toFixed(0))
-            .toString(16)
-            .toUpperCase()
-            .padStart(2, '0');
+            // Check if alpha channel make sense, convert it to 255 number space, convert
+            // to hex and pad it with zeros if needet.
+            const alpha = this.a >= 1 ? '' : Number((this.a * 255).toFixed(0))
+              .toString(16)
+              .toUpperCase()
+              .padStart(2, '0');
 
           return `#${hex.join('').toUpperCase() + alpha}`;
         };
@@ -56,7 +56,7 @@ class HSVaColor {
         return hex;
     }
 
-    clone(){
+    clone() {
         return new HSVaColor(this.h, this.s, this.v, this.a);
     }
 

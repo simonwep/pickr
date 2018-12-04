@@ -20,7 +20,7 @@ class Pickr {
             disabled: false,
             comparison: true,
 
-            components: { interaction: {} },
+            components: {interaction: {}},
             strings: {},
 
             default: 'fff',
@@ -153,7 +153,7 @@ class Pickr {
                 wrapper: inst._root.palette.palette,
 
                 onchange(x, y) {
-                    const { _color, _root, options } = inst;
+                    const {_color, _root, options} = inst;
 
                     // Calculate saturation based on the position
                     _color.s = (x / this.wrapper.offsetWidth) * 100;
@@ -164,18 +164,17 @@ class Pickr {
                     // Prevent falling under zero
                     _color.v < 0 ? _color.v = 0 : 0;
 
+                    // Set picker and gradient color
                     const cssRGBaString = _color.toRGBA().toString();
                     this.element.style.background = cssRGBaString;
                     this.wrapper.style.background = `
-                                                linear-gradient(to top, rgba(0, 0, 0, ${_color.a}), transparent), 
-                                                linear-gradient(to left, hsla(${_color.h}, 100%, 50%, ${_color.a}), rgba(255, 255, 255, ${_color.a}))
-                                        `;
+                        linear-gradient(to top, rgba(0, 0, 0, ${_color.a}), transparent), 
+                        linear-gradient(to left, hsla(${_color.h}, 100%, 50%, ${_color.a}), rgba(255, 255, 255, ${_color.a}))
+                    `;
                     // Check if color is locked
-
                     if (!options.comparison) {
                         _root.button.style.background = cssRGBaString;
                         if (!options.useAsButton) {
-
                             _root.preview.lastColor.style.background = cssRGBaString;
                         }
                     }
@@ -183,7 +182,6 @@ class Pickr {
                     _root.preview.currentColor.style.background = cssRGBaString;
 
                     // Update the input field only if the user is currently not typing
-                    // Set picker and gradient color
                     if (inst._recalc) {
                         inst._updateOutput();
                     }
@@ -241,7 +239,7 @@ class Pickr {
     }
 
     _bindEvents() {
-        const { _root, options } = this;
+        const {_root, options} = this;
 
         const eventBindings = [
 
@@ -297,7 +295,7 @@ class Pickr {
                 if (this.isOpen() && !_.eventPath(e).some(el => el === _root.app || el === _root.button)) {
                     this.hide();
                 }
-            }, { capture: true }));
+            }, {capture: true}));
         }
 
         // Make input adjustable if enabled
@@ -406,7 +404,7 @@ class Pickr {
     }
 
     _saveColor() {
-        const { preview, button } = this._root;
+        const {preview, button} = this._root;
         // Change preview and current color
         const cssRGBaString = this._color.toRGBA().toString();
         preview.lastColor.style.background = cssRGBaString;
@@ -500,44 +498,42 @@ class Pickr {
      * @return true if the color has been accepted
      */
     setHSVA(h = 360, s = 0, v = 0, a = 1, silent = false) {
+
         // Deactivate color calculation
         const recalc = this._recalc; // Save state
         this._recalc = false;
         // Validate input
-
         if (h < 0 || h > 360 || s < 0 || s > 100 || v < 0 || v > 100 || a < 0 || a > 1) {
             return false;
         }
+
         // Short names
-        const { hue, opacity, palette } = this.components;
+        const {hue, opacity, palette} = this.components;
 
         // Calculate y position of hue slider
         const hueWrapper = hue.options.wrapper;
-
         const hueY = hueWrapper.offsetHeight * (h / 360);
         hue.update(0, hueY);
+
         // Calculate y position of opacity slider
         const opacityWrapper = opacity.options.wrapper;
-
         const opacityY = opacityWrapper.offsetHeight * a;
         opacity.update(0, opacityY);
+
         // Calculate y and x position of color palette
         const pickerWrapper = palette.options.wrapper;
-
         const pickerX = pickerWrapper.offsetWidth * (s / 100);
         const pickerY = pickerWrapper.offsetHeight * (1 - (v / 100));
         palette.update(pickerX, pickerY);
+
         // Override current color and re-active color calculation
         this._color = new HSVaColor(h, s, v, a);
-
         this._recalc = recalc; // Restore old state
         // Update output if recalculation is enabled
-
         if (this._recalc) {
             this._updateOutput();
         }
         // Check if call is silent
-
         if (!silent) {
             this._saveColor();
         }
@@ -548,19 +544,19 @@ class Pickr {
     /**
      * Tries to parse a string which represents a color.
      * Examples: #fff
-     *                     rgb 10 10 200
-     *                     hsva 10 20 5 0.5
+     *           rgb 10 10 200
+     *           hsva 10 20 5 0.5
      * @param string
      * @param silent
      */
     setColor(string, silent = false) {
-        // Check if null
 
+        // Check if null
         if (string === null) {
             this._clearColor();
             return true;
         }
-        const { values, type } = Color.parseToHSV(string);
+        const {values, type} = Color.parseToHSV(string);
 
         // Check if color is ok
 
@@ -568,7 +564,7 @@ class Pickr {
             // Change selected color format
             const utype = type.toUpperCase();
 
-            const { options } = this._root.interaction;
+            const {options} = this._root.interaction;
             const target = options.find(el => el.getAttribute('data-type') === utype);
             // Auto select only if not hidden
 
@@ -640,52 +636,52 @@ class Pickr {
 }
 
 function create(options) {
-    const { components, strings, useAsButton } = options;
+    const {components, strings, useAsButton} = options;
     const hidden = con => con ? '' : 'style="display:none" hidden';
 
     const root = _.createFromTemplate(`
-                <div data-key="root" class="pickr">
-                
-                        ${useAsButton ? '' : '<div data-key="button" class="pcr-button"></div>'}
+        <div data-key="root" class="pickr">
+        
+                ${useAsButton ? '' : '<div data-key="button" class="pcr-button"></div>'}
 
-                        <div data-key="app" class="pcr-app">
-                                <div class="pcr-selection">
-                                        <div data-con="preview" class="pcr-color-preview" ${hidden(components.preview)}>
-                                                <div data-key="lastColor" class="pcr-last-color"></div>
-                                                <div data-key="currentColor" class="pcr-current-color"></div>
-                                        </div>
-
-                                        <div data-con="palette" class="pcr-color-palette">
-                                                <div data-key="picker" class="pcr-picker"></div>
-                                                <div data-key="palette" class="pcr-palette"></div>
-                                        </div>
-
-                                        <div data-con="hue" class="pcr-color-chooser" ${hidden(components.hue)}>
-                                                <div data-key="picker" class="pcr-picker"></div>
-                                                <div data-key="slider" class="pcr-hue pcr-slider"></div>
-                                        </div>
-
-                                        <div data-con="opacity" class="pcr-color-opacity" ${hidden(components.opacity)}>
-                                                <div data-key="picker" class="pcr-picker"></div>
-                                                <div data-key="slider" class="pcr-opacity pcr-slider"></div>
-                                        </div>
+                <div data-key="app" class="pcr-app">
+                        <div class="pcr-selection">
+                                <div data-con="preview" class="pcr-color-preview" ${hidden(components.preview)}>
+                                        <div data-key="lastColor" class="pcr-last-color"></div>
+                                        <div data-key="currentColor" class="pcr-current-color"></div>
                                 </div>
 
-                                <div data-con="interaction" class="pcr-interaction" ${hidden(Object.keys(components.interaction).length)}>
-                                        <input data-key="result" class="pcr-result" type="text" spellcheck="false" ${hidden(components.interaction.input)}>
+                                <div data-con="palette" class="pcr-color-palette">
+                                        <div data-key="picker" class="pcr-picker"></div>
+                                        <div data-key="palette" class="pcr-palette"></div>
+                                </div>
 
-                                        <input data-arr="options" class="pcr-type" data-type="HEX" value="HEX" type="button" ${hidden(components.interaction.hex)}>
-                                        <input data-arr="options" class="pcr-type" data-type="RGBA" value="RGBa" type="button" ${hidden(components.interaction.rgba)}>
-                                        <input data-arr="options" class="pcr-type" data-type="HSLA" value="HSLa" type="button" ${hidden(components.interaction.hsla)}>
-                                        <input data-arr="options" class="pcr-type" data-type="HSVA" value="HSVa" type="button" ${hidden(components.interaction.hsva)}>
-                                        <input data-arr="options" class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(components.interaction.cmyk)}>
+                                <div data-con="hue" class="pcr-color-chooser" ${hidden(components.hue)}>
+                                        <div data-key="picker" class="pcr-picker"></div>
+                                        <div data-key="slider" class="pcr-hue pcr-slider"></div>
+                                </div>
 
-                                        <input data-key="save" class="pcr-save" value="${strings.save || 'Save'}" type="button" ${hidden(components.interaction.save)}>
-                                        <input data-key="clear" class="pcr-clear" value="${strings.clear || 'Clear'}" type="button" ${hidden(components.interaction.clear)}>
+                                <div data-con="opacity" class="pcr-color-opacity" ${hidden(components.opacity)}>
+                                        <div data-key="picker" class="pcr-picker"></div>
+                                        <div data-key="slider" class="pcr-opacity pcr-slider"></div>
                                 </div>
                         </div>
+
+                        <div data-con="interaction" class="pcr-interaction" ${hidden(Object.keys(components.interaction).length)}>
+                                <input data-key="result" class="pcr-result" type="text" spellcheck="false" ${hidden(components.interaction.input)}>
+
+                                <input data-arr="options" class="pcr-type" data-type="HEX" value="HEX" type="button" ${hidden(components.interaction.hex)}>
+                                <input data-arr="options" class="pcr-type" data-type="RGBA" value="RGBa" type="button" ${hidden(components.interaction.rgba)}>
+                                <input data-arr="options" class="pcr-type" data-type="HSLA" value="HSLa" type="button" ${hidden(components.interaction.hsla)}>
+                                <input data-arr="options" class="pcr-type" data-type="HSVA" value="HSVa" type="button" ${hidden(components.interaction.hsva)}>
+                                <input data-arr="options" class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(components.interaction.cmyk)}>
+
+                                <input data-key="save" class="pcr-save" value="${strings.save || 'Save'}" type="button" ${hidden(components.interaction.save)}>
+                                <input data-key="clear" class="pcr-clear" value="${strings.clear || 'Clear'}" type="button" ${hidden(components.interaction.clear)}>
+                        </div>
                 </div>
-        `);
+        </div>
+    `);
 
     const int = root.interaction;
 

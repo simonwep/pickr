@@ -2,13 +2,13 @@
 import '../scss/pickr.scss';
 
 // Import utils
-import * as _ from './lib/utils';
+import * as _     from './lib/utils';
 import * as Color from './lib/color';
 
 // Import classes
 import {HSVaColor} from './lib/hsvacolor';
-import Moveable from './helper/moveable';
-import Selectable from './helper/selectable';
+import Moveable    from './helper/moveable';
+import Selectable  from './helper/selectable';
 
 class Pickr {
 
@@ -56,9 +56,6 @@ class Pickr {
         this._buildComponents();
         this._bindEvents();
 
-        // Initialize color
-        this.setColor(this.options.default);
-
         // Initialize color _epresentation
         this._representation = this.options.defaultRepresentation;
         this.setColorRepresentation(this._representation);
@@ -69,6 +66,9 @@ class Pickr {
         // Finalize build
         this._finalBuild();
         this._rePositioningPicker();
+
+        // Initialize color after first repaint
+        requestAnimationFrame(() => this.setColor(this.options.default));
     }
 
     // Does only the absolutly basic thing to initialize the components

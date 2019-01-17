@@ -126,9 +126,13 @@ const pickr = new Pickr({
 
     // If set to false it would directly apply the selected color on the button and preview.
     comparison: true,
-
+    
     // Default color
     default: 'fff',
+    
+    // Optional color swatches. null by default which means it's disabled.
+    // Types are all these allowed which can be used in pickr e.g. hex, hsv(a), hsl(a), rgb(a) and cmyk
+    swatches: ['#F44336', '#E91E63', '#9C27B0', '#673AB7'],
 
     // Default color representation.
     // Valid options are `HEX`, `RGBA`, `HSVA`, `HSLA` and `CMYK`.
@@ -185,15 +189,21 @@ const pickr = new Pickr({
        clear: 'Clear' // Default for clear button
     },
 
-    // User has changed the color
+    // User changed the color
     onChange(hsva, instance) {
         hsva;     // HSVa color object, if cleared null
         instance; // Current Pickr instance
     },
 
-    // User has clicked the save button
+    // User clicked the save button
     onSave(hsva, instance) {
         // same as onChange
+    },
+    
+    // User clicked one of the color swatches
+    onSwatchSelect(color, instance) {
+        color;    // Passed color in swatches-option as string
+        instance; // Current Pickr instance
     }
 });
 ```

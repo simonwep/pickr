@@ -35,7 +35,7 @@ class Pickr {
             closeWithKey: 'Escape',
             onChange: () => 0,
             onSave: () => 0,
-            onClear: () => 0
+            onSwatchSelect: () => 0
         }, opt);
 
         // Check interaction section
@@ -293,6 +293,9 @@ class Pickr {
                 _.on(_root.swatches, 'click', ({target}) => {
                     const color = target.getAttribute('data-color');
                     color && this.setColor(color, true);
+
+                    // Fire event
+                    options.onSwatchSelect(color, this);
                 })
             );
         }

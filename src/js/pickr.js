@@ -258,7 +258,7 @@ class Pickr {
 
             // Save color
             _.on(_root.interaction.save, 'click', () => {
-                !this._saveColor() && !options.showAlways && this.hide();
+                !this.applyColor() && !options.showAlways && this.hide();
             }),
 
             // Detect user input and disable auto-recalculation
@@ -408,7 +408,7 @@ class Pickr {
         }
     }
 
-    _saveColor() {
+    applyColor(silent = false) {
         const {preview, button} = this._root;
 
         // Change preview and current color
@@ -427,7 +427,7 @@ class Pickr {
         this._lastColor = this._color.clone();
 
         // Fire listener
-        if (!this._initializingActive) {
+        if (!this._initializingActive && !silent) {
             this.options.onSave(this._color, this);
         }
     }
@@ -545,7 +545,7 @@ class Pickr {
 
         // Check if call is silent
         if (!silent) {
-            this._saveColor();
+            this.applyColor();
         }
 
         return true;

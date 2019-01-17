@@ -241,6 +241,7 @@ If `silent` is true (Default is false), the button won't change the current colo
 * pickr.destroy()`:HSVaColor` _- Destroy's all functionality._
 * pickr.destroyAndRemove()`:HSVaColor` _- Destroy's all functionality, moreover it removes the pickr element including the button._
 * pickr.setColorRepresentation(type`:String`) _- Change the current color-representation. Valid options are `HEX`, `RGBA`, `HSVA`, `HSLA` and `CMYK`, returns false if type was invalid._
+* pickr.applyColor(silent`:Boolean`) _- Same as pressing the save button. If silent is true the `onSave` event won't be called._
 
 ## Static methods
 **Pickr**

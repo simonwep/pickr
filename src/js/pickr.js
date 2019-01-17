@@ -299,20 +299,22 @@ class Pickr {
 
         // Provide hiding / showing abilities only if showAlways is false
         if (!options.showAlways) {
-
-            // Save and hide / show picker
-            eventBindings.push(_.on(_root.button, 'click', () => this.isOpen() ? this.hide() : this.show()));
-
-            // Close with escape key
             const ck = options.closeWithKey;
-            eventBindings.push(_.on(document, 'keyup', e => this.isOpen() && (e.key === ck || e.code === ck) && this.hide()));
 
-            // Cancel selecting if the user taps behind the color picker
-            eventBindings.push(_.on(document, ['touchstart', 'mousedown'], e => {
-                if (this.isOpen() && !_.eventPath(e).some(el => el === _root.app || el === _root.button)) {
-                    this.hide();
-                }
-            }, {capture: true}));
+            eventBindings.push(
+                // Save and hide / show picker
+                _.on(_root.button, 'click', () => this.isOpen() ? this.hide() : this.show()),
+
+                // Close with escape key
+                _.on(document, 'keyup', e => this.isOpen() && (e.key === ck || e.code === ck) && this.hide()),
+
+                // Cancel selecting if the user taps behind the color picker
+                _.on(document, ['touchstart', 'mousedown'], e => {
+                    if (this.isOpen() && !_.eventPath(e).some(el => el === _root.app || el === _root.button)) {
+                        this.hide();
+                    }
+                }, {capture: true})
+            );
         }
 
         // Make input adjustable if enabled

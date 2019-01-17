@@ -68,13 +68,13 @@
 .pcr-app .swatches {
     display: flex;
     flex-wrap: wrap;
-    margin: 0.5em -0.2em 0;
+    justify-content: space-between;
+    margin-top: 0.75em;
 
     > div {
         position: relative;
         width: 1.5em;
         height: 1.5em;
-        margin: 0.2em;
         border-radius: 0.15em;
         border: 1px solid rgba(black, 0.05);
         transition: all 0.3s;

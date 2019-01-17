@@ -218,7 +218,7 @@ As default color representation is hsva (`hue`, `saturation`, `value` and `alpha
 * hsva.toCMYK() _- Converts the object to a cymk array._
 * hsva.clone() _- Clones the color object._
 
-The `toString()` is overriden so you can get a color representaion string.
+The `toString()` is overridden so you can get a color representaion string.
 
 ```javascript
 hsva.toRGBA(); // Returns [r, g, b, a]
@@ -239,7 +239,7 @@ If `silent` is true (Default is false), the button won't change the current colo
 * pickr.getRoot()`:HTMLElement` _- Returns the root DOM-Element of the color-picker._
 * pickr.getColor()`:HSVaColor` _- Returns the current HSVaColor object._
 * pickr.destroy()`:HSVaColor` _- Destroy's all functionality._
-* pickr.destroyAndRemove()`:HSVaColor` _- Destroy's all functionality, moreover it removes the pickr element including the button._
+* pickr.destroyAndRemove()`:HSVaColor` _- Destroy's all functionality and removes the pickr element including the button._
 * pickr.setColorRepresentation(type`:String`) _- Change the current color-representation. Valid options are `HEX`, `RGBA`, `HSVA`, `HSLA` and `CMYK`, returns false if type was invalid._
 * pickr.applyColor(silent`:Boolean`) _- Same as pressing the save button. If silent is true the `onSave` event won't be called._
 
@@ -256,6 +256,8 @@ If `silent` is true (Default is false), the button won't change the current colo
 * removeAttribute(el`:HTMLElement`, name`:String`) _- Removes an attribute from a HTMLElement and returns the value._
 * createFromTemplate(str`:String`) _- See [inline doumentation](https://github.com/Simonwep/pickr/blob/master/src/js/lib/utils.js#L88)_
 * adjustableInputNumbers(el`:InputElement`, negative`:boolean`) _- Creates the possibility to change the numbers in an inputfield via mouse scrolling._
+
+Use this utils carefully, it's not for sure that they will stay forever!
 
 ## Contributing
 If you want to open a issue, create a Pull Request or simply want to know how you can run it on your local machine, please read the [Contributing guide](https://github.com/Simonwep/pickr/blob/master/.github/CONTRIBUTING.md).

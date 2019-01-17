@@ -65,6 +65,27 @@
     }
 }
 
+.pcr-app .swatches {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0.5em -0.2em 0;
+
+    > div {
+        position: relative;
+        width: 1.5em;
+        height: 1.5em;
+        margin: 0.2em;
+        border-radius: 0.15em;
+        border: 1px solid rgba(black, 0.05);
+        transition: all 0.3s;
+        cursor: pointer;
+
+        &:hover {
+            filter: brightness(1.1);
+        }
+    }
+}
+
 .pcr-app .pcr-interaction {
     display: flex;
     align-items: center;

@@ -23,6 +23,8 @@ class Pickr {
             components: {interaction: {}},
             strings: {},
 
+            swatches: null,
+
             default: 'fff',
             defaultRepresentation: 'HEX',
             position: 'middle',
@@ -284,6 +286,16 @@ class Pickr {
             // Repositioning on resize
             _.on(window, 'resize', () => this._rePositioningPicker)
         ];
+
+        // Color swatches
+        if (_root.swatches) {
+            eventBindings.push(
+                _.on(_root.swatches, 'click', ({target}) => {
+                    const color = target.getAttribute('data-color');
+                    color && this.setColor(color, true);
+                })
+            );
+        }
 
         // Provide hiding / showing abilities only if showAlways is false
         if (!options.showAlways) {
@@ -629,7 +641,7 @@ class Pickr {
 }
 
 function create(options) {
-    const {components, strings, useAsButton} = options;
+    const {components, strings, useAsButton, swatches} = options;
     const hidden = con => con ? '' : 'style="display:none" hidden';
 
     const root = _.createFromTemplate(`
@@ -659,6 +671,14 @@ function create(options) {
                         <div data-key="slider" class="pcr-opacity pcr-slider"></div>
                     </div>
                 </div>
+                
+                ${swatches && swatches.length ? `
+                <div class="swatches">
+                   ${swatches.map(v =>
+        `<div data-arr="swatches" data-color="${v}" style="background: ${v}"></div>`
+    ).join('')}
+                </div> 
+                ` : ''}
 
                 <div data-con="interaction" class="pcr-interaction" ${hidden(Object.keys(components.interaction).length)}>
                     <input data-key="result" class="pcr-result" type="text" spellcheck="false" ${hidden(components.interaction.input)}>

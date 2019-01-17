@@ -34,9 +34,9 @@
   <img alt="Demo" src="gh-page/pickr.apng"/>
 </h3>
 
-<h3 align="center">
+<h4 align="center">
   <a href="https://simonwep.github.io/pickr/">Fully Featured demo</a>
-</h3>
+</h4>
 
 <br>
 

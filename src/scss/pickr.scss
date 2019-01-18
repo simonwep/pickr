@@ -66,9 +66,12 @@
 }
 
 .pcr-app .swatches {
+
+    // Flex fallback
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(1.6em, 1fr));
     margin-top: 0.75em;
 
     > div {
@@ -79,6 +82,9 @@
         border: 1px solid rgba(black, 0.05);
         transition: all 0.3s;
         cursor: pointer;
+        margin: 0 2px 2px 0;
+        flex-shrink: 0;
+        justify-self: center;
 
         &:hover {
             filter: brightness(1.1);

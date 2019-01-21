@@ -85,6 +85,7 @@
         margin: 0 2px 2px 0;
         flex-shrink: 0;
         justify-self: center;
+        @include transparency-background(6px);
 
         &:hover {
             filter: brightness(1.1);

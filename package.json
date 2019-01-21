@@ -1,6 +1,6 @@
 {
     "name": "pickr-widget",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "license": "MIT",
     "author": "Simon Reinisch <toports@gmx.de>",
     "description": "Flat, Simple, Hackable Color-Picker.",

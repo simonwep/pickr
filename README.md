@@ -49,7 +49,7 @@
 * Opacity control
 * Responsive and auto-positioning
 * Supports touch devices
-* Lightweight, 7KB gzipped
+* Lightweight, ~6KB gzipped
 
 ## Setup
 

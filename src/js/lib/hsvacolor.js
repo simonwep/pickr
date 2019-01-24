@@ -11,27 +11,30 @@ export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
         h, s, v, a,
 
         toHSVA() {
-            const hsv = [that.h, that.s, that.v];
-            const rhsv = hsv.map(ceil);
+            const hsva = [that.h, that.s, that.v];
+            const rhsva = hsva.map(ceil);
 
-            hsv.toString = () => `hsva(${rhsv[0]}, ${rhsv[1]}%, ${rhsv[2]}%, ${that.a.toFixed(1)})`;
-            return hsv;
+            hsva.push(that.a);
+            hsva.toString = () => `hsva(${rhsva[0]}, ${rhsva[1]}%, ${rhsva[2]}%, ${that.a.toFixed(1)})`;
+            return hsva;
         },
 
         toHSLA() {
-            const hsl = Color.hsvToHsl(that.h, that.s, that.v);
-            const rhsl = hsl.map(ceil);
+            const hsla = Color.hsvToHsl(that.h, that.s, that.v);
+            const rhsla = hsla.map(ceil);
 
-            hsl.toString = () => `hsla(${rhsl[0]}, ${rhsl[1]}%, ${rhsl[2]}%, ${that.a.toFixed(1)})`;
-            return hsl;
+            hsla.push(that.a);
+            hsla.toString = () => `hsla(${rhsla[0]}, ${rhsla[1]}%, ${rhsla[2]}%, ${that.a.toFixed(1)})`;
+            return hsla;
         },
 
         toRGBA() {
-            const rgb = Color.hsvToRgb(that.h, that.s, that.v);
-            const rrgb = rgb.map(ceil);
+            const rgba = Color.hsvToRgb(that.h, that.s, that.v);
+            const rrgba = rgba.map(ceil);
 
-            rgb.toString = () => `rgba(${rrgb[0]}, ${rrgb[1]}, ${rrgb[2]}, ${that.a.toFixed(1)})`;
-            return rgb;
+            rgba.push(that.a);
+            rgba.toString = () => `rgba(${rrgba[0]}, ${rrgba[1]}, ${rrgba[2]}, ${that.a.toFixed(1)})`;
+            return rgba;
         },
 
         toCMYK() {

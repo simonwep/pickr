@@ -97,6 +97,7 @@
             background: currentColor;
             border: 1px solid rgba(black, 0.05);
             border-radius: 0.15em;
+            box-sizing: border-box;
         }
 
         &:hover {

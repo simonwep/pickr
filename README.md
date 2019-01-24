@@ -202,7 +202,7 @@ const pickr = new Pickr({
     
     // User clicked one of the color swatches
     onSwatchSelect(color, instance) {
-        color;    // Passed color in swatches-option as string
+        color;    // HSVa color object
         instance; // Current Pickr instance
     }
 });

@@ -53,6 +53,15 @@ class Pickr {
         this._color = new HSVaColor();
         this._lastColor = new HSVaColor();
 
+        // Parse swatch colors
+        this.options.swatches = this.options.swatches || [];
+        if (this.options.swatches) {
+            this.options.swatches = this.options.swatches.map(str => {
+                const {values} = Color.parseToHSV(str);
+                return values && new HSVaColor(...values);
+            }).filter(v => v);
+        }
+
         // Initialize picker
         this._preBuild();
         this._buildComponents();
@@ -291,11 +300,14 @@ class Pickr {
         if (_root.swatches) {
             eventBindings.push(
                 _.on(_root.swatches, 'click', ({target}) => {
-                    const color = target.getAttribute('data-color');
-                    color && this.setColor(color, true);
+                    const color = options.swatches[Number(target.getAttribute('data-color-index'))];
 
-                    // Fire event
-                    options.onSwatchSelect(color, this);
+                    if (color) {
+                        this.setHSVA(...color.toHSVA(), true);
+
+                        // Fire event
+                        options.onSwatchSelect(color, this);
+                    }
                 })
             );
         }
@@ -679,9 +691,7 @@ function create(options) {
                 
                 ${swatches && swatches.length ? `
                 <div class="swatches">
-                   ${swatches.map(v =>
-        `<div data-arr="swatches" data-color="${v}" style="background: ${v}"></div>`
-    ).join('')}
+                   ${swatches.map((v, i) => `<div data-arr="swatches" data-color-index="${i}" style="color: ${v.toRGBA()}"></div>`).join('')}
                 </div> 
                 ` : ''}
 

@@ -1,78 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
 
     <!-- Chrome, Firefox OS and Opera -->
-    <meta name="theme-color" content="#42445A" />
+    <meta name="theme-color" content="#42445A"/>
 
     <!-- Windows Phone -->
-    <meta name="msapplication-navbutton-color" content="#42445A" />
+    <meta name="msapplication-navbutton-color" content="#42445A"/>
 
     <!-- iOS Safari -->
-    <meta name="apple-mobile-web-app-status-bar-style" content="#42445A" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#42445A"/>
 
     <!-- SEO Stuff -->
-    <meta name="audience" lang="en" content="all" />
-    <meta name="expires" content="7 days" />
-    <meta name="robots" content="follow" />
-    <meta name="revisit-after" content="7 days" />
-    <meta name="page-topic" content="Color picker" />
-    <meta name="copyright" content="Simon Reinisch" />
-    <meta name="author" content="Simon Reinisch" />
-    <meta
-      name="description"
-      content="Flat, simple, responsive and hackable Color-Picker. No dependencies, no jQuery. Compatible with all CSS Frameworks e.g. Bootstrap, Materialize."
-    />
-    <meta
-      name="keywords"
-      content="colorpicker, color-picker, design, ux-design, ui-design, web-development, programming, colors"
-    />
+    <meta name="audience" lang="en" content="all"/>
+    <meta name="expires" content="7 days"/>
+    <meta name="robots" content="follow"/>
+    <meta name="revisit-after" content="7 days"/>
+    <meta name="page-topic" content="Color picker"/>
+    <meta name="copyright" content="Simon Reinisch"/>
+    <meta name="author" content="Simon Reinisch"/>
+    <meta name="description"
+          content="Flat, simple, responsive and hackable Color-Picker. No dependencies, no jQuery. Compatible with all CSS Frameworks e.g. Bootstrap, Materialize."/>
+    <meta name="keywords" content="colorpicker, color-picker, design, ux-design, ui-design, web-development, programming, colors"/>
 
     <!-- Open Graph tags -->
-    <meta property="og:image" content="gh-page/pickr.png" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://simonwep.github.io/pickr/" />
-    <meta property="og:site_name" content="Pickr" />
-    <meta property="og:title" content="Pickr" />
-    <meta
-      property="og:description"
-      content="Flat, simple, responsive and hackable Color-Picker. No dependencies, no jQuery. Compatible with all CSS Frameworks e.g. Bootstrap, Materialize."
-    />
+    <meta property="og:image" content="gh-page/pickr.png"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://simonwep.github.io/pickr/"/>
+    <meta property="og:site_name" content="Pickr"/>
+    <meta property="og:title" content="Pickr"/>
+    <meta property="og:description"
+          content="Flat, simple, responsive and hackable Color-Picker. No dependencies, no jQuery. Compatible with all CSS Frameworks e.g. Bootstrap, Materialize."/>
 
     <title>Pickr</title>
 
     <!-- Icons -->
-    <link rel="icon" href="gh-page/pickr.png" />
-    <link rel="fluid-icon" href="gh-page/pickr.png" />
-    <link rel="apple-touch-icon" href="gh-page/pickr.png" />
+    <link rel="icon" href="gh-page/pickr.png"/>
+    <link rel="fluid-icon" href="gh-page/pickr.png"/>
+    <link rel="apple-touch-icon" href="gh-page/pickr.png"/>
 
     <!-- Style sheets -->
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Montserrat:200,400,500"
-    />
-    <link href="dist/pickr.min.css" rel="stylesheet" />
-    <link href="gh-page/css/styles.css" rel="stylesheet" />
-  </head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:200,400,500"/>
+    <link href="dist/pickr.min.css" rel="stylesheet"/>
+    <link href="gh-page/css/styles.css" rel="stylesheet"/>
+</head>
 
-  <body>
-    <header>
-      <h1>Flat color picker</h1>
-      <a href="https://github.com/Simonwep/pickr">VIEW ON GITHUB</a>
-    </header>
+<body>
+<header>
+    <h1>Flat color picker</h1>
+    <a href="https://github.com/Simonwep/pickr">VIEW ON GITHUB</a>
+</header>
 
-    <main>
-      <section class="demo">
-        <div class="center"><div class="color-picker"></div></div>
-      </section>
+<main>
+    <section class="demo">
+        <div class="center">
+            <div class="color-picker"></div>
+        </div>
+    </section>
 
-      <section class="demo-code">
+    <section class="demo-code">
         <h2>Example code</h2>
 
         <pre><code class="prettyprint">const pickr = new Pickr({
@@ -96,9 +85,9 @@
         }
     }
 });</code></pre>
-      </section>
+    </section>
 
-      <section>
+    <section>
         <h2>Handle what the user picked</h2>
 
         <pre><code class="prettyprint">const pickr = new Pickr({
@@ -114,9 +103,9 @@
         // same as onChange
     }
 });</code></pre>
-      </section>
+    </section>
 
-      <section>
+    <section>
         <h2>Available options</h2>
 
         <pre><code class="prettyprint">const pickr = new Pickr({
@@ -203,12 +192,12 @@
         // same as onChange
     }
 });</code></pre>
-      </section>
-    </main>
+    </section>
+</main>
 
-    <script src="dist/pickr.min.js"></script>
-    <script src="gh-page/js/script.js"></script>
-    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
-    <link href="gh-page/css/highlight.css" rel="stylesheet" />
-  </body>
+<script src="dist/pickr.min.js"></script>
+<script src="gh-page/js/script.js"></script>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+<link href="gh-page/css/highlight.css" rel="stylesheet"/>
+</body>
 </html>

@@ -2,7 +2,7 @@
 
 .hljs,
 .hljs-subst {
-    color: #DDDDDD;
+    color: #dddddd;
 }
 
 .hljs-comment {
@@ -10,15 +10,15 @@
 }
 
 .kwd {
-    color: #6C9EF8;
+    color: #6c9ef8;
 }
 
 .pln {
-    color: #A87FDB;
+    color: #a87fdb;
 }
 
 .str {
-    color: #D89330;
+    color: #d89330;
 }
 
 .typ,

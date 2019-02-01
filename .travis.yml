@@ -1,14 +1,14 @@
 language: node_js
 
 node_js:
- - "stable"
+    - "stable"
 
 install:
- - npm install
+    - npm install
 
 script:
- - npm run build
+    - npm run build
 
 cache:
-  directories:
-    - "node_modules"
+    directories:
+        - "node_modules"

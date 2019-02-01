@@ -52,6 +52,7 @@
 * Lightweight, ~6KB gzipped
 
 ## Setup
+Thank's to [Clément Le Biez](https://github.com/Clebiez) for providing an optional ES5 version!
 
 ### Node
 Install package:
@@ -61,9 +62,15 @@ $ npm install pickr-widget --save
 
 Include code and style:
 ```js
-import '/node_modules/pickr-widget/dist/pickr.min.css';           // Styles
-import Pickr from '/node_modules/pickr-widget/dist/pickr.min';  // Javascript
-...your awesome code
+
+// Style
+import '/node_modules/pickr-widget/dist/pickr.min.css';
+
+// Modern browsers (not IE11, see .browserslistrc)
+import Pickr from '/node_modules/pickr-widget/dist/pickr.min';      
+
+// ES5 Version
+import Pickr from '/node_modules/pickr-widget/dist/pickr.es5.min'; 
 ```
 ---
 ### Browser
@@ -72,15 +79,11 @@ jsdelivr:
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pickr-widget/dist/pickr.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/pickr-widget/dist/pickr.min.js"></script>
+<!-- OR -->
+<script src="https://cdn.jsdelivr.net/npm/pickr-widget/dist/pickr.es5.min.js"></script>
 ```
 
-Directly:
-```html
-<link rel="stylesheet" href="node_modules/pickr-widget/dist/pickr.min.css"/>
-<script src="node_modules/pickr-widget/dist/pickr.min.js"></script>
-```
-
-Be sure to load the `pickr.min.js` **after** `pickr.min.css`. Moreover the `script` tag doesn't work with the `defer` attribute.
+Be sure to load the `pickr.min.js` (or the es5 version) **after** `pickr.min.css`. Moreover the `script` tag doesn't work with the `defer` attribute.
 ## Usage
 ```javascript
 // Simple example, see optional options for more configuration.

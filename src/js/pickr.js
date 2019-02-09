@@ -459,7 +459,7 @@ class Pickr {
         }
 
         // Fire listener
-        options.onSave(null, this);
+        options.onChange(null, this);
     }
 
     /**

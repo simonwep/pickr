@@ -22,7 +22,7 @@
      alt="Download count"
      src="https://img.shields.io/npm/dm/pickr-widget.svg?style=popout-square"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-0.3.4-f1c40f.svg?style=popout-square">
+       src="https://img.shields.io/badge/version-0.3.5-f1c40f.svg?style=popout-square">
   <a href="https://www.patreon.com/simonwep"><img
      alt="Support me"
      src="https://img.shields.io/badge/patreon-support-f1c40f.svg?style=popout-square"></a>

@@ -75,13 +75,15 @@ class Pickr {
         this._finalBuild();
         this._rePositioningPicker();
 
-        // Initialize color after first repaint
-        requestAnimationFrame(() => {
-            this.setColor(this.options.default);
+        // Initilization is finish, pickr is visible and ready for usage
+        requestAnimationFrame((function cb() {
+            if (!this._root.app.offsetParent) {
+                return requestAnimationFrame(cb.bind(this));
+            }
 
-            // Initilization is finish, pickr is visible and ready to use
             this._initializingActive = false;
-        });
+            this.setColor(this.options.default);
+        }).bind(this));
     }
 
     // Does only the absolutly basic thing to initialize the components

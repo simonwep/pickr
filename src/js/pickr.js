@@ -54,7 +54,8 @@ class Pickr {
         this._eventListener = {
             'swatchselect': [],
             'change': [],
-            'save': []
+            'save': [],
+            'init': []
         };
 
         // Parse swatch colors
@@ -87,6 +88,7 @@ class Pickr {
 
             this._initializingActive = false;
             this.setColor(this.options.default);
+            this._emit('init');
         }).bind(this));
     }
 

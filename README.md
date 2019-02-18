@@ -114,7 +114,27 @@ const pickr = Pickr.create({
 });
 ```
 
-## Optional options
+## Events
+Since version `0.4.x` Pickr is event-driven. Use the `on(event, cb)` and `off(event, cb)` functions to bind / unbind eventlistener.
+
+| Event      | Description | Arguments |
+| -------------- | ----------- | --------- |
+| `save`         | User clicked the save button | `HSVaColorObject, PickrInstance` |
+| `change`       | Color has changed (but not saved). Also fired on `swatchselect` | `HSVaColorObject, PickrInstance` |
+| `swatchselect` | User clicked one of the swatches | `HSVaColorObject, PickrInstance` |
+
+> Example:
+```js
+pickr.on('save', (...args) => {
+    console.log('Save', args);
+}).on('swatchselect', (...args) => {
+    console.log('SwatchSelect', args);
+}).on('change', (...args) => {
+    console.log('Change', args);
+});
+```
+
+## Options
 ```javascript
 const pickr = new Pickr({
 
@@ -192,23 +212,6 @@ const pickr = new Pickr({
     strings: {
        save: 'Save',  // Default for save button
        clear: 'Clear' // Default for clear button
-    },
-
-    // User changed the color
-    onChange(hsva, instance) {
-        hsva;     // HSVa color object, if cleared null
-        instance; // Current Pickr instance
-    },
-
-    // User clicked the save button
-    onSave(hsva, instance) {
-        // same as onChange
-    },
-    
-    // User clicked one of the color swatches
-    onSwatchSelect(color, instance) {
-        color;    // HSVa color object
-        instance; // Current Pickr instance
     }
 });
 ```
@@ -236,6 +239,8 @@ hsva.toRGBA().toString(); // Returns rgba(r, g, b, a)
 
 If `silent` is true (Default is false), the button won't change the current color.
 
+* pickr.on(event`:String`, cb`:Function`) _- Appends an eventlistener to the given corresponding event-name (see section Events), returns the pickr instance so it can be chained._
+* pickr.off(event`:String`, cb`:Function`) _- Removes an eventlistener from the given corresponding event-name (see section Events), returns the pickr instance so it can be chained._
 * pickr.show() _- Shows the color-picker, returns instance._
 * pickr.hide() _- Hides the color-picker, returns instance._
 * pickr.disable() _- Disables pickr and adds the `disabled` class to the button, returns instance._

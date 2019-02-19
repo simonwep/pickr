@@ -284,7 +284,7 @@ class Pickr {
 
                 // Fire listener if initialization is finish and changed color was valid
                 if (this.setColor(e.target.value, true) && !this._initializingActive) {
-                    this.options.onChange(this._color, this);
+                    this._emit('change', this._color);
                 }
 
                 e.stopImmediatePropagation();
@@ -493,7 +493,7 @@ class Pickr {
         }
 
         // Fire listener
-        options.onChange(null, this);
+        this._emit('change',null);
     }
 
     /**

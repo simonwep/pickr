@@ -7,18 +7,14 @@ $font-family:
     "Helvetica Neue", Arial, sans-serif, !default;
 
 // Constants
-$box-shadow-app: 0 0.2em 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 1em 0 rgba(0, 0, 0, 0.02) !default;
-$color-input-fields: #f8f8f8 !default;
+$box-shadow-app: 0 0.15em 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 1em 0 rgba(0, 0, 0, 0.03) !default;
 
 // Colors
-$color-blue-active: #4285f4 !default;
-$color-blue-hover: #4370f4 !default;
-
-$color-red-active: #f44250 !default;
-$color-red-hover: #db3d49 !default;
-
-$color-gray-light: #c4c4c4 !default;
-$color-gray-default: #808080 !default;
+$palette-cloud-blue: #4285f4 !default;
+$palette-soft-red: #f44250 !default;
+$palette-snowwhite: #F1F3F4 !default;
+$palette-lightgray: #c4c4c4 !default;
+$palette-darkgray: #75797e !default;
 
 $color-rainbow: linear-gradient(to bottom,
     hsl(0, 100%, 50%),

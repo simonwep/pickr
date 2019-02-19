@@ -109,54 +109,54 @@
 .pcr-app .pcr-interaction {
     display: flex;
     align-items: center;
-    margin: 1em -0.2em 0 -0.2em;
+    margin: 0.75em -0.2em 0 -0.2em;
 
     > * {
         margin: 0 0.2em;
     }
 
     input {
-        padding: 0.5em 0.6em;
         border: none;
         outline: none;
         letter-spacing: 0.07em;
         font-size: 0.75em;
         text-align: center;
         cursor: pointer;
-        color: $color-gray-light;
-        background: $color-input-fields;
+        color: $palette-darkgray;
+        background: $palette-snowwhite;
         border-radius: $border-radius-mid;
         transition: all 0.15s;
+        box-shadow: 0 0 0 2px transparent;
+        padding: 0.45em 0.5em;
 
         &:hover {
-            color: $color-gray-default;
+            filter: brightness(0.975);
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 2px rgba($palette-cloud-blue, 0.8);
         }
     }
 
     .pcr-result {
-        color: $color-gray-default;
+        color: $palette-darkgray;
         text-align: left;
         flex-grow: 1;
         min-width: 1em;
         transition: all 0.2s;
         border-radius: $border-radius-mid;
-        background: $color-input-fields;;
+        background: $palette-snowwhite;
         cursor: text;
-        padding-left: 0.8em;
-
-        &:focus {
-            color: $color-blue-active;
-        }
 
         &::selection {
-            background: $color-blue-active;
+            background: $palette-cloud-blue;
             color: #fff;
         }
     }
 
     .pcr-type.active {
         color: #fff;
-        background: $color-blue-active;
+        background: $palette-cloud-blue;
     }
 
     .pcr-clear,
@@ -165,22 +165,21 @@
         width: auto;
     }
 
-    .pcr-save {
-        background: $color-blue-active;
+    .pcr-save,
+    .pcr-clear{
+        color: #fff;
 
         &:hover {
-            background: $color-blue-hover;
-            color: #fff;
+            filter: brightness(0.925);
         }
     }
 
-    .pcr-clear {
-        background: $color-red-active;
+    .pcr-save {
+        background: $palette-cloud-blue;
+    }
 
-        &:hover {
-            background: $color-red-hover;
-            color: #fff;
-        }
+    .pcr-clear {
+        background: $palette-soft-red;
     }
 }
 

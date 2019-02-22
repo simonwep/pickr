@@ -20,7 +20,7 @@
      src="https://travis-ci.org/Simonwep/pickr.svg?branch=master"></a>
   <a href="https://www.npmjs.com/"><img
      alt="Download count"
-     src="https://img.shields.io/npm/dm/pickr-widget.svg?style=popout-square"></a>
+     src="https://img.shields.io/npm/dm/@simonwep/pickr.svg?style=popout-square"></a>
   <img alt="Current version"
        src="https://img.shields.io/badge/version-0.3.6-f1c40f.svg?style=popout-square">
   <a href="https://www.patreon.com/simonwep"><img
@@ -59,30 +59,30 @@ Thank's to [Clément Le Biez](https://github.com/Clebiez) for providing an optio
 ### Node
 Install package:
 ```shell
-$ npm install pickr-widget --save
+$ npm install @simonwep/pickr --save
 ```
 
 Include code and style:
 ```js
 
 // Style
-import '/node_modules/pickr-widget/dist/pickr.min.css';
+import '/node_modules/@simonwep/pickr/dist/pickr.min.css';
 
 // Modern browsers (not IE11, see .browserslistrc)
-import Pickr from '/node_modules/pickr-widget/dist/pickr.min';      
+import Pickr from '/node_modules/@simonwep/pickr/dist/pickr.min';      
 
 // ES5 Version
-import Pickr from '/node_modules/pickr-widget/dist/pickr.es5.min'; 
+import Pickr from '/node_modules/@simonwep/pickr/dist/pickr.es5.min'; 
 ```
 ---
 ### Browser
 
 jsdelivr:
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pickr-widget/dist/pickr.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/pickr-widget/dist/pickr.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
 <!-- OR -->
-<script src="https://cdn.jsdelivr.net/npm/pickr-widget/dist/pickr.es5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
 ```
 
 Be sure to load the `pickr.min.js` (or the es5 version) **after** `pickr.min.css`. Moreover the `script` tag doesn't work with the `defer` attribute.

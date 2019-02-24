@@ -671,7 +671,7 @@ function create(options) {
             <div data-key="app" class="pcr-app">
                 <div class="pcr-selection">
                     <div data-con="preview" class="pcr-color-preview" ${hidden(components.preview)}>
-                        <div data-key="lastColor" class="pcr-last-color"></div>
+                        <button data-key="lastColor" class="pcr-last-color"></button>
                         <div data-key="currentColor" class="pcr-current-color"></div>
                     </div>
 

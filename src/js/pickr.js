@@ -32,10 +32,7 @@ class Pickr {
             showAlways: false,
             parent: undefined,
 
-            closeWithKey: 'Escape',
-            onChange: () => 0,
-            onSave: () => 0,
-            onSwatchSelect: () => 0
+            closeWithKey: 'Escape'
         }, opt);
 
         // Check interaction section
@@ -52,6 +49,14 @@ class Pickr {
         // Current and last color for comparison
         this._color = new HSVaColor();
         this._lastColor = new HSVaColor();
+
+        // Evenlistener name: [callbacks]
+        this._eventListener = {
+            'swatchselect': [],
+            'change': [],
+            'save': [],
+            'init': []
+        };
 
         // Parse swatch colors
         this.options.swatches = this.options.swatches || [];
@@ -83,6 +88,7 @@ class Pickr {
 
             this._initializingActive = false;
             this.setColor(this.options.default);
+            this._emit('init');
         }).bind(this));
     }
 
@@ -278,7 +284,7 @@ class Pickr {
 
                 // Fire listener if initialization is finish and changed color was valid
                 if (this.setColor(e.target.value, true) && !this._initializingActive) {
-                    this.options.onChange(this._color, this);
+                    this._emit('change', this._color);
                 }
 
                 e.stopImmediatePropagation();
@@ -306,9 +312,7 @@ class Pickr {
 
                     if (color) {
                         this.setHSVA(...color.toHSVA(), true);
-
-                        // Fire event
-                        options.onSwatchSelect(color, this);
+                        this._emit('swatchselect', color);
                     }
                 })
             );
@@ -418,8 +422,36 @@ class Pickr {
 
         // Fire listener if initialization is finish
         if (!this._initializingActive) {
-            this.options.onChange(this._color, this);
+            this._emit('change', this._color);
         }
+    }
+
+    _emit(event, ...args) {
+        this._eventListener[event].forEach(cb => cb(...args, this));
+    }
+
+    on(event, cb) {
+
+        // Validate
+        if (typeof cb === 'function' && typeof event === 'string' && event in this._eventListener) {
+            this._eventListener[event].push(cb);
+        }
+
+        return this;
+    }
+
+    off(event, cb) {
+        const callBacks = this._eventListener[event];
+
+        if (callBacks) {
+            const index = callBacks.indexOf(cb);
+
+            if (~index) {
+                callBacks.splice(index, 1);
+            }
+        }
+
+        return this;
     }
 
     applyColor(silent = false) {
@@ -442,7 +474,7 @@ class Pickr {
 
         // Fire listener
         if (!this._initializingActive && !silent) {
-            this.options.onSave(this._color, this);
+            this._emit('save', this._color);
         }
     }
 
@@ -461,7 +493,7 @@ class Pickr {
         }
 
         // Fire listener
-        options.onChange(null, this);
+        this._emit('change',null);
     }
 
     /**

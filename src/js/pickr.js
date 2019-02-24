@@ -693,7 +693,7 @@ function create(options) {
                 
                 ${swatches && swatches.length ? `
                 <div class="swatches">
-                   ${swatches.map((v, i) => `<div data-arr="swatches" data-color-index="${i}" style="color: ${v.toRGBA()}"></div>`).join('')}
+                   ${swatches.map((v, i) => `<button data-arr="swatches" data-color-index="${i}" style="color: ${v.toRGBA()}"></button>`).join('')}
                 </div> 
                 ` : ''}
 

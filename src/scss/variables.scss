@@ -6,15 +6,16 @@ $font-family:
     "Roboto",
     "Helvetica Neue", Arial, sans-serif, !default;
 
-// Constants
-$box-shadow-app: 0 0.15em 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 1em 0 rgba(0, 0, 0, 0.03) !default;
-
 // Colors
 $palette-cloud-blue: #4285f4 !default;
 $palette-soft-red: #f44250 !default;
 $palette-snowwhite: #F1F3F4 !default;
 $palette-lightgray: #c4c4c4 !default;
 $palette-darkgray: #75797e !default;
+
+// Constants
+$box-shadow-app: 0 0.15em 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 1em 0 rgba(0, 0, 0, 0.03) !default;
+$focus-box-shadow:  0 0 0 2px rgba($palette-cloud-blue, 0.8);
 
 $color-rainbow: linear-gradient(to bottom,
     hsl(0, 100%, 50%),

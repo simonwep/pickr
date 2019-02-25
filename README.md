@@ -49,6 +49,7 @@
 * Opacity control
 * Responsive and auto-positioning
 * Supports touch devices
+* Swatches for quick-selection
 * Lightweight, ~6KB gzipped
 
 ## Setup
@@ -120,18 +121,20 @@ Since version `0.4.x` Pickr is event-driven. Use the `on(event, cb)` and `off(ev
 | Event      | Description | Arguments |
 | -------------- | ----------- | --------- |
 | `init`         | Initialization done - pickr can be used | `PickrInstance` |
-| `save`         | User clicked the save button | `HSVaColorObject, PickrInstance` |
+| `save`         | User clicked the save / clear button | `HSVaColorObject \| null, PickrInstance` |
 | `change`       | Color has changed (but not saved). Also fired on `swatchselect` | `HSVaColorObject, PickrInstance` |
 | `swatchselect` | User clicked one of the swatches | `HSVaColorObject, PickrInstance` |
 
 > Example:
 ```js
-pickr.on('save', (...args) => {
-    console.log('Save', args);
-}).on('swatchselect', (...args) => {
-    console.log('SwatchSelect', args);
+pickr.on('init', (...args) => {
+    console.log('init', args);
+}).on('save', (...args) => {
+    console.log('save', args);
 }).on('change', (...args) => {
-    console.log('Change', args);
+    console.log('change', args);
+}).on('swatchselect', (...args) => {
+    console.log('swatchselect', args);
 });
 ```
 

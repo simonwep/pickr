@@ -86,8 +86,8 @@ class Pickr {
                 return requestAnimationFrame(cb.bind(this));
             }
 
-            this._initializingActive = false;
             this.setColor(this.options.default);
+            this._initializingActive = false;
             this._emit('init');
         }).bind(this));
     }
@@ -493,7 +493,7 @@ class Pickr {
         }
 
         // Fire listener
-        this._emit('change',null);
+        this._emit('save',null);
     }
 
     /**

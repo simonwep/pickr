@@ -396,12 +396,9 @@ class Pickr {
         // Check if component is present
         if (this._root.interaction.type()) {
 
-            this._root.interaction.result.value = (() => {
-
-                // Construct function name and call if present
-                const method = 'to' + this._root.interaction.type().getAttribute('data-type');
-                return typeof this._color[method] === 'function' ? this._color[method]().toString() : '';
-            })();
+            // Construct function name and call if present
+            const method = `to${this._root.interaction.type().getAttribute('data-type')}`;
+            this._root.interaction.result.value = typeof this._color[method] === 'function' ? this._color[method]().toString() : '';
         }
 
         // Fire listener if initialization is finish
@@ -448,29 +445,22 @@ class Pickr {
 
         if (values) {
             const {_swatchColors, _root} = this;
-            const id = Math.round(Math.random() * Date.now()).toString(16);
             const hsvaColorObject = HSVaColor(...values);
 
             // Create new swatch HTMLElement
             const element = _.createElementFromString(
-                `<button data-color-id="${id}" style="color: ${hsvaColorObject.toRGBA()}"></button>`
+                `<button  style="color: ${hsvaColorObject.toRGBA()}"></button>`
             );
 
             // Append element and save swatch data
             _root.swatches.appendChild(element);
-            _swatchColors.push({id, hsvaColorObject});
+            _swatchColors.push({element, hsvaColorObject});
 
             // Bind event
             this._eventBindings.push(
                 _.on(element, 'click', () => {
-                    const id = element.getAttribute('data-color-id');
-                    const color = _swatchColors.find(v => v.id === id);
-
-                    if (color) {
-                        const {hsvaColorObject} = color;
-                        this.setHSVA(...hsvaColorObject.toHSVA(), true);
-                        this._emit('swatchselect', hsvaColorObject);
-                    }
+                    this.setHSVA(...hsvaColorObject.toHSVA(), true);
+                    this._emit('swatchselect', hsvaColorObject);
                 })
             );
 
@@ -493,19 +483,12 @@ class Pickr {
 
             // Check swatch data
             if (swatchColor) {
-                const {swatches} = this._root;
-                const {id} = swatchColor;
+                const {element} = swatchColor;
 
-                // Find target child
-                const children = Array.prototype.find.call(swatches.children, v => v.getAttribute('data-color-id') === id);
-
-                if (children) {
-
-                    // Remove HTML child and swatch data
-                    swatches.removeChild(children);
-                    this._swatchColors.splice(index, 1);
-                    return true;
-                }
+                // Remove HTML child and swatch data
+                this._root.swatches.removeChild(element);
+                this._swatchColors.splice(index, 1);
+                return true;
             }
         }
 

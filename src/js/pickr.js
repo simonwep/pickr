@@ -49,6 +49,7 @@ class Pickr {
         // Current and last color for comparison
         this._color = new HSVaColor();
         this._lastColor = new HSVaColor();
+        this._swatchColors = [];
 
         // Evenlistener name: [callbacks]
         this._eventListener = {
@@ -57,15 +58,6 @@ class Pickr {
             'save': [],
             'init': []
         };
-
-        // Parse swatch colors
-        this.options.swatches = this.options.swatches || [];
-        if (this.options.swatches) {
-            this.options.swatches = this.options.swatches.map(str => {
-                const {values} = Color.parseToHSV(str);
-                return values && new HSVaColor(...values);
-            }).filter(v => v);
-        }
 
         // Initialize picker
         this._preBuild();
@@ -79,6 +71,12 @@ class Pickr {
         // Finalize build
         this._finalBuild();
         this._rePositioningPicker();
+
+        // Append pre-defined swatch colors
+        const {swatches} = this.options;
+        if (swatches && swatches.length) {
+            swatches.forEach(color => this.addSwatch(color));
+        }
 
         // Initilization is finish, pickr is visible and ready for usage
         requestAnimationFrame((function cb() {
@@ -304,20 +302,6 @@ class Pickr {
             _.on(window, 'resize', () => this._rePositioningPicker)
         ];
 
-        // Color swatches
-        if (_root.swatches) {
-            eventBindings.push(
-                _.on(_root.swatches, 'click', ({target}) => {
-                    const color = options.swatches[Number(target.getAttribute('data-color-index'))];
-
-                    if (color) {
-                        this.setHSVA(...color.toHSVA(), true);
-                        this._emit('swatchselect', color);
-                    }
-                })
-            );
-        }
-
         // Provide hiding / showing abilities only if showAlways is false
         if (!options.showAlways) {
             const ck = options.closeWithKey;
@@ -454,6 +438,80 @@ class Pickr {
         return this;
     }
 
+    /**
+     * Appends a color to the swatch palette
+     * @param color
+     * @returns {boolean}
+     */
+    addSwatch(color) {
+        const {values} = Color.parseToHSV(color);
+
+        if (values) {
+            const {_swatchColors, _root} = this;
+            const id = Math.round(Math.random() * Date.now()).toString(16);
+            const hsvaColorObject = HSVaColor(...values);
+
+            // Create new swatch HTMLElement
+            const element = _.createElementFromString(
+                `<button data-color-id="${id}" style="color: ${hsvaColorObject.toRGBA()}"></button>`
+            );
+
+            // Append element and save swatch data
+            _root.swatches.appendChild(element);
+            _swatchColors.push({id, hsvaColorObject});
+
+            // Bind event
+            this._eventBindings.push(
+                _.on(element, 'click', () => {
+                    const id = element.getAttribute('data-color-id');
+                    const color = _swatchColors.find(v => v.id === id);
+
+                    if (color) {
+                        const {hsvaColorObject} = color;
+                        this.setHSVA(...hsvaColorObject.toHSVA(), true);
+                        this._emit('swatchselect', hsvaColorObject);
+                    }
+                })
+            );
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Removes a swatch color by it's index
+     * @param index
+     * @returns {boolean}
+     */
+    removeSwatch(index) {
+
+        // Validate index
+        if (typeof index === 'number') {
+            const swatchColor = this._swatchColors[index];
+
+            // Check swatch data
+            if (swatchColor) {
+                const {swatches} = this._root;
+                const {id} = swatchColor;
+
+                // Find target child
+                const children = Array.prototype.find.call(swatches.children, v => v.getAttribute('data-color-id') === id);
+
+                if (children) {
+
+                    // Remove HTML child and swatch data
+                    swatches.removeChild(children);
+                    this._swatchColors.splice(index, 1);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     applyColor(silent = false) {
         const {preview, button} = this._root;
 
@@ -493,7 +551,7 @@ class Pickr {
         }
 
         // Fire listener
-        this._emit('save',null);
+        this._emit('save', null);
     }
 
     /**
@@ -692,7 +750,7 @@ class Pickr {
 }
 
 function create(options) {
-    const {components, strings, useAsButton, swatches} = options;
+    const {components, strings, useAsButton} = options;
     const hidden = con => con ? '' : 'style="display:none" hidden';
 
     const root = _.createFromTemplate(`
@@ -722,12 +780,8 @@ function create(options) {
                         <div data-key="slider" class="pcr-opacity pcr-slider"></div>
                     </div>
                 </div>
-                
-                ${swatches && swatches.length ? `
-                <div class="swatches">
-                   ${swatches.map((v, i) => `<button data-arr="swatches" data-color-index="${i}" style="color: ${v.toRGBA()}"></button>`).join('')}
-                </div> 
-                ` : ''}
+
+                <div class="swatches" data-key="swatches"></div> 
 
                 <div data-con="interaction" class="pcr-interaction" ${hidden(Object.keys(components.interaction).length)}>
                     <input data-key="result" class="pcr-result" type="text" spellcheck="false" ${hidden(components.interaction.input)}>

@@ -95,6 +95,7 @@
         justify-self: center;
         transition: all 0.15s;
         overflow: hidden;
+        background: transparent;
         @include transparency-background(6px);
 
         &::after {

@@ -48,11 +48,13 @@ export default function Moveable(opt) {
                 y = cache.y;
             }
 
-            if (!options.lockX)
-                element.style.left = (x - element.offsetWidth / 2) + 'px';
+            if (!options.lockX) {
+                element.style.left = `calc(${x / b.width * 100}% - ${element.offsetWidth / 2}px)`;
+            }
 
-            if (!options.lockY)
-                element.style.top = (y - element.offsetHeight / 2) + 'px';
+            if (!options.lockY) {
+                element.style.top = `calc(${y / b.height * 100}% - ${element.offsetWidth / 2}px)`;
+            }
 
             that.cache = {x, y};
             options.onchange(x, y);

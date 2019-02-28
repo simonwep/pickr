@@ -407,6 +407,24 @@ class Pickr {
         }
     }
 
+    _clearColor() {
+        const {_root, options} = this;
+
+        // Change only the button color if it isn't customized
+        if (!options.useAsButton) {
+            _root.button.style.background = 'rgba(255, 255, 255, 0.4)';
+        }
+
+        _root.button.classList.add('clear');
+
+        if (!options.showAlways) {
+            this.hide();
+        }
+
+        // Fire listener
+        this._emit('save', null);
+    }
+
     _emit(event, ...args) {
         this._eventListener[event].forEach(cb => cb(...args, this));
     }
@@ -517,24 +535,6 @@ class Pickr {
         if (!this._initializingActive && !silent) {
             this._emit('save', this._color);
         }
-    }
-
-    _clearColor() {
-        const {_root, options} = this;
-
-        // Change only the button color if it isn't customized
-        if (!options.useAsButton) {
-            _root.button.style.background = 'rgba(255, 255, 255, 0.4)';
-        }
-
-        _root.button.classList.add('clear');
-
-        if (!options.showAlways) {
-            this.hide();
-        }
-
-        // Fire listener
-        this._emit('save', null);
     }
 
     /**

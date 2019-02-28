@@ -16,7 +16,7 @@
         border: none;
 
         &:focus {
-            box-shadow: $focus-box-shadow;
+            @include focus;
         }
     }
 }
@@ -60,7 +60,7 @@
     box-shadow: $box-shadow-app;
     top: 5px;
     height: 15em;
-    width: 28em;
+    width: 28.5em;
     max-width: 95vw;
     padding: 0.8em;
     border-radius: 0.1em;
@@ -80,9 +80,14 @@
     // Flex fallback
     display: flex;
     flex-wrap: wrap;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(1.6em, 1fr));
     margin-top: 0.75em;
+
+    @supports (display: grid) {
+        display: grid;
+        align-items: center;
+        justify-content: space-around;
+        grid-template-columns: repeat(auto-fit, 1.75em);
+    }
 
     > button {
         position: relative;
@@ -90,7 +95,7 @@
         height: 1.75em;
         border-radius: 0.15em;
         cursor: pointer;
-        margin: 0 2px 2px 0;
+        margin: 2.5px;
         flex-shrink: 0;
         justify-self: center;
         transition: all 0.15s;
@@ -112,7 +117,11 @@
         }
 
         &:hover {
-            filter: brightness(1.1);
+            filter: brightness(1.05);
+        }
+
+        &:focus {
+            @include focus(currentColor);
         }
     }
 }

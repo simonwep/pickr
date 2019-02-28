@@ -31,7 +31,7 @@
 <br>
 
 <h3 align="center">
-  <img alt="Demo" src="gh-page/pickr.apng"/>
+  <img alt="Demo" src="https://user-images.githubusercontent.com/30767528/53578134-4e297e80-3b77-11e9-9d74-4d2ed547c274.gif"/>
 </h3>
 
 <h4 align="center">

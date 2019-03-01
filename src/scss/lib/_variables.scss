@@ -14,7 +14,7 @@ $palette-darkgray: #75797e !default;
 
 // Constants
 $box-shadow-app: 0 0.15em 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 1em 0 rgba(0, 0, 0, 0.03) !default;
-@mixin focus($color: rgba($palette-cloud-blue, 0.75)){
+@mixin focus($color: rgba($palette-cloud-blue, 0.75)) {
     box-shadow: 0 0 0 1px $palette-snowwhite, 0 0 0 3px $color;
 }
 

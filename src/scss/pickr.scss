@@ -16,7 +16,7 @@
         border: none;
 
         &:focus {
-            @include focus;
+            @include focus(currentColor);
         }
     }
 }
@@ -28,8 +28,8 @@
     padding: 0.5em;
     border-radius: $border-radius-mid;
     cursor: pointer;
-    background: transparent;
-    transition: background-color 0.3s;
+    background: currentColor;
+    transition: all 0.3s;
     font-family: $font-family;
     @include transparency-background;
 
@@ -42,8 +42,16 @@
         opacity: 0;
     }
 
-    &.clear::after {
-        opacity: 1;
+    &.clear {
+        background: rgba(255, 255, 255, 0.25);
+
+        &::after {
+            opacity: 1;
+        }
+
+        &:focus {
+            @include focus($palette-darkgray);
+        }
     }
 
     &.disabled {
@@ -119,10 +127,6 @@
         &:hover {
             filter: brightness(1.05);
         }
-
-        &:focus {
-            @include focus(currentColor);
-        }
     }
 }
 
@@ -148,6 +152,10 @@
 
         &:hover {
             filter: brightness(0.975);
+        }
+
+        &:focus {
+            @include focus();
         }
     }
 
@@ -193,6 +201,10 @@
 
     .pcr-clear {
         background: $palette-soft-red;
+
+        &:focus {
+            @include focus(rgba($palette-soft-red, 0.75));
+        }
     }
 }
 
@@ -224,7 +236,7 @@
 
         .pcr-last-color {
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, box-shadow 0.3s;
             border-radius: 0.15em 0.15em 0 0;
             z-index: 2;
         }
@@ -235,7 +247,7 @@
 
         .pcr-last-color,
         .pcr-current-color {
-            background: transparent;
+            background: currentColor;
             width: 100%;
             height: 50%;
         }

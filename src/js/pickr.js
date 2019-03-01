@@ -193,15 +193,15 @@ class Pickr {
 
                     // Check if color is locked
                     if (!options.comparison) {
-                        _root.button.style.background = cssRGBaString;
+                        _root.button.style.color = cssRGBaString;
 
                         if (!options.useAsButton) {
-                            _root.preview.lastColor.style.background = cssRGBaString;
+                            _root.preview.lastColor.style.color = cssRGBaString;
                         }
                     }
 
                     // Change current color
-                    _root.preview.currentColor.style.background = cssRGBaString;
+                    _root.preview.currentColor.style.color = cssRGBaString;
 
                     // Update the input field only if the user is currently not typing
                     if (inst._recalc) {
@@ -412,7 +412,7 @@ class Pickr {
 
         // Change only the button color if it isn't customized
         if (!options.useAsButton) {
-            _root.button.style.background = 'rgba(255, 255, 255, 0.4)';
+            _root.button.style.color = 'rgba(0, 0, 0, 0.4)';
         }
 
         _root.button.classList.add('clear');
@@ -518,11 +518,11 @@ class Pickr {
 
         // Change preview and current color
         const cssRGBaString = this._color.toRGBA().toString();
-        preview.lastColor.style.background = cssRGBaString;
+        preview.lastColor.style.color = cssRGBaString;
 
         // Change only the button color if it isn't customized
         if (!this.options.useAsButton) {
-            button.style.background = cssRGBaString;
+            button.style.color = cssRGBaString;
         }
 
         // User changed the color so remove the clear clas
@@ -739,7 +739,7 @@ function create(options) {
     const root = _.createFromTemplate(`
         <div data-key="root" class="pickr">
         
-            ${useAsButton ? '' : '<div data-key="button" class="pcr-button"></div>'}
+            ${useAsButton ? '' : '<button data-key="button" class="pcr-button"></button>'}
 
             <div data-key="app" class="pcr-app">
                 <div class="pcr-selection">

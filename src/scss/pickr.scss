@@ -109,6 +109,7 @@
         transition: all 0.15s;
         overflow: hidden;
         background: transparent;
+        z-index: 1;
         @include transparency-background(6px);
 
         &::after {

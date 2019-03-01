@@ -1,29 +1,21 @@
 import * as _ from './../lib/utils';
 
 export default function Selectable(opt = {}) {
-    const that = {
+    opt = Object.assign({
+        onchange: () => 0,
+        className: '',
+        elements: []
+    }, opt);
 
-        // Assign default values
-        options: Object.assign({
-            onchange: () => 0,
-            className: '',
-            elements: []
-        }, opt),
+    _.on(opt.elements, 'click', evt => {
+        opt.elements.forEach(e =>
+            e.classList[evt.target === e ? 'add' : 'remove'](opt.className)
+        );
 
-        _ontap(evt) {
-            const opt = that.options;
-            opt.elements.forEach(e =>
-                e.classList[evt.target === e ? 'add' : 'remove'](opt.className)
-            );
+        opt.onchange(evt);
+    });
 
-            opt.onchange(evt);
-        },
-
-        destroy() {
-            _.off(that.options.elements, 'click', this._ontap);
-        }
+    return {
+        destory: () => _.off(opt.elements, 'click', this._ontap)
     };
-
-    _.on(that.options.elements, 'click', that._ontap);
-    return that;
 }

@@ -47,6 +47,7 @@
 * Multiple color representations
 * Color comparison
 * Opacity control
+* Detail adjustments via. mouse-wheel
 * Responsive and auto-positioning
 * Supports touch devices
 * Swatches for quick-selection

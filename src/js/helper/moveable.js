@@ -17,7 +17,6 @@ export default function Moveable(opt) {
 
             // Prevent default touch event
             evt.preventDefault();
-            that.wrapperRect = that.options.wrapper.getBoundingClientRect();
 
             // Trigger
             that._tapmove(evt);
@@ -26,7 +25,7 @@ export default function Moveable(opt) {
         _tapmove(evt) {
             const {options, cache} = that;
             const {element} = options;
-            const b = that.wrapperRect;
+            const b = that.options.wrapper.getBoundingClientRect();
 
             let x = 0, y = 0;
             if (evt) {
@@ -44,8 +43,8 @@ export default function Moveable(opt) {
                 x -= b.left;
                 y -= b.top;
             } else if (cache) {
-                x = cache.x;
-                y = cache.y;
+                x = cache.x * b.width;
+                y = cache.y * b.height;
             }
 
             if (!options.lockX) {
@@ -56,7 +55,7 @@ export default function Moveable(opt) {
                 element.style.top = `calc(${y / b.height * 100}% - ${element.offsetWidth / 2}px)`;
             }
 
-            that.cache = {x, y};
+            that.cache = {x: x / b.width, y: y / b.height};
             options.onchange(x, y);
         },
 
@@ -66,15 +65,14 @@ export default function Moveable(opt) {
         },
 
         trigger() {
-            that.wrapperRect = that.options.wrapper.getBoundingClientRect();
             that._tapmove();
         },
 
         update(x = 0, y = 0) {
-            that.wrapperRect = that.options.wrapper.getBoundingClientRect();
+            const wrapperRect = that.options.wrapper.getBoundingClientRect();
             that._tapmove({
-                clientX: that.wrapperRect.left + x,
-                clientY: that.wrapperRect.top + y
+                clientX: wrapperRect.left + x,
+                clientY: wrapperRect.top + y
             });
         },
 
@@ -86,9 +84,6 @@ export default function Moveable(opt) {
             });
         }
     };
-
-    // Instance var
-    that.wrapperRect = that.options.wrapper.getBoundingClientRect();
 
     // Initilize
     const {options, _tapstart} = that;

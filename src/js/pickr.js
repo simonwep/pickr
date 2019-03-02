@@ -47,8 +47,8 @@ class Pickr {
         this._recalc = true;
 
         // Current and last color for comparison
-        this._color = new HSVaColor();
-        this._lastColor = new HSVaColor();
+        this._color = HSVaColor();
+        this._lastColor = HSVaColor();
         this._swatchColors = [];
 
         // Evenlistener name: [callbacks]
@@ -589,7 +589,7 @@ class Pickr {
      * @param v Value
      * @param a Alpha channel (0 - 1)
      * @param silent If the button should not change the color
-     * @return true if the color has been accepted
+     * @return boolean if the color has been accepted
      */
     setHSVA(h = 360, s = 0, v = 0, a = 1, silent = false) {
 
@@ -622,7 +622,7 @@ class Pickr {
         palette.update(pickerX, pickerY);
 
         // Override current color and re-active color calculation
-        this._color = new HSVaColor(h, s, v, a);
+        this._color = HSVaColor(h, s, v, a);
         this._recalc = recalc; // Restore old state
 
         // Update output if recalculation is enabled

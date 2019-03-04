@@ -93,6 +93,7 @@ class Pickr {
             // Show pickr if locked
             opt.showAlways && this.show();
 
+            // Initialization is done - pickr is usable, fire init event
             this._initializingActive = false;
             this._emit('init');
         }).bind(this));
@@ -342,15 +343,10 @@ class Pickr {
         const root = this._root;
         const app = this._root.app;
 
-        // Check if user has defined a parent
-        if (this.options.parent) {
-            const relative = root.button.getBoundingClientRect();
-            app.style.position = 'fixed';
-            app.style.marginLeft = `${relative.left}px`;
-            app.style.marginTop = `${relative.top}px`;
-        }
-
         const bb = root.button.getBoundingClientRect();
+        app.style.marginLeft = `${bb.left}px`;
+        app.style.marginTop = `${bb.top}px`;
+
         const ab = app.getBoundingClientRect();
         const as = app.style;
 

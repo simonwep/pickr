@@ -79,12 +79,20 @@ class Pickr {
         }
 
         // Initilization is finish, pickr is visible and ready for usage
+        const appParent = this._root.app.parentElement;
         requestAnimationFrame((function cb() {
-            if (!this._root.app.offsetParent && !opt.useAsButton) {
+
+            // offsetParent of body is always 0. So check if it is the body
+            if (appParent.offsetParent === null && appParent !== document.body) {
                 return requestAnimationFrame(cb.bind(this));
             }
 
+            // Apply default color
             this.setColor(this.options.default);
+
+            // Show pickr if locked
+            opt.showAlways && this.show();
+
             this._initializingActive = false;
             this._emit('init');
         }).bind(this));
@@ -155,8 +163,7 @@ class Pickr {
             }
         }
 
-        // Check showAlways option
-        opt.showAlways ? root.app.classList.add('visible') : this.hide();
+        this.hide();
     }
 
     _buildComponents() {

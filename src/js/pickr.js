@@ -96,6 +96,9 @@ class Pickr {
             // Initialization is done - pickr is usable, fire init event
             this._initializingActive = false;
             this._emit('init');
+
+            // Re-calc position on window resize
+            _.on(window, 'resize', () => this._rePositioningPicker());
         }).bind(this));
     }
 

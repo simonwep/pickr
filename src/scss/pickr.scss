@@ -9,16 +9,6 @@
     * {
         box-sizing: border-box;
     }
-
-    input,
-    button {
-        outline: none;
-        border: none;
-
-        &:focus {
-            @include focus(currentColor);
-        }
-    }
 }
 
 .pickr .pcr-button {
@@ -56,6 +46,20 @@
 
     &.disabled {
         cursor: not-allowed;
+    }
+}
+
+.pickr,
+.pcr-app {
+
+    input,
+    button {
+        outline: none;
+        border: none;
+
+        &:focus {
+            @include focus(currentColor);
+        }
     }
 }
 

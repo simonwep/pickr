@@ -80,7 +80,7 @@ class Pickr {
 
         // Initilization is finish, pickr is visible and ready for usage
         requestAnimationFrame((function cb() {
-            if (!this._root.app.offsetParent) {
+            if (!this._root.app.offsetParent && !opt.useAsButton) {
                 return requestAnimationFrame(cb.bind(this));
             }
 

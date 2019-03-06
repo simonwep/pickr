@@ -55,7 +55,6 @@
 
 ## Setup
 ⚠️ Attention: The readme is always up-to-date with the latest commit. See [Releases](https://github.com/Simonwep/pickr/releases) for installation instructions regarding to the latest version.
-
 Thank's to [Clément Le Biez](https://github.com/Clebiez) for providing an optional ES5 version!
 
 ### Node
@@ -70,7 +69,7 @@ Include code and style:
 // Style
 import '/node_modules/@simonwep/pickr/dist/pickr.min.css';
 
-// Modern browsers (not IE11, see .browserslistrc)
+// Modern browsers (see .browserslistrc)
 import Pickr from '/node_modules/@simonwep/pickr/dist/pickr.min';      
 
 // ES5 Version
@@ -257,7 +256,7 @@ If `silent` is true (Default is false), the button won't change the current colo
 * pickr.destroyAndRemove()`:HSVaColor` _- Destroy's all functionality and removes the pickr element including the button._
 * pickr.setColorRepresentation(type`:String`) _- Change the current color-representation. Valid options are `HEX`, `RGBA`, `HSVA`, `HSLA` and `CMYK`, returns false if type was invalid._
 * pickr.applyColor(silent`:Boolean`) _- Same as pressing the save button. If silent is true the `onSave` event won't be called._
-* pickr.addSwatch(color`:String`) _- Adds a color to the swatch palette._
+* pickr.addSwatch(color`:String`) _- Adds a color to the swatch palette. Returns `true` if the color has been successful added to the palette._
 * pickr.removeSwatch(index`:Number`) _- Removes a color from the swatch palette by its index._
 
 ## Static methods

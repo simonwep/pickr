@@ -7,7 +7,7 @@ export default function Selectable(opt = {}) {
         elements: []
     }, opt);
 
-    _.on(opt.elements, 'click', evt => {
+    const onTap = _.on(opt.elements, 'click', evt => {
         opt.elements.forEach(e =>
             e.classList[evt.target === e ? 'add' : 'remove'](opt.className)
         );
@@ -16,6 +16,6 @@ export default function Selectable(opt = {}) {
     });
 
     return {
-        destory: () => _.off(opt.elements, 'click', this._ontap)
+        destroy: () => _.off(...onTap)
     };
 }

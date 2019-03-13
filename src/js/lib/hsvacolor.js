@@ -1,3 +1,4 @@
+import {padStart} from '../lib/utils';
 import * as Color from './color';
 
 /**
@@ -52,10 +53,9 @@ export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
 
                 // Check if alpha channel make sense, convert it to 255 number space, convert
                 // to hex and pad it with zeros if needet.
-                const alpha = that.a >= 1 ? '' : Number((that.a * 255).toFixed(0))
+                const alpha = that.a >= 1 ? '' : padStart(Number((that.a * 255).toFixed(0))
                     .toString(16)
-                    .toUpperCase()
-                    .padStart(2, '0');
+                    .toUpperCase(), 2, '0');
 
                 return `#${hex.join('').toUpperCase() + alpha}`;
             };

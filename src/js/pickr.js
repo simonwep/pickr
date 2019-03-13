@@ -473,7 +473,7 @@ class Pickr {
 
             // Create new swatch HTMLElement
             const element = _.createElementFromString(
-                `<button  style="color: ${hsvaColorObject.toRGBA()}"></button>`
+                `<button style="color: ${hsvaColorObject.toRGBA()}"></button>`
             );
 
             // Append element and save swatch data

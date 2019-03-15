@@ -272,7 +272,7 @@
         z-index: 1;
 
         .pcr-palette {
-            height: 100%;
+            flex-grow: 1;
             border-radius: $border-radius-mid;
             @include transparency-background;
         }
@@ -289,7 +289,7 @@
 
         .pcr-slider {
             width: 8px;
-            height: 100%;
+            flex-grow: 1;
             border-radius: 50em;
         }
     }

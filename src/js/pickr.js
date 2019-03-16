@@ -473,7 +473,7 @@ class Pickr {
 
             // Create new swatch HTMLElement
             const element = _.createElementFromString(
-                `<button style="color: ${hsvaColorObject.toRGBA()}"></button>`
+                `<button type="button" style="color: ${hsvaColorObject.toRGBA()}"></button>`
             );
 
             // Append element and save swatch data
@@ -745,12 +745,12 @@ function create(options) {
     const root = _.createFromTemplate(`
         <div data-key="root" class="pickr">
         
-            ${useAsButton ? '' : '<button data-key="button" class="pcr-button"></button>'}
+            ${useAsButton ? '' : '<button type="button" data-key="button" class="pcr-button"></button>'}
 
             <div data-key="app" class="pcr-app">
                 <div class="pcr-selection">
                     <div data-con="preview" class="pcr-color-preview" ${hidden(components.preview)}>
-                        <button data-key="lastColor" class="pcr-last-color"></button>
+                        <button type="button" data-key="lastColor" class="pcr-last-color"></button>
                         <div data-key="currentColor" class="pcr-current-color"></div>
                     </div>
 

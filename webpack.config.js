@@ -1,11 +1,10 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const webpack = require('webpack');
-const isES5Mode =
-    process.argv.slice(2)[3] && process.argv.slice(2)[3] === 'es5';
 
-const filename = isES5Mode ? 'pickr.es5.min.js' : 'pickr.min.js';
-const mapFilename = isES5Mode ? 'pickr.es5.min.js.map' : 'pickr.min.js.map';
+const isDevMode = process.argv.includes('development');
+const isES5Mode = process.argv.includes('es5') || isDevMode;
+
 const babelLoaderConfigurationES5 = {
     presets: [
         [
@@ -16,13 +15,14 @@ const babelLoaderConfigurationES5 = {
         ]
     ]
 };
+
 module.exports = {
     entry: './src/js/pickr.js',
 
     output: {
         path: __dirname + '/dist',
         publicPath: 'dist/',
-        filename: filename,
+        filename: isES5Mode ? 'pickr.es5.min.js' : 'pickr.min.js',
         library: 'Pickr',
         libraryExport: 'default',
         libraryTarget: 'umd'
@@ -65,7 +65,7 @@ module.exports = {
         }),
 
         new webpack.SourceMapDevToolPlugin({
-            filename: mapFilename
+            filename: isES5Mode ? 'pickr.es5.min.js.map' : 'pickr.min.js.map'
         })
     ]
 };

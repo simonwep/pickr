@@ -160,7 +160,7 @@ const pickr = new Pickr({
     default: 'fff',
     
     // Optional color swatches. null by default which means it's disabled.
-    // Types are all these allowed which can be used in pickr e.g. hex, hsv(a), hsl(a), rgb(a) and cmyk
+    // Types are all these allowed which can be used in pickr e.g. hex, hsv(a), hsl(a), rgb(a), cmyk or a name like 'magenta'
     swatches: ['#F44336', '#E91E63', '#9C27B0', '#673AB7'],
 
     // Default color representation.
@@ -239,7 +239,7 @@ hsva.toRGBA().toString(); // Returns rgba(r, g, b, a)
 
 ## Methods
 * pickr.setHSVA(h`:Number`,s`:Number`,v`:Number`,a`:Float`, silent`:Boolean`) _- Set an color, returns true if the color has been accepted._
-* pickr.setColor(string`:String`, silent`:Boolean`) _- Parses a string which represents a color (e.g. `#fff`, `rgb(10, 156, 23)`), returns true if the color has been accepted. `null` will clear the color._
+* pickr.setColor(representation`:String`, silent`:Boolean`)`:Boolean` _- Parses a string which represents a color (e.g. `#fff`, `rgb(10, 156, 23)`) or name e.g. 'magenta', returns true if the color has been accepted. `null` will clear the color._
 
 If `silent` is true (Default is false), the button won't change the current color.
 
@@ -254,9 +254,9 @@ If `silent` is true (Default is false), the button won't change the current colo
 * pickr.getColor()`:HSVaColor` _- Returns the current HSVaColor object._
 * pickr.destroy()`:HSVaColor` _- Destroy's all functionality._
 * pickr.destroyAndRemove()`:HSVaColor` _- Destroy's all functionality and removes the pickr element including the button._
-* pickr.setColorRepresentation(type`:String`) _- Change the current color-representation. Valid options are `HEX`, `RGBA`, `HSVA`, `HSLA` and `CMYK`, returns false if type was invalid._
+* pickr.setColorRepresentation(type`:String`)`:Boolean` _- Change the current color-representation. Valid options are `HEX`, `RGBA`, `HSVA`, `HSLA` and `CMYK`, returns false if type was invalid._
 * pickr.applyColor(silent`:Boolean`) _- Same as pressing the save button. If silent is true the `onSave` event won't be called._
-* pickr.addSwatch(color`:String`) _- Adds a color to the swatch palette. Returns `true` if the color has been successful added to the palette._
+* pickr.addSwatch(color`:String`)`:Boolean` _- Adds a color to the swatch palette. Returns `true` if the color has been successful added to the palette._
 * pickr.removeSwatch(index`:Number`) _- Removes a color from the swatch palette by its index._
 
 ## Static methods

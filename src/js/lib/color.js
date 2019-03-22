@@ -1,8 +1,18 @@
 import {padStart} from '../lib/utils';
 
 // Shorthands
-const min = Math.min,
-    max = Math.max;
+const {min, max, floor, round} = Math;
+
+/**
+ * Tries to convert a color name to rgb/a hex representation
+ * @param name
+ * @returns {string | CanvasGradient | CanvasPattern}
+ */
+function standardizeColor(name) {
+    const ctx = document.createElement('canvas').getContext('2d');
+    ctx.fillStyle = name;
+    return ctx.fillStyle;
+}
 
 /**
  * Convert HSV spectrum to RGB.
@@ -16,7 +26,7 @@ export function hsvToRgb(h, s, v) {
     s /= 100;
     v /= 100;
 
-    let i = Math.floor(h);
+    let i = floor(h);
 
     let f = h - i;
     let p = v * (1 - s);
@@ -44,7 +54,7 @@ export function hsvToRgb(h, s, v) {
  */
 export function hsvToHex(h, s, v) {
     return hsvToRgb(h, s, v).map(v =>
-        padStart(Math.round(v).toString(16), 2, '0')
+        padStart(round(v).toString(16), 2, '0')
     );
 }
 
@@ -203,6 +213,9 @@ function hexToHsv(hex) {
  */
 export function parseToHSV(str) {
 
+    // Check if string is a color-name
+    str = str.match(/^[a-zA-Z]+$/) ? standardizeColor(str) : str;
+
     // Regular expressions to match different types of color represention
     const regex = {
         cmyk: /^cmyk[\D]+(\d+)[\D]+(\d+)[\D]+(\d+)[\D]+(\d+)/i,
@@ -221,7 +234,7 @@ export function parseToHSV(str) {
     const numarize = array => array.map(v => /^(|\d+)\.\d+|\d+$/.test(v) ? Number(v) : undefined);
 
     let match;
-    for (let type in regex) {
+    for (const type in regex) {
 
         // Check if current scheme passed
         if (!(match = regex[type].exec(str)))

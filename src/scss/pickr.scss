@@ -55,6 +55,7 @@
     button {
         outline: none;
         border: none;
+        -webkit-appearance: none;
 
         &:focus {
             @include focus(currentColor);

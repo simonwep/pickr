@@ -58,9 +58,14 @@
 Thank's to [Clément Le Biez](https://github.com/Clebiez) for providing an optional ES5 version!
 
 ### Node
-Install package:
+Install via npm:
 ```shell
-$ npm install @simonwep/pickr --save
+$ npm install @simonwep/pickr
+```
+
+Install via yarn:
+```shell
+$ yarn add @simonwep/pickr
 ```
 
 Include code and style:

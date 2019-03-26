@@ -6,9 +6,9 @@ import * as _     from './lib/utils';
 import * as Color from './lib/color';
 
 // Import classes
-import {HSVaColor}        from './lib/hsvacolor';
-import Moveable           from './helper/moveable';
-import Selectable         from './helper/selectable';
+import {HSVaColor} from './lib/hsvacolor';
+import Moveable    from './helper/moveable';
+import Selectable  from './helper/selectable';
 
 class Pickr {
 

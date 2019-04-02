@@ -15,31 +15,36 @@
     height: 2em;
     width: 2em;
     padding: 0.5em;
-    border-radius: $border-radius-mid;
     cursor: pointer;
-    background: currentColor;
-    transition: all 0.3s;
     font-family: $font-family;
+    border-radius: $border-radius-mid;
+    background: $icon-x no-repeat center;
+    background-size: 0;
+
     @include transparency-background;
+
+    &::before {
+        z-index: initial;
+    }
 
     &::after {
         @include pseudo-reset;
         height: 100%;
         width: 100%;
-        background: $icon-x no-repeat center;
-        background-size: 70%;
-        opacity: 0;
+        transition: background 0.3s;
+        background: currentColor;
+        border-radius: $border-radius-mid;
     }
 
     &.clear {
-        background: rgba(255, 255, 255, 0.25);
+        background-size: 70%;
 
-        &::after {
-            opacity: 1;
+        &::before {
+            opacity: 0;
         }
 
         &:focus {
-            @include focus($palette-darkgray);
+            @include focus(currentColor);
         }
     }
 

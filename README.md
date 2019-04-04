@@ -55,7 +55,6 @@
 
 ## Setup
 ⚠️ Attention: The readme is always up-to-date with the latest commit. See [Releases](https://github.com/Simonwep/pickr/releases) for installation instructions regarding to the latest version.
-Thank's to [Clément Le Biez](https://github.com/Clebiez) for providing an optional ES5 version!
 
 ### Node
 Install via npm:

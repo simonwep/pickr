@@ -1,0 +1,34 @@
+[
+    {
+        "filename": "pickr.es5.min.js",
+        "babelConfig": {
+            "plugins": [
+                "@babel/plugin-proposal-object-rest-spread"
+            ],
+            "presets": [
+                [
+                    "@babel/preset-env",
+                    {
+                        "targets": "> 1%"
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "filename": "pickr.min.js",
+        "babelConfig": {
+            "plugins": [
+                "@babel/plugin-proposal-object-rest-spread"
+            ],
+            "presets": [
+                [
+                    "@babel/preset-env",
+                    {
+                        "targets": "> 1.5%, not dead, not ie 11"
+                    }
+                ]
+            ]
+        }
+    }
+]

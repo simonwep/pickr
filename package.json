@@ -11,9 +11,7 @@
     ],
     "main": "./dist/pickr.min.js",
     "scripts": {
-        "build:es6": "webpack --mode production --build es6",
-        "build:es5": "webpack --mode production --build es5",
-        "build": "npm run build:es5 && npm run build:es6",
+        "build": "node ./scripts/build.js",
         "dev": "webpack-dev-server --mode development",
         "lint": "eslint ./src"
     },
@@ -22,6 +20,7 @@
         "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
         "@babel/preset-env": "^7.2.3",
         "babel-loader": "^8.0.5",
+        "chalk": "^2.4.2",
         "css-loader": "^2.1.0",
         "eslint": "^5.11.1",
         "eslint-loader": "^2.1.1",

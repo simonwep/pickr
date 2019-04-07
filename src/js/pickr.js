@@ -168,6 +168,9 @@ class Pickr {
         }
 
         this.hide();
+
+        // Update position on scroll
+        _.on(window, ['scroll', 'wheel'], () => this.isOpen() && this._rePositioningPicker());
     }
 
     _buildComponents() {

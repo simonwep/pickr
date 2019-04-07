@@ -24,10 +24,7 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                use: [
-                    'babel-loader',
-                    'eslint-loader'
-                ]
+                use: 'babel-loader'
             },
             {
                 test: /\.scss$/,

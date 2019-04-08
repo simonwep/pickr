@@ -430,8 +430,11 @@ class Pickr {
             this.hide();
         }
 
-        // Fire listener
-        this._emit('save', null);
+        if (!this._initializingActive) {
+
+            // Fire listener
+            this._emit('save', null);
+        }
     }
 
     _emit(event, ...args) {

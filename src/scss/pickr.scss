@@ -4,6 +4,7 @@
 .pickr {
     position: relative;
     overflow: visible;
+    transform: translateY(0); // Create local transform space
 
     * {
         box-sizing: border-box;
@@ -75,7 +76,6 @@
     z-index: 10000;
     font-family: $font-family;
     box-shadow: $box-shadow-app;
-    top: 5px;
     height: 15em;
     width: 28.5em;
     max-width: 95vw;
@@ -85,6 +85,8 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s;
+    left: 0;
+    top: 0;
 
     &.visible {
         visibility: visible;

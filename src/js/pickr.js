@@ -170,7 +170,11 @@ class Pickr {
         this.hide();
 
         // Update position on scroll
-        _.on(window, ['scroll', 'wheel'], () => this.isOpen() && this._rePositioningPicker());
+        _.on(window, ['scroll', 'wheel'], () => {
+            if (this.isOpen()) {
+                requestAnimationFrame(() => this._rePositioningPicker());
+            }
+        });
     }
 
     _buildComponents() {
@@ -346,58 +350,37 @@ class Pickr {
     }
 
     _rePositioningPicker() {
-        const root = this._root;
-        const app = this._root.app;
-
-        const bb = root.button.getBoundingClientRect();
-        app.style.marginLeft = `${bb.left}px`;
-        app.style.marginTop = `${bb.top}px`;
-
-        const ab = app.getBoundingClientRect();
+        const {_root} = this;
+        const {app} = _root;
         const as = app.style;
+
+        const bb = _root.button.getBoundingClientRect();
+        const ab = app.getBoundingClientRect();
 
         // Check if picker is cuttet of from the top & bottom
         if (ab.bottom > window.innerHeight) {
-            as.top = `${-(ab.height) - 5}px`;
+            as.marginTop = `${-(ab.height) - 5}px`;
         } else if (bb.bottom + ab.height < window.innerHeight) {
-            as.top = `${bb.height + 5}px`;
+            as.marginTop = `${bb.height + 5}px`;
         }
 
         // Positioning picker on the x-axis
         const pos = {
-            left: -(ab.width) + bb.width,
-            middle: -(ab.width / 2) + bb.width / 2,
+            left: -ab.width + bb.width,
+            middle: -ab.width / 2 + bb.width / 2,
             right: 0
         };
 
-        const cl = parseInt(getComputedStyle(app).left, 10);
-        let newLeft = pos[this.options.position];
-        const leftClip = (ab.left - cl) + newLeft;
-        const rightClip = (ab.left - cl) + newLeft + ab.width;
+        const wantedLeft = pos[this.options.position];
+        const currentLeft = ab.left - parseInt(getComputedStyle(app).marginLeft, 10);
 
-        /**
-         * First check if position is left or right but
-         * pickr-app cannot set to left AND right because it would
-         * be clipped by the browser width. If so, wrap it and position
-         * pickr below button via the pos[middle] value.
-         * The current selected posiotion should'nt be the middle.di
-         */
-        if (this.options.position !== 'middle' && (
-            (leftClip < 0 && -leftClip < ab.width / 2) ||
-            (rightClip > window.innerWidth && rightClip - window.innerWidth < ab.width / 2))) {
-            newLeft = pos['middle'];
-
-            /**
-             * Even if set to middle pickr is getting clipped, so
-             * set it to left / right.
-             */
-        } else if (leftClip < 0) {
-            newLeft = pos['right'];
-        } else if (rightClip > window.innerWidth) {
-            newLeft = pos['left'];
+        if (currentLeft + wantedLeft < 0) {
+            as.marginLeft = `${pos['right']}px`;
+        } else if (currentLeft - wantedLeft > window.innerWidth) {
+            as.marginLeft = `${pos['left']}px`;
+        } else {
+            as.marginLeft = `${wantedLeft}px`;
         }
-
-        as.left = `${newLeft}px`;
     }
 
     _updateOutput() {

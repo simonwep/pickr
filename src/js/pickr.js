@@ -803,5 +803,5 @@ Pickr.utils = {
 Pickr.create = (options) => new Pickr(options);
 
 // Export
-Pickr.version = '0.4.6';
+Pickr.version = '0.4.7';
 export default Pickr;

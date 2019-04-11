@@ -95,13 +95,6 @@ class Pickr {
             // Initialization is done - pickr is usable, fire init event
             this._initializingActive = false;
             this._emit('init');
-
-            // Re-calc position on window resize
-            _.on(window, ['scroll', 'wheel', 'resize'], () => {
-                if (this.isOpen()) {
-                    this._rePositioningPicker();
-                }
-            });
         }).bind(this));
     }
 
@@ -296,8 +289,12 @@ class Pickr {
                 _root.opacity.picker
             ], ['mousedown', 'touchstart'], () => this._recalc = true),
 
-            // Repositioning on resize
-            _.on(window, 'resize', () => this._rePositioningPicker)
+            // Re-calc position on window resize, scroll and wheel
+            _.on(window, ['scroll', 'wheel', 'resize'], () => {
+                if (this.isOpen()) {
+                    this._rePositioningPicker();
+                }
+            })
         ];
 
         // Provide hiding / showing abilities only if showAlways is false

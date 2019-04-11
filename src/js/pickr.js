@@ -69,7 +69,6 @@ class Pickr {
 
         // Finalize build
         this._finalBuild();
-        this._rePositioningPicker();
 
         // Append pre-defined swatch colors
         const {swatches} = this.options;

@@ -85,6 +85,8 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s;
+    left: 0;
+    top: 0;
 
     &.visible {
         visibility: visible;

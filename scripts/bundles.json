@@ -3,7 +3,8 @@
         "filename": "pickr.es5.min.js",
         "babelConfig": {
             "plugins": [
-                "@babel/plugin-proposal-object-rest-spread"
+                "@babel/plugin-proposal-object-rest-spread",
+                "@babel/plugin-proposal-class-properties"
             ],
             "presets": [
                 [
@@ -19,7 +20,8 @@
         "filename": "pickr.min.js",
         "babelConfig": {
             "plugins": [
-                "@babel/plugin-proposal-object-rest-spread"
+                "@babel/plugin-proposal-object-rest-spread",
+                "@babel/plugin-proposal-class-properties"
             ],
             "presets": [
                 [

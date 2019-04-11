@@ -97,7 +97,11 @@ class Pickr {
             this._emit('init');
 
             // Re-calc position on window resize
-            _.on(window, 'resize', () => this._rePositioningPicker());
+            _.on(window, ['scroll', 'wheel', 'resize'], () => {
+                if (this.isOpen()) {
+                    this._rePositioningPicker();
+                }
+            });
         }).bind(this));
     }
 
@@ -151,13 +155,6 @@ class Pickr {
         }
 
         this.hide();
-
-        // Update position on scroll
-        _.on(window, ['scroll', 'wheel'], () => {
-            if (this.isOpen()) {
-                requestAnimationFrame(() => this._rePositioningPicker());
-            }
-        });
     }
 
     _buildComponents() {
@@ -332,41 +329,46 @@ class Pickr {
         this._eventBindings = eventBindings;
     }
 
-    _rePositioningPicker() {
+    _rePositioningPicker = (() => {
         const padding = 8;
-        const {_root} = this;
-        const {app} = _root;
-        const as = app.style;
+        let left, top;
 
-        const {innerWidth, innerHeight, scrollY} = window;
-        const bb = _root.button.getBoundingClientRect();
-        const ab = app.getBoundingClientRect();
+        return () => {
+            const {app, button} = this._root;
 
-        // Check if picker is cuttet of from the top & bottom
-        if (Math.abs(scrollY - bb.bottom) + ab.height + padding < innerHeight) {
-            as.top = `${bb.top - ab.height - padding}px`;
-        } else {
-            as.top = `${bb.bottom + padding}px`;
-        }
+            const {innerWidth, innerHeight, scrollY} = window;
+            const bb = button.getBoundingClientRect();
+            const ab = app.getBoundingClientRect();
 
-        // Positioning picker on the x-axis
-        const pos = {
-            left: bb.left + bb.width - ab.width,
-            middle: (-ab.width / 2) + (bb.left + bb.width / 2),
-            right: bb.left
+            // Check if picker is cuttet of from the top & bottom
+            if (Math.abs(scrollY - bb.bottom) + ab.height + padding < innerHeight) {
+                top = bb.top - ab.height - padding;
+            } else {
+                top = bb.bottom + padding;
+            }
+
+            // Positioning picker on the x-axis
+            const pos = {
+                left: bb.left + bb.width - ab.width,
+                middle: (-ab.width / 2) + (bb.left + bb.width / 2),
+                right: bb.left
+            };
+
+            const wantedLeft = pos[this.options.position];
+            if (left + wantedLeft > innerWidth) {
+                left = pos['left'];
+            } else if (wantedLeft < 0) {
+                left = pos['right'];
+            } else {
+                left = wantedLeft;
+            }
+
+            Object.assign(app.style, {
+                left: `${left}px`,
+                top: `${top}px`
+            });
         };
-
-        const wantedLeft = pos[this.options.position];
-        const currentLeft = parseInt(getComputedStyle(app).left, 10);
-
-        if (currentLeft + wantedLeft > innerWidth) {
-            as.left = `${pos['left']}px`;
-        } else if (wantedLeft < 0 ) {
-            as.left = `${pos['right']}px`;
-        } else {
-            as.left = `${wantedLeft}px`;
-        }
-    }
+    })();
 
     _updateOutput() {
 

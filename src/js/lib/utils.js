@@ -199,7 +199,7 @@ export function adjustableInputNumbers(el, negative = true) {
     }
 
     // Bind events
-    on(el, 'focus', () => on(window, 'wheel', handleScroll));
+    on(el, 'focus', () => on(window, 'wheel', handleScroll, {passive: false}));
     on(el, 'blur', () => off(window, 'wheel', handleScroll));
 }
 

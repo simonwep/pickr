@@ -12,6 +12,25 @@ import Selectable  from './helper/selectable';
 
 class Pickr {
 
+    // Will be used to prevent specific actions during initilization
+    _initializingActive = true;
+
+    // Replace element with color picker
+    _recalc = true;
+
+    // Current and last color for comparison
+    _color = HSVaColor();
+    _lastColor = HSVaColor();
+    _swatchColors = [];
+
+    // Evenlistener name: [callbacks]
+    _eventListener = {
+        'swatchselect': [],
+        'change': [],
+        'save': [],
+        'init': []
+    };
+
     constructor(opt) {
 
         // Assign default values
@@ -38,25 +57,6 @@ class Pickr {
         if (!this.options.components.interaction) {
             this.options.components.interaction = {};
         }
-
-        // Will be used to prevent specific actions during initilization
-        this._initializingActive = true;
-
-        // Replace element with color picker
-        this._recalc = true;
-
-        // Current and last color for comparison
-        this._color = HSVaColor();
-        this._lastColor = HSVaColor();
-        this._swatchColors = [];
-
-        // Evenlistener name: [callbacks]
-        this._eventListener = {
-            'swatchselect': [],
-            'change': [],
-            'save': [],
-            'init': []
-        };
 
         // Initialize picker
         this._preBuild();

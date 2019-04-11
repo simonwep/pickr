@@ -30,7 +30,6 @@ class Pickr {
             position: 'middle',
             adjustableNumbers: true,
             showAlways: false,
-            parent: undefined,
 
             closeWithKey: 'Escape'
         }, opt);
@@ -79,11 +78,11 @@ class Pickr {
         }
 
         // Initilization is finish, pickr is visible and ready for usage
-        const appParent = this._root.app.parentElement;
+        const {button} = this._root;
         requestAnimationFrame((function cb() {
 
             // offsetParent of body is always 0. So check if it is the body
-            if (appParent.offsetParent === null && appParent !== document.body) {
+            if (button.offsetParent === null && button !== document.body) {
                 return requestAnimationFrame(cb.bind(this));
             }
 
@@ -117,12 +116,6 @@ class Pickr {
 
         // Check if a custom button is used
         if (opt.useAsButton) {
-
-            // Check if the user has an alternative location defined, used body as fallback
-            if (!opt.parent) {
-                opt.parent = 'body';
-            }
-
             this._root.button = opt.el; // Replace button with customized button
         }
 
@@ -135,17 +128,7 @@ class Pickr {
 
         // Remove from body
         document.body.removeChild(root.root);
-
-        // Check parent option
-        if (opt.parent) {
-
-            // Check if element is selector
-            if (typeof opt.parent === 'string') {
-                opt.parent = document.querySelector(opt.parent);
-            }
-
-            opt.parent.appendChild(root.app);
-        }
+        document.body.appendChild(root.app);
 
         // Don't replace the the element if a custom button is used
         if (!opt.useAsButton) {
@@ -350,36 +333,38 @@ class Pickr {
     }
 
     _rePositioningPicker() {
+        const padding = 8;
         const {_root} = this;
         const {app} = _root;
         const as = app.style;
 
+        const {innerWidth, innerHeight, scrollY} = window;
         const bb = _root.button.getBoundingClientRect();
         const ab = app.getBoundingClientRect();
 
         // Check if picker is cuttet of from the top & bottom
-        if (ab.bottom > window.innerHeight) {
-            as.marginTop = `${-(ab.height) - 5}px`;
-        } else if (bb.bottom + ab.height < window.innerHeight) {
-            as.marginTop = `${bb.height + 5}px`;
+        if (Math.abs(scrollY - bb.bottom) + ab.height + padding < innerHeight) {
+            as.top = `${bb.top - ab.height - padding}px`;
+        } else {
+            as.top = `${bb.bottom + padding}px`;
         }
 
         // Positioning picker on the x-axis
         const pos = {
-            left: -ab.width + bb.width,
-            middle: -ab.width / 2 + bb.width / 2,
-            right: 0
+            left: bb.left + bb.width - ab.width,
+            middle: (-ab.width / 2) + (bb.left + bb.width / 2),
+            right: bb.left
         };
 
         const wantedLeft = pos[this.options.position];
-        const currentLeft = ab.left - parseInt(getComputedStyle(app).marginLeft, 10);
+        const currentLeft = parseInt(getComputedStyle(app).left, 10);
 
-        if (currentLeft + wantedLeft < 0) {
-            as.marginLeft = `${pos['right']}px`;
-        } else if (currentLeft - wantedLeft > window.innerWidth) {
-            as.marginLeft = `${pos['left']}px`;
+        if (currentLeft + wantedLeft > innerWidth) {
+            as.left = `${pos['left']}px`;
+        } else if (wantedLeft < 0 ) {
+            as.left = `${pos['right']}px`;
         } else {
-            as.marginLeft = `${wantedLeft}px`;
+            as.left = `${wantedLeft}px`;
         }
     }
 

@@ -176,10 +176,6 @@ const pickr = new Pickr({
     // you click it, it will fire the onSave event.
     showAlways: false,
 
-    // Defines a parent for pickr, if useAsButton is true and a parent is NOT defined
-    // 'body' will be used as fallback.
-    parent: null,
-
     // Close pickr with this specific key.
     // Default is 'Escape'. Can be the event key or code.
     closeWithKey: 'Escape',

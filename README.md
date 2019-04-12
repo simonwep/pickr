@@ -153,6 +153,10 @@ const pickr = new Pickr({
     // Using the 'el' Element as button, won't replace it with the pickr-button.
     // If true, appendToBody will also be automatically true.
     useAsButton: false,
+    
+    // If true pickr won't be fixed and instead append after the in el resolved element.
+    // Setting this to true will also set showAlways to true. It's possible to hide it via .hide() anyway.
+    inline: false,
 
     // Start state. If true 'disabled' will be added to the button's classlist.
     disabled: false,

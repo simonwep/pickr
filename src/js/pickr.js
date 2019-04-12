@@ -34,7 +34,7 @@ class Pickr {
     constructor(opt) {
 
         // Assign default values
-        this.options = Object.assign({
+        this.options = opt = Object.assign({
             useAsButton: false,
             disabled: false,
             comparison: true,
@@ -43,6 +43,7 @@ class Pickr {
             strings: {},
 
             swatches: null,
+            inline: false,
 
             default: 'fff',
             defaultRepresentation: 'HEX',
@@ -52,10 +53,16 @@ class Pickr {
 
             closeWithKey: 'Escape'
         }, opt);
+        const {swatches, inline, components} = opt;
 
         // Check interaction section
-        if (!this.options.components.interaction) {
-            this.options.components.interaction = {};
+        if (!components.interaction) {
+            components.interaction = {};
+        }
+
+        // Per default enabled if inline
+        if (inline) {
+            opt.showAlways = true;
         }
 
         // Initialize picker
@@ -64,14 +71,13 @@ class Pickr {
         this._bindEvents();
 
         // Initialize color _epresentation
-        this._representation = this.options.defaultRepresentation;
+        this._representation = opt.defaultRepresentation;
         this.setColorRepresentation(this._representation);
 
         // Finalize build
         this._finalBuild();
 
         // Append pre-defined swatch colors
-        const {swatches} = this.options;
         if (swatches && swatches.length) {
             swatches.forEach(color => this.addSwatch(color));
         }
@@ -86,7 +92,7 @@ class Pickr {
             }
 
             // Apply default color
-            this.setColor(this.options.default);
+            this.setColor(opt.default);
 
             // Show pickr if locked
             opt.showAlways && this.show();
@@ -124,7 +130,18 @@ class Pickr {
 
         // Remove from body
         document.body.removeChild(root.root);
-        document.body.appendChild(root.app);
+
+        if (opt.inline) {
+            const {parentElement} = opt.el;
+
+            if (parentElement.lastChild === opt.el) {
+                parentElement.appendChild(root.app);
+            } else {
+                parentElement.insertBefore(root.app, opt.el.nextSibling);
+            }
+        } else {
+            document.body.appendChild(root.app);
+        }
 
         // Don't replace the the element if a custom button is used
         if (!opt.useAsButton) {
@@ -340,8 +357,13 @@ class Pickr {
         let left, top;
 
         return () => {
-            const {app, button} = this._root;
 
+            // No repositioning needed if inline
+            if (this.options.inline) {
+                return;
+            }
+
+            const {app, button} = this._root;
             const {innerWidth, innerHeight} = window;
             const bb = button.getBoundingClientRect();
             const ab = app.getBoundingClientRect();
@@ -721,7 +743,7 @@ class Pickr {
 }
 
 function create(options) {
-    const {components, strings, useAsButton} = options;
+    const {components, strings, useAsButton, inline} = options;
     const hidden = con => con ? '' : 'style="display:none" hidden';
 
     const root = _.createFromTemplate(`
@@ -729,7 +751,7 @@ function create(options) {
         
             ${useAsButton ? '' : '<button type="button" data-key="button" class="pcr-button"></button>'}
 
-            <div data-key="app" class="pcr-app">
+            <div data-key="app" class="pcr-app" ${inline ? 'style="position: unset"' : ''}>
                 <div class="pcr-selection">
                     <div data-con="preview" class="pcr-color-preview" ${hidden(components.preview)}>
                         <button type="button" data-key="lastColor" class="pcr-last-color"></button>

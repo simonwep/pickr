@@ -303,24 +303,7 @@ class Pickr {
                 _root.hue.picker,
                 _root.opacity.slider,
                 _root.opacity.picker
-            ], ['mousedown', 'touchstart'], () => this._recalc = true),
-
-            // Re-calc position on window resize, scroll and wheel
-            (() => {
-                let updateTimeout;
-
-                return _.on(window, ['scroll', 'wheel', 'resize'], () => {
-                    if (this.isOpen()) {
-                        this.hide();
-
-                        if (updateTimeout) {
-                            clearTimeout(updateTimeout);
-                        }
-
-                        updateTimeout = setTimeout(() => this.show(), 250);
-                    }
-                });
-            })()
+            ], ['mousedown', 'touchstart'], () => this._recalc = true)
         ];
 
         // Provide hiding / showing abilities only if showAlways is false
@@ -346,6 +329,23 @@ class Pickr {
         // Make input adjustable if enabled
         if (options.adjustableNumbers) {
             _.adjustableInputNumbers(_root.interaction.result, false);
+        }
+
+        if (!options.inline) {
+            let updateTimeout;
+
+            // Re-calc position on window resize, scroll and wheel
+            eventBindings.push(_.on(window, ['scroll', 'wheel', 'resize'], () => {
+                if (this.isOpen()) {
+                    this.hide();
+
+                    if (updateTimeout) {
+                        clearTimeout(updateTimeout);
+                    }
+
+                    updateTimeout = setTimeout(() => this.show(), 250);
+                }
+            }));
         }
 
         // Save bindings

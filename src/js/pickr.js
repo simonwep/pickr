@@ -289,11 +289,21 @@ class Pickr {
             ], ['mousedown', 'touchstart'], () => this._recalc = true),
 
             // Re-calc position on window resize, scroll and wheel
-            _.on(window, ['scroll', 'wheel', 'resize'], () => {
-                if (this.isOpen()) {
-                    this._rePositioningPicker();
-                }
-            })
+            (() => {
+                let updateTimeout;
+
+                return _.on(window, ['scroll', 'wheel', 'resize'], () => {
+                    if (this.isOpen()) {
+                        this.hide();
+
+                        if (updateTimeout) {
+                            clearTimeout(updateTimeout);
+                        }
+
+                        updateTimeout = setTimeout(() => this.show(), 250);
+                    }
+                });
+            })()
         ];
 
         // Provide hiding / showing abilities only if showAlways is false
@@ -332,12 +342,12 @@ class Pickr {
         return () => {
             const {app, button} = this._root;
 
-            const {innerWidth, innerHeight, scrollY} = window;
+            const {innerWidth, innerHeight} = window;
             const bb = button.getBoundingClientRect();
             const ab = app.getBoundingClientRect();
 
             // Check if picker is cuttet of from the top & bottom
-            if (Math.abs(scrollY - bb.bottom) + ab.height + padding < innerHeight) {
+            if (innerHeight - (bb.bottom + ab.height + padding) < 0) {
                 top = bb.top - ab.height - padding;
             } else {
                 top = bb.bottom + padding;

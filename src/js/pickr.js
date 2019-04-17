@@ -48,7 +48,7 @@ class Pickr {
             inline: false,
 
             default: 'fff',
-            defaultRepresentation: 'HEX',
+            defaultRepresentation: null,
             position: 'middle',
             adjustableNumbers: true,
             showAlways: false,
@@ -76,10 +76,6 @@ class Pickr {
         this._buildComponents();
         this._bindEvents();
 
-        // Initialize color _epresentation
-        this._representation = opt.defaultRepresentation;
-        this.setColorRepresentation(this._representation);
-
         // Finalize build
         this._finalBuild();
 
@@ -99,6 +95,12 @@ class Pickr {
 
             // Apply default color
             this.setColor(opt.default);
+
+            // Initialize color representation
+            if (opt.defaultRepresentation) {
+                this._representation = opt.defaultRepresentation;
+                this.setColorRepresentation(this._representation);
+            }
 
             // Show pickr if locked
             opt.showAlways && this.show();
@@ -679,10 +681,10 @@ class Pickr {
             // Change selected color format
             const utype = type.toUpperCase();
             const {options} = this._root.interaction;
-            const target = options.find(el => el.getAttribute('data-type') === utype);
+            const target = options.find(el => el.getAttribute('data-type').startsWith(utype));
 
             // Auto select only if not hidden
-            if (!target.hidden) {
+            if (target && !target.hidden) {
                 for (const el of options) {
                     el.classList[el === target ? 'add' : 'remove']('active');
                 }
@@ -694,7 +696,7 @@ class Pickr {
 
     /**
      * Changes the color _representation.
-     * Allowed values are HEX, RGBA, HSVA, HSLA and CMYK
+     * Allowed values are HEX, RGB, HSV, HSL and CMYK
      * @param type
      * @returns {boolean} if the selected type was valid.
      */
@@ -704,7 +706,7 @@ class Pickr {
         type = type.toUpperCase();
 
         // Find button with given type and trigger click event
-        return !!this._root.interaction.options.find(v => v.getAttribute('data-type') === type && !v.click());
+        return !!this._root.interaction.options.find(v => v.getAttribute('data-type').startsWith(type) && !v.click());
     }
 
     /**
@@ -786,10 +788,10 @@ function create(options) {
                 <div data-con="interaction" class="pcr-interaction" ${hidden(Object.keys(components.interaction).length)}>
                     <input data-key="result" class="pcr-result" type="text" spellcheck="false" ${hidden(components.interaction.input)}>
 
-                    <input data-arr="options" class="pcr-type" data-type="HEX" value="HEX" type="button" ${hidden(components.interaction.hex)}>
-                    <input data-arr="options" class="pcr-type" data-type="RGBA" value="RGBa" type="button" ${hidden(components.interaction.rgba)}>
-                    <input data-arr="options" class="pcr-type" data-type="HSLA" value="HSLa" type="button" ${hidden(components.interaction.hsla)}>
-                    <input data-arr="options" class="pcr-type" data-type="HSVA" value="HSVa" type="button" ${hidden(components.interaction.hsva)}>
+                    <input data-arr="options" class="pcr-type" data-type="HEXA" value="HEXA" type="button" ${hidden(components.interaction.hex)}>
+                    <input data-arr="options" class="pcr-type" data-type="RGBA" value="RGBA" type="button" ${hidden(components.interaction.rgba)}>
+                    <input data-arr="options" class="pcr-type" data-type="HSLA" value="HSLA" type="button" ${hidden(components.interaction.hsla)}>
+                    <input data-arr="options" class="pcr-type" data-type="HSVA" value="HSVA" type="button" ${hidden(components.interaction.hsva)}>
                     <input data-arr="options" class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(components.interaction.cmyk)}>
 
                     <input data-key="save" class="pcr-save" value="${strings.save || 'Save'}" type="button" ${hidden(components.interaction.save)}>

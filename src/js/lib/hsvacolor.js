@@ -46,7 +46,7 @@ export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
             return cmyk;
         },
 
-        toHEX() {
+        toHEXA() {
             const hex = Color.hsvToHex(...[that.h, that.s, that.v]);
 
             hex.toString = () => {

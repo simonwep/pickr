@@ -39,7 +39,9 @@ class Pickr {
             disabled: false,
             comparison: true,
 
-            components: {interaction: {}},
+            components: {
+                interaction: {}
+            },
             strings: {},
 
             swatches: null,
@@ -59,6 +61,10 @@ class Pickr {
         if (!components.interaction) {
             components.interaction = {};
         }
+
+        // Overwrite palette if preview, opacity or hue are true
+        const {preview, opacity, hue, palette} = components;
+        components.palette = palette || preview || opacity || hue;
 
         // Per default enabled if inline
         if (inline) {
@@ -179,6 +185,7 @@ class Pickr {
                 wrapper: inst._root.palette.palette,
 
                 onchange(x, y) {
+                    if (!comp.palette) return;
                     const {_color, _root, options} = inst;
 
                     // Calculate saturation based on the position
@@ -226,7 +233,7 @@ class Pickr {
                 wrapper: inst._root.hue.slider,
 
                 onchange(x, y) {
-                    if (!comp.hue) return;
+                    if (!comp.hue || !comp.palette) return;
 
                     // Calculate hue
                     inst._color.h = (y / this.wrapper.offsetHeight) * 360;
@@ -243,7 +250,7 @@ class Pickr {
                 wrapper: inst._root.opacity.slider,
 
                 onchange(x, y) {
-                    if (!comp.opacity) return;
+                    if (!comp.opacity || !comp.palette) return;
 
                     // Calculate opacity
                     inst._color.a = Math.round(((y / this.wrapper.offsetHeight)) * 1e2) / 100;
@@ -752,7 +759,7 @@ function create(options) {
             ${useAsButton ? '' : '<button type="button" data-key="button" class="pcr-button"></button>'}
 
             <div data-key="app" class="pcr-app" ${inline ? 'style="position: unset"' : ''}>
-                <div class="pcr-selection">
+                <div class="pcr-selection" ${hidden(components.palette)}>
                     <div data-con="preview" class="pcr-color-preview" ${hidden(components.preview)}>
                         <button type="button" data-key="lastColor" class="pcr-last-color"></button>
                         <div data-key="currentColor" class="pcr-current-color"></div>
@@ -774,7 +781,7 @@ function create(options) {
                     </div>
                 </div>
 
-                <div class="swatches" data-key="swatches"></div> 
+                <div class="pcr-swatches ${components.palette ? '' : ' pcr-last'}" data-key="swatches"></div> 
 
                 <div data-con="interaction" class="pcr-interaction" ${hidden(Object.keys(components.interaction).length)}>
                     <input data-key="result" class="pcr-result" type="text" spellcheck="false" ${hidden(components.interaction.input)}>

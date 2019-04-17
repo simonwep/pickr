@@ -197,6 +197,10 @@ const pickr = new Pickr({
     // By default only the palette (and the save button) is visible.
     components: {
 
+        // Defines if the palette itself should be visible.
+        // Will be overwritten with true if preview, opacity or hue are true
+        palette: true,
+
         preview: true, // Left side color comparison
         opacity: true, // Opacity slider
         hue: true,     // Hue slider

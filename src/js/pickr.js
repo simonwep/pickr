@@ -574,6 +574,15 @@ class Pickr {
         // Remove element
         const root = this._root.root;
         root.parentElement.removeChild(root);
+
+        // remove .pcr-app
+        const app = this._root.app;
+        app.parentElement.removeChild(app);
+
+        // There are references to various DOM elements stored in the pickr instance
+        // This cleans all of them to avoid detached DOMs
+        const pickr = this;
+        Object.keys(pickr).forEach(key => pickr[key] = null);
     }
 
     /**

@@ -68,5 +68,6 @@ export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
         }
     };
 
+    that.toHEX = that.toHEXA;
     return that;
 }

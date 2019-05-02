@@ -12,6 +12,7 @@
 }
 
 .pickr .pcr-button {
+    @include transparency-background;
     position: relative;
     height: 2em;
     width: 2em;
@@ -22,8 +23,6 @@
     background: $icon-x no-repeat center;
     background-size: 0;
     transition: all 0.3s;
-
-    @include transparency-background;
 
     &::before {
         z-index: initial;
@@ -113,6 +112,7 @@
     }
 
     > button {
+        @include transparency-background(6px);
         position: relative;
         width: 1.75em;
         height: 1.75em;
@@ -125,7 +125,6 @@
         overflow: hidden;
         background: transparent;
         z-index: 1;
-        @include transparency-background(6px);
 
         &::after {
             content: '';
@@ -236,18 +235,16 @@
         border: 2px solid #fff;
         border-radius: 100%;
         user-select: none;
-        cursor: -moz-grab;
-        cursor: -webkit-grabbing;
     }
 
     .pcr-color-preview {
+        @include transparency-background;
         position: relative;
         z-index: 1;
         width: 2em;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        @include transparency-background;
         margin-right: 0.75em;
 
         .pcr-last-color {
@@ -276,6 +273,15 @@
         user-select: none;
         display: flex;
         flex-direction: column;
+        cursor: grab;
+        cursor: -moz-grab;
+        cursor: -webkit-grab;
+
+        &:active {
+            cursor: grabbing;
+            cursor: -moz-grabbing;
+            cursor: -webkit-grabbing;
+        }
     }
 
     .pcr-color-palette {

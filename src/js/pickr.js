@@ -155,7 +155,7 @@ class Pickr {
         if (!opt.useAsButton) {
 
             // Replace element with actual color-picker
-            opt.el.parentElement.replaceChild(root.root, opt.el);
+            opt.el.parentNode.replaceChild(root.root, opt.el);
         }
 
         // Call disable to also add the disabled class

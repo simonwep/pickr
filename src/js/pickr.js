@@ -95,6 +95,7 @@ class Pickr {
 
             // Apply default color
             this.setColor(opt.default);
+            this._rePositioningPicker();
 
             // Initialize color representation
             if (opt.defaultRepresentation) {
@@ -103,7 +104,9 @@ class Pickr {
             }
 
             // Show pickr if locked
-            opt.showAlways && this.show();
+            if (opt.showAlways) {
+                this.show();
+            }
 
             // Initialization is done - pickr is usable, fire init event
             this._initializingActive = false;

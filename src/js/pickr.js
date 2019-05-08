@@ -120,7 +120,12 @@ class Pickr {
 
         // Check if element is selector
         if (typeof opt.el === 'string') {
-            opt.el = document.querySelector(opt.el);
+
+            // Resolve possible shadow dom access
+            opt.el = opt.el.split(/>>/g).reduce((pv, cv, ci, a) => {
+                pv = pv.querySelector(cv);
+                return ci < a.length - 1 ? pv.shadowRoot : pv;
+            }, document);
         }
 
         // Create element and append it to body to

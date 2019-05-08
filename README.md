@@ -52,6 +52,7 @@
 * Supports touch devices
 * Swatches for quick-selection
 * Lightweight, ~6KB gzipped
+* [Shadow-dom support](#selection-through-a-shadow-dom)
 
 ## Setup
 ⚠️ Attention: The readme is always up-to-date with the latest commit. See [Releases](https://github.com/Simonwep/pickr/releases) for installation instructions regarding to the latest version.
@@ -227,6 +228,28 @@ const pickr = new Pickr({
     }
 });
 ```
+
+## Selection through a Shadow-DOM
+Example setup:
+```html
+<div class="entry">
+  #shadow-root 
+    <div class="innr">
+       <div class="another">
+         #shadow-root 
+           <div class="pickr"></div>
+       </div>
+    </div>
+</div>
+```
+
+To select the `.pickr` element you can use the custom `>>` shadow-dom-selector in `el`:
+```js
+el: '.entry >> .innr .another >> .pickr'
+```
+
+Every `ShadowRoot` of the query-result behind a `>>` gets used in the next query selection.
+An alternative would be to provide the target-element itself as `el`.
 
 ## The HSVaColor object
 As default color representation is hsva (`hue`, `saturation`, `value` and `alpha`) used, but you can also convert it to other formats as listed below.

@@ -147,8 +147,9 @@
 
 .pcr-app .pcr-interaction {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    margin: 0.75em -0.2em 0 -0.2em;
+    margin: 0 -0.2em 0 -0.2em;
 
     > * {
         margin: 0 0.2em;
@@ -164,6 +165,7 @@
         border-radius: $border-radius-mid;
         transition: all 0.15s;
         padding: 0.45em 0.5em;
+        margin-top: 0.75em;
 
         &:hover {
             filter: brightness(0.975);
@@ -177,8 +179,8 @@
     .pcr-result {
         color: $palette-darkgray;
         text-align: left;
-        flex-grow: 1;
-        min-width: 1em;
+        flex: 1 1 8em;
+        min-width: 8em;
         transition: all 0.2s;
         border-radius: $border-radius-mid;
         background: $palette-snowwhite;

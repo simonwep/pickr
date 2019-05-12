@@ -1,7 +1,7 @@
 import * as _ from './lib/utils';
 
 export default options => {
-    const {components, strings, useAsButton, inline} = options;
+    const {components, strings, useAsButton, inline, appClass} = options;
     const hidden = con => con ? '' : 'style="display:none" hidden';
 
     const root = _.createFromTemplate(`
@@ -9,7 +9,7 @@ export default options => {
         
             ${useAsButton ? '' : '<button type="button" data-key="button" class="pcr-button"></button>'}
 
-            <div data-key="app" class="pcr-app" ${inline ? 'style="position: unset"' : ''}>
+            <div data-key="app" class="pcr-app ${appClass || ''}" ${inline ? 'style="position: unset"' : ''}>
                 <div class="pcr-selection" ${hidden(components.palette)}>
                     <div data-con="preview" class="pcr-color-preview" ${hidden(components.preview)}>
                         <button type="button" data-key="lastColor" class="pcr-last-color"></button>

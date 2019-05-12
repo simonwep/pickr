@@ -36,6 +36,7 @@ class Pickr {
 
         // Assign default values
         this.options = opt = Object.assign({
+            appClass: null,
             useAsButton: false,
             disabled: false,
             comparison: true,
@@ -114,6 +115,8 @@ class Pickr {
             this._emit('init');
         }).bind(this));
     }
+
+    u;
 
     // Does only the absolutly basic thing to initialize the components
     _preBuild() {

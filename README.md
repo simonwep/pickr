@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img src="logo.png" alt="Logo">
+    <img src="https://user-images.githubusercontent.com/30767528/57573928-1e78db80-7430-11e9-940c-aecbf3226b7c.png" alt="Logo">
 </h1>
 
 <h3 align="center">
@@ -150,6 +150,9 @@ const pickr = new Pickr({
     // Selector or element which will be replaced with the actual color-picker.
     // Can be a HTMLElement.
     el: '.color-picker',
+
+    // Custom class wich gets added to the pickr-app. Can be used to apply custom styles.
+    appClass: 'custom-class',
 
     // Using the 'el' Element as button, won't replace it with the pickr-button.
     // If true, appendToBody will also be automatically true.

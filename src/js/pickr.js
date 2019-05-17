@@ -356,7 +356,7 @@ class Pickr {
             let updateTimeout;
 
             // Re-calc position on window resize, scroll and wheel
-            eventBindings.push(_.on(window, ['scroll', 'wheel', 'resize'], () => {
+            eventBindings.push(_.on(window, ['scroll', 'resize'], () => {
                 if (this.isOpen()) {
                     this.hide();
 

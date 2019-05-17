@@ -175,7 +175,7 @@ export function adjustableInputNumbers(el, negative = true) {
         if (num.length > 0 && !isNaN(num) && isFinite(num)) {
 
             const mul = e.deltaY < 0 ? 1 : -1;
-            const inc = e.ctrlKey ? mul * 5 : mul;
+            const inc = ([1, 10, 100])[Number(e.shiftKey || e.ctrlKey * 2)] * mul;
             let newNum = Number(num) + inc;
 
             if (!negative && newNum < 0) {

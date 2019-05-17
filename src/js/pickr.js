@@ -9,7 +9,7 @@ import * as Color from './lib/color';
 import {HSVaColor} from './lib/hsvacolor';
 import Moveable    from './helper/moveable';
 import Selectable  from './helper/selectable';
-import buildPickr  from './buildPickr';
+import buildPickr  from './template';
 
 class Pickr {
 

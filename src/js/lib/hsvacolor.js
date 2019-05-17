@@ -1,13 +1,13 @@
-import {padStart} from '../lib/utils';
-import * as Color from './color';
+import {padStart}                                from '../lib/utils';
+import {hsvToHsl, hsvToRgb, hsvToCmyk, hsvToHex} from './color';
 
 /**
  * Simple class which holds the properties
  * of the color represention model hsla (hue saturation lightness alpha)
  */
 export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
+    const {ceil} = Math;
 
-    const ceil = Math.ceil;
     const that = {
         h, s, v, a,
 
@@ -21,7 +21,7 @@ export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
         },
 
         toHSLA() {
-            const hsla = Color.hsvToHsl(that.h, that.s, that.v);
+            const hsla = hsvToHsl(that.h, that.s, that.v);
             const rhsla = hsla.map(ceil);
 
             hsla.push(that.a);
@@ -30,16 +30,16 @@ export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
         },
 
         toRGBA() {
-            const rgba = Color.hsvToRgb(that.h, that.s, that.v);
+            const rgba = hsvToRgb(that.h, that.s, that.v);
             const rrgba = rgba.map(ceil);
 
-            rgba.push(that.a);
+            rgba.push();
             rgba.toString = () => `rgba(${rrgba[0]}, ${rrgba[1]}, ${rrgba[2]}, ${that.a.toFixed(1)})`;
             return rgba;
         },
 
         toCMYK() {
-            const cmyk = Color.hsvToCmyk(that.h, that.s, that.v);
+            const cmyk = hsvToCmyk(that.h, that.s, that.v);
             const rcmyk = cmyk.map(ceil);
 
             cmyk.toString = () => `cmyk(${rcmyk[0]}%, ${rcmyk[1]}%, ${rcmyk[2]}%, ${rcmyk[3]}%)`;
@@ -47,7 +47,7 @@ export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
         },
 
         toHEXA() {
-            const hex = Color.hsvToHex(...[that.h, that.s, that.v]);
+            const hex = hsvToHex(that.h, that.s, that.v);
 
             hex.toString = () => {
 

@@ -33,7 +33,7 @@ export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
             const rgba = hsvToRgb(that.h, that.s, that.v);
             const rrgba = rgba.map(ceil);
 
-            rgba.push();
+            rgba.push(that.a);
             rgba.toString = () => `rgba(${rrgba[0]}, ${rrgba[1]}, ${rrgba[2]}, ${that.a.toFixed(1)})`;
             return rgba;
         },

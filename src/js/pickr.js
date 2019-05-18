@@ -785,7 +785,7 @@ Pickr.utils = {
 };
 
 // Create instance via method
-Pickr.create = (options) => new Pickr(options);
+Pickr.create = options => new Pickr(options);
 
 // Export
 Pickr.version = '0.5.1';

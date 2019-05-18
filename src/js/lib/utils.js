@@ -106,9 +106,8 @@ export function createFromTemplate(str) {
         }
 
         // Check all children
-        const children = Array.from(element.children);
         const subtree = con ? (base[con] = {}) : base;
-        for (let child of children) {
+        for (let child of element.children) {
 
             // Check if element should be saved as array
             const arr = removeAttribute(child, 'data-arr');

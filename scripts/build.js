@@ -29,12 +29,18 @@ for (const {filename, babelConfig} of bundles) {
                             loader: 'babel-loader',
                             options: babelConfig
                         },
-                        'eslint-loader'
+                        'eslint-loader',
+                        'thread-loader'
                     ]
                 },
                 {
                     test: /\.scss$/,
-                    use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+                    use: [
+                        MiniCssExtractPlugin.loader,
+                        'css-loader',
+                        'sass-loader',
+                        'thread-loader'
+                    ]
                 }
             ]
         },

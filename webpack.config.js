@@ -24,7 +24,10 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                use: 'babel-loader'
+                use: [
+                    'thread-loader',
+                    'babel-loader'
+                ]
             },
             {
                 test: /\.scss$/,

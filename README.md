@@ -189,7 +189,7 @@ const pickr = new Pickr({
     closeWithKey: 'Escape',
 
     // Defines the position of the color-picker. Available options are
-    // top, left and middle relativ to the picker button.
+    // right, left and middle relativ to the picker button.
     // If clipping occurs, the color picker will automatically choose his position.
     position: 'middle',
 
@@ -260,7 +260,7 @@ As default color representation is hsva (`hue`, `saturation`, `value` and `alpha
 * hsva.toHSVA() _- Converts the object to a hsva array._
 * hsva.toHSLA() _- Converts the object to a hsla array._
 * hsva.toRGBA() _- Converts the object to a rgba array._
-* hsva.toHEX() _- Converts the object to a hexa-decimal array._
+* hsva.toHEXA() _- Converts the object to a hexa-decimal array._
 * hsva.toCMYK() _- Converts the object to a cymk array._
 * hsva.clone() _- Clones the color object._
 

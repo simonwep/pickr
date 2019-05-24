@@ -772,21 +772,12 @@ class Pickr {
     }
 }
 
-// Static methods
-Pickr.utils = {
-    once: _.once,
-    on: _.on,
-    off: _.off,
-    eventPath: _.eventPath,
-    createElementFromString: _.createElementFromString,
-    adjustableInputNumbers: _.adjustableInputNumbers,
-    removeAttribute: _.removeAttribute,
-    createFromTemplate: _.createFromTemplate
-};
+// Expose pickr utils
+Pickr.utils = _;
 
 // Create instance via method
 Pickr.create = options => new Pickr(options);
 
-// Export
+// Assign version and export
 Pickr.version = '0.5.1';
 export default Pickr;

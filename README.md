@@ -306,6 +306,7 @@ If `silent` is true (Default is false), the button won't change the current colo
 * removeAttribute(el`:HTMLElement`, name`:String`) _- Removes an attribute from a HTMLElement and returns the value._
 * createFromTemplate(str`:String`) _- See [inline doumentation](https://github.com/Simonwep/pickr/blob/master/src/js/lib/utils.js#L88)_
 * adjustableInputNumbers(el`:InputElement`, negative`:boolean`) _- Creates the possibility to change the numbers in an inputfield via mouse scrolling._
+* padStart(string`:String`, maxLength`:Number`, fillString = ' ') _- String.prototype.padStart polyfill_
 
 Use this utils carefully, it's not for sure that they will stay forever!
 

@@ -7,17 +7,15 @@
 </h3>
 
 <p align="center">
-  <a href="https://choosealicense.com/licenses/mit/"><img
-	  alt="License MIT"
-	  src="https://img.shields.io/badge/licence-MIT-3498db.svg?style=popout-square"></a>
-  <img alt="No dependencies"
-       src="https://img.shields.io/badge/dependencies-none-27ae60.svg?style=popout-square">
+  <img alt="gzip size" src="https://img.badgesize.io/https://raw.githubusercontent.com/Simonwep/pickr/master/dist/pickr.min.js?compression=gzip&style=flat-square">
+  <img alt="brotli size" src="https://img.badgesize.io/https://raw.githubusercontent.com/Simonwep/pickr/master/dist/pickr.min.js?compression=brotli&style=flat-square">
   <a href="https://travis-ci.org/Simonwep/pickr"><img
      alt="Build Status"
      src="https://img.shields.io/travis/Simonwep/pickr.svg?style=popout-square"></a>
   <a href="https://www.npmjs.com/package/@simonwep/pickr"><img
      alt="Download count"
      src="https://img.shields.io/npm/dm/@simonwep/pickr.svg?style=popout-square"></a>
+  <img alt="No dependencies" src="https://img.shields.io/badge/dependencies-none-27ae60.svg?style=popout-square">
   <a href="https://www.jsdelivr.com/package/npm/@simonwep/pickr"><img
      alt="JSDelivr download count"
      src="https://data.jsdelivr.com/v1/package/npm/@simonwep/pickr/badge"></a>
@@ -51,7 +49,6 @@
 * Responsive and auto-positioning
 * Supports touch devices
 * Swatches for quick-selection
-* Lightweight, ~6KB gzipped
 * [Shadow-dom support](#selection-through-a-shadow-dom)
 
 ## Setup

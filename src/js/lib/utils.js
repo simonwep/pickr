@@ -201,25 +201,3 @@ export function adjustableInputNumbers(el, negative = true) {
     on(el, 'focus', () => on(window, 'wheel', handleScroll, {passive: false}));
     on(el, 'blur', () => off(window, 'wheel', handleScroll));
 }
-
-/**
- * Cross browser padStart implementation
- * @param string
- * @param maxLength
- * @param fillString
- * @returns {string}
- */
-export function padStart(string, maxLength, fillString = ' ') {
-    maxLength = maxLength - string.length;
-
-    if (maxLength <= 0 || !fillString.length) {
-        return String(string);
-    } else {
-
-        if (maxLength > fillString.length) {
-            fillString += fillString.repeat(maxLength / fillString.length);
-        }
-
-        return fillString.slice(0, maxLength) + String(string);
-    }
-}

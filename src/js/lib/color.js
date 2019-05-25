@@ -1,5 +1,3 @@
-import {padStart} from '../lib/utils';
-
 // Shorthands
 const {min, max, floor, round} = Math;
 
@@ -54,7 +52,7 @@ export function hsvToRgb(h, s, v) {
  */
 export function hsvToHex(h, s, v) {
     return hsvToRgb(h, s, v).map(v =>
-        padStart(round(v).toString(16), 2, '0')
+        round(v).toString(16).padStart(2, '0')
     );
 }
 

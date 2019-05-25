@@ -88,35 +88,34 @@ class Pickr {
 
         // Initilization is finish, pickr is visible and ready for usage
         const {button} = this._root;
+        const that = this;
         requestAnimationFrame((function cb() {
 
             // offsetParent of body is always 0. So check if it is the body
             if (button.offsetParent === null && button !== document.body) {
-                return requestAnimationFrame(cb.bind(this));
+                return requestAnimationFrame(cb);
             }
 
             // Apply default color
-            this.setColor(opt.default);
-            this._rePositioningPicker();
+            that.setColor(opt.default);
+            that._rePositioningPicker();
 
             // Initialize color representation
             if (opt.defaultRepresentation) {
-                this._representation = opt.defaultRepresentation;
-                this.setColorRepresentation(this._representation);
+                that._representation = opt.defaultRepresentation;
+                that.setColorRepresentation(that._representation);
             }
 
             // Show pickr if locked
             if (opt.showAlways) {
-                this.show();
+                that.show();
             }
 
             // Initialization is done - pickr is usable, fire init event
-            this._initializingActive = false;
-            this._emit('init');
-        }).bind(this));
+            that._initializingActive = false;
+            that._emit('init');
+        }));
     }
-
-    u;
 
     // Does only the absolutly basic thing to initialize the components
     _preBuild() {

@@ -45,11 +45,11 @@ function eventListener(method, elements, events, fn, options = {}) {
         events = [events];
     }
 
-    elements.forEach(el =>
-        events.forEach(ev =>
-            el[method](ev, fn, {capture: false, ...options})
-        )
-    );
+    for (const el of elements) {
+        for (const ev of events) {
+            el[method](ev, fn, {capture: false, ...options});
+        }
+    }
 
     return Array.prototype.slice.call(arguments, 1);
 }

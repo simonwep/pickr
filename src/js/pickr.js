@@ -373,6 +373,7 @@ class Pickr {
     }
 
     _rePositioningPicker = (() => {
+        const xChain = {left: 'lmr', middle: 'mrl', right: 'rml'}; // Escape directions
         const padding = 8;
         let left, top;
 
@@ -383,8 +384,9 @@ class Pickr {
                 return;
             }
 
-            const {app, button} = this._root;
             const {innerWidth, innerHeight} = window;
+            const {position} = this.options;
+            const {app, button} = this._root;
             const bb = button.getBoundingClientRect();
             const ab = app.getBoundingClientRect();
 
@@ -397,24 +399,22 @@ class Pickr {
 
             // Positioning picker on the x-axis
             const pos = {
-                left: bb.left + bb.width - ab.width,
-                middle: (-ab.width / 2) + (bb.left + bb.width / 2),
-                right: bb.left
+                l: bb.left + bb.width - ab.width,
+                m: (-ab.width / 2) + (bb.left + bb.width / 2),
+                r: bb.left
             };
 
-            const wantedLeft = pos[this.options.position];
-            if (left + wantedLeft > innerWidth) {
-                left = pos['left'];
-            } else if (wantedLeft < 0) {
-                left = pos['right'];
-            } else {
-                left = wantedLeft;
+            for (let val of xChain[position]) {
+                val = pos[val];
+
+                if (val > 0 && (val + ab.width) < innerWidth) {
+                    left = val;
+                    break;
+                }
             }
 
-            Object.assign(app.style, {
-                left: `${left}px`,
-                top: `${top}px`
-            });
+            app.style.left = `${left}px`;
+            app.style.top = `${top}px`;
         };
     })();
 

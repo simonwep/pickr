@@ -2,13 +2,14 @@
 import '../scss/pickr.scss';
 
 // Import utils
-import * as _     from './lib/utils';
-import * as Color from './lib/color';
+import * as _     from './utils/utils';
+import * as Color from './utils/color';
 
 // Import classes
-import {HSVaColor} from './lib/hsvacolor';
-import Moveable    from './helper/moveable';
-import Selectable  from './helper/selectable';
+import {HSVaColor} from './utils/hsvacolor';
+import Moveable    from './libs/moveable';
+import Selectable  from './libs/selectable';
+import Nanopop     from './libs/nanopop';
 import buildPickr  from './template';
 
 class Pickr {
@@ -51,13 +52,14 @@ class Pickr {
 
             default: 'fff',
             defaultRepresentation: null,
-            position: 'middle',
+            position: 'bottom-middle',
             adjustableNumbers: true,
             showAlways: false,
 
             closeWithKey: 'Escape'
         }, opt);
-        const {swatches, inline, components} = opt;
+
+        const {swatches, inline, components, position} = opt;
 
         // Check interaction section
         if (!components.interaction) {
@@ -98,6 +100,12 @@ class Pickr {
 
             // Apply default color
             that.setColor(opt.default);
+            that._nanopop = Nanopop({
+                reference: that._root.button,
+                el: that._root.app,
+                pos: position
+            });
+
             that._rePositioningPicker();
 
             // Initialize color representation
@@ -372,51 +380,13 @@ class Pickr {
         this._eventBindings = eventBindings;
     }
 
-    _rePositioningPicker = (() => {
-        const xChain = {left: 'lmr', middle: 'mrl', right: 'rml'}; // Escape directions
-        const padding = 8;
-        let left, top;
+    _rePositioningPicker() {
 
-        return () => {
-
-            // No repositioning needed if inline
-            if (this.options.inline) {
-                return;
-            }
-
-            const {innerWidth, innerHeight} = window;
-            const {position} = this.options;
-            const {app, button} = this._root;
-            const bb = button.getBoundingClientRect();
-            const ab = app.getBoundingClientRect();
-
-            // Check if picker is cuttet of from the top & bottom
-            if (innerHeight - (bb.bottom + ab.height + padding) < 0) {
-                top = bb.top - ab.height - padding;
-            } else {
-                top = bb.bottom + padding;
-            }
-
-            // Positioning picker on the x-axis
-            const pos = {
-                l: bb.left + bb.width - ab.width,
-                m: (-ab.width / 2) + (bb.left + bb.width / 2),
-                r: bb.left
-            };
-
-            for (let val of xChain[position]) {
-                val = pos[val];
-
-                if (val > 0 && (val + ab.width) < innerWidth) {
-                    left = val;
-                    break;
-                }
-            }
-
-            app.style.left = `${left}px`;
-            app.style.top = `${top}px`;
-        };
-    })();
+        // No repositioning needed if inline
+        if (!this.options.inline) {
+            this._nanopop.update();
+        }
+    }
 
     _updateOutput() {
 

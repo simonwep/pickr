@@ -1,4 +1,4 @@
-import * as _ from './lib/utils';
+import * as _ from './utils/utils';
 
 export default ({components: c, strings: s, useAsButton, inline, appClass}) => {
     const hidden = con => con ? '' : 'style="display:none" hidden';

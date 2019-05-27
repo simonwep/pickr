@@ -2,14 +2,14 @@
 import '../scss/pickr.scss';
 
 // Import utils
-import * as _     from './lib/utils';
-import * as Color from './lib/color';
+import * as _     from './utils/utils';
+import * as Color from './utils/color';
 
 // Import classes
-import {HSVaColor} from './lib/hsvacolor';
-import Moveable    from './helper/moveable';
-import Selectable  from './helper/selectable';
-import Nanopop     from './helper/nanopop';
+import {HSVaColor} from './utils/hsvacolor';
+import Moveable    from './libs/moveable';
+import Selectable  from './libs/selectable';
+import Nanopop     from './libs/nanopop';
 import buildPickr  from './template';
 
 class Pickr {

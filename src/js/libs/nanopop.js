@@ -50,13 +50,8 @@ export default function Nanopop({el, reference, pos, padding = 8}) {
                 }
             }
 
-            if (isVertical) {
-                apply(vBehaviour[variant], variants, 'left');
-                apply(hBehaviour[position], positions, 'top');
-            } else {
-                apply(vBehaviour[variant], variants, 'top');
-                apply(hBehaviour[position], positions, 'left');
-            }
+            apply(vBehaviour[variant], variants, isVertical ? 'left' : 'top');
+            apply(hBehaviour[position], positions, isVertical ? 'top' : 'left');
         }
     };
 }

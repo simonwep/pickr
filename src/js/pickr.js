@@ -51,13 +51,20 @@ class Pickr {
 
             default: 'fff',
             defaultRepresentation: null,
-            position: 'middle',
+            position: 'bottom-middle',
             adjustableNumbers: true,
             showAlways: false,
 
             closeWithKey: 'Escape'
         }, opt);
-        const {swatches, inline, components} = opt;
+
+        const {swatches, inline, components, position} = opt;
+
+        // Resolve position
+        const posparts = position.split('-');
+        const v = posparts.find(v => ['left', 'middle', 'right'].includes(v)) || 'middle';
+        const h = posparts.find(v => ['top', 'bottom'].includes(v)) || 'bottom';
+        opt.position = {v, h};
 
         // Check interaction section
         if (!components.interaction) {
@@ -373,7 +380,8 @@ class Pickr {
     }
 
     _rePositioningPicker = (() => {
-        const xChain = {left: 'lmr', middle: 'mrl', right: 'rml'}; // Escape directions
+        const vBehaviour = {left: 'lmr', middle: 'mrl', right: 'rml'};
+        const hBehaviour = {top: 'tb', bottom: 'bt'};
         const padding = 8;
         let left, top;
 
@@ -384,31 +392,34 @@ class Pickr {
                 return;
             }
 
-            const {innerWidth, innerHeight} = window;
-            const {position} = this.options;
+            const {v, h} = this.options.position;
             const {app, button} = this._root;
             const bb = button.getBoundingClientRect();
             const ab = app.getBoundingClientRect();
 
-            // Check if picker is cuttet of from the top & bottom
-            if (innerHeight - (bb.bottom + ab.height + padding) < 0) {
-                top = bb.top - ab.height - padding;
-            } else {
-                top = bb.bottom + padding;
-            }
+            const hDirs = {
+                b: bb.bottom + padding,
+                t: bb.top - ab.height - padding
+            };
 
-            // Positioning picker on the x-axis
-            const pos = {
+            const vDirs = {
                 l: bb.left + bb.width - ab.width,
                 m: (-ab.width / 2) + (bb.left + bb.width / 2),
                 r: bb.left
             };
 
-            for (let val of xChain[position]) {
-                val = pos[val];
+            for (const ch of vBehaviour[v]) {
+                const v = vDirs[ch];
+                if (v > 0 && (v + ab.width) < window.innerWidth) {
+                    left = v;
+                    break;
+                }
+            }
 
-                if (val > 0 && (val + ab.width) < innerWidth) {
-                    left = val;
+            for (const ch of hBehaviour[h]) {
+                const v = hDirs[ch];
+                if (v > 0 && (v + ab.height) < window.innerHeight) {
+                    top = v;
                     break;
                 }
             }

@@ -185,10 +185,11 @@ const pickr = new Pickr({
     // Default is 'Escape'. Can be the event key or code.
     closeWithKey: 'Escape',
 
-    // Defines the position of the color-picker. Available options are
-    // right, left and middle relativ to the picker button.
-    // If clipping occurs, the color picker will automatically choose his position.
-    position: 'middle',
+    // Defines the position of the color-picker. 
+    // Any combinations of [left, middle, right] (on the x-axis) and [top, bottom] (on the y-axis) are possible. 
+    // Examples: top-left / bottom-right
+    // If clipping occurs, the color picker will automatically choose its position.
+    position: 'bottom-middle',
 
     // Enables the ability to change numbers in an input field with the scroll-wheel.
     // To use it set the cursor on a position where a number is and scroll, use ctrl to make steps of five

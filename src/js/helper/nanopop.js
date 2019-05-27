@@ -2,15 +2,15 @@
  * Micro positioning-engine
  * @param el
  * @param reference
- * @param v
- * @param h
+ * @param pos
  * @param padding
  * @returns {{update(): void}}
  * @constructor
  */
-export default function Nanopop({el, reference, pos: {v, h}, padding = 8}) {
-    const vBehaviour = {left: 'sme', middle: 'mes', right: 'ems'};
+export default function Nanopop({el, reference, pos, padding = 8}) {
+    const vBehaviour = {start: 'sme', auto: 'ams', end: 'ems'};
     const hBehaviour = {top: 'tb', bottom: 'bt'};
+    const [position, variant = 'middle'] = pos.split('-');
     let left, top;
 
     return {
@@ -24,12 +24,12 @@ export default function Nanopop({el, reference, pos: {v, h}, padding = 8}) {
             };
 
             const vDirs = {
-                l: rb.left + rb.width - eb.width,
+                s: rb.left + rb.width - eb.width,
                 m: (-eb.width / 2) + (rb.left + rb.width / 2),
-                r: rb.left
+                e: rb.left
             };
 
-            for (const ch of vBehaviour[v]) {
+            for (const ch of vBehaviour[variant]) {
                 const v = vDirs[ch];
                 if (v > 0 && (v + eb.width) < window.innerWidth) {
                     left = v;
@@ -37,7 +37,7 @@ export default function Nanopop({el, reference, pos: {v, h}, padding = 8}) {
                 }
             }
 
-            for (const ch of hBehaviour[h]) {
+            for (const ch of hBehaviour[position]) {
                 const v = hDirs[ch];
                 if (v > 0 && (v + eb.height) < window.innerHeight) {
                     top = v;

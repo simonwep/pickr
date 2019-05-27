@@ -61,12 +61,6 @@ class Pickr {
 
         const {swatches, inline, components, position} = opt;
 
-        // Resolve position
-        const posparts = position.split('-');
-        const v = posparts.find(v => ['left', 'middle', 'right'].includes(v)) || 'middle';
-        const h = posparts.find(v => ['top', 'bottom'].includes(v)) || 'bottom';
-        opt.position = {v, h};
-
         // Check interaction section
         if (!components.interaction) {
             components.interaction = {};
@@ -109,7 +103,7 @@ class Pickr {
             that._nanopop = Nanopop({
                 reference: that._root.button,
                 el: that._root.app,
-                pos: opt.position
+                pos: position
             });
 
             that._rePositioningPicker();

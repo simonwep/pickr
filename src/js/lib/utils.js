@@ -45,11 +45,11 @@ function eventListener(method, elements, events, fn, options = {}) {
         events = [events];
     }
 
-    elements.forEach(el =>
-        events.forEach(ev =>
-            el[method](ev, fn, {capture: false, ...options})
-        )
-    );
+    for (const el of elements) {
+        for (const ev of events) {
+            el[method](ev, fn, {capture: false, ...options});
+        }
+    }
 
     return Array.prototype.slice.call(arguments, 1);
 }
@@ -107,7 +107,7 @@ export function createFromTemplate(str) {
 
         // Check all children
         const subtree = con ? (base[con] = {}) : base;
-        for (let child of element.children) {
+        for (let child of Array.from(element.children)) {
 
             // Check if element should be saved as array
             const arr = removeAttribute(child, 'data-arr');

@@ -186,8 +186,8 @@ const pickr = new Pickr({
     closeWithKey: 'Escape',
 
     // Defines the position of the color-picker. 
-    // Any combinations of [left, middle, right] (on the x-axis) and [top, bottom] (on the y-axis) are possible. 
-    // Examples: top-left / bottom-right
+    // Any combinations of top, left, bottom or right with one of these modifiers: start, middle, end
+    // Examples: top-start / right-end
     // If clipping occurs, the color picker will automatically choose its position.
     position: 'bottom-middle',
 

@@ -9,6 +9,7 @@ import * as Color from './lib/color';
 import {HSVaColor} from './lib/hsvacolor';
 import Moveable    from './helper/moveable';
 import Selectable  from './helper/selectable';
+import Nanopop     from './helper/nanopop';
 import buildPickr  from './template';
 
 class Pickr {
@@ -105,6 +106,12 @@ class Pickr {
 
             // Apply default color
             that.setColor(opt.default);
+            that._nanopop = Nanopop({
+                reference: that._root.button,
+                el: that._root.app,
+                pos: opt.position
+            });
+
             that._rePositioningPicker();
 
             // Initialize color representation
@@ -379,55 +386,13 @@ class Pickr {
         this._eventBindings = eventBindings;
     }
 
-    _rePositioningPicker = (() => {
-        const vBehaviour = {left: 'lmr', middle: 'mrl', right: 'rml'};
-        const hBehaviour = {top: 'tb', bottom: 'bt'};
-        const padding = 8;
-        let left, top;
+    _rePositioningPicker() {
 
-        return () => {
-
-            // No repositioning needed if inline
-            if (this.options.inline) {
-                return;
-            }
-
-            const {v, h} = this.options.position;
-            const {app, button} = this._root;
-            const bb = button.getBoundingClientRect();
-            const ab = app.getBoundingClientRect();
-
-            const hDirs = {
-                b: bb.bottom + padding,
-                t: bb.top - ab.height - padding
-            };
-
-            const vDirs = {
-                l: bb.left + bb.width - ab.width,
-                m: (-ab.width / 2) + (bb.left + bb.width / 2),
-                r: bb.left
-            };
-
-            for (const ch of vBehaviour[v]) {
-                const v = vDirs[ch];
-                if (v > 0 && (v + ab.width) < window.innerWidth) {
-                    left = v;
-                    break;
-                }
-            }
-
-            for (const ch of hBehaviour[h]) {
-                const v = hDirs[ch];
-                if (v > 0 && (v + ab.height) < window.innerHeight) {
-                    top = v;
-                    break;
-                }
-            }
-
-            app.style.left = `${left}px`;
-            app.style.top = `${top}px`;
-        };
-    })();
+        // No repositioning needed if inline
+        if (!this.options.inline) {
+            this._nanopop.update();
+        }
+    }
 
     _updateOutput() {
 

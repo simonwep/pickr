@@ -39,7 +39,7 @@ export default function Nanopop({el, reference, pos, padding = 8}) {
             function apply(bevs, vars, styleprop) {
                 const vertical = styleprop === 'top';
                 const adder = vertical ? eb.height : eb.width;
-                const win = vertical ? window.innerHeight : window.innerWidth;
+                const win = window[vertical ? 'innerHeight' : 'innerWidth'];
 
                 for (const ch of bevs) {
                     const v = vars[ch];

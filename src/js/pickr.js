@@ -360,20 +360,28 @@ class Pickr {
         }
 
         if (!options.inline) {
-            let updateTimeout;
+            let timeout = null;
+            const that = this;
 
             // Re-calc position on window resize, scroll and wheel
-            eventBindings.push(_.on(window, ['scroll', 'resize'], () => {
-                if (this.isOpen()) {
-                    this.hide();
+            eventBindings.push(
+                _.on(window, ['scroll', 'resize'], () => {
+                    if (that.isOpen()) {
+                        if (timeout === null) {
+                            timeout = setTimeout(() => timeout = null, 100);
 
-                    if (updateTimeout) {
-                        clearTimeout(updateTimeout);
+                            // Update position on every frame
+                            requestAnimationFrame(function rs() {
+                                that._rePositioningPicker();
+                                (timeout !== null) && requestAnimationFrame(rs);
+                            });
+                        } else {
+                            clearTimeout(timeout);
+                            timeout = setTimeout(() => timeout = null, 100);
+                        }
                     }
-
-                    updateTimeout = setTimeout(() => this.show(), 250);
-                }
-            }));
+                })
+            );
         }
 
         // Save bindings

@@ -45,12 +45,12 @@ class Pickr {
             components: {
                 interaction: {}
             },
-            strings: {},
 
+            strings: {},
             swatches: null,
             inline: false,
 
-            default: 'fff',
+            default: '#42445A',
             defaultRepresentation: null,
             position: 'bottom-middle',
             adjustableNumbers: true,

@@ -619,6 +619,9 @@ class Pickr {
             return false;
         }
 
+        // Override current color and re-active color calculation
+        this._color = HSVaColor(h, s, v, a);
+
         // Short names
         const {hue, opacity, palette} = this.components;
 
@@ -638,9 +641,8 @@ class Pickr {
         const pickerY = pickerWrapper.offsetHeight * (1 - (v / 100));
         palette.update(pickerX, pickerY);
 
-        // Override current color and re-active color calculation
-        this._color = HSVaColor(h, s, v, a);
-        this._recalc = recalc; // Restore old state
+        // Restore old state
+        this._recalc = recalc;
 
         // Update output if recalculation is enabled
         if (this._recalc) {

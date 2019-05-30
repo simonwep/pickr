@@ -222,7 +222,7 @@ class Pickr {
                     const cssRGBaString = _color.toRGBA().toString();
                     this.element.style.background = cssRGBaString;
                     this.wrapper.style.background = `
-                        linear-gradient(to top, rgba(0, 0, 0, ${_color.a}), transparent), 
+                        linear-gradient(to top, rgba(0, 0, 0, ${_color.a}), transparent),
                         linear-gradient(to left, hsla(${_color.h}, 100%, 50%, ${_color.a}), rgba(255, 255, 255, ${_color.a}))
                     `;
 

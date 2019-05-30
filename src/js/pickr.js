@@ -88,6 +88,13 @@ class Pickr {
             swatches.forEach(color => this.addSwatch(color));
         }
 
+        // Initialize positioning engine
+        this._nanopop = Nanopop({
+            reference: this._root.button,
+            el: this._root.app,
+            pos: position
+        });
+
         // Initilization is finish, pickr is visible and ready for usage
         const {button} = this._root;
         const that = this;
@@ -100,12 +107,6 @@ class Pickr {
 
             // Apply default color
             that.setColor(opt.default);
-            that._nanopop = Nanopop({
-                reference: that._root.button,
-                el: that._root.app,
-                pos: position
-            });
-
             that._rePositioningPicker();
 
             // Initialize color representation

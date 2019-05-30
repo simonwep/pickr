@@ -20,7 +20,7 @@
      alt="JSDelivr download count"
      src="https://data.jsdelivr.com/v1/package/npm/@simonwep/pickr/badge"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-0.6.1-f1c40f.svg?style=popout-square">
+       src="https://img.shields.io/badge/version-0.6.2-f1c40f.svg?style=popout-square">
   <a href="https://www.patreon.com/simonwep"><img
      alt="Support me"
      src="https://img.shields.io/badge/patreon-support-f1c40f.svg?style=popout-square"></a>

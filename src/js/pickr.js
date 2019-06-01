@@ -472,6 +472,7 @@ class Pickr {
 
         if (values) {
             const {_swatchColors, _root} = this;
+            const {app} = _root;
             const hsvaColorObject = HSVaColor(...values);
 
             // Create new swatch HTMLElement
@@ -486,6 +487,14 @@ class Pickr {
             // Bind event
             this._eventBindings.push(
                 _.on(element, 'click', () => {
+
+                    clearTimeout(this._lastAnimateTimeout);
+                    app.classList.add('animate');
+
+                    this._lastAnimateTimeout = setTimeout(
+                        () => app.classList.remove('animate'), 300
+                    );
+
                     this.setHSVA(...hsvaColorObject.toHSVA(), true);
                     this._emit('swatchselect', hsvaColorObject);
                 })

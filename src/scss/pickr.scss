@@ -67,6 +67,14 @@
             @include focus(currentColor);
         }
     }
+
+    &.animate {
+        .pcr-current-color,
+        .pcr-palette,
+        .pcr-picker {
+            transition: all ease-in-out 0.3s;
+        }
+    }
 }
 
 .pcr-app {

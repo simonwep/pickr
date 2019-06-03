@@ -211,10 +211,10 @@ class Pickr {
                     const {_color, _root, options} = inst;
 
                     // Calculate saturation based on the position
-                    _color.s = (x / this.wrapper.offsetWidth) * 100;
+                    _color.s = x * 100;
 
                     // Calculate the value
-                    _color.v = 100 - (y / this.wrapper.offsetHeight) * 100;
+                    _color.v = 100 - y * 100;
 
                     // Prevent falling under zero
                     _color.v < 0 ? _color.v = 0 : 0;
@@ -258,7 +258,7 @@ class Pickr {
                     if (!comp.hue || !comp.palette) return;
 
                     // Calculate hue
-                    inst._color.h = (y / this.wrapper.offsetHeight) * 360;
+                    inst._color.h = y * 360;
 
                     // Update color
                     this.element.style.backgroundColor = `hsl(${inst._color.h}, 100%, 50%)`;
@@ -275,7 +275,7 @@ class Pickr {
                     if (!comp.opacity || !comp.palette) return;
 
                     // Calculate opacity
-                    inst._color.a = Math.round(((y / this.wrapper.offsetHeight)) * 1e2) / 100;
+                    inst._color.a = Math.round(y * 1e2) / 100;
 
                     // Update color
                     this.element.style.background = `rgba(0, 0, 0, ${inst._color.a})`;

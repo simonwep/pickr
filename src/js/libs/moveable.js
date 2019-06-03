@@ -1,5 +1,6 @@
 import * as _ from '../utils/utils';
 
+const clamp = v => Math.max(Math.min(v, 1), 0);
 export default function Moveable(opt) {
 
     const that = {
@@ -24,8 +25,8 @@ export default function Moveable(opt) {
 
         _tapmove(evt) {
             const {options, cache} = that;
-            const {element} = options;
-            const b = that.options.wrapper.getBoundingClientRect();
+            const {element, wrapper} = options;
+            const b = wrapper.getBoundingClientRect();
 
             let x = 0, y = 0;
             if (evt) {
@@ -52,11 +53,14 @@ export default function Moveable(opt) {
             }
 
             if (!options.lockY) {
-                element.style.top = `calc(${y / b.height * 100}% - ${element.offsetWidth / 2}px)`;
+                element.style.top = `calc(${y / b.height * 100}% - ${element.offsetHeight / 2}px)`;
             }
 
             that.cache = {x: x / b.width, y: y / b.height};
-            options.onchange(x, y);
+            options.onchange(
+                clamp(x / wrapper.offsetWidth),
+                clamp(y / wrapper.offsetHeight)
+            );
         },
 
         _tapstop() {

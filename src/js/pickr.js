@@ -244,8 +244,11 @@ class Pickr {
                         inst._updateOutput();
                     }
 
-                    // If the user changes the color, remove the cleared icon
-                    _root.button.classList.remove('clear');
+                    if (!inst.options.comparison) {
+
+                        // If the user changes the color, remove the cleared icon
+                        _root.button.classList.remove('clear');
+                    }
                 }
             }),
 

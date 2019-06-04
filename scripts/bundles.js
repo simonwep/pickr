@@ -3,7 +3,7 @@ const babelrc = JSON.parse(fs.readFileSync('.babelrc'));
 
 module.exports = [
     {
-        'filename': 'pickr.es5.min.js',
+        'filename': 'pickr.es5.min',
         'babelConfig': {
             ...babelrc,
             'presets': [
@@ -17,7 +17,7 @@ module.exports = [
         }
     },
     {
-        'filename': 'pickr.min.js',
+        'filename': 'pickr.min',
         'babelConfig': {
             ...babelrc,
             'presets': [

@@ -17,7 +17,7 @@ for (const {filename, babelConfig} of bundles) {
 
         output: {
             path: path.resolve('./dist'),
-            filename,
+            filename: `${filename}.js`,
             library: 'Pickr',
             libraryExport: 'default',
             libraryTarget: 'umd'
@@ -50,7 +50,7 @@ for (const {filename, babelConfig} of bundles) {
 
         plugins: [
             new MiniCssExtractPlugin({
-                filename: 'pickr.min.css'
+                filename: `${filename}.css`
             }),
 
             new OptimizeCssAssetsPlugin({
@@ -60,7 +60,7 @@ for (const {filename, babelConfig} of bundles) {
             }),
 
             new webpack.SourceMapDevToolPlugin({
-                filename: `${filename}.map`
+                filename: `${filename}.js.map`
             }),
 
             new webpack.BannerPlugin({

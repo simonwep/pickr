@@ -16,24 +16,24 @@
         "lint": "eslint ./src"
     },
     "devDependencies": {
-        "@babel/core": "^7.4.4",
+        "@babel/core": "^7.4.5",
         "@babel/plugin-proposal-class-properties": "^7.4.4",
         "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
-        "@babel/preset-env": "^7.4.4",
+        "@babel/preset-env": "^7.4.5",
         "babel-eslint": "^10.0.1",
         "babel-loader": "^8.0.6",
         "chalk": "^2.4.2",
         "css-loader": "^2.1.1",
         "eslint": "^5.16.0",
         "eslint-loader": "^2.1.2",
-        "mini-css-extract-plugin": "^0.6.0",
+        "mini-css-extract-plugin": "^0.7.0",
         "node-sass": "^4.12.0",
         "optimize-css-assets-webpack-plugin": "^5.0.1",
         "sass-loader": "^7.1.0",
         "thread-loader": "^2.1.2",
-        "webpack": "^4.32.0",
+        "webpack": "^4.32.2",
         "webpack-cli": "^3.3.2",
-        "webpack-dev-server": "^3.4.1"
+        "webpack-dev-server": "^3.5.1"
     },
     "homepage": "https://github.com/Simonwep/pickr#readme",
     "repository": {

@@ -10,7 +10,7 @@ const fs = require('fs');
 // Chaining promises to prevent issues caused by both filename configurations
 // writing a minified CSS file; both processes having handles on the files can
 // result in strange suffixes that fail to parse due to an extra `ap*/`
-bundles.reduce((memo, { filename, babelConfig }) => {
+bundles.reduce((memo, {filename, babelConfig}) => {
     memo = memo.then(() => {
         return new Promise((resolve, reject) => {
             console.log(chalk.yellow(`[START] Build ${filename}...`));
@@ -88,6 +88,7 @@ bundles.reduce((memo, { filename, babelConfig }) => {
             });
         });
     });
+
     return memo;
 }, Promise.resolve());
 

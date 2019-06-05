@@ -107,7 +107,6 @@
     @supports (display: grid) {
         display: grid;
         align-items: center;
-        grid-gap: 10px;
         grid-template-columns: repeat(auto-fit, 1.75em);
     }
 

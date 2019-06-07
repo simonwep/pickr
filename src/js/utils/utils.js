@@ -132,22 +132,24 @@ export function eventPath(evt) {
 /**
  * Creates the ability to change numbers in an input field with the scroll-wheel.
  * @param el
- * @param negative
+ * @param mapper
  */
-export function adjustableInputNumbers(el, negative = true) {
+export function adjustableInputNumbers(el, mapper = v => v) {
 
     function handleScroll(e) {
-        const off = el.selectionStart;
-        const inc = ([1, 10, 100])[Number(e.shiftKey || e.ctrlKey * 2)] * (e.deltaY < 0 ? 1 : -1);
+        const inc = ([0.001, 0.01, 0.1])[Number(e.shiftKey || e.ctrlKey * 2)] * (e.deltaY < 0 ? 1 : -1);
 
+        let index = 0;
+        let off = el.selectionStart;
         el.value = el.value.replace(/[\d.]+/g, (v, i) => {
 
             // Check if number is in cursor range and increase it
             if (i <= off && i + v.length >= off) {
-                const val = Number(v) + inc;
-                return !negative && val < 0 ? 0 : val;
+                off = i;
+                return mapper(Number(v), inc, index);
             }
 
+            index++;
             return v;
         });
 

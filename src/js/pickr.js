@@ -360,7 +360,28 @@ class Pickr {
 
         // Make input adjustable if enabled
         if (options.adjustableNumbers) {
-            _.adjustableInputNumbers(_root.interaction.result, false);
+            const ranges = {
+                rgba: [255, 255, 255, 1],
+                hsva: [360, 100, 100, 1],
+                hsla: [360, 100, 100, 1],
+                cmyk: [100, 100, 100, 100]
+            };
+
+            _.adjustableInputNumbers(_root.interaction.result, (o, step, index) => {
+                const range = ranges[this.getColorRepresentation().toLowerCase()];
+
+                if (range) {
+                    const max = range[index];
+
+                    // Calculate next reasonable number
+                    const nv = o + (max >= 100 ? step * 1000 : step);
+
+                    // Apply range of zero up to max, fix floating-point issues
+                    return nv <= 0 ? 0 : Number((nv < max ? nv : max).toPrecision(3));
+                } else {
+                    return o;
+                }
+            });
         }
 
         if (!options.inline) {

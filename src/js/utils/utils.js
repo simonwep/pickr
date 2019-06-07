@@ -136,50 +136,26 @@ export function eventPath(evt) {
  */
 export function adjustableInputNumbers(el, negative = true) {
 
-    // Check if a char represents a number
-    const isNumChar = c => (c >= '0' && c <= '9') || c === '-' || c === '.';
-
     function handleScroll(e) {
-        const val = el.value;
         const off = el.selectionStart;
-        let numStart = off;
-        let num = ''; // Will be the number as string
+        const inc = ([1, 10, 100])[Number(e.shiftKey || e.ctrlKey * 2)] * (e.deltaY < 0 ? 1 : -1);
 
-        // Look back
-        for (let i = off - 1; i > 0 && isNumChar(val[i]); i--) {
-            num = val[i] + num;
-            numStart--; // Find start of number
-        }
+        el.value = el.value.replace(/[\d.]+/g, (v, i) => {
 
-        // Look forward
-        for (let i = off, n = val.length; i < n && isNumChar(val[i]); i++) {
-            num += val[i];
-        }
-
-        // Check if number is valid
-        if (num.length > 0 && !isNaN(num) && isFinite(num)) {
-
-            const mul = e.deltaY < 0 ? 1 : -1;
-            const inc = ([1, 10, 100])[Number(e.shiftKey || e.ctrlKey * 2)] * mul;
-            let newNum = Number(num) + inc;
-
-            if (!negative && newNum < 0) {
-                newNum = 0;
+            // Check if number is in cursor range and increase it
+            if (i <= off && i + v.length >= off) {
+                const val = Number(v) + inc;
+                return !negative && val < 0 ? 0 : val;
             }
 
-            const newStr = val.substr(0, numStart) + newNum + val.substring(numStart + num.length, val.length);
-            const curPos = numStart + String(newNum).length;
+            return v;
+        });
 
-            // Update value and set cursor
-            el.value = newStr;
-            el.focus();
-            el.setSelectionRange(curPos, curPos);
-        }
+        el.focus();
+        el.setSelectionRange(off, off);
 
-        // Prevent default
+        // Prevent default and trigger input event
         e.preventDefault();
-
-        // Trigger input event
         el.dispatchEvent(new Event('input'));
     }
 

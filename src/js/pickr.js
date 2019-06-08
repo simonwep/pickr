@@ -647,24 +647,11 @@ class Pickr {
         // Override current color and re-active color calculation
         this._color = HSVaColor(h, s, v, a);
 
-        // Short names
+        // Update slider and palette
         const {hue, opacity, palette} = this.components;
-
-        // Calculate y position of hue slider
-        const hueWrapper = hue.options.wrapper;
-        const hueY = hueWrapper.offsetHeight * (h / 360);
-        hue.update(0, hueY);
-
-        // Calculate y position of opacity slider
-        const opacityWrapper = opacity.options.wrapper;
-        const opacityY = opacityWrapper.offsetHeight * a;
-        opacity.update(0, opacityY);
-
-        // Calculate y and x position of color palette
-        const pickerWrapper = palette.options.wrapper;
-        const pickerX = pickerWrapper.offsetWidth * (s / 100);
-        const pickerY = pickerWrapper.offsetHeight * (1 - (v / 100));
-        palette.update(pickerX, pickerY);
+        hue.update(0, (h / 360));
+        opacity.update(0, a);
+        palette.update(s / 100, 1 - (v / 100));
 
         // Restore old state
         this._recalc = recalc;

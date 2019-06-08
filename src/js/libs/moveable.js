@@ -73,10 +73,10 @@ export default function Moveable(opt) {
         },
 
         update(x = 0, y = 0) {
-            const wrapperRect = that.options.wrapper.getBoundingClientRect();
+            const {left, top, width, height} = that.options.wrapper.getBoundingClientRect();
             that._tapmove({
-                clientX: wrapperRect.left + x,
-                clientY: wrapperRect.top + y
+                clientX: left + width * x,
+                clientY: top + height * y
             });
         },
 

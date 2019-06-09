@@ -1,5 +1,3 @@
-// Import styles
-import '../scss/pickr.scss';
 
 // Import utils
 import * as _     from './utils/utils';

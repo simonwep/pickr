@@ -1,14 +1,14 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-    entry: './src/js/pickr.js',
+    entry: {
+        'pickr.es5.min.js': './src/js/pickr.js',
+        'pickr.min.css': './src/scss/pickr.scss'
+    },
 
     output: {
-        path: `${__dirname}/dist`,
-        publicPath: 'dist/',
-        filename: 'pickr.es5.min.js',
+        publicPath: './dist/',
+        filename: '[name]',
         library: 'Pickr',
         libraryExport: 'default',
         libraryTarget: 'umd'
@@ -24,29 +24,16 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                use: [
-                    'thread-loader',
-                    'babel-loader'
-                ]
+                use: ['babel-loader']
             },
             {
                 test: /\.scss$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+                use: ['css-loader', 'sass-loader']
             }
         ]
     },
 
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: 'pickr.min.css'
-        }),
-
-        new OptimizeCssAssetsPlugin({
-            cssProcessorPluginOptions: {
-                preset: ['default', {discardComments: {removeAll: true}}]
-            }
-        }),
-
         new webpack.SourceMapDevToolPlugin({
             filename: 'pickr.es5.min.js.map'
         })

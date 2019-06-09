@@ -49,6 +49,7 @@ class Pickr {
             strings: {},
             swatches: null,
             inline: false,
+            sliders: 'v',
 
             default: '#42445A',
             defaultRepresentation: null,
@@ -199,6 +200,21 @@ class Pickr {
         // Instance reference
         const inst = this;
         const comp = this.options.components;
+        const [so, sh] = (() => {
+            const {sliders} = inst.options;
+            let so = 'v', sh = 'v';
+
+            if (sliders.match(/^[vh]+$/g)) {
+                if (sliders.length > 1) {
+                    [so, sh] = sliders;
+                } else {
+                    so = sh = sliders;
+                }
+            }
+
+            const opposite = {v: 'h', h: 'v'};
+            return [opposite[so], opposite[sh]];
+        })();
 
         const components = {
 
@@ -253,15 +269,15 @@ class Pickr {
             }),
 
             hue: Moveable({
-                lockX: true,
+                lock: sh,
                 element: inst._root.hue.picker,
                 wrapper: inst._root.hue.slider,
 
-                onchange(x, y) {
+                onchange(v) {
                     if (!comp.hue || !comp.palette) return;
 
                     // Calculate hue
-                    inst._color.h = y * 360;
+                    inst._color.h = v * 360;
 
                     // Update color
                     this.element.style.backgroundColor = `hsl(${inst._color.h}, 100%, 50%)`;
@@ -270,15 +286,15 @@ class Pickr {
             }),
 
             opacity: Moveable({
-                lockX: true,
+                lock: so,
                 element: inst._root.opacity.picker,
                 wrapper: inst._root.opacity.slider,
 
-                onchange(x, y) {
+                onchange(v) {
                     if (!comp.opacity || !comp.palette) return;
 
                     // Calculate opacity
-                    inst._color.a = Math.round(y * 1e2) / 100;
+                    inst._color.a = Math.round(v * 1e2) / 100;
 
                     // Update color
                     this.element.style.background = `rgba(0, 0, 0, ${inst._color.a})`;

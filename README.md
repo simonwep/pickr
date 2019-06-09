@@ -158,6 +158,12 @@ const pickr = new Pickr({
     // If true pickr won't be fixed and instead append after the in el resolved element.
     // Setting this to true will also set showAlways to true. It's possible to hide it via .hide() anyway.
     inline: false,
+    
+    // Defines the direction in which the knobs of hue and opacity can be moved.
+    // 'v' => opacity- and hue-slider can both only moved vertically.
+    // 'hv' => opacity-slider can be moved horizontally and hue-slider vertically.
+    // Can be used to apply custom layouts
+    sliders: 'v',
 
     // Start state. If true 'disabled' will be added to the button's classlist.
     disabled: false,

@@ -17,6 +17,7 @@ const path = require('path');
         mode: 'production',
         entry:{
             'pickr.min.css':  path.resolve('./src/scss/themes/default.scss'),
+            'pickr.nano.min.css':  path.resolve('./src/scss/themes/nano.scss'),
             'pickr.monolith.min.css':  path.resolve('./src/scss/themes/monolith.scss')
         },
 

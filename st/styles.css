@@ -68,6 +68,7 @@ body main {
     transition: all 0.3s;
     margin: 0 0.5em;
     opacity: 0.45;
+    text-transform: capitalize;
 }
 
 .theme-container button.active {

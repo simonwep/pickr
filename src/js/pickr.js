@@ -60,7 +60,7 @@ class Pickr {
 
         const {swatches, inline, components, position, theme, sliders} = opt;
 
-        if (theme === 'monolith' && !sliders) {
+        if (['nano', 'monolith'].includes(theme) && !sliders) {
             opt.sliders = 'h';
         }
 
@@ -361,7 +361,6 @@ class Pickr {
             const ck = options.closeWithKey;
 
             eventBindings.push(
-
                 // Save and hide / show picker
                 _.on(_root.button, 'click', () => this.isOpen() ? this.hide() : this.show()),
 

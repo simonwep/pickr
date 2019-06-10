@@ -35,7 +35,7 @@ class Pickr {
         // Assign default values
         this.options = opt = Object.assign({
             appClass: null,
-            theme: 'default',
+            theme: 'classic',
             useAsButton: false,
             disabled: false,
             comparison: true,

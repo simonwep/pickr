@@ -6,6 +6,7 @@ const bundles = require('./bundles');
 const util = require('util');
 const webpack = util.promisify(require('webpack'));
 const path = require('path');
+const fs = require('fs');
 
 (async () => {
     const banner = new webpack.BannerPlugin({
@@ -15,10 +16,10 @@ const path = require('path');
     // CSS
     await webpack({
         mode: 'production',
-        entry:{
-            'pickr.min.css':  path.resolve('./src/scss/themes/default.scss'),
-            'pickr.nano.min.css':  path.resolve('./src/scss/themes/nano.scss'),
-            'pickr.monolith.min.css':  path.resolve('./src/scss/themes/monolith.scss')
+        entry: {
+            'pickr.min.css': path.resolve('./src/scss/themes/default.scss'),
+            'pickr.nano.min.css': path.resolve('./src/scss/themes/nano.scss'),
+            'pickr.monolith.min.css': path.resolve('./src/scss/themes/monolith.scss')
         },
 
         output: {
@@ -88,5 +89,12 @@ const path = require('path');
         }).catch(console.error);
     }
 
-    console.log('Done.');
+    for (const file of fs.readdirSync('./dist')) {
+        const filePath = path.resolve('./dist', file);
+        const {size} = fs.statSync(filePath);
+        const fstr = `Done: ${file}`.padEnd(30, ' ');
+        const bstr = `${size} bytes`.padStart(20, ' ');
+        console.log(fstr + bstr);
+    }
+
 })();

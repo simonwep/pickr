@@ -2,7 +2,7 @@ const pickrContainer = document.querySelector('.pickr-container');
 const themeContainer = document.querySelector('.theme-container');
 const themes = [
     [
-        'default',
+        'classic',
         {
             swatches: [
                 'rgba(244, 67, 54, 1)',

@@ -2,7 +2,7 @@
 @import '../lib/mixins';
 @import '../base';
 
-.pcr-app[data-theme='default'] {
+.pcr-app[data-theme='classic'] {
     position: fixed;
     display: flex;
     flex-direction: column;

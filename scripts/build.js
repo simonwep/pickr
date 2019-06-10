@@ -14,9 +14,11 @@ const path = require('path');
 
     // CSS
     await webpack({
-        entry: path.resolve('./src/scss/pickr.scss'),
-
         mode: 'production',
+        entry:{
+            'pickr.min.css':  path.resolve('./src/scss/themes/default.scss'),
+            'pickr.monolith.min.css':  path.resolve('./src/scss/themes/monolith.scss')
+        },
 
         output: {
             path: path.resolve('./dist')
@@ -40,18 +42,18 @@ const path = require('path');
             new FixStyleOnlyEntriesPlugin(),
             new OptimizeCSSAssetsPlugin(),
             new MiniCssExtractPlugin({
-                filename: 'pickr.min.css'
+                filename: '[name]'
             })
         ]
-    }).catch(console.error).then(console.log);
+    }).catch(console.error);
 
     // Chaining promises to prevent issues caused by both filename configurations
     // writing a minified CSS file; both processes having handles on the files can
     // result in strange suffixes that fail to parse due to an extra `ap*/`
     for (const {filename, babelConfig} of bundles) {
         await webpack({
-            entry: path.resolve('./src/js/pickr.js'),
             mode: 'production',
+            entry: path.resolve('./src/js/pickr.js'),
 
             output: {
                 path: path.resolve('./dist'),

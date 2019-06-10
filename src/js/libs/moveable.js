@@ -80,6 +80,11 @@ export default function Moveable(opt) {
 
         update(x = 0, y = 0) {
             const {left, top, width, height} = that.options.wrapper.getBoundingClientRect();
+
+            if (that.options.lock === 'h') {
+                y = x;
+            }
+
             that._tapmove({
                 clientX: left + width * x,
                 clientY: top + height * y

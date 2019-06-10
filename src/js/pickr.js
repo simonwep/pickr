@@ -1,4 +1,3 @@
-
 // Import utils
 import * as _     from './utils/utils';
 import * as Color from './utils/color';
@@ -36,6 +35,7 @@ class Pickr {
         // Assign default values
         this.options = opt = Object.assign({
             appClass: null,
+            theme: 'default',
             useAsButton: false,
             disabled: false,
             comparison: true,
@@ -47,7 +47,7 @@ class Pickr {
             strings: {},
             swatches: null,
             inline: false,
-            sliders: 'v',
+            sliders: null,
 
             default: '#42445A',
             defaultRepresentation: null,
@@ -58,7 +58,11 @@ class Pickr {
             closeWithKey: 'Escape'
         }, opt);
 
-        const {swatches, inline, components, position} = opt;
+        const {swatches, inline, components, position, theme, sliders} = opt;
+
+        if (theme === 'monolith' && !sliders) {
+            opt.sliders = 'h';
+        }
 
         // Check interaction section
         if (!components.interaction) {
@@ -202,7 +206,7 @@ class Pickr {
             const {sliders} = inst.options;
             let so = 'v', sh = 'v';
 
-            if (sliders.match(/^[vh]+$/g)) {
+            if (sliders && sliders.match(/^[vh]+$/g)) {
                 if (sliders.length > 1) {
                     [so, sh] = sliders;
                 } else {
@@ -663,8 +667,8 @@ class Pickr {
 
         // Update slider and palette
         const {hue, opacity, palette} = this.components;
-        hue.update(0, (h / 360));
-        opacity.update(0, a);
+        hue.update((h / 360));
+        opacity.update(a);
         palette.update(s / 100, 1 - (v / 100));
 
         // Restore old state

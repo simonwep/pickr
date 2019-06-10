@@ -37,7 +37,6 @@ body header a {
     color: white;
     margin-top: 5vh;
     padding: 0.75em 1.25em;
-    -webkit-transition: 0.3s all;
     transition: 0.3s all;
     background: #4285f4;
     border-radius: 50em;
@@ -50,30 +49,47 @@ body header a:hover {
 
 body main {
     margin: 0 auto;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
+    align-items: center;
     flex-direction: column;
 }
 
-main .demo {
-    margin: 10vh auto 10vh auto;
-    text-align: center;
+.theme-container button {
+    font-family: 'Montserrat', serif;
+    font-weight: 500;
+    font-size: 0.95em;
+    color: #36425b;
+    outline: none;
+    background: #e4f1ff;
+    border: none;
+    border-bottom: 2px solid rgba(80, 139, 234, 0.67);
+    padding: 0.6em 0.8em 0.5em;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 0 0.5em;
+    opacity: 0.45;
 }
 
-main .demo p {
+.theme-container button.active {
+    opacity: 1;
+}
+
+.theme-container h3 {
+    font-weight: 500;
+    color: #36425b;
+}
+
+.pickr-container {
+    margin-top: 2em;
+}
+
+main > p {
     margin-top: 0.35em;
     font-size: 0.75em;
     font-weight: 500;
     color: #42445a;
 }
 
-main .demo .center {
-    display: inline-block;
-}
 
 @-webkit-keyframes fadeIn {
     from {
@@ -124,9 +140,7 @@ main .demo .center {
     }
 
     main section.demo .hint span {
-        -webkit-transform: translate3d(-3em, -1.4em, 0);
         transform: translate3d(-3em, -1.4em, 0);
         font-size: 0.6em;
-
     }
 }

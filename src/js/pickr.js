@@ -1,4 +1,3 @@
-
 // Import utils
 import * as _     from './utils/utils';
 import * as Color from './utils/color';
@@ -58,7 +57,7 @@ class Pickr {
             closeWithKey: 'Escape'
         }, opt);
 
-        const {swatches, inline, components, position} = opt;
+        const {swatches, inline, components} = opt;
 
         // Check interaction section
         if (!components.interaction) {
@@ -90,8 +89,7 @@ class Pickr {
         // Initialize positioning engine
         this._nanopop = Nanopop({
             reference: this._root.button,
-            el: this._root.app,
-            pos: position
+            el: this._root.app
         });
 
         // Initilization is finish, pickr is visible and ready for usage
@@ -428,10 +426,11 @@ class Pickr {
     }
 
     _rePositioningPicker() {
+        const {options} = this;
 
         // No repositioning needed if inline
-        if (!this.options.inline) {
-            this._nanopop.update();
+        if (!options.inline) {
+            this._nanopop.update(options.position);
         }
     }
 

@@ -7,14 +7,25 @@
  * @returns {{update(): void}}
  * @constructor
  */
-export default function Nanopop({el, reference, pos, padding = 8}) {
+export default function Nanopop({el, reference, padding = 8}) {
     const vBehaviour = {start: 'sme', middle: 'mse', end: 'ems'};
     const hBehaviour = {top: 'tb', right: 'rl', bottom: 'bt', left: 'lr'};
-    const [position, variant = 'middle'] = pos.split('-');
-    const isVertical = (position === 'top' || position === 'bottom');
+
+    const getInfo = ((cache = {}) => (pos, cached = cache[pos]) => {
+        if (cached) return cached;
+        const [position, variant = 'middle'] = pos.split('-');
+        const isVertical = (position === 'top' || position === 'bottom');
+
+        return cache[pos] = {
+            position,
+            variant,
+            isVertical
+        };
+    })();
 
     return {
-        update() {
+        update(pos) {
+            const {position, variant, isVertical} = getInfo(pos);
             const rb = reference.getBoundingClientRect();
             const eb = el.getBoundingClientRect();
 
@@ -36,6 +47,7 @@ export default function Nanopop({el, reference, pos, padding = 8}) {
                 e: rb.bottom - rb.height
             };
 
+
             function apply(bevs, vars, styleprop) {
                 const vertical = styleprop === 'top';
                 const adder = vertical ? eb.height : eb.width;
@@ -45,13 +57,25 @@ export default function Nanopop({el, reference, pos, padding = 8}) {
                     const v = vars[ch];
                     if (v > 0 && (v + adder) < win) {
                         el.style[styleprop] = `${v}px`;
-                        break;
+                        return true;
                     }
                 }
+
+                return false;
             }
 
-            apply(vBehaviour[variant], variants, isVertical ? 'left' : 'top');
-            apply(hBehaviour[position], positions, isVertical ? 'top' : 'left');
+            const v1Ok = apply(vBehaviour[variant], variants, isVertical ? 'left' : 'top');
+            const v2Ok = apply(hBehaviour[position], positions, isVertical ? 'top' : 'left');
+            if (!v1Ok || !v2Ok) {
+                Object.assign(el.style, {
+                    top: `${padding}px`,
+                    left: 0,
+                    right: 0,
+                    margin: 'auto'
+                });
+            } else {
+                el.style.margin = 'inherit';
+            }
         }
     };
 }

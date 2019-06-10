@@ -131,5 +131,4 @@ for (const [theme, config] of themes) {
     themeContainer.appendChild(button);
 }
 
-buttons[2].click();
-pickrInstance.show();
+buttons[0].click();

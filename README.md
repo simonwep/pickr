@@ -39,6 +39,7 @@
 <br>
 
 ### Features
+* Themes
 * Simple usage
 * No jQuery
 * No dependencies
@@ -51,10 +52,16 @@
 * Swatches for quick-selection
 * [Shadow-dom support](#selection-through-a-shadow-dom)
 
-## Setup
-⚠️ Attention: The readme is always up-to-date with the latest commit. See [Releases](https://github.com/Simonwep/pickr/releases) for installation instructions regarding to the latest version.
+## Themes
+|Classic|Monolith|Nano|
+|-------|--------|----|
+|![Classic theme](https://user-images.githubusercontent.com/30767528/59204017-08317d00-8ba0-11e9-9fe9-53da22597410.png)|![Monolith](https://user-images.githubusercontent.com/30767528/59204052-1aabb680-8ba0-11e9-8f93-f8f42335e3f9.png)|![Nano](https://user-images.githubusercontent.com/30767528/59204076-28f9d280-8ba0-11e9-9173-1f17f2f25d51.png)|
+
+> Nano uses css-grid thus it won't work in older browsers.
 
 ### Node
+Note: The readme is always up-to-date with the latest commit. See [Releases](https://github.com/Simonwep/pickr/releases) for installation instructions regarding to the latest version.
+
 Install via npm:
 ```shell
 $ npm install @simonwep/pickr
@@ -68,13 +75,13 @@ $ yarn add @simonwep/pickr
 Include code and style:
 ```js
 
-// Style
-import '/node_modules/@simonwep/pickr/dist/pickr.min.css';
+// One of the following themes
+import '/node_modules/@simonwep/pickr/dist/pickr.min.css';           // 'classic' theme
+import '/node_modules/@simonwep/pickr/dist/pickr.monolith.min.css';  // 'monolith' theme
+import '/node_modules/@simonwep/pickr/dist/pickr.nano.min.css';      // 'nano' theme
 
-// Modern browsers (see .browserslistrc)
+// Modern or es5 bundle
 import Pickr from '/node_modules/@simonwep/pickr/dist/pickr.min';      
-
-// ES5 Version
 import Pickr from '/node_modules/@simonwep/pickr/dist/pickr.es5.min'; 
 ```
 ---
@@ -82,9 +89,14 @@ import Pickr from '/node_modules/@simonwep/pickr/dist/pickr.es5.min';
 
 jsdelivr:
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.css"/>
+
+<!-- One of the following themes -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.css"/> <!-- 'classic' theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.monolith.min.css"/> <!-- 'monolith' theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.nano.min.css"/> <!-- 'nano' theme -->
+
+<!-- Modern or es5 bundle -->
 <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
-<!-- OR -->
 <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
 ```
 
@@ -147,6 +159,9 @@ const pickr = new Pickr({
     // Selector or element which will be replaced with the actual color-picker.
     // Can be a HTMLElement.
     el: '.color-picker',
+    
+    // Which theme you want to use. Can be 'classic', 'monolith' or 'nano'
+    theme: 'classic',
 
     // Custom class wich gets added to the pickr-app. Can be used to apply custom styles.
     appClass: 'custom-class',

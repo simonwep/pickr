@@ -147,6 +147,10 @@ const pickr = new Pickr({
     // Selector or element which will be replaced with the actual color-picker.
     // Can be a HTMLElement.
     el: '.color-picker',
+    
+    // Nested scrolling is currently not supported and as this would be really sophisticated to add this 
+    // it's easier to set this to true which will hide pickr if the user scrolls the area behind it.
+    closeOnScroll: false,
 
     // Custom class wich gets added to the pickr-app. Can be used to apply custom styles.
     appClass: 'custom-class',

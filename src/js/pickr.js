@@ -38,6 +38,7 @@ class Pickr {
             useAsButton: false,
             disabled: false,
             comparison: true,
+            closeOnScroll: false,
 
             components: {
                 interaction: {}
@@ -404,6 +405,11 @@ class Pickr {
             eventBindings.push(
                 _.on(window, ['scroll', 'resize'], () => {
                     if (that.isOpen()) {
+
+                        if (options.closeOnScroll) {
+                            that.hide();
+                        }
+
                         if (timeout === null) {
                             timeout = setTimeout(() => timeout = null, 100);
 
@@ -417,7 +423,7 @@ class Pickr {
                             timeout = setTimeout(() => timeout = null, 100);
                         }
                     }
-                })
+                }, {capture: true})
             );
         }
 

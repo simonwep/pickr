@@ -99,6 +99,7 @@
     display: flex;
     flex-wrap: wrap;
     margin-top: 0.75em;
+    font-size: 1em;
 
     &.pcr-last {
         margin: 0;
@@ -107,15 +108,16 @@
     @supports (display: grid) {
         display: grid;
         align-items: center;
-        justify-content: space-around;
         grid-template-columns: repeat(auto-fit, 1.75em);
+        grid-template-rows: repeat(auto-fit, 1.75em);
     }
 
     > button {
         @include transparency-background(6px);
+        font-size: 1em;
         position: relative;
-        width: 1.75em;
-        height: 1.75em;
+        width: calc(1.75em - 5px);
+        height: calc(1.75em - 5px);
         border-radius: 0.15em;
         cursor: pointer;
         margin: 2.5px;

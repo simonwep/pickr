@@ -23,15 +23,21 @@ export default function Nanopop({el, reference, padding = 8}) {
         };
     })();
 
+    const getScrollOffset = (el, total = 0) => {
+        while (el = el.parentElement) total += el.scrollTop;
+        return total;
+    };
+
     return {
         update(pos) {
             const {position, variant, isVertical} = getInfo(pos);
             const rb = reference.getBoundingClientRect();
             const eb = el.getBoundingClientRect();
+            const so = getScrollOffset(el);
 
             const positions = isVertical ? {
                 t: rb.top - eb.height - padding,
-                b: rb.bottom + padding
+                b: rb.bottom + padding + so
             } : {
                 r: rb.right + padding,
                 l: rb.left - eb.width - padding

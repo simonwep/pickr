@@ -26,21 +26,14 @@
     }
 
     .pcr-swatches {
-
-        // Flex fallback
-        display: flex;
-        flex-wrap: wrap;
-        margin-top: 0.75em;
+        display: grid;
+        align-items: center;
+        justify-content: space-around;
+        grid-template-columns: repeat(auto-fit, 1.75em);
+        margin-top: 0.45em;
 
         &.pcr-last {
             margin: 0;
-        }
-
-        @supports (display: grid) {
-            display: grid;
-            align-items: center;
-            justify-content: space-around;
-            grid-template-columns: repeat(auto-fit, 1.75em);
         }
 
         > button {
@@ -51,8 +44,6 @@
             border-radius: 0.15em;
             cursor: pointer;
             margin: 2.5px;
-            flex-shrink: 0;
-            justify-self: center;
             transition: all 0.15s;
             overflow: hidden;
             background: transparent;
@@ -161,7 +152,7 @@
         display: grid;
         grid-gap: 0.45em;
         grid-template-columns: 1fr 4fr;
-        grid-template-rows: 5fr 0.5fr 0.5fr;
+        grid-template-rows: 5fr auto auto;
         align-items: center;
         flex-grow: 1;
 

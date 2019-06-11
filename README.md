@@ -20,7 +20,7 @@
      alt="JSDelivr download count"
      src="https://data.jsdelivr.com/v1/package/npm/@simonwep/pickr/badge"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-0.6.4-f1c40f.svg?style=popout-square">
+       src="https://img.shields.io/badge/version-0.6.5-f1c40f.svg?style=popout-square">
   <a href="https://www.patreon.com/simonwep"><img
      alt="Support me"
      src="https://img.shields.io/badge/patreon-support-f1c40f.svg?style=popout-square"></a>
@@ -147,6 +147,10 @@ const pickr = new Pickr({
     // Selector or element which will be replaced with the actual color-picker.
     // Can be a HTMLElement.
     el: '.color-picker',
+    
+    // Nested scrolling is currently not supported and as this would be really sophisticated to add this 
+    // it's easier to set this to true which will hide pickr if the user scrolls the area behind it.
+    closeOnScroll: false,
 
     // Custom class wich gets added to the pickr-app. Can be used to apply custom styles.
     appClass: 'custom-class',
@@ -158,6 +162,12 @@ const pickr = new Pickr({
     // If true pickr won't be fixed and instead append after the in el resolved element.
     // Setting this to true will also set showAlways to true. It's possible to hide it via .hide() anyway.
     inline: false,
+    
+    // Defines the direction in which the knobs of hue and opacity can be moved.
+    // 'v' => opacity- and hue-slider can both only moved vertically.
+    // 'hv' => opacity-slider can be moved horizontally and hue-slider vertically.
+    // Can be used to apply custom layouts
+    sliders: 'v',
 
     // Start state. If true 'disabled' will be added to the button's classlist.
     disabled: false,

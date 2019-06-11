@@ -1,6 +1,3 @@
-// Import styles
-import '../scss/pickr.scss';
-
 // Import utils
 import * as _     from './utils/utils';
 import * as Color from './utils/color';
@@ -41,6 +38,7 @@ class Pickr {
             useAsButton: false,
             disabled: false,
             comparison: true,
+            closeOnScroll: false,
 
             components: {
                 interaction: {}
@@ -49,6 +47,7 @@ class Pickr {
             strings: {},
             swatches: null,
             inline: false,
+            sliders: 'v',
 
             default: '#42445A',
             defaultRepresentation: null,
@@ -59,7 +58,7 @@ class Pickr {
             closeWithKey: 'Escape'
         }, opt);
 
-        const {swatches, inline, components, position} = opt;
+        const {swatches, inline, components} = opt;
 
         // Check interaction section
         if (!components.interaction) {
@@ -91,8 +90,7 @@ class Pickr {
         // Initialize positioning engine
         this._nanopop = Nanopop({
             reference: this._root.button,
-            el: this._root.app,
-            pos: position
+            el: this._root.app
         });
 
         // Initilization is finish, pickr is visible and ready for usage
@@ -199,6 +197,21 @@ class Pickr {
         // Instance reference
         const inst = this;
         const comp = this.options.components;
+        const [so, sh] = (() => {
+            const {sliders} = inst.options;
+            let so = 'v', sh = 'v';
+
+            if (sliders.match(/^[vh]+$/g)) {
+                if (sliders.length > 1) {
+                    [so, sh] = sliders;
+                } else {
+                    so = sh = sliders;
+                }
+            }
+
+            const opposite = {v: 'h', h: 'v'};
+            return [opposite[so], opposite[sh]];
+        })();
 
         const components = {
 
@@ -253,15 +266,15 @@ class Pickr {
             }),
 
             hue: Moveable({
-                lockX: true,
+                lock: sh,
                 element: inst._root.hue.picker,
                 wrapper: inst._root.hue.slider,
 
-                onchange(x, y) {
+                onchange(v) {
                     if (!comp.hue || !comp.palette) return;
 
                     // Calculate hue
-                    inst._color.h = y * 360;
+                    inst._color.h = v * 360;
 
                     // Update color
                     this.element.style.backgroundColor = `hsl(${inst._color.h}, 100%, 50%)`;
@@ -270,15 +283,15 @@ class Pickr {
             }),
 
             opacity: Moveable({
-                lockX: true,
+                lock: so,
                 element: inst._root.opacity.picker,
                 wrapper: inst._root.opacity.slider,
 
-                onchange(x, y) {
+                onchange(v) {
                     if (!comp.opacity || !comp.palette) return;
 
                     // Calculate opacity
-                    inst._color.a = Math.round(y * 1e2) / 100;
+                    inst._color.a = Math.round(v * 1e2) / 100;
 
                     // Update color
                     this.element.style.background = `rgba(0, 0, 0, ${inst._color.a})`;
@@ -360,7 +373,28 @@ class Pickr {
 
         // Make input adjustable if enabled
         if (options.adjustableNumbers) {
-            _.adjustableInputNumbers(_root.interaction.result, false);
+            const ranges = {
+                rgba: [255, 255, 255, 1],
+                hsva: [360, 100, 100, 1],
+                hsla: [360, 100, 100, 1],
+                cmyk: [100, 100, 100, 100]
+            };
+
+            _.adjustableInputNumbers(_root.interaction.result, (o, step, index) => {
+                const range = ranges[this.getColorRepresentation().toLowerCase()];
+
+                if (range) {
+                    const max = range[index];
+
+                    // Calculate next reasonable number
+                    const nv = o + (max >= 100 ? step * 1000 : step);
+
+                    // Apply range of zero up to max, fix floating-point issues
+                    return nv <= 0 ? 0 : Number((nv < max ? nv : max).toPrecision(3));
+                } else {
+                    return o;
+                }
+            });
         }
 
         if (!options.inline) {
@@ -371,6 +405,11 @@ class Pickr {
             eventBindings.push(
                 _.on(window, ['scroll', 'resize'], () => {
                     if (that.isOpen()) {
+
+                        if (options.closeOnScroll) {
+                            that.hide();
+                        }
+
                         if (timeout === null) {
                             timeout = setTimeout(() => timeout = null, 100);
 
@@ -384,7 +423,7 @@ class Pickr {
                             timeout = setTimeout(() => timeout = null, 100);
                         }
                     }
-                })
+                }, {capture: true})
             );
         }
 
@@ -393,10 +432,11 @@ class Pickr {
     }
 
     _rePositioningPicker() {
+        const {options} = this;
 
         // No repositioning needed if inline
-        if (!this.options.inline) {
-            this._nanopop.update();
+        if (!options.inline) {
+            this._nanopop.update(options.position);
         }
     }
 
@@ -626,24 +666,11 @@ class Pickr {
         // Override current color and re-active color calculation
         this._color = HSVaColor(h, s, v, a);
 
-        // Short names
+        // Update slider and palette
         const {hue, opacity, palette} = this.components;
-
-        // Calculate y position of hue slider
-        const hueWrapper = hue.options.wrapper;
-        const hueY = hueWrapper.offsetHeight * (h / 360);
-        hue.update(0, hueY);
-
-        // Calculate y position of opacity slider
-        const opacityWrapper = opacity.options.wrapper;
-        const opacityY = opacityWrapper.offsetHeight * a;
-        opacity.update(0, opacityY);
-
-        // Calculate y and x position of color palette
-        const pickerWrapper = palette.options.wrapper;
-        const pickerX = pickerWrapper.offsetWidth * (s / 100);
-        const pickerY = pickerWrapper.offsetHeight * (1 - (v / 100));
-        palette.update(pickerX, pickerY);
+        hue.update(0, (h / 360));
+        opacity.update(0, a);
+        palette.update(s / 100, 1 - (v / 100));
 
         // Restore old state
         this._recalc = recalc;
@@ -762,5 +789,5 @@ Pickr.utils = _;
 Pickr.create = options => new Pickr(options);
 
 // Assign version and export
-Pickr.version = '0.6.4';
+Pickr.version = '0.6.5';
 export default Pickr;

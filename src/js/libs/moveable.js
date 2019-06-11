@@ -7,8 +7,7 @@ export default function Moveable(opt) {
 
         // Assign default values
         options: Object.assign({
-            lockX: false,
-            lockY: false,
+            lock: null,
             onchange: () => 0
         }, opt),
 
@@ -24,7 +23,7 @@ export default function Moveable(opt) {
         },
 
         _tapmove(evt) {
-            const {options, cache} = that;
+            const {options: {lock}, cache} = that;
             const {element, wrapper} = options;
             const b = wrapper.getBoundingClientRect();
 
@@ -48,19 +47,26 @@ export default function Moveable(opt) {
                 y = cache.y * b.height;
             }
 
-            if (!options.lockX) {
+            if (lock !== 'h') {
                 element.style.left = `calc(${x / b.width * 100}% - ${element.offsetWidth / 2}px)`;
             }
 
-            if (!options.lockY) {
+            if (lock !== 'v') {
                 element.style.top = `calc(${y / b.height * 100}% - ${element.offsetHeight / 2}px)`;
             }
 
             that.cache = {x: x / b.width, y: y / b.height};
-            options.onchange(
-                clamp(x / wrapper.offsetWidth),
-                clamp(y / wrapper.offsetHeight)
-            );
+            const cx = clamp(x / wrapper.offsetWidth);
+            const cy = clamp(y / wrapper.offsetHeight);
+
+            switch (lock) {
+                case 'v':
+                    return options.onchange(cx);
+                case 'h':
+                    return options.onchange(cy);
+                default:
+                    return options.onchange(cx, cy);
+            }
         },
 
         _tapstop() {
@@ -73,10 +79,10 @@ export default function Moveable(opt) {
         },
 
         update(x = 0, y = 0) {
-            const wrapperRect = that.options.wrapper.getBoundingClientRect();
+            const {left, top, width, height} = that.options.wrapper.getBoundingClientRect();
             that._tapmove({
-                clientX: wrapperRect.left + x,
-                clientY: wrapperRect.top + y
+                clientX: left + width * x,
+                clientY: top + height * y
             });
         },
 

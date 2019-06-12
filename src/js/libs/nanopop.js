@@ -9,7 +9,7 @@
  */
 export default function Nanopop({el, reference, padding = 8}) {
     const vBehaviour = {start: 'sme', middle: 'mse', end: 'ems'};
-    const hBehaviour = {top: 'tb', right: 'rl', bottom: 'bt', left: 'lr'};
+    const hBehaviour = {top: 'tbrl', right: 'rltb', bottom: 'btrl', left: 'lrbt'};
 
     const getInfo = ((cache = {}) => (pos, cached = cache[pos]) => {
         if (cached) return cached;
@@ -35,7 +35,7 @@ export default function Nanopop({el, reference, padding = 8}) {
             const eb = el.getBoundingClientRect();
             const so = getScrollOffset(el);
 
-            const positions = isVertical ? {
+            const positions = vertical => vertical ? {
                 t: rb.top - eb.height - padding,
                 b: rb.bottom + padding + so
             } : {
@@ -43,7 +43,7 @@ export default function Nanopop({el, reference, padding = 8}) {
                 l: rb.left - eb.width - padding
             };
 
-            const variants = isVertical ? {
+            const variants = vertical => vertical ? {
                 s: rb.left + rb.width - eb.width,
                 m: (-eb.width / 2) + (rb.left + rb.width / 2),
                 e: rb.left
@@ -52,7 +52,6 @@ export default function Nanopop({el, reference, padding = 8}) {
                 m: rb.bottom - rb.height / 2 - eb.height / 2,
                 e: rb.bottom - rb.height
             };
-
 
             function apply(bevs, vars, styleprop) {
                 const vertical = styleprop === 'top';
@@ -70,17 +69,12 @@ export default function Nanopop({el, reference, padding = 8}) {
                 return false;
             }
 
-            const v1Ok = apply(vBehaviour[variant], variants, isVertical ? 'left' : 'top');
-            const v2Ok = apply(hBehaviour[position], positions, isVertical ? 'top' : 'left');
-            if (!v1Ok || !v2Ok) {
-                Object.assign(el.style, {
-                    top: `${padding}px`,
-                    left: 0,
-                    right: 0,
-                    margin: 'auto'
-                });
-            } else {
-                el.style.margin = 'inherit';
+            for (const rot of [isVertical, !isVertical]) {
+                const v2Ok = apply(hBehaviour[position], positions(rot), rot ? 'top' : 'left');
+                const v1Ok = apply(vBehaviour[variant], variants(rot), rot ? 'left' : 'top');
+                if (v2Ok && v1Ok) {
+                    return;
+                }
             }
         }
     };

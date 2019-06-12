@@ -14,7 +14,7 @@ class Pickr {
     // Will be used to prevent specific actions during initilization
     _initializingActive = true;
 
-    // Replace element with color picker
+    // If the current color value should be recalculated
     _recalc = true;
 
     // Current and last color for comparison
@@ -196,7 +196,7 @@ class Pickr {
 
         // Instance reference
         const inst = this;
-        const comp = this.options.components;
+        const cs = this.options.components;
         const [so, sh] = (() => {
             const {sliders} = inst.options;
             let so = 'v', sh = 'v';
@@ -220,7 +220,7 @@ class Pickr {
                 wrapper: inst._root.palette.palette,
 
                 onchange(x, y) {
-                    if (!comp.palette) return;
+                    if (!cs.palette) return;
                     const {_color, _root, options} = inst;
 
                     // Calculate saturation based on the position
@@ -271,7 +271,7 @@ class Pickr {
                 wrapper: inst._root.hue.slider,
 
                 onchange(v) {
-                    if (!comp.hue || !comp.palette) return;
+                    if (!cs.hue || !cs.palette) return;
 
                     // Calculate hue
                     inst._color.h = v * 360;
@@ -288,14 +288,14 @@ class Pickr {
                 wrapper: inst._root.opacity.slider,
 
                 onchange(v) {
-                    if (!comp.opacity || !comp.palette) return;
+                    if (!cs.opacity || !cs.palette) return;
 
                     // Calculate opacity
                     inst._color.a = Math.round(v * 1e2) / 100;
 
                     // Update color
                     this.element.style.background = `rgba(0, 0, 0, ${inst._color.a})`;
-                    inst.components.palette.trigger();
+                    components.palette.trigger();
                 }
             }),
 
@@ -309,7 +309,7 @@ class Pickr {
             })
         };
 
-        this.components = components;
+        this._components = components;
     }
 
     _bindEvents() {
@@ -519,7 +519,7 @@ class Pickr {
 
             // Create new swatch HTMLElement
             const element = _.createElementFromString(
-                `<button type="button" style="color: ${hsvaColorObject.toRGBA()}"></button>`
+                `<button type="button" style="color: ${hsvaColorObject.toRGBA()}"/>`
             );
 
             // Append element and save swatch data
@@ -546,20 +546,16 @@ class Pickr {
      * @returns {boolean}
      */
     removeSwatch(index) {
+        const swatchColor = this._swatchColors[index];
 
-        // Validate index
-        if (typeof index === 'number') {
-            const swatchColor = this._swatchColors[index];
+        // Check swatch data
+        if (swatchColor) {
+            const {element} = swatchColor;
 
-            // Check swatch data
-            if (swatchColor) {
-                const {element} = swatchColor;
-
-                // Remove HTML child and swatch data
-                this._root.swatches.removeChild(element);
-                this._swatchColors.splice(index, 1);
-                return true;
-            }
+            // Remove HTML child and swatch data
+            this._root.swatches.removeChild(element);
+            this._swatchColors.splice(index, 1);
+            return true;
         }
 
         return false;
@@ -594,7 +590,9 @@ class Pickr {
      */
     destroy() {
         this._eventBindings.forEach(args => _.off(...args));
-        Object.keys(this.components).forEach(key => this.components[key].destroy());
+
+        Object.keys(this._components)
+            .forEach(key => this._components[key].destroy());
     }
 
     /**
@@ -603,19 +601,18 @@ class Pickr {
      */
     destroyAndRemove() {
         this.destroy();
+        const {root, app} = this._root;
 
         // Remove element
-        const root = this._root.root;
         root.parentElement.removeChild(root);
 
         // remove .pcr-app
-        const app = this._root.app;
         app.parentElement.removeChild(app);
 
         // There are references to various DOM elements stored in the pickr instance
         // This cleans all of them to avoid detached DOMs
-        const pickr = this;
-        Object.keys(pickr).forEach(key => pickr[key] = null);
+        Object.keys(this)
+            .forEach(key => this[key] = null);
     }
 
     /**
@@ -654,10 +651,6 @@ class Pickr {
      */
     setHSVA(h = 360, s = 0, v = 0, a = 1, silent = false) {
 
-        // Deactivate color calculation
-        const recalc = this._recalc; // Save state
-        this._recalc = false;
-
         // Validate input
         if (h < 0 || h > 360 || s < 0 || s > 100 || v < 0 || v > 100 || a < 0 || a > 1) {
             return false;
@@ -667,13 +660,10 @@ class Pickr {
         this._color = HSVaColor(h, s, v, a);
 
         // Update slider and palette
-        const {hue, opacity, palette} = this.components;
+        const {hue, opacity, palette} = this._components;
         hue.update(0, (h / 360));
         opacity.update(0, a);
         palette.update(s / 100, 1 - (v / 100));
-
-        // Restore old state
-        this._recalc = recalc;
 
         // Update output if recalculation is enabled
         if (this._recalc) {
@@ -723,6 +713,8 @@ class Pickr {
 
             return this.setHSVA(...values, silent);
         }
+
+        return false;
     }
 
     /**
@@ -737,7 +729,8 @@ class Pickr {
         type = type.toUpperCase();
 
         // Find button with given type and trigger click event
-        return !!this._root.interaction.options.find(v => v.getAttribute('data-type').startsWith(type) && !v.click());
+        return !!this._root.interaction.options
+            .find(v => v.getAttribute('data-type').startsWith(type) && !v.click());
     }
 
     /**

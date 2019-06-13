@@ -3,7 +3,7 @@
 @import '../base';
 
 .pcr-app[data-theme='monolith'] {
-    position: fixed;
+    position: absolute;
     display: flex;
     flex-direction: column;
     z-index: 10000;

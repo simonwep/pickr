@@ -1,0 +1,70 @@
+@import 'lib/variables';
+@import 'lib/mixins';
+
+.pickr {
+    position: relative;
+    overflow: visible;
+    transform: translateY(0); // Create local transform space
+
+    * {
+        box-sizing: border-box;
+    }
+}
+
+.pickr .pcr-button {
+    @include transparency-background;
+    position: relative;
+    height: 2em;
+    width: 2em;
+    padding: 0.5em;
+    cursor: pointer;
+    font-family: $font-family;
+    border-radius: $border-radius-mid;
+    background: $icon-x no-repeat center;
+    background-size: 0;
+    transition: all 0.3s;
+
+    &::before {
+        z-index: initial;
+    }
+
+    &::after {
+        @include pseudo-reset;
+        height: 100%;
+        width: 100%;
+        transition: background 0.3s;
+        background: currentColor;
+        border-radius: $border-radius-mid;
+    }
+
+    &.clear {
+        background-size: 70%;
+
+        &::before {
+            opacity: 0;
+        }
+
+        &:focus {
+            @include focus(currentColor);
+        }
+    }
+
+    &.disabled {
+        cursor: not-allowed;
+    }
+}
+
+.pickr,
+.pcr-app {
+
+    input,
+    button {
+        outline: none;
+        border: none;
+        -webkit-appearance: none;
+
+        &:focus {
+            @include focus(currentColor);
+        }
+    }
+}

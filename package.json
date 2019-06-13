@@ -29,10 +29,10 @@
         "node-sass": "^4.12.0",
         "optimize-css-assets-webpack-plugin": "^5.0.1",
         "sass-loader": "^7.1.0",
-        "webpack": "^4.32.2",
+        "webpack": "^4.33.0",
         "webpack-cleanup-plugin": "^0.5.1",
-        "webpack-cli": "^3.3.2",
-        "webpack-dev-server": "^3.5.1",
+        "webpack-cli": "^3.3.3",
+        "webpack-dev-server": "^3.7.1",
         "webpack-fix-style-only-entries": "^0.3.0"
     },
     "homepage": "https://github.com/Simonwep/pickr#readme",

@@ -18,14 +18,17 @@ $box-shadow-app: 0 0.15em 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 1em 0 rgba(0, 0, 0, 0.
     box-shadow: 0 0 0 1px $palette-snowwhite, 0 0 0 3px $color;
 }
 
-$color-rainbow: linear-gradient(to bottom,
-    hsl(0, 100%, 50%),
-    hsl(60, 100%, 50%),
-    hsl(120, 100%, 50%),
-    hsl(180, 100%, 50%),
-    hsl(240, 100%, 50%),
-    hsl(300, 100%, 50%),
-    hsl(360, 100%, 50%)) !default;
+@function colorRainbow($dir: to bottom) {
+    @return linear-gradient($dir,
+        hsl(0, 100%, 50%),
+        hsl(60, 100%, 50%),
+        hsl(120, 100%, 50%),
+        hsl(180, 100%, 50%),
+        hsl(240, 100%, 50%),
+        hsl(300, 100%, 50%),
+        hsl(360, 100%, 50%));
+}
+
 
 // Box shadows
 $box-shadow-small: 0 1px 2px 0 rgba(0, 0, 0, 0.2) !default;

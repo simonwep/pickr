@@ -313,8 +313,8 @@ If `silent` is true (Default is false), the button won't change the current colo
 * eventPath(evt`:Event`)`:[HTMLElement]` _- A polyfill for the event-path event propery._
 * removeAttribute(el`:HTMLElement`, name`:String`) _- Removes an attribute from a HTMLElement and returns the value._
 * createFromTemplate(str`:String`) _- See [inline doumentation](https://github.com/Simonwep/pickr/blob/master/src/js/lib/utils.js#L88)._
-* adjustableInputNumbers(el`:InputElement`, negative`:Boolean`) _- Creates the possibility to change the numbers in an inputfield via mouse scrolling._
-* padStart(string`:String`, maxLength`:Number`, fillString = ' ') _- String.prototype.padStart polyfill._
+* adjustableInputNumbers(el`:InputElement`, mapper`:Function`) _- Creates the possibility to change the numbers in an inputfield via mouse scrolling.
+The mapper function takes three arguments: the matched number, an multiplier and the index of the match._
 
 Use this utils carefully, it's not for sure that they will stay forever!
 

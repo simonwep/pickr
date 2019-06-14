@@ -154,7 +154,9 @@
         grid-template-columns: 1fr 4fr;
         grid-template-rows: 5fr auto auto;
         align-items: center;
-        flex-grow: 1;
+        height: 10.5em;
+        width: 100%;
+        align-self: flex-start;
 
         .pcr-picker {
             position: absolute;

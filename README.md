@@ -51,13 +51,14 @@
 * Swatches for quick-selection
 * [Shadow-dom support](#selection-through-a-shadow-dom)
 
-## Themes
+### Themes
 |Classic|Monolith|Nano|
 |-------|--------|----|
 |![Classic theme](https://user-images.githubusercontent.com/30767528/59204017-08317d00-8ba0-11e9-9fe9-53da22597410.png)|![Monolith](https://user-images.githubusercontent.com/30767528/59204052-1aabb680-8ba0-11e9-8f93-f8f42335e3f9.png)|![Nano](https://user-images.githubusercontent.com/30767528/59204076-28f9d280-8ba0-11e9-9173-1f17f2f25d51.png)|
 
 > Nano uses css-grid thus it won't work in older browsers.
 
+## Getting Started
 ### Node
 Note: The readme is always up-to-date with the latest commit. See [Releases](https://github.com/Simonwep/pickr/releases) for installation instructions regarding to the latest version.
 
@@ -100,11 +101,29 @@ jsdelivr:
 ```
 
 Be sure to load the `pickr.min.js` (or the es5 version) **after** `pickr.min.css`. Moreover the `script` tag doesn't work with the `defer` attribute.
+
 ## Usage
 ```javascript
 // Simple example, see optional options for more configuration.
 const pickr = Pickr.create({
     el: '.color-picker',
+    
+    swatches: [
+        'rgba(244, 67, 54, 1)',
+        'rgba(233, 30, 99, 0.95)',
+        'rgba(156, 39, 176, 0.9)',
+        'rgba(103, 58, 183, 0.85)',
+        'rgba(63, 81, 181, 0.8)',
+        'rgba(33, 150, 243, 0.75)',
+        'rgba(3, 169, 244, 0.7)',
+        'rgba(0, 188, 212, 0.7)',
+        'rgba(0, 150, 136, 0.75)',
+        'rgba(76, 175, 80, 0.8)',
+        'rgba(139, 195, 74, 0.85)',
+        'rgba(205, 220, 57, 0.9)',
+        'rgba(255, 235, 59, 0.95)',
+        'rgba(255, 193, 7, 1)'
+    ],
 
     components: {
 

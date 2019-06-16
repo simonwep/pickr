@@ -2,6 +2,9 @@
 @import '../lib/mixins';
 @import '../base';
 
+$padding: 0.6em;
+$spacing: 0.6em;
+
 .pcr-app[data-theme='nano'] {
     position: absolute;
     display: flex;
@@ -11,7 +14,6 @@
     box-shadow: $box-shadow-app;
     width: 14.25em;
     max-width: 95vw;
-    padding: 0.8em;
     border-radius: 0.1em;
     background: #fff;
     opacity: 0;
@@ -30,7 +32,8 @@
         align-items: center;
         justify-content: space-around;
         grid-template-columns: repeat(auto-fit, 1.75em);
-        margin-top: 0.45em;
+        margin-top: $spacing;
+        padding: 0 $padding;
 
         &.pcr-last {
             margin: 0;
@@ -73,6 +76,7 @@
         flex-wrap: wrap;
         align-items: center;
         margin: 0 -0.2em 0 -0.2em;
+        padding: 0 $padding $padding $padding;
 
         > * {
             margin: 0 0.2em;
@@ -88,7 +92,7 @@
             border-radius: $border-radius-mid;
             transition: all 0.15s;
             padding: 0.45em 0.5em;
-            margin-top: 0.75em;
+            margin-top: $spacing;
 
             &:hover {
                 filter: brightness(0.975);
@@ -150,7 +154,7 @@
 
     .pcr-selection {
         display: grid;
-        grid-gap: 0.45em;
+        grid-gap: $spacing;
         grid-template-columns: 1fr 4fr;
         grid-template-rows: 5fr auto auto;
         align-items: center;
@@ -174,6 +178,7 @@
             display: flex;
             flex-direction: row;
             justify-content: center;
+            margin-left: $padding;
 
             .pcr-last-color {
                 display: none;
@@ -211,7 +216,7 @@
         .pcr-color-palette {
             grid-area: 1 / 1 / 2 / 3;
             width: 100%;
-            height: 8em;
+            height: 100%;
             z-index: 1;
 
             .pcr-palette {
@@ -221,7 +226,6 @@
                 height: 100%;
             }
         }
-
 
         .pcr-color-chooser {
             grid-area: 2 / 2 / 2 / 2;
@@ -234,6 +238,7 @@
         .pcr-color-chooser,
         .pcr-color-opacity {
             height: 0.5em;
+            margin: 0 $padding;
 
             .pcr-picker {
                 top: 50%;

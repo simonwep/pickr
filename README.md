@@ -54,7 +54,7 @@
 ### Themes
 |Classic|Monolith|Nano|
 |-------|--------|----|
-|![Classic theme](https://user-images.githubusercontent.com/30767528/59204017-08317d00-8ba0-11e9-9fe9-53da22597410.png)|![Monolith](https://user-images.githubusercontent.com/30767528/59204052-1aabb680-8ba0-11e9-8f93-f8f42335e3f9.png)|![Nano](https://user-images.githubusercontent.com/30767528/59204076-28f9d280-8ba0-11e9-9173-1f17f2f25d51.png)|
+|![Classic theme](https://user-images.githubusercontent.com/30767528/59562615-01d35300-902f-11e9-9f07-44c9d16dbb99.png)|![Monolith](https://user-images.githubusercontent.com/30767528/59562603-c9cc1000-902e-11e9-9c84-1a606fa5f206.png)|![Nano](https://user-images.githubusercontent.com/30767528/59562578-8ec9dc80-902e-11e9-9882-2dacad5e6fa5.png)|
 
 > Nano uses css-grid thus it won't work in older browsers.
 

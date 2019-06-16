@@ -461,7 +461,7 @@ class Pickr {
         }
     }
 
-    _clearColor() {
+    _clearColor(silent = false) {
         const {_root, options} = this;
 
         // Change only the button color if it isn't customized
@@ -475,7 +475,7 @@ class Pickr {
             this.hide();
         }
 
-        if (!this._initializingActive) {
+        if (!this._initializingActive && !silent) {
 
             // Fire listener
             this._emit('save', null);
@@ -666,8 +666,8 @@ class Pickr {
 
         // Update slider and palette
         const {hue, opacity, palette} = this._components;
-        hue.update( (h / 360));
-        opacity.update( a);
+        hue.update((h / 360));
+        opacity.update(a);
         palette.update(s / 100, 1 - (v / 100));
 
         // Update output if recalculation is enabled
@@ -695,7 +695,7 @@ class Pickr {
 
         // Check if null
         if (string === null) {
-            this._clearColor();
+            this._clearColor(silent);
             return true;
         }
 

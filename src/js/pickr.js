@@ -228,14 +228,19 @@ class Pickr {
                     if (!cs.palette) return;
                     const {_color, _root, options} = inst;
 
-                    // Calculate saturation based on the position
-                    _color.s = x * 100;
+                    // Update the input field only if the user is currently not typing
+                    if (inst._recalc) {
+                        inst._updateOutput();
 
-                    // Calculate the value
-                    _color.v = 100 - y * 100;
+                        // Calculate saturation based on the position
+                        _color.s = x * 100;
 
-                    // Prevent falling under zero
-                    _color.v < 0 ? _color.v = 0 : 0;
+                        // Calculate the value
+                        _color.v = 100 - y * 100;
+
+                        // Prevent falling under zero
+                        _color.v < 0 ? _color.v = 0 : 0;
+                    }
 
                     // Set picker and gradient color
                     const cssRGBaString = _color.toRGBA().toString();
@@ -257,11 +262,6 @@ class Pickr {
                     // Change current color
                     _root.preview.currentColor.style.color = cssRGBaString;
 
-                    // Update the input field only if the user is currently not typing
-                    if (inst._recalc) {
-                        inst._updateOutput();
-                    }
-
                     if (!inst.options.comparison) {
 
                         // If the user changes the color, remove the cleared icon
@@ -279,7 +279,9 @@ class Pickr {
                     if (!cs.hue || !cs.palette) return;
 
                     // Calculate hue
-                    inst._color.h = v * 360;
+                    if (inst._recalc) {
+                        inst._color.h = v * 360;
+                    }
 
                     // Update color
                     this.element.style.backgroundColor = `hsl(${inst._color.h}, 100%, 50%)`;
@@ -296,7 +298,9 @@ class Pickr {
                     if (!cs.opacity || !cs.palette) return;
 
                     // Calculate opacity
-                    inst._color.a = Math.round(v * 1e2) / 100;
+                    if (inst._recalc) {
+                        inst._color.a = Math.round(v * 1e2) / 100;
+                    }
 
                     // Update color
                     this.element.style.background = `rgba(0, 0, 0, ${inst._color.a})`;
@@ -326,7 +330,10 @@ class Pickr {
             _.on(_root.interaction.clear, 'click', () => this._clearColor()),
 
             // Select last color on click
-            _.on(_root.preview.lastColor, 'click', () => this.setHSVA(...this._lastColor.toHSVA())),
+            _.on([
+                _root.interaction.cancel,
+                _root.preview.lastColor
+            ], 'click', () => this.setHSVA(...this._lastColor.toHSVA())),
 
             // Save color
             _.on(_root.interaction.save, 'click', () => {
@@ -656,6 +663,10 @@ class Pickr {
      */
     setHSVA(h = 360, s = 0, v = 0, a = 1, silent = false) {
 
+        // Deactivate color calculation
+        const recalc = this._recalc; // Save state
+        this._recalc = false;
+
         // Validate input
         if (h < 0 || h > 360 || s < 0 || s > 100 || v < 0 || v > 100 || a < 0 || a > 1) {
             return false;
@@ -670,16 +681,13 @@ class Pickr {
         opacity.update(a);
         palette.update(s / 100, 1 - (v / 100));
 
-        // Update output if recalculation is enabled
-        if (this._recalc) {
-            this._updateOutput();
-        }
-
         // Check if call is silent
         if (!silent) {
             this.applyColor();
         }
 
+        // Restore old state
+        this._recalc = recalc;
         return true;
     }
 

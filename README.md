@@ -261,7 +261,8 @@ const pickr = new Pickr({
 
             input: true, // input / output element
             clear: true, // Clear button
-            save: true   // Save button
+            save: true,  // Save button,
+            cancel: true, // Cancel button, reset's the color to the previous state
         },
     },
 

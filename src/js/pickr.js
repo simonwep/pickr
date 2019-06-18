@@ -686,6 +686,11 @@ class Pickr {
             this.applyColor();
         }
 
+        // Update output if recalculation is enabled
+        if (recalc) {
+            this._updateOutput();
+        }
+
         // Restore old state
         this._recalc = recalc;
         return true;

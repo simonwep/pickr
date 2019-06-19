@@ -269,7 +269,8 @@ const pickr = new Pickr({
     // Button strings, brings the possibility to use a language other than English.
     strings: {
        save: 'Save',  // Default for save button
-       clear: 'Clear' // Default for clear button
+       clear: 'Clear', // Default for clear button
+       cancel: 'Cancel' // Default for cancel button
     }
 });
 ```

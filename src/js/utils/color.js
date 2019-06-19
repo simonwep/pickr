@@ -257,26 +257,21 @@ export function parseToHSV(str) {
                 return {values: [...rgbToHsv(r, g, b), a], type};
             }
             case 'hex': {
-                const splitAt = (s, i) => [s.substring(0, i), s.substring(i, s.length)];
                 let [, hex] = match;
 
-                // Fill up opacity if not declared
-                if (hex.length === 3) {
-                    hex += 'F';
-                } else if (hex.length === 6) {
-                    hex += 'FF';
+                if (hex.length === 4 || hex.length === 3) {
+                    hex = hex.split('').map(v => v + v).join('');
                 }
 
-                let alpha;
-                if (hex.length === 4) {
-                    [hex, alpha] = splitAt(hex, 3).map(v => v + v);
-                } else if (hex.length === 8) {
-                    [hex, alpha] = splitAt(hex, 6);
+                if (hex.length === 6) {
+                    hex += 'ff';
                 }
+
+                let [raw, alpha] = [hex.substring(0, 6), hex.substring(6)];
 
                 // Convert 0 - 255 to 0 - 1 for opacity
                 alpha = parseInt(alpha, 16) / 255;
-                return {values: [...hexToHsv(hex), alpha], type};
+                return {values: [...hexToHsv(raw), alpha], type};
             }
             case 'hsla': {
                 let [, , h, s, l, a = 1] = numarize(match);

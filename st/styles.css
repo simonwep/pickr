@@ -93,7 +93,6 @@ main > p {
     color: #42445a;
 }
 
-
 @-webkit-keyframes fadeIn {
     from {
         opacity: 0;

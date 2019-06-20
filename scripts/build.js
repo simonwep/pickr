@@ -17,13 +17,13 @@ const fs = require('fs');
     await webpack({
         mode: 'production',
         entry: {
-            'pickr.min.css': path.resolve('./src/scss/themes/default.scss'),
-            'pickr.nano.min.css': path.resolve('./src/scss/themes/nano.scss'),
-            'pickr.monolith.min.css': path.resolve('./src/scss/themes/monolith.scss')
+            'default.min.css': path.resolve('./src/scss/themes/default.scss'),
+            'nano.min.css': path.resolve('./src/scss/themes/nano.scss'),
+            'monolith.min.css': path.resolve('./src/scss/themes/monolith.scss')
         },
 
         output: {
-            path: path.resolve('./dist')
+            path: path.resolve('./dist/themes')
         },
 
         module: {

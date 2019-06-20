@@ -1,6 +1,6 @@
 // Import utils
-import * as _     from './utils/utils';
-import * as Color from './utils/color';
+import * as _       from './utils/utils';
+import {parseToHSV} from './utils/color';
 
 // Import classes
 import {HSVaColor} from './utils/hsvacolor';
@@ -50,7 +50,7 @@ class Pickr {
             inline: false,
             sliders: null,
 
-            default: '#42445A',
+            default: '#42445a',
             defaultRepresentation: null,
             position: 'bottom-middle',
             adjustableNumbers: true,
@@ -523,7 +523,7 @@ class Pickr {
      * @returns {boolean}
      */
     addSwatch(color) {
-        const {values} = Color.parseToHSV(color);
+        const {values} = parseToHSV(color);
 
         if (values) {
             const {_swatchColors, _root} = this;
@@ -712,7 +712,7 @@ class Pickr {
             return true;
         }
 
-        const {values, type} = Color.parseToHSV(string);
+        const {values, type} = parseToHSV(string);
 
         // Check if color is ok
         if (values) {

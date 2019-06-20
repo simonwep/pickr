@@ -169,7 +169,10 @@ function rgbToHsv(r, g, b) {
  * @return {number[]} HSV values.
  */
 function cmykToHsv(c, m, y, k) {
-    c /= 100, m /= 100, y /= 100, k /= 100;
+    c /= 100;
+    m /= 100;
+    y /= 100;
+    k /= 100;
 
     const r = (1 - min(1, c * (1 - k) + k)) * 255;
     const g = (1 - min(1, m * (1 - k) + k)) * 255;
@@ -186,7 +189,8 @@ function cmykToHsv(c, m, y, k) {
  * @return {number[]} HSV values.
  */
 function hslToHsv(h, s, l) {
-    s /= 100, l /= 100;
+    s /= 100;
+    l /= 100;
     s *= l < 0.5 ? l : 1 - l;
 
     let ns = (2 * s / (l + s)) * 100;
@@ -229,10 +233,10 @@ export function parseToHSV(str) {
      * @param array
      * @return {*}
      */
-    const numarize = array => array.map(v => /^(|\d+)\.\d+|\d+$/.test(v) ? Number(v) : undefined);
+    const numarize = array => array.map(Number);
 
     let match;
-    for (const type in regex) {
+    invalid: for (const type in regex) {
 
         // Check if current scheme passed
         if (!(match = regex[type].exec(str)))
@@ -244,7 +248,7 @@ export function parseToHSV(str) {
                 let [, c, m, y, k] = numarize(match);
 
                 if (c > 100 || m > 100 || y > 100 || k > 100)
-                    break;
+                    break invalid;
 
                 return {values: [...cmykToHsv(c, m, y, k), 1], type};
             }
@@ -252,7 +256,7 @@ export function parseToHSV(str) {
                 let [, , r, g, b, a = 1] = numarize(match);
 
                 if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1)
-                    break;
+                    break invalid;
 
                 return {values: [...rgbToHsv(r, g, b), a], type};
             }
@@ -277,7 +281,7 @@ export function parseToHSV(str) {
                 let [, , h, s, l, a = 1] = numarize(match);
 
                 if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1)
-                    break;
+                    break invalid;
 
                 return {values: [...hslToHsv(h, s, l), a], type};
             }
@@ -285,7 +289,7 @@ export function parseToHSV(str) {
                 let [, , h, s, v, a = 1] = numarize(match);
 
                 if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1)
-                    break;
+                    break invalid;
 
                 return {values: [h, s, v, a], type};
             }

@@ -159,14 +159,14 @@ Since version `0.4.x` Pickr is event-driven. Use the `on(event, cb)` and `off(ev
 
 > Example:
 ```js
-pickr.on('init', (...args) => {
-    console.log('init', args);
-}).on('save', (...args) => {
-    console.log('save', args);
-}).on('change', (...args) => {
-    console.log('change', args);
-}).on('swatchselect', (...args) => {
-    console.log('swatchselect', args);
+pickr.on('init', instance => {
+    console.log('init', instance);
+}).on('save', (color, instance) => {
+    console.log('save', color, instance);
+}).on('change', (color, instance) => {
+    console.log('change', color, instance);
+}).on('swatchselect', (color, instance) => {
+    console.log('swatchselect', color, instance);
 });
 ```
 

@@ -11,6 +11,7 @@
         "sourceType": "module"
     },
     "rules": {
-        "no-cond-assign": "off"
+        "no-cond-assign": "off",
+        "eqeqeq": "error"
     }
 }

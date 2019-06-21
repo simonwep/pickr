@@ -43,7 +43,7 @@ export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
                 .toUpperCase().padStart(2, '0');
 
             alpha && hex.push(alpha);
-            hex.toString = () => `#${hex.join('').toUpperCase() + alpha}`;
+            hex.toString = () => `#${hex.join('').toUpperCase()}`;
             return hex;
         },
 

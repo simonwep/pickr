@@ -76,9 +76,9 @@ Include code and style:
 ```js
 
 // One of the following themes
-import '/node_modules/@simonwep/pickr/dist/pickr.min.css';           // 'classic' theme
-import '/node_modules/@simonwep/pickr/dist/pickr.monolith.min.css';  // 'monolith' theme
-import '/node_modules/@simonwep/pickr/dist/pickr.nano.min.css';      // 'nano' theme
+import '/node_modules/@simonwep/pickr/dist/themes/default.min.css';   // 'classic' theme
+import '/node_modules/@simonwep/pickr/dist/themes/monolith.min.css';  // 'monolith' theme
+import '/node_modules/@simonwep/pickr/dist/themes/nano.min.css';      // 'nano' theme
 
 // Modern or es5 bundle
 import Pickr from '/node_modules/@simonwep/pickr/dist/pickr.min';      
@@ -91,9 +91,9 @@ jsdelivr:
 ```html
 
 <!-- One of the following themes -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.css"/> <!-- 'classic' theme -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.monolith.min.css"/> <!-- 'monolith' theme -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.nano.min.css"/> <!-- 'nano' theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/default.min.css"/> <!-- 'classic' theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/monolith.min.css"/> <!-- 'monolith' theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/> <!-- 'nano' theme -->
 
 <!-- Modern or es5 bundle -->
 <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>

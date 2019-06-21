@@ -230,7 +230,6 @@ class Pickr {
 
                     // Update the input field only if the user is currently not typing
                     if (inst._recalc) {
-                        inst._updateOutput();
 
                         // Calculate saturation based on the position
                         _color.s = x * 100;
@@ -240,6 +239,7 @@ class Pickr {
 
                         // Prevent falling under zero
                         _color.v < 0 ? _color.v = 0 : 0;
+                        inst._updateOutput();
                     }
 
                     // Set picker and gradient color

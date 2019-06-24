@@ -205,6 +205,9 @@ const pickr = new Pickr({
     // Start state. If true 'disabled' will be added to the button's classlist.
     disabled: false,
 
+    // Precision of output string (only effective if components.interaction.input is true)
+    outputPrecision: 0,
+
     // If set to false it would directly apply the selected color on the button and preview.
     comparison: true,
     

@@ -40,6 +40,7 @@ class Pickr {
             disabled: false,
             comparison: true,
             closeOnScroll: false,
+            outputPrecision: 0,
 
             components: {
                 interaction: {}
@@ -453,18 +454,20 @@ class Pickr {
     }
 
     _updateOutput() {
+        const {_root, _color, options} = this;
 
         // Check if component is present
-        if (this._root.interaction.type()) {
+        if (_root.interaction.type()) {
 
             // Construct function name and call if present
-            const method = `to${this._root.interaction.type().getAttribute('data-type')}`;
-            this._root.interaction.result.value = typeof this._color[method] === 'function' ? this._color[method]().toString(1) : '';
+            const method = `to${_root.interaction.type().getAttribute('data-type')}`;
+            _root.interaction.result.value = typeof _color[method] === 'function' ?
+                _color[method]().toString(options.outputPrecision) : '';
         }
 
         // Fire listener if initialization is finish
         if (!this._initializingActive) {
-            this._emit('change', this._color);
+            this._emit('change', _color);
         }
     }
 

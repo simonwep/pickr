@@ -20,10 +20,10 @@
      alt="JSDelivr download count"
      src="https://data.jsdelivr.com/v1/package/npm/@simonwep/pickr/badge"></a>
   <img alt="Current version"
-       src="https://img.shields.io/badge/version-1.1.0-f1c40f.svg?style=popout-square">
+       src="https://img.shields.io/github/tag/Simonwep/pickr.svg?color=3498DB&label=version&style=flat-square">
   <a href="https://www.patreon.com/simonwep"><img
      alt="Support me"
-     src="https://img.shields.io/badge/patreon-support-f1c40f.svg?style=popout-square"></a>
+     src="https://img.shields.io/badge/patreon-support-3498DB.svg?style=popout-square"></a>
 </p>
 
 <br>
@@ -311,7 +311,8 @@ The `toString()` is overridden so you can get a color representaion string.
 
 ```javascript
 hsva.toRGBA(); // Returns [r, g, b, a]
-hsva.toRGBA().toString(); // Returns rgba(r, g, b, a)
+hsva.toRGBA().toString(); // Returns rgba(r, g, b, a) with highest precision
+hsva.toRGBA().toString(3); // Returns rgba(r, g, b, a), roundet to the third decimal
 ```
 
 ## Methods

@@ -5,31 +5,34 @@ import {hsvToHsl, hsvToRgb, hsvToCmyk, hsvToHex} from './color';
  * of the color represention model hsla (hue saturation lightness alpha)
  */
 export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
+    const mapper = (original, next) => (precision = -1) => {
+        return next(~precision ? original.map(v => Number(v.toFixed(precision))) : original);
+    };
 
     const that = {
         h, s, v, a,
 
         toHSVA() {
             const hsva = [that.h, that.s, that.v, that.a];
-            hsva.toString = () => `hsva(${that.h}, ${that.s}%, ${that.v}%, ${that.a})`;
+            hsva.toString = mapper(hsva, arr => `hsva(${arr[0]}, ${arr[1]}%, ${arr[2]}%, ${arr[3]})`);
             return hsva;
         },
 
         toHSLA() {
             const hsla = [...hsvToHsl(that.h, that.s, that.v), that.a];
-            hsla.toString = () => `hsla(${hsla[0]}, ${hsla[1]}%, ${hsla[2]}%, ${hsla[3].toFixed(1)})`;
+            hsla.toString = mapper(hsla, arr => `hsla(${arr[0]}, ${arr[1]}%, ${arr[2]}%, ${arr[3]})`);
             return hsla;
         },
 
         toRGBA() {
             const rgba = [...hsvToRgb(that.h, that.s, that.v), that.a];
-            rgba.toString = () => `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3].toFixed(1)})`;
+            rgba.toString = mapper(rgba, arr => `rgba(${arr[0]}, ${arr[1]}, ${arr[2]}, ${arr[3]})`);
             return rgba;
         },
 
         toCMYK() {
             const cmyk = hsvToCmyk(that.h, that.s, that.v);
-            cmyk.toString = () => `cmyk(${cmyk[0]}%, ${cmyk[1]}%, ${cmyk[2]}%, ${cmyk[3]}%)`;
+            cmyk.toString = mapper(cmyk, arr => `cmyk(${arr[0]}%, ${arr[1]}%, ${arr[2]}%, ${arr[3]}%)`);
             return cmyk;
         },
 

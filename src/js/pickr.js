@@ -459,7 +459,7 @@ class Pickr {
 
             // Construct function name and call if present
             const method = `to${this._root.interaction.type().getAttribute('data-type')}`;
-            this._root.interaction.result.value = typeof this._color[method] === 'function' ? this._color[method]().toString() : '';
+            this._root.interaction.result.value = typeof this._color[method] === 'function' ? this._color[method]().toString(1) : '';
         }
 
         // Fire listener if initialization is finish

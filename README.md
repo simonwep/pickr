@@ -76,7 +76,7 @@ Include code and style:
 ```js
 
 // One of the following themes
-import '/node_modules/@simonwep/pickr/dist/themes/default.min.css';   // 'classic' theme
+import '/node_modules/@simonwep/pickr/dist/themes/classic.min.css';   // 'classic' theme
 import '/node_modules/@simonwep/pickr/dist/themes/monolith.min.css';  // 'monolith' theme
 import '/node_modules/@simonwep/pickr/dist/themes/nano.min.css';      // 'nano' theme
 
@@ -91,7 +91,7 @@ jsdelivr:
 ```html
 
 <!-- One of the following themes -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/default.min.css"/> <!-- 'classic' theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/> <!-- 'classic' theme -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/monolith.min.css"/> <!-- 'monolith' theme -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/> <!-- 'nano' theme -->
 

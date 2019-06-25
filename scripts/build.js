@@ -17,7 +17,7 @@ const fs = require('fs');
     await webpack({
         mode: 'production',
         entry: {
-            'default.min.css': path.resolve('./src/scss/themes/default.scss'),
+            'classic.min.css': path.resolve('./src/scss/themes/default.scss'),
             'nano.min.css': path.resolve('./src/scss/themes/nano.scss'),
             'monolith.min.css': path.resolve('./src/scss/themes/monolith.scss')
         },

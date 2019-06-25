@@ -233,7 +233,7 @@ export function parseToHSV(str) {
      * @param array
      * @return {*}
      */
-    const numarize = array => array.map(Number);
+    const numarize = array => array.map(v => /^(|\d+)\.\d+|\d+$/.test(v) ? Number(v) : undefined);
 
     let match;
     invalid: for (const type in regex) {

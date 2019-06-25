@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
     entry: {
         'pickr.es5.min': './src/js/pickr.js',
-        'themes/pickr.min': './src/scss/themes/default.scss',
+        'themes/pickr.min': './src/scss/themes/classic.scss',
         'themes/pickr.nano.min': './src/scss/themes/nano.scss',
         'themes/pickr.monolith.min': './src/scss/themes/monolith.scss'
     },

@@ -30,7 +30,6 @@ $spacing: 0.6em;
     .pcr-swatches {
         display: grid;
         align-items: center;
-        justify-content: space-around;
         grid-template-columns: repeat(auto-fit, 1.75em);
         margin-top: $spacing;
         padding: 0 $padding;
@@ -41,9 +40,10 @@ $spacing: 0.6em;
 
         > button {
             @include transparency-background(6px);
+            font-size: 1em;
             position: relative;
-            width: 1.75em;
-            height: 1.75em;
+            width: calc(1.75em - 5px);
+            height: calc(1.75em - 5px);
             border-radius: 0.15em;
             cursor: pointer;
             margin: 2.5px;

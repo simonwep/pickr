@@ -213,7 +213,7 @@ function hexToHsv(hex) {
  * @param str
  * @return {*}
  */
-export function parseToHSV(str) {
+export function parseToHSVA(str) {
 
     // Check if string is a color-name
     str = str.match(/^[a-zA-Z]+$/) ? standardizeColor(str) : str;
@@ -224,7 +224,7 @@ export function parseToHSV(str) {
         rgba: /^(rgb|rgba)[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)[\D]*?([\d.]+|$)/i,
         hsla: /^(hsl|hsla)[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)[\D]*?([\d.]+|$)/i,
         hsva: /^(hsv|hsva)[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)[\D]*?([\d.]+|$)/i,
-        hex: /^#?(([\dA-Fa-f]{3,4})|([\dA-Fa-f]{6})|([\dA-Fa-f]{8}))$/i
+        hexa: /^#?(([\dA-Fa-f]{3,4})|([\dA-Fa-f]{6})|([\dA-Fa-f]{8}))$/i
     };
 
     /**
@@ -250,35 +250,33 @@ export function parseToHSV(str) {
                 if (c > 100 || m > 100 || y > 100 || k > 100)
                     break invalid;
 
-                return {values: [...cmykToHsv(c, m, y, k), 1], type};
+                return {values: cmykToHsv(c, m, y, k), type};
             }
             case 'rgba': {
-                let [, , r, g, b, a = 1] = numarize(match);
+                let [, , r, g, b, a] = numarize(match);
 
                 if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1)
                     break invalid;
 
                 return {values: [...rgbToHsv(r, g, b), a], type};
             }
-            case 'hex': {
+            case 'hexa': {
                 let [, hex] = match;
 
                 if (hex.length === 4 || hex.length === 3) {
                     hex = hex.split('').map(v => v + v).join('');
                 }
 
-                if (hex.length === 6) {
-                    hex += 'ff';
-                }
-
-                let [raw, alpha] = [hex.substring(0, 6), hex.substring(6)];
+                const raw = hex.substring(0, 6);
+                let alpha = hex.substring(6);
 
                 // Convert 0 - 255 to 0 - 1 for opacity
-                alpha = parseInt(alpha, 16) / 255;
+                alpha = alpha ? (parseInt(alpha, 16) / 255) : undefined;
+
                 return {values: [...hexToHsv(raw), alpha], type};
             }
             case 'hsla': {
-                let [, , h, s, l, a = 1] = numarize(match);
+                let [, , h, s, l, a] = numarize(match);
 
                 if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1)
                     break invalid;
@@ -286,7 +284,7 @@ export function parseToHSV(str) {
                 return {values: [...hslToHsv(h, s, l), a], type};
             }
             case 'hsva': {
-                let [, , h, s, v, a = 1] = numarize(match);
+                let [, , h, s, v, a] = numarize(match);
 
                 if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1)
                     break invalid;

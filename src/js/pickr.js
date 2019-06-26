@@ -1,6 +1,6 @@
 // Import utils
-import * as _       from './utils/utils';
-import {parseToHSV} from './utils/color';
+import * as _        from './utils/utils';
+import {parseToHSVA} from './utils/color';
 
 // Import classes
 import {HSVaColor} from './utils/hsvacolor';
@@ -526,7 +526,7 @@ class Pickr {
      * @returns {boolean}
      */
     addSwatch(color) {
-        const {values} = parseToHSV(color);
+        const {values} = parseToHSVA(color);
 
         if (values) {
             const {_swatchColors, _root} = this;
@@ -664,7 +664,7 @@ class Pickr {
      * @param silent If the button should not change the color
      * @return boolean if the color has been accepted
      */
-    setHSVA(h = 360, s = 0, v = 0, a = 1, silent = false) {
+    setHSVA(h = 360, s = 0, v = 0, a, silent = false) {
 
         // Deactivate color calculation
         const recalc = this._recalc; // Save state
@@ -715,7 +715,7 @@ class Pickr {
             return true;
         }
 
-        const {values, type} = parseToHSV(string);
+        const {values, type} = parseToHSVA(string);
 
         // Check if color is ok
         if (values) {
@@ -723,7 +723,7 @@ class Pickr {
             // Change selected color format
             const utype = type.toUpperCase();
             const {options} = this._root.interaction;
-            const target = options.find(el => el.getAttribute('data-type').startsWith(utype));
+            const target = options.find(el => el.getAttribute('data-type') === utype);
 
             // Auto select only if not hidden
             if (target && !target.hidden) {

@@ -41,6 +41,7 @@ class Pickr {
             comparison: true,
             closeOnScroll: false,
             outputPrecision: 0,
+            lockOpacity: false,
 
             components: {
                 interaction: {}
@@ -60,7 +61,7 @@ class Pickr {
             closeWithKey: 'Escape'
         }, opt);
 
-        const {swatches, inline, components, theme, sliders} = opt;
+        const {swatches, inline, components, theme, sliders, lockOpacity} = opt;
 
         if (['nano', 'monolith'].includes(theme) && !sliders) {
             opt.sliders = 'h';
@@ -73,6 +74,7 @@ class Pickr {
 
         // Overwrite palette if preview, opacity or hue are true
         const {preview, opacity, hue, palette} = components;
+        components.opacity = !lockOpacity;
         components.palette = palette || preview || opacity || hue;
 
         // Per default enabled if inline
@@ -466,7 +468,7 @@ class Pickr {
         }
 
         // Fire listener if initialization is finish
-        if (!this._initializingActive) {
+        if (!this._initializingActive && this._recalc) {
             this._emit('change', _color);
         }
     }
@@ -494,6 +496,23 @@ class Pickr {
 
     _emit(event, ...args) {
         this._eventListener[event].forEach(cb => cb(...args, this));
+    }
+
+    _parseLocalColor(str) {
+        const {values, type, a} = parseToHSVA(str);
+        const {lockOpacity} = this.options;
+        const alphaMakesAChange = a !== undefined && a !== 1;
+
+        // If no opacity is applied, add undefined at the very end which gets
+        // set to 1 in setHSVA
+        if (values && values.length === 3) {
+            values[3] = undefined;
+        }
+
+        return {
+            values: (!values || (lockOpacity && alphaMakesAChange)) ? null : values,
+            type
+        };
     }
 
     on(event, cb) {
@@ -526,7 +545,7 @@ class Pickr {
      * @returns {boolean}
      */
     addSwatch(color) {
-        const {values} = parseToHSVA(color);
+        const {values} = this._parseLocalColor(color);
 
         if (values) {
             const {_swatchColors, _root} = this;
@@ -715,7 +734,7 @@ class Pickr {
             return true;
         }
 
-        const {values, type} = parseToHSVA(string);
+        const {values, type} = this._parseLocalColor(string);
 
         // Check if color is ok
         if (values) {

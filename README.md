@@ -204,6 +204,10 @@ const pickr = new Pickr({
 
     // Start state. If true 'disabled' will be added to the button's classlist.
     disabled: false,
+    
+    // If true user won't be able to adjust any opacity. Opacity will be locked at 1 and 
+    // the opacity slider will be removed.
+    lockOpacity: false,
 
     // Precision of output string (only effective if components.interaction.input is true)
     outputPrecision: 0,

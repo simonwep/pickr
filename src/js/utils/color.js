@@ -7,9 +7,15 @@ const {min, max, floor, round} = Math;
  * @returns {string | CanvasGradient | CanvasPattern}
  */
 function standardizeColor(name) {
+
+    // Since invalid color's will be parsed as black, filter them out
+    if (name.toLowerCase() === 'black') {
+        return '#000000';
+    }
+
     const ctx = document.createElement('canvas').getContext('2d');
     ctx.fillStyle = name;
-    return ctx.fillStyle;
+    return ctx.fillStyle === '#000000' ? null : ctx.fillStyle;
 }
 
 /**
@@ -261,7 +267,7 @@ export function parseToHSVA(str) {
                 if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1 || (alpha === !a))
                     break invalid;
 
-                return {values: [...rgbToHsv(r, g, b), a], type};
+                return {values: [...rgbToHsv(r, g, b), a], a, type};
             }
             case 'hexa': {
                 let [, hex] = match;
@@ -271,12 +277,12 @@ export function parseToHSVA(str) {
                 }
 
                 const raw = hex.substring(0, 6);
-                let alpha = hex.substring(6);
+                let a = hex.substring(6);
 
                 // Convert 0 - 255 to 0 - 1 for opacity
-                alpha = alpha ? (parseInt(alpha, 16) / 255) : undefined;
+                a = a ? (parseInt(a, 16) / 255) : undefined;
 
-                return {values: [...hexToHsv(raw), alpha], type};
+                return {values: [...hexToHsv(raw), a], a, type};
             }
             case 'hsla': {
                 let [, , , h, s, l, a] = numarize(match);
@@ -284,7 +290,7 @@ export function parseToHSVA(str) {
                 if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1 || (alpha === !a))
                     break invalid;
 
-                return {values: [...hslToHsv(h, s, l), a], type};
+                return {values: [...hslToHsv(h, s, l), a], a, type};
             }
             case 'hsva': {
                 let [, , , h, s, v, a] = numarize(match);
@@ -292,7 +298,7 @@ export function parseToHSVA(str) {
                 if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1 || (alpha === !a))
                     break invalid;
 
-                return {values: [h, s, v, a], type};
+                return {values: [h, s, v, a], a, type};
             }
         }
     }

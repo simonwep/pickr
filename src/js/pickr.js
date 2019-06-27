@@ -41,7 +41,6 @@ class Pickr {
             comparison: true,
             closeOnScroll: false,
             outputPrecision: 0,
-            lockOpacity: false,
 
             components: {
                 interaction: {}

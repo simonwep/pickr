@@ -220,11 +220,11 @@ export function parseToHSVA(str) {
 
     // Regular expressions to match different types of color represention
     const regex = {
-        cmyk: /^(cmyk)[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)/i,
-        rgba: /^(rgba|rgb)[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)[\D]*?([\d.]+|$)/i,
-        hsla: /^(hsla|hsl)[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)[\D]*?([\d.]+|$)/i,
-        hsva: /^(hsva|hsv)[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)[\D]*?([\d.]+|$)/i,
-        hexa: /^(#?)(([\dA-Fa-f]{3,4})|([\dA-Fa-f]{6})|([\dA-Fa-f]{8}))$/i
+        cmyk: /^cmyk[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)/i,
+        rgba: /^((rgba)|rgb)[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)[\D]*?([\d.]+|$)/i,
+        hsla: /^((hsla)|hsl)[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)[\D]*?([\d.]+|$)/i,
+        hsva: /^((hsva)|hsv)[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)[\D]*?([\d.]+|$)/i,
+        hexa: /^#?(([\dA-Fa-f]{3,4})|([\dA-Fa-f]{6})|([\dA-Fa-f]{8}))$/i
     };
 
     /**
@@ -242,6 +242,9 @@ export function parseToHSVA(str) {
         if (!(match = regex[type].exec(str)))
             continue;
 
+        // match[2] does only contain a truly value if rgba, hsla, or hsla got matched
+        const alpha = !!match[2];
+
         // Try to convert
         switch (type) {
             case 'cmyk': {
@@ -253,9 +256,9 @@ export function parseToHSVA(str) {
                 return {values: cmykToHsv(c, m, y, k), type};
             }
             case 'rgba': {
-                let [, , r, g, b, a] = numarize(match);
+                let [, , , r, g, b, a] = numarize(match);
 
-                if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1)
+                if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1 || (alpha === !a))
                     break invalid;
 
                 return {values: [...rgbToHsv(r, g, b), a], type};
@@ -276,17 +279,17 @@ export function parseToHSVA(str) {
                 return {values: [...hexToHsv(raw), alpha], type};
             }
             case 'hsla': {
-                let [, , h, s, l, a] = numarize(match);
+                let [, , , h, s, l, a] = numarize(match);
 
-                if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1)
+                if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1 || (alpha === !a))
                     break invalid;
 
                 return {values: [...hslToHsv(h, s, l), a], type};
             }
             case 'hsva': {
-                let [, , h, s, v, a] = numarize(match);
+                let [, , , h, s, v, a] = numarize(match);
 
-                if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1)
+                if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1 || (alpha === !a))
                     break invalid;
 
                 return {values: [h, s, v, a], type};

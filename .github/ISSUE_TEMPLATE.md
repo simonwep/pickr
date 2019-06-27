@@ -4,8 +4,8 @@
 
 #### What is the current behavior?
 
-#### If the current behavior is a bug, please provide the steps to reproduce and create a [JSFiddle](https://jsfiddle.net/ds61nfxv/).
-<!-- Use this fiddle as template: https://jsfiddle.net/ds61nfxv/ -->
+#### If the current behavior is a bug, please provide the steps to reproduce and create a [JSFiddle](https://jsfiddle.net/Simonwep/qx2Lod6r/).
+<!-- Use this fiddle as template: https://jsfiddle.net/Simonwep/qx2Lod6r/ -->
 
 #### What is the expected behavior?
 

@@ -1,6 +1,6 @@
 import * as _ from './utils/utils';
 
-export default ({components: c, strings: s, useAsButton, inline, appClass, theme}) => {
+export default ({components: c, strings: s, useAsButton, inline, appClass, theme, lockOpacity: lo}) => {
     const hidden = con => con ? '' : 'style="display:none" hidden';
 
     const root = _.createFromTemplate(`
@@ -36,10 +36,10 @@ export default ({components: c, strings: s, useAsButton, inline, appClass, theme
           <div data-con="interaction" class="pcr-interaction" ${hidden(Object.keys(c.interaction).length)}>
             <input data-key="result" class="pcr-result" type="text" spellcheck="false" ${hidden(c.interaction.input)}>
 
-            <input data-arr="options" class="pcr-type" data-type="HEXA" value="HEXA" type="button" ${hidden(c.interaction.hex)}>
-            <input data-arr="options" class="pcr-type" data-type="RGBA" value="RGBA" type="button" ${hidden(c.interaction.rgba)}>
-            <input data-arr="options" class="pcr-type" data-type="HSLA" value="HSLA" type="button" ${hidden(c.interaction.hsla)}>
-            <input data-arr="options" class="pcr-type" data-type="HSVA" value="HSVA" type="button" ${hidden(c.interaction.hsva)}>
+            <input data-arr="options" class="pcr-type" data-type="HEXA" value="${lo ? 'HEX' : 'HEXA'}" type="button" ${hidden(c.interaction.hex)}>
+            <input data-arr="options" class="pcr-type" data-type="RGBA" value="${lo ? 'RGB' : 'RGBA'}" type="button" ${hidden(c.interaction.rgba)}>
+            <input data-arr="options" class="pcr-type" data-type="HSLA" value="${lo ? 'HSL' : 'HSLA'}" type="button" ${hidden(c.interaction.hsla)}>
+            <input data-arr="options" class="pcr-type" data-type="HSVA" value="${lo ? 'HSV' : 'HSVA'}" type="button" ${hidden(c.interaction.hsva)}>
             <input data-arr="options" class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(c.interaction.cmyk)}>
 
             <input data-key="save" class="pcr-save" value="${s.save || 'Save'}" type="button" ${hidden(c.interaction.save)}>

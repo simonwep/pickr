@@ -41,6 +41,7 @@ class Pickr {
             comparison: true,
             closeOnScroll: false,
             outputPrecision: 0,
+            lockOpacity: false,
 
             components: {
                 interaction: {}
@@ -664,7 +665,7 @@ class Pickr {
      * @param silent If the button should not change the color
      * @return boolean if the color has been accepted
      */
-    setHSVA(h = 360, s = 0, v = 0, a, silent = false) {
+    setHSVA(h = 360, s = 0, v = 0, a = 1, silent = false) {
 
         // Deactivate color calculation
         const recalc = this._recalc; // Save state

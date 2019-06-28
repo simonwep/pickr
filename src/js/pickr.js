@@ -246,7 +246,7 @@ class Pickr {
                     }
 
                     // Set picker and gradient color
-                    const cssRGBaString = _color.toRGBA().toString();
+                    let cssRGBaString = _color.toRGBA().toString(0);
                     this.element.style.background = cssRGBaString;
                     this.wrapper.style.background = `
                         linear-gradient(to top, rgba(0, 0, 0, ${_color.a}), transparent),
@@ -553,7 +553,7 @@ class Pickr {
 
             // Create new swatch HTMLElement
             const element = _.createElementFromString(
-                `<button type="button" style="color: ${hsvaColorObject.toRGBA()}"/>`
+                `<button type="button" style="color: ${hsvaColorObject.toRGBA().toString(0)}"/>`
             );
 
             // Append element and save swatch data

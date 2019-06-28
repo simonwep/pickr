@@ -14,19 +14,19 @@ export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
 
         toHSVA() {
             const hsva = [that.h, that.s, that.v, that.a];
-            hsva.toString = mapper(hsva, arr => `hsva(${arr[0]}, ${arr[1]}%, ${arr[2]}%, ${arr[3]})`);
+            hsva.toString = mapper(hsva, arr => `hsva(${arr[0]}, ${arr[1]}%, ${arr[2]}%, ${that.a})`);
             return hsva;
         },
 
         toHSLA() {
             const hsla = [...hsvToHsl(that.h, that.s, that.v), that.a];
-            hsla.toString = mapper(hsla, arr => `hsla(${arr[0]}, ${arr[1]}%, ${arr[2]}%, ${arr[3]})`);
+            hsla.toString = mapper(hsla, arr => `hsla(${arr[0]}, ${arr[1]}%, ${arr[2]}%, ${that.a})`);
             return hsla;
         },
 
         toRGBA() {
             const rgba = [...hsvToRgb(that.h, that.s, that.v), that.a];
-            rgba.toString = mapper(rgba, arr => `rgba(${arr[0]}, ${arr[1]}, ${arr[2]}, ${arr[3]})`);
+            rgba.toString = mapper(rgba, arr => `rgba(${arr[0]}, ${arr[1]}, ${arr[2]}, ${that.a})`);
             return rgba;
         },
 

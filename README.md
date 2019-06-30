@@ -38,6 +38,12 @@
 
 <br>
 
+<p align="center">
+    <a href="https://opencollective.com/pickr/donate" target="_blank">
+        <img src="https://opencollective.com/pickr/donate/button.png?color=blue" width=300 />
+    </a>
+</p>
+
 ### Features
 * Themes
 * Simple usage

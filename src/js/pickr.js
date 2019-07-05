@@ -42,6 +42,7 @@ class Pickr {
             closeOnScroll: false,
             outputPrecision: 0,
             lockOpacity: false,
+            autoReposition: true,
 
             components: {
                 interaction: {}
@@ -412,7 +413,7 @@ class Pickr {
             });
         }
 
-        if (!options.inline) {
+        if (options.autoReposition && !options.inline) {
             let timeout = null;
             const that = this;
 

@@ -75,7 +75,7 @@ class Pickr {
 
         // Overwrite palette if preview, opacity or hue are true
         const {preview, opacity, hue, palette} = components;
-        components.opacity = !lockOpacity;
+        components.opacity = (!lockOpacity && components.opacity);
         components.palette = palette || preview || opacity || hue;
 
         // Per default enabled if inline

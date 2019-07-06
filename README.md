@@ -87,8 +87,8 @@ import '/node_modules/@simonwep/pickr/dist/themes/monolith.min.css';  // 'monoli
 import '/node_modules/@simonwep/pickr/dist/themes/nano.min.css';      // 'nano' theme
 
 // Modern or es5 bundle
-import Pickr from '/node_modules/@simonwep/pickr/dist/pickr.min';      
-import Pickr from '/node_modules/@simonwep/pickr/dist/pickr.es5.min'; 
+import Pickr from '/node_modules/@simonwep/pickr/dist/pickr.min';
+import Pickr from '/node_modules/@simonwep/pickr/dist/pickr.es5.min';
 ```
 ---
 ### Browser
@@ -113,7 +113,8 @@ Be sure to load the `pickr.min.js` (or the es5 version) **after** `pickr.min.css
 // Simple example, see optional options for more configuration.
 const pickr = Pickr.create({
     el: '.color-picker',
-    
+    theme: 'classic', // or 'monolith', or 'nano'
+
     swatches: [
         'rgba(244, 67, 54, 1)',
         'rgba(233, 30, 99, 0.95)',
@@ -183,29 +184,29 @@ const pickr = new Pickr({
     // Selector or element which will be replaced with the actual color-picker.
     // Can be a HTMLElement.
     el: '.color-picker',
-    
+
     // Which theme you want to use. Can be 'classic', 'monolith' or 'nano'
     theme: 'classic',
-    
-    // Nested scrolling is currently not supported and as this would be really sophisticated to add this 
+
+    // Nested scrolling is currently not supported and as this would be really sophisticated to add this
     // it's easier to set this to true which will hide pickr if the user scrolls the area behind it.
     closeOnScroll: false,
 
-    // Custom class wich gets added to the pickr-app. Can be used to apply custom styles.
+    // Custom class which gets added to the pcr-app. Can be used to apply custom styles.
     appClass: 'custom-class',
 
-    // Using the 'el' Element as button, won't replace it with the pickr-button.
+    // Don't replace 'el' Element with the pickr-button, instead use 'el' as a button.
     // If true, appendToBody will also be automatically true.
     useAsButton: false,
-    
-    // If true pickr won't be fixed and instead append after the in el resolved element.
+
+    // If true pickr won't be floating, and instead will append after the in el resolved element.
     // Setting this to true will also set showAlways to true. It's possible to hide it via .hide() anyway.
     inline: false,
 
     // If true, pickr will be repositioned automatically on page scroll or window resize.
-    // Can be set to false to make custom positioning easier. 
+    // Can be set to false to make custom positioning easier.
     autoReposition: true,
-    
+
     // Defines the direction in which the knobs of hue and opacity can be moved.
     // 'v' => opacity- and hue-slider can both only moved vertically.
     // 'hv' => opacity-slider can be moved horizontally and hue-slider vertically.
@@ -214,9 +215,11 @@ const pickr = new Pickr({
 
     // Start state. If true 'disabled' will be added to the button's classlist.
     disabled: false,
-    
-    // If true user won't be able to adjust any opacity. Opacity will be locked at 1 and 
-    // the opacity slider will be removed.
+
+    // If true, the user won't be able to adjust any opacity.
+    // Opacity will be locked at 1 and the opacity slider will be removed.
+    // The HSVaColor object also doesn't contain an alpha, so the toString() methods just
+    // print HSV, HSL, RGB, HEX, etc.
     lockOpacity: false,
 
     // Precision of output string (only effective if components.interaction.input is true)
@@ -224,28 +227,30 @@ const pickr = new Pickr({
 
     // If set to false it would directly apply the selected color on the button and preview.
     comparison: true,
-    
+
     // Default color
     default: 'fff',
-    
-    // Optional color swatches. null by default which means it's disabled.
-    // Types are all these allowed which can be used in pickr e.g. hex, hsv(a), hsl(a), rgb(a), cmyk or a name like 'magenta'
-    swatches: ['#F44336', '#E91E63', '#9C27B0', '#673AB7'],
 
-    // Default color representation.
+    // Optional color swatches. When null, swatches are disabled.
+    // Types are all those which can be produced by pickr e.g. hex(a), hsv(a), hsl(a), rgb(a), cmyk, and also CSS color names like 'magenta'.
+    // Example: swatches: ['#F44336', '#E91E63', '#9C27B0', '#673AB7'],
+    swatches: null,
+
+    // Default color representation of the input/output textbox.
     // Valid options are `HEX`, `RGBA`, `HSVA`, `HSLA` and `CMYK`.
     defaultRepresentation: 'HEX',
 
-    // Option to keep the color picker always visible. You can still hide / show it via
-    // 'pickr.hide()' and 'pickr.show()'. The save button keeps his functionality, so if
-    // you click it, it will fire the onSave event.
+    // Option to keep the color picker always visible.
+    // You can still hide / show it via 'pickr.hide()' and 'pickr.show()'.
+    // The save button keeps its functionality, so still fires the onSave event when clicked.
     showAlways: false,
 
-    // Close pickr with this specific key.
+    // Close pickr with a keypress.
     // Default is 'Escape'. Can be the event key or code.
+    // (see: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key)
     closeWithKey: 'Escape',
 
-    // Defines the position of the color-picker. 
+    // Defines the position of the color-picker.
     // Any combinations of top, left, bottom or right with one of these optional modifiers: start, middle, end
     // Examples: top-start / right-end
     // If clipping occurs, the color picker will automatically choose its position.
@@ -263,23 +268,24 @@ const pickr = new Pickr({
         // Will be overwritten with true if preview, opacity or hue are true
         palette: true,
 
-        preview: true, // Left side color comparison
-        opacity: true, // Opacity slider
-        hue: true,     // Hue slider
+        preview: true, // Display comparison between previous state and new color
+        opacity: true, // Display opacity slider
+        hue: true,     // Display hue slider
 
-        // Bottom interaction bar, theoretically you could use 'true' as propery.
-        // But this would also hide the save-button.
+        // show or hide components on the bottom interaction bar.
         interaction: {
-            hex: true,  // hex option  (hexadecimal representation of the rgba value)
-            rgba: true, // rgba option (red green blue and alpha)
-            hsla: true, // hsla option (hue saturation lightness and alpha)
-            hsva: true, // hsva option (hue saturation value and alpha)
-            cmyk: true, // cmyk option (cyan mangenta yellow key )
+            hex: false,  // Display 'input/output format as hex' button  (hexadecimal representation of the rgba value)
+            rgba: false, // Display 'input/output format as rgba' button (red green blue and alpha)
+            hsla: false, // Display 'input/output format as hsla' button (hue saturation lightness and alpha)
+            hsva: false, // Display 'input/output format as hsva' button (hue saturation value and alpha)
+            cmyk: false, // Display 'input/output format as cmyk' button (cyan mangenta yellow key )
 
-            input: true, // input / output element
-            clear: true, // Clear button
-            save: true,  // Save button,
-            cancel: true, // Cancel button, reset's the color to the previous state
+            input: false, // Display input/output textbox which shows the selected color value.
+                         // the format of the input is determined by defaultRepresentation,
+                         // and can be changed by the user with the buttons set by hex, rgba, hsla, etc (above).
+            cancel: false, // Display Cancel Button, resets the color to the previous state
+            clear: false, // Display Clear Button; same as cancel, but keeps the window open
+            save: false,  // Display Save Button,
         },
     },
 
@@ -296,10 +302,10 @@ const pickr = new Pickr({
 Example setup:
 ```html
 <div class="entry">
-  #shadow-root 
+  #shadow-root
     <div class="innr">
        <div class="another">
-         #shadow-root 
+         #shadow-root
            <div class="pickr"></div>
        </div>
     </div>
@@ -324,12 +330,12 @@ As default color representation is hsva (`hue`, `saturation`, `value` and `alpha
 * hsva.toCMYK() _- Converts the object to a cymk array._
 * hsva.clone() _- Clones the color object._
 
-The `toString()` is overridden so you can get a color representaion string.
+The `toString()` is overridden so you can get a color representation string.
 
 ```javascript
 hsva.toRGBA(); // Returns [r, g, b, a]
 hsva.toRGBA().toString(); // Returns rgba(r, g, b, a) with highest precision
-hsva.toRGBA().toString(3); // Returns rgba(r, g, b, a), roundet to the third decimal
+hsva.toRGBA().toString(3); // Returns rgba(r, g, b, a), rounded to the third decimal
 ```
 
 ## Methods
@@ -338,8 +344,8 @@ hsva.toRGBA().toString(3); // Returns rgba(r, g, b, a), roundet to the third dec
 
 If `silent` is true (Default is false), the button won't change the current color.
 
-* pickr.on(event`:String`, cb`:Function`) _- Appends an eventlistener to the given corresponding event-name (see section Events), returns the pickr instance so it can be chained._
-* pickr.off(event`:String`, cb`:Function`) _- Removes an eventlistener from the given corresponding event-name (see section Events), returns the pickr instance so it can be chained._
+* pickr.on(event`:String`, cb`:Function`) _- Appends an event listener to the given corresponding event-name (see section Events), returns the pickr instance so it can be chained._
+* pickr.off(event`:String`, cb`:Function`) _- Removes an event listener from the given corresponding event-name (see section Events), returns the pickr instance so it can be chained._
 * pickr.show() _- Shows the color-picker, returns instance._
 * pickr.hide() _- Hides the color-picker, returns instance._
 * pickr.disable() _- Disables pickr and adds the `disabled` class to the button, returns instance._
@@ -347,8 +353,8 @@ If `silent` is true (Default is false), the button won't change the current colo
 * pickr.isOpen() _- Returns true if the color picker is currently open._
 * pickr.getRoot()`:HTMLElement` _- Returns the root DOM-Element of the color-picker._
 * pickr.getColor()`:HSVaColor` _- Returns the current HSVaColor object._
-* pickr.destroy()`:HSVaColor` _- Destroy's all functionality._
-* pickr.destroyAndRemove()`:HSVaColor` _- Destroy's all functionality and removes the pickr element including the button._
+* pickr.destroy()`:HSVaColor` _- Destroys all functionality._
+* pickr.destroyAndRemove()`:HSVaColor` _- Destroys all functionality and removes the pickr element including the button._
 * pickr.setColorRepresentation(type`:String`)`:Boolean` _- Change the current color-representation. Valid options are `HEX`, `RGBA`, `HSVA`, `HSLA` and `CMYK`, returns false if type was invalid._
 * pickr.applyColor(silent`:Boolean`) _- Same as pressing the save button. If silent is true the `onSave` event won't be called._
 * pickr.addSwatch(color`:String`)`:Boolean` _- Adds a color to the swatch palette. Returns `true` if the color has been successful added to the palette._

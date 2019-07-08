@@ -639,7 +639,9 @@ class Pickr {
         const {root, app} = this._root;
 
         // Remove element
-        root.parentElement.removeChild(root);
+        if (root.parentElement) {
+            root.parentElement.removeChild(root);
+        }
 
         // remove .pcr-app
         app.parentElement.removeChild(app);

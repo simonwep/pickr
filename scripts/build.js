@@ -89,12 +89,5 @@ const fs = require('fs');
         }).catch(console.error);
     }
 
-    for (const file of fs.readdirSync('./dist')) {
-        const filePath = path.resolve('./dist', file);
-        const {size} = fs.statSync(filePath);
-        const fstr = `Done: ${file}`.padEnd(30, ' ');
-        const bstr = `${size} bytes`.padStart(20, ' ');
-        console.log(fstr + bstr);
-    }
-
+    console.log('Done');
 })();

@@ -821,6 +821,13 @@ class Pickr {
 // Expose pickr utils
 Pickr.utils = _;
 
+// Expose libraries for easier integration in things build on top of it
+Pickr.libs = {
+    Moveable,
+    Nanopop,
+    Selectable
+};
+
 // Create instance via method
 Pickr.create = options => new Pickr(options);
 

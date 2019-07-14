@@ -3,7 +3,7 @@
 @import '../base';
 
 .pcr-app[data-theme='classic'] {
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
     z-index: 10000;
@@ -16,11 +16,13 @@
     background: #fff;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s, visibility 0s 2s;
     left: 0;
     top: 0;
 
     &.visible {
+        transition: opacity 0.3s;
+        position: absolute;
         visibility: visible;
         opacity: 1;
     }

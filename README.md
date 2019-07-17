@@ -82,13 +82,13 @@ Include code and style:
 ```js
 
 // One of the following themes
-import '/node_modules/@simonwep/pickr/dist/themes/classic.min.css';   // 'classic' theme
-import '/node_modules/@simonwep/pickr/dist/themes/monolith.min.css';  // 'monolith' theme
-import '/node_modules/@simonwep/pickr/dist/themes/nano.min.css';      // 'nano' theme
+import '@simonwep/pickr/dist/themes/classic.min.css';   // 'classic' theme
+import '@simonwep/pickr/dist/themes/monolith.min.css';  // 'monolith' theme
+import '@simonwep/pickr/dist/themes/nano.min.css';      // 'nano' theme
 
 // Modern or es5 bundle
-import Pickr from '/node_modules/@simonwep/pickr/dist/pickr.min';
-import Pickr from '/node_modules/@simonwep/pickr/dist/pickr.es5.min';
+import Pickr from '@simonwep/pickr';
+import Pickr from '@simonwep/pickr/dist/pickr.es5.min';
 ```
 ---
 ### Browser

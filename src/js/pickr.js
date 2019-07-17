@@ -566,6 +566,7 @@ class Pickr {
                 _.on(element, 'click', () => {
                     this.setHSVA(...hsvaColorObject.toHSVA(), true);
                     this._emit('swatchselect', hsvaColorObject);
+                    this._emit('change', hsvaColorObject);
                 })
             );
 

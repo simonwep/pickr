@@ -755,6 +755,7 @@ class Pickr {
                 }
             }
 
+            this._representation = utype;
             return this.setHSVA(...values, silent);
         }
 

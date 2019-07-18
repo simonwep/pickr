@@ -23,52 +23,42 @@ export default function Nanopop({el, reference, padding = 8}) {
         };
     })();
 
-    const getScrollOffset = el => {
-        let top = 0, left = 0;
-
-        while (el = el.parentElement) {
-            top += el.scrollTop;
-            left += el.scrollLeft;
-        }
-
-        return {top, left};
-    };
-
     return {
         update(pos) {
             const {position, variant, isVertical} = getInfo(pos);
             const rb = reference.getBoundingClientRect();
             const eb = el.getBoundingClientRect();
-            const so = getScrollOffset(el);
 
             const positions = vertical => vertical ? {
-                t: rb.top - eb.height - padding + so.top,
-                b: rb.bottom + padding + so.top
+                t: rb.top - eb.height - padding,
+                b: rb.bottom + padding
             } : {
-                r: rb.right + padding + so.left,
-                l: rb.left - eb.width - padding + so.left
+                r: rb.right + padding,
+                l: rb.left - eb.width - padding
             };
 
             const variants = vertical => vertical ? {
-                s: rb.left + rb.width - eb.width + so.left,
-                m: (-eb.width / 2) + (rb.left + rb.width / 2) + so.left,
-                e: rb.left + so.left
+                s: rb.left + rb.width - eb.width,
+                m: (-eb.width / 2) + (rb.left + rb.width / 2),
+                e: rb.left
             } : {
-                s: rb.bottom - eb.height + so.top,
-                m: rb.bottom - rb.height / 2 - eb.height / 2 + so.top,
-                e: rb.bottom - rb.height + so.top
+                s: rb.bottom - eb.height,
+                m: rb.bottom - rb.height / 2 - eb.height / 2,
+                e: rb.bottom - rb.height
             };
 
+            const leastApplied = {};
             function apply(bevs, vars, styleprop) {
                 const vertical = styleprop === 'top';
                 const adder = vertical ? eb.height : eb.width;
-                const win = window[vertical ? 'innerHeight' : 'innerWidth'] + (vertical ? so.top : so.left);
+                const win = window[vertical ? 'innerHeight' : 'innerWidth'];
 
                 for (const ch of bevs) {
                     const v = vars[ch];
+                    const sv = leastApplied[styleprop] = `${v}px`;
 
-                    if ((v - (vertical ? so.top : so.left)) > 0 && (v + adder) < win) {
-                        el.style[styleprop] = `${v}px`;
+                    if (v > 0 && (v + adder) < win) {
+                        el.style[styleprop] = sv;
                         return true;
                     }
                 }
@@ -79,10 +69,14 @@ export default function Nanopop({el, reference, padding = 8}) {
             for (const rot of [isVertical, !isVertical]) {
                 const v2Ok = apply(hBehaviour[position], positions(rot), rot ? 'top' : 'left');
                 const v1Ok = apply(vBehaviour[variant], variants(rot), rot ? 'left' : 'top');
+
                 if (v2Ok && v1Ok) {
                     return;
                 }
             }
+
+            el.style.left = leastApplied.left;
+            el.style.top = leastApplied.top;
         }
     };
 }

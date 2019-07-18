@@ -24,7 +24,6 @@ $spacing: 0.6em;
 
     &.visible {
         transition: opacity 0.3s;
-        position: absolute;
         visibility: visible;
         opacity: 1;
     }

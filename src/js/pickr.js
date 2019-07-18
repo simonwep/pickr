@@ -495,10 +495,6 @@ class Pickr {
         }
     }
 
-    _emit(event, ...args) {
-        this._eventListener[event].forEach(cb => cb(...args, this));
-    }
-
     _parseLocalColor(str) {
         const {values, type, a} = parseToHSVA(str);
         const {lockOpacity} = this.options;
@@ -514,6 +510,10 @@ class Pickr {
             values: (!values || (lockOpacity && alphaMakesAChange)) ? null : values,
             type
         };
+    }
+
+    _emit(event, ...args) {
+        this._eventListener[event].forEach(cb => cb(...args, this));
     }
 
     on(event, cb) {
@@ -825,6 +825,7 @@ Pickr.utils = _;
 
 // Expose libraries for easier integration in things build on top of it
 Pickr.libs = {
+    HSVaColor,
     Moveable,
     Nanopop,
     Selectable

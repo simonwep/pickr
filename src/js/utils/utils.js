@@ -65,13 +65,13 @@ export function removeAttribute(el, name) {
 
 /**
  * Creates a new html element, every element which has
- * a 'data-key' attribute will be saved in a object (which will be returned)
- * where the value of 'data-key' ist the object-key and the value the HTMLElement.
+ * a ':ref' attribute will be saved in a object (which will be returned)
+ * where the value of ':ref' is the object-key and the value the HTMLElement.
  *
- * It's possible to create a hierarchy if you add a 'data-con' attribute. Every
+ * It's possible to create a hierarchy if you add a ':obj' attribute. Every
  * sibling will be added to the object which will get the name from the 'data-con' attribute.
  *
- * If you want to create an Array out of multiple elements, you can use the 'data-arr' attribute,
+ * If you want to create an Array out of multiple elements, you can use the ':arr' attribute,
  * the value defines the key and all elements, which has the same parent and the same 'data-arr' attribute,
  * would be added to it.
  *
@@ -83,26 +83,21 @@ export function createFromTemplate(str) {
     function resolve(element, base = {}) {
 
         // Check key and container attribute
-        const con = removeAttribute(element, 'data-con');
-        const key = removeAttribute(element, 'data-key');
+        const con = removeAttribute(element, ':obj');
+        const key = removeAttribute(element, ':ref');
+        const subtree = con ? (base[con] = {}) : base;
 
         // Check and save element
-        if (key) {
-            base[key] = element;
-        }
+        key && (base[key] = element);
+        for (const child of Array.from(element.children)) {
+            const arr = removeAttribute(child, ':arr');
+            const sub = resolve(child, arr ? {} : subtree);
 
-        // Check all children
-        const subtree = con ? (base[con] = {}) : base;
-        for (let child of Array.from(element.children)) {
-
-            // Check if element should be saved as array
-            const arr = removeAttribute(child, 'data-arr');
             if (arr) {
 
                 // Check if there is already an array and add element
-                (subtree[arr] || (subtree[arr] = [])).push(child);
-            } else {
-                resolve(child, subtree);
+                (subtree[arr] || (subtree[arr] = []))
+                    .push(Object.keys(sub).length ? sub : child);
             }
         }
 

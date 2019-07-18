@@ -4,47 +4,47 @@ export default ({components: c, strings: s, useAsButton, inline, appClass, theme
     const hidden = con => con ? '' : 'style="display:none" hidden';
 
     const root = _.createFromTemplate(`
-      <div data-key="root" class="pickr">
+      <div :ref="root" class="pickr">
 
-        ${useAsButton ? '' : '<button type="button" data-key="button" class="pcr-button"></button>'}
+        ${useAsButton ? '' : '<button type="button" :ref="button" class="pcr-button"></button>'}
 
-        <div data-key="app" class="pcr-app ${appClass || ''}" data-theme="${theme}" ${inline ? 'style="position: unset"' : ''}>
+        <div :ref="app" class="pcr-app ${appClass || ''}" data-theme="${theme}" ${inline ? 'style="position: unset"' : ''}>
           <div class="pcr-selection" ${hidden(c.palette)}>
-            <div data-con="preview" class="pcr-color-preview" ${hidden(c.preview)}>
-              <button type="button" data-key="lastColor" class="pcr-last-color"></button>
-              <div data-key="currentColor" class="pcr-current-color"></div>
+            <div :obj="preview" class="pcr-color-preview" ${hidden(c.preview)}>
+              <button type="button" :ref="lastColor" class="pcr-last-color"></button>
+              <div :ref="currentColor" class="pcr-current-color"></div>
             </div>
 
-            <div data-con="palette" class="pcr-color-palette">
-              <div data-key="picker" class="pcr-picker"></div>
-              <div data-key="palette" class="pcr-palette"></div>
+            <div :obj="palette" class="pcr-color-palette">
+              <div :ref="picker" class="pcr-picker"></div>
+              <div :ref="palette" class="pcr-palette"></div>
             </div>
 
-            <div data-con="hue" class="pcr-color-chooser" ${hidden(c.hue)}>
-              <div data-key="picker" class="pcr-picker"></div>
-              <div data-key="slider" class="pcr-hue pcr-slider"></div>
+            <div :obj="hue" class="pcr-color-chooser" ${hidden(c.hue)}>
+              <div :ref="picker" class="pcr-picker"></div>
+              <div :ref="slider" class="pcr-hue pcr-slider"></div>
             </div>
 
-            <div data-con="opacity" class="pcr-color-opacity" ${hidden(c.opacity)}>
-              <div data-key="picker" class="pcr-picker"></div>
-              <div data-key="slider" class="pcr-opacity pcr-slider"></div>
+            <div :obj="opacity" class="pcr-color-opacity" ${hidden(c.opacity)}>
+              <div :ref="picker" class="pcr-picker"></div>
+              <div :ref="slider" class="pcr-opacity pcr-slider"></div>
             </div>
           </div>
 
-          <div class="pcr-swatches ${c.palette ? '' : ' pcr-last'}" data-key="swatches"></div> 
+          <div class="pcr-swatches ${c.palette ? '' : ' pcr-last'}" :ref="swatches"></div> 
 
-          <div data-con="interaction" class="pcr-interaction" ${hidden(Object.keys(c.interaction).length)}>
-            <input data-key="result" class="pcr-result" type="text" spellcheck="false" ${hidden(c.interaction.input)}>
+          <div :obj="interaction" class="pcr-interaction" ${hidden(Object.keys(c.interaction).length)}>
+            <input :ref="result" class="pcr-result" type="text" spellcheck="false" ${hidden(c.interaction.input)}>
 
-            <input data-arr="options" class="pcr-type" data-type="HEXA" value="${lo ? 'HEX' : 'HEXA'}" type="button" ${hidden(c.interaction.hex)}>
-            <input data-arr="options" class="pcr-type" data-type="RGBA" value="${lo ? 'RGB' : 'RGBA'}" type="button" ${hidden(c.interaction.rgba)}>
-            <input data-arr="options" class="pcr-type" data-type="HSLA" value="${lo ? 'HSL' : 'HSLA'}" type="button" ${hidden(c.interaction.hsla)}>
-            <input data-arr="options" class="pcr-type" data-type="HSVA" value="${lo ? 'HSV' : 'HSVA'}" type="button" ${hidden(c.interaction.hsva)}>
-            <input data-arr="options" class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(c.interaction.cmyk)}>
+            <input :arr="options" class="pcr-type" data-type="HEXA" value="${lo ? 'HEX' : 'HEXA'}" type="button" ${hidden(c.interaction.hex)}>
+            <input :arr="options" class="pcr-type" data-type="RGBA" value="${lo ? 'RGB' : 'RGBA'}" type="button" ${hidden(c.interaction.rgba)}>
+            <input :arr="options" class="pcr-type" data-type="HSLA" value="${lo ? 'HSL' : 'HSLA'}" type="button" ${hidden(c.interaction.hsla)}>
+            <input :arr="options" class="pcr-type" data-type="HSVA" value="${lo ? 'HSV' : 'HSVA'}" type="button" ${hidden(c.interaction.hsva)}>
+            <input :arr="options" class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(c.interaction.cmyk)}>
 
-            <input data-key="save" class="pcr-save" value="${s.save || 'Save'}" type="button" ${hidden(c.interaction.save)}>
-            <input data-key="cancel" class="pcr-clear" value="${s.cancel || 'Cancel'}" type="button" ${hidden(c.interaction.cancel)}>
-            <input data-key="clear" class="pcr-clear" value="${s.clear || 'Clear'}" type="button" ${hidden(c.interaction.clear)}>
+            <input :ref="save" class="pcr-save" value="${s.save || 'Save'}" type="button" ${hidden(c.interaction.save)}>
+            <input :ref="cancel" class="pcr-clear" value="${s.cancel || 'Cancel'}" type="button" ${hidden(c.interaction.cancel)}>
+            <input :ref="clear" class="pcr-clear" value="${s.clear || 'Clear'}" type="button" ${hidden(c.interaction.clear)}>
           </div>
         </div>
       </div>

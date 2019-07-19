@@ -87,8 +87,6 @@ class Pickr {
         this._preBuild();
         this._buildComponents();
         this._bindEvents();
-
-        // Finalize build
         this._finalBuild();
 
         // Append pre-defined swatch colors
@@ -103,12 +101,12 @@ class Pickr {
         });
 
         // Initilization is finish, pickr is visible and ready for usage
-        const {button} = this._root;
+        const {app} = this._root;
         const that = this;
         requestAnimationFrame((function cb() {
 
             // offsetParent of body is always 0. So check if it is the body
-            if (button.offsetParent === null && button !== document.body) {
+            if (app.offsetParent === null && app.parentElement !== document.body) {
                 return requestAnimationFrame(cb);
             }
 
@@ -167,12 +165,12 @@ class Pickr {
         document.body.removeChild(root.root);
 
         if (opt.inline) {
-            const {parentElement} = opt.el;
+            const parent = opt.el.parentElement;
 
-            if (parentElement.lastChild === opt.el) {
-                parentElement.appendChild(root.app);
+            if (opt.el.nextSibling) {
+                parent.insertBefore(root.app, opt.el.nextSibling);
             } else {
-                parentElement.insertBefore(root.app, opt.el.nextSibling);
+                parent.appendChild(root.app);
             }
         } else {
             document.body.appendChild(root.app);
@@ -183,9 +181,11 @@ class Pickr {
 
             // Replace element with actual color-picker
             opt.el.parentNode.replaceChild(root.root, opt.el);
+        } else if (opt.inline) {
+            opt.el.remove();
         }
 
-        // Call disable to also add the disabled class
+        // Check if it should be immediatly disabled
         if (opt.disabled) {
             this.disable();
         }
@@ -206,21 +206,8 @@ class Pickr {
         // Instance reference
         const inst = this;
         const cs = this.options.components;
-        const [so, sh] = (() => {
-            const {sliders} = inst.options;
-            let so = 'v', sh = 'v';
-
-            if (sliders && sliders.match(/^[vh]+$/g)) {
-                if (sliders.length > 1) {
-                    [so, sh] = sliders;
-                } else {
-                    so = sh = sliders;
-                }
-            }
-
-            const opposite = {v: 'h', h: 'v'};
-            return [opposite[so], opposite[sh]];
-        })();
+        const sliders = (inst.options.sliders || 'v').repeat(2);
+        const [so, sh] = sliders.match(/^[vh]+$/g) ? sliders : [];
 
         const components = {
 
@@ -275,7 +262,7 @@ class Pickr {
             }),
 
             hue: Moveable({
-                lock: sh,
+                lock: sh === 'v' ? 'h' : 'v',
                 element: inst._root.hue.picker,
                 wrapper: inst._root.hue.slider,
 
@@ -294,7 +281,7 @@ class Pickr {
             }),
 
             opacity: Moveable({
-                lock: so,
+                lock: so === 'v' ? 'h' : 'v',
                 element: inst._root.opacity.picker,
                 wrapper: inst._root.opacity.slider,
 
@@ -315,6 +302,7 @@ class Pickr {
             selectable: Selectable({
                 elements: inst._root.interaction.options,
                 className: 'active',
+
                 onchange(e) {
                     inst._representation = e.target.getAttribute('data-type').toUpperCase();
                     inst._updateOutput();

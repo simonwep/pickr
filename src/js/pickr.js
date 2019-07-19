@@ -24,10 +24,12 @@ class Pickr {
 
     // Evenlistener name: [callbacks]
     _eventListener = {
-        'swatchselect': [],
-        'change': [],
-        'save': [],
-        'init': []
+        init: [],
+        save: [],
+        clear: [],
+        change: [],
+        cancel: [],
+        swatchselect: []
     };
 
     constructor(opt) {
@@ -325,7 +327,10 @@ class Pickr {
             _.on([
                 _root.interaction.cancel,
                 _root.preview.lastColor
-            ], 'click', () => this.setHSVA(...this._lastColor.toHSVA())),
+            ], 'click', () => {
+                this._emit('cancel', this);
+                this.setHSVA(...this._lastColor.toHSVA(), true);
+            }),
 
             // Save color
             _.on(_root.interaction.save, 'click', () => {
@@ -480,6 +485,7 @@ class Pickr {
 
             // Fire listener
             this._emit('save', null);
+            this._emit('clear', this);
         }
     }
 

@@ -26,6 +26,8 @@ class Pickr {
     _eventListener = {
         init: [],
         save: [],
+        hide: [],
+        show: [],
         clear: [],
         change: [],
         cancel: [],
@@ -651,7 +653,12 @@ class Pickr {
      * Hides the color-picker ui.
      */
     hide() {
-        this._root.app.classList.remove('visible');
+
+        if (!this.options.inline) {
+            this._root.app.classList.remove('visible');
+            this._emit('hide', this);
+        }
+
         return this;
     }
 
@@ -659,9 +666,13 @@ class Pickr {
      * Shows the color-picker ui.
      */
     show() {
-        if (this.options.disabled) return;
-        this._root.app.classList.add('visible');
-        this._rePositioningPicker();
+
+        if (!this.options.inline && !this.options.disabled) {
+            this._root.app.classList.add('visible');
+            this._rePositioningPicker();
+            this._emit('show', this);
+        }
+
         return this;
     }
 

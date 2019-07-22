@@ -160,6 +160,8 @@ Since version `0.4.x` Pickr is event-driven. Use the `on(event, cb)` and `off(ev
 | Event      | Description | Arguments |
 | -------------- | ----------- | --------- |
 | `init`         | Initialization done - pickr can be used | `PickrInstance` |
+| `hide`         | Pickr got closed | `PickrInstance` |
+| `show`         | Pickr got opened | `PickrInstance` |
 | `save`         | User clicked the save / clear button. Also fired on clear with `null` as color. | `HSVaColorObject or null, PickrInstance` |
 | `clear`        | User cleared the color. | `PickrInstance` |
 | `change`       | Color has changed (but not saved). Also fired on `swatchselect` | `HSVaColorObject, PickrInstance` |
@@ -170,14 +172,18 @@ Since version `0.4.x` Pickr is event-driven. Use the `on(event, cb)` and `off(ev
 ```js
 pickr.on('init', instance => {
     console.log('init', instance);
+}).on('hide', instance => {
+    console.log('hide', instance);
+}).on('show', (color, instance) => {
+    console.log('show', color, instance);
 }).on('save', (color, instance) => {
     console.log('save', color, instance);
 }).on('clear', instance => {
-      console.log('clear', instance);
+    console.log('clear', instance);
 }).on('change', (color, instance) => {
     console.log('change', color, instance);
 }).on('cancel', instance => {
-      console.log('cancel', instance);
+    console.log('cancel', instance);
 }).on('swatchselect', (color, instance) => {
     console.log('swatchselect', color, instance);
 });

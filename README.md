@@ -165,6 +165,7 @@ Since version `0.4.x` Pickr is event-driven. Use the `on(event, cb)` and `off(ev
 | `save`         | User clicked the save / clear button. Also fired on clear with `null` as color. | `HSVaColorObject or null, PickrInstance` |
 | `clear`        | User cleared the color. | `PickrInstance` |
 | `change`       | Color has changed (but not saved). Also fired on `swatchselect` | `HSVaColorObject, PickrInstance` |
+| `changestop`   | User stopped to change the color | ` PickrInstance` |
 | `cancel`       | User clicked the cancel button (return to previous color). | `PickrInstance` |
 | `swatchselect` | User clicked one of the swatches | `HSVaColorObject, PickrInstance` |
 
@@ -182,6 +183,8 @@ pickr.on('init', instance => {
     console.log('clear', instance);
 }).on('change', (color, instance) => {
     console.log('change', color, instance);
+}).on('changestop', (color, instance) => {
+    console.log('changestop', color, instance);
 }).on('cancel', instance => {
     console.log('cancel', instance);
 }).on('swatchselect', (color, instance) => {

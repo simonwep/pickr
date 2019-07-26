@@ -12,6 +12,7 @@
     },
     "rules": {
         "no-cond-assign": "off",
+        "no-console": "error",
         "eqeqeq": "error"
     }
 }

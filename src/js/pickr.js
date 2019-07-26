@@ -30,6 +30,7 @@ class Pickr {
         show: [],
         clear: [],
         change: [],
+        changestop: [],
         cancel: [],
         swatchselect: []
     };
@@ -109,8 +110,7 @@ class Pickr {
         const that = this;
         requestAnimationFrame((function cb() {
 
-            // offsetParent of body is always 0. So check if it is the body
-            if (app.offsetParent === null && app.parentElement !== document.body) {
+            if (!app.offsetWidth && app.parentElement !== document.body) {
                 return requestAnimationFrame(cb);
             }
 
@@ -219,6 +219,7 @@ class Pickr {
                 element: inst._root.palette.picker,
                 wrapper: inst._root.palette.palette,
 
+                onstop: () => inst._emit('changestop', inst),
                 onchange(x, y) {
                     if (!cs.palette) return;
                     const {_color, _root, options} = inst;
@@ -270,6 +271,7 @@ class Pickr {
                 element: inst._root.hue.picker,
                 wrapper: inst._root.hue.slider,
 
+                onstop: () => inst._emit('changestop', inst),
                 onchange(v) {
                     if (!cs.hue || !cs.palette) return;
 
@@ -289,6 +291,7 @@ class Pickr {
                 element: inst._root.opacity.picker,
                 wrapper: inst._root.opacity.slider,
 
+                onstop: () => inst._emit('changestop', inst),
                 onchange(v) {
                     if (!cs.opacity || !cs.palette) return;
 

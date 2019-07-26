@@ -8,7 +8,8 @@ export default function Moveable(opt) {
         // Assign default values
         options: Object.assign({
             lock: null,
-            onchange: () => 0
+            onchange: () => 0,
+            onstop: () => 0
         }, opt),
 
         _tapstart(evt) {
@@ -70,6 +71,7 @@ export default function Moveable(opt) {
         },
 
         _tapstop() {
+            that.options.onstop();
             _.off(document, ['mouseup', 'touchend', 'touchcancel'], that._tapstop);
             _.off(document, ['mousemove', 'touchmove'], that._tapmove);
         },

@@ -23,6 +23,16 @@ export default function Nanopop({el, reference, padding = 8}) {
         };
     })();
 
+    const hasScrollableParent = () => {
+        for (let e = reference; (e = e.parentElement);) {
+            if (e.scrollWidth > e.clientWidth || e.scrollHeight > e.clientHeight) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
     return {
         update(pos) {
             const {position, variant, isVertical} = getInfo(pos);
@@ -75,8 +85,21 @@ export default function Nanopop({el, reference, padding = 8}) {
                 }
             }
 
-            el.style.left = leastApplied.left;
-            el.style.top = leastApplied.top;
+            /**
+             * In scrollable containers the last possible position should be used,
+             * if now - stick pickr to the top of the page
+             */
+            if (hasScrollableParent()) {
+                el.style.left = leastApplied.left;
+                el.style.top = leastApplied.top;
+            } else {
+                Object.assign(el.style, {
+                    top: `${padding}px`,
+                    left: 0,
+                    right: 0,
+                    margin: 'auto'
+                });
+            }
         }
     };
 }

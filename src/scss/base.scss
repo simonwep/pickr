@@ -68,3 +68,16 @@
         }
     }
 }
+
+@media all and (max-width: 576px) {
+
+    // Not the best solution, but a way to make it accessible on mobile devices
+    .pcr-app {
+        position: absolute !important;
+        margin: auto !important;
+        top: auto !important;
+        bottom: auto !important;
+        right: 0 !important;
+        left: 0 !important;
+    }
+}

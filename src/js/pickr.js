@@ -785,7 +785,7 @@ class Pickr {
                 }
             }
 
-            this._representation = utype;
+            this.setColorRepresentation(utype);
             return this.setHSVA(...values, silent);
         }
 

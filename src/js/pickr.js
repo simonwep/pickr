@@ -312,7 +312,7 @@ class Pickr {
 
                 onchange(e) {
                     inst._representation = e.target.getAttribute('data-type').toUpperCase();
-                    inst._updateOutput();
+                    inst._recalc && inst._updateOutput();
                 }
             })
         };
@@ -342,9 +342,7 @@ class Pickr {
                 !this.applyColor() && !options.showAlways && this.hide();
             }),
 
-            // Detect user input and disable auto-recalculation
             _.on(_root.interaction.result, ['keyup', 'input'], e => {
-                this._recalc = false;
 
                 // Fire listener if initialization is finish and changed color was valid
                 if (this.setColor(e.target.value, true) && !this._initializingActive) {
@@ -352,6 +350,12 @@ class Pickr {
                 }
 
                 e.stopImmediatePropagation();
+            }),
+
+            // Detect user input and disable auto-recalculation
+            _.on(_root.interaction.result, ['focus', 'blur'], e => {
+                this._recalc = e.type === 'blur';
+                this._recalc && this._updateOutput();
             }),
 
             // Cancel input detection on color change

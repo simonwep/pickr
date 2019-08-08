@@ -342,7 +342,7 @@ As default color representation is hsva (`hue`, `saturation`, `value` and `alpha
 * hsva.toHSLA() _- Converts the object to a hsla array._
 * hsva.toRGBA() _- Converts the object to a rgba array._
 * hsva.toHEXA() _- Converts the object to a hexa-decimal array._
-* hsva.toCMYK() _- Converts the object to a cymk array._
+* hsva.toCMYK() _- Converts the object to a cmyk array._
 * hsva.clone() _- Clones the color object._
 
 The `toString()` is overridden so you can get a color representation string.

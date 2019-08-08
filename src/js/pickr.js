@@ -692,7 +692,7 @@ class Pickr {
      */
     show() {
 
-        if (!this.options.inline && !this.options.disabled) {
+        if (!this.options.disabled) {
             this._root.app.classList.add('visible');
             this._rePositioningPicker();
             this._emit('show', this);

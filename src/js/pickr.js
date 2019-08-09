@@ -67,7 +67,7 @@ class Pickr {
             closeWithKey: 'Escape'
         }, opt);
 
-        const {swatches, inline, components, theme, sliders, lockOpacity} = opt;
+        const {swatches, components, theme, sliders, lockOpacity} = opt;
 
         if (['nano', 'monolith'].includes(theme) && !sliders) {
             opt.sliders = 'h';
@@ -82,11 +82,6 @@ class Pickr {
         const {preview, opacity, hue, palette} = components;
         components.opacity = (!lockOpacity && opacity);
         components.palette = palette || preview || opacity || hue;
-
-        // Per default enabled if inline
-        if (inline) {
-            opt.showAlways = true;
-        }
 
         // Initialize picker
         this._preBuild();
@@ -682,12 +677,8 @@ class Pickr {
      * Hides the color-picker ui.
      */
     hide() {
-
-        if (!this.options.inline) {
-            this._root.app.classList.remove('visible');
-            this._emit('hide', this);
-        }
-
+        this._root.app.classList.remove('visible');
+        this._emit('hide', this);
         return this;
     }
 

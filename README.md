@@ -244,7 +244,7 @@ const pickr = new Pickr({
     comparison: true,
 
     // Default color
-    default: 'fff',
+    default: '#42445a',
 
     // Optional color swatches. When null, swatches are disabled.
     // Types are all those which can be produced by pickr e.g. hex(a), hsv(a), hsl(a), rgb(a), cmyk, and also CSS color names like 'magenta'.

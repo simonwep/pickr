@@ -185,24 +185,24 @@
 
             &::selection {
                 background: $palette-cloud-blue;
-                color: #ffffff;
+                color: #fff;
             }
         }
 
         .pcr-type.active {
-            color: #ffffff;
+            color: #fff;
             background: $palette-cloud-blue;
         }
 
         .pcr-clear,
         .pcr-save {
-            color: #ffffff;
+            color: #fff;
             width: auto;
         }
 
         .pcr-save,
         .pcr-clear {
-            color: #ffffff;
+            color: #fff;
 
             &:hover {
                 filter: brightness(0.925);

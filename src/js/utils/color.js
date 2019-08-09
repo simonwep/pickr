@@ -10,12 +10,12 @@ function standardizeColor(name) {
 
     // Since invalid color's will be parsed as black, filter them out
     if (name.toLowerCase() === 'black') {
-        return '#000000';
+        return '#000';
     }
 
     const ctx = document.createElement('canvas').getContext('2d');
     ctx.fillStyle = name;
-    return ctx.fillStyle === '#000000' ? null : ctx.fillStyle;
+    return ctx.fillStyle === '#000' ? null : ctx.fillStyle;
 }
 
 /**
@@ -30,17 +30,17 @@ export function hsvToRgb(h, s, v) {
     s /= 100;
     v /= 100;
 
-    let i = floor(h);
+    const i = floor(h);
 
-    let f = h - i;
-    let p = v * (1 - s);
-    let q = v * (1 - f * s);
-    let t = v * (1 - (1 - f) * s);
+    const f = h - i;
+    const p = v * (1 - s);
+    const q = v * (1 - f * s);
+    const t = v * (1 - (1 - f) * s);
 
-    let mod = i % 6;
-    let r = [v, q, p, p, t, v][mod];
-    let g = [t, v, v, q, p, p][mod];
-    let b = [p, p, t, v, v, q][mod];
+    const mod = i % 6;
+    const r = [v, q, p, p, t, v][mod];
+    const g = [t, v, v, q, p, p][mod];
+    const b = [p, p, t, v, v, q][mod];
 
     return [
         r * 255,
@@ -101,7 +101,7 @@ export function hsvToCmyk(h, s, v) {
 export function hsvToHsl(h, s, v) {
     s /= 100, v /= 100;
 
-    let l = (2 - s) * v / 2;
+    const l = (2 - s) * v / 2;
 
     if (l !== 0) {
         if (l === 1) {
@@ -140,9 +140,9 @@ function rgbToHsv(r, g, b) {
         h = s = 0;
     } else {
         s = delta / maxVal;
-        let dr = (((maxVal - r) / 6) + (delta / 2)) / delta;
-        let dg = (((maxVal - g) / 6) + (delta / 2)) / delta;
-        let db = (((maxVal - b) / 6) + (delta / 2)) / delta;
+        const dr = (((maxVal - r) / 6) + (delta / 2)) / delta;
+        const dg = (((maxVal - g) / 6) + (delta / 2)) / delta;
+        const db = (((maxVal - b) / 6) + (delta / 2)) / delta;
 
         if (r === maxVal) {
             h = db - dg;
@@ -199,8 +199,8 @@ function hslToHsv(h, s, l) {
     l /= 100;
     s *= l < 0.5 ? l : 1 - l;
 
-    let ns = (2 * s / (l + s)) * 100;
-    let v = (l + s) * 100;
+    const ns = (2 * s / (l + s)) * 100;
+    const v = (l + s) * 100;
     return [h, ns, v];
 }
 
@@ -254,7 +254,7 @@ export function parseToHSVA(str) {
         // Try to convert
         switch (type) {
             case 'cmyk': {
-                let [, c, m, y, k] = numarize(match);
+                const [, c, m, y, k] = numarize(match);
 
                 if (c > 100 || m > 100 || y > 100 || k > 100)
                     break invalid;
@@ -262,7 +262,7 @@ export function parseToHSVA(str) {
                 return {values: cmykToHsv(c, m, y, k), type};
             }
             case 'rgba': {
-                let [, , , r, g, b, a] = numarize(match);
+                const [, , , r, g, b, a] = numarize(match);
 
                 if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1 || (alpha === !a))
                     break invalid;
@@ -285,7 +285,7 @@ export function parseToHSVA(str) {
                 return {values: [...hexToHsv(raw), a], a, type};
             }
             case 'hsla': {
-                let [, , , h, s, l, a] = numarize(match);
+                const [, , , h, s, l, a] = numarize(match);
 
                 if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1 || (alpha === !a))
                     break invalid;
@@ -293,7 +293,7 @@ export function parseToHSVA(str) {
                 return {values: [...hslToHsv(h, s, l), a], a, type};
             }
             case 'hsva': {
-                let [, , , h, s, v, a] = numarize(match);
+                const [, , , h, s, v, a] = numarize(match);
 
                 if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1 || (alpha === !a))
                     break invalid;

@@ -43,7 +43,7 @@ export default ({components: c, strings: s, useAsButton, inline, appClass, theme
             <input :arr="options" class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(c.interaction.cmyk)}>
 
             <input :ref="save" class="pcr-save" value="${s.save || 'Save'}" type="button" ${hidden(c.interaction.save)}>
-            <input :ref="cancel" class="pcr-clear" value="${s.cancel || 'Cancel'}" type="button" ${hidden(c.interaction.cancel)}>
+            <input :ref="cancel" class="pcr-clear pcr-cancel" value="${s.cancel || 'Cancel'}" type="button" ${hidden(c.interaction.cancel)}>
             <input :ref="clear" class="pcr-clear" value="${s.clear || 'Clear'}" type="button" ${hidden(c.interaction.clear)}>
           </div>
         </div>

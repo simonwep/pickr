@@ -234,7 +234,7 @@ class Pickr {
                     }
 
                     // Set picker and gradient color
-                    let cssRGBaString = _color.toRGBA().toString(0);
+                    const cssRGBaString = _color.toRGBA().toString(0);
                     this.element.style.background = cssRGBaString;
                     this.wrapper.style.background = `
                         linear-gradient(to top, rgba(0, 0, 0, ${_color.a}), transparent),
@@ -248,6 +248,12 @@ class Pickr {
                         if (!options.useAsButton) {
                             _root.preview.lastColor.style.color = cssRGBaString;
                         }
+                    }
+
+                    // Check if there's a swatch which color matches the current one
+                    const hexa = _color.toHEXA().toString();
+                    for (const {el, color} of inst._swatchColors) {
+                        el.classList[hexa === color.toHEXA().toString() ? 'add' : 'remove']('pcr-active');
                     }
 
                     // Change current color
@@ -404,9 +410,9 @@ class Pickr {
 
                     // Apply range of zero up to max, fix floating-point issues
                     return nv <= 0 ? 0 : Number((nv < max ? nv : max).toPrecision(3));
-                } else {
-                    return o;
                 }
+                return o;
+
             });
         }
 
@@ -570,23 +576,23 @@ class Pickr {
 
         if (values) {
             const {_swatchColors, _root} = this;
-            const hsvaColorObject = HSVaColor(...values);
+            const color = HSVaColor(...values);
 
             // Create new swatch HTMLElement
-            const element = _.createElementFromString(
-                `<button type="button" style="color: ${hsvaColorObject.toRGBA().toString(0)}"/>`
+            const el = _.createElementFromString(
+                `<button type="button" style="color: ${color.toRGBA().toString(0)}"/>`
             );
 
             // Append element and save swatch data
-            _root.swatches.appendChild(element);
-            _swatchColors.push({element, hsvaColorObject});
+            _root.swatches.appendChild(el);
+            _swatchColors.push({el, color});
 
             // Bind event
             this._eventBindings.push(
-                _.on(element, 'click', () => {
-                    this.setHSVA(...hsvaColorObject.toHSVA(), true);
-                    this._emit('swatchselect', hsvaColorObject);
-                    this._emit('change', hsvaColorObject);
+                _.on(el, 'click', () => {
+                    this.setHSVA(...color.toHSVA(), true);
+                    this._emit('swatchselect', color);
+                    this._emit('change', color);
                 })
             );
 
@@ -606,10 +612,10 @@ class Pickr {
 
         // Check swatch data
         if (swatchColor) {
-            const {element} = swatchColor;
+            const {el} = swatchColor;
 
             // Remove HTML child and swatch data
-            this._root.swatches.removeChild(element);
+            this._root.swatches.removeChild(el);
             this._swatchColors.splice(index, 1);
             return true;
         }

@@ -8,14 +8,14 @@ BlinkMacSystemFont,
 // Colors
 $palette-cloud-blue: #4285f4 !default;
 $palette-soft-red: #f44250 !default;
-$palette-snowwhite: #f1f3f4 !default;
+$palette-snow-white: #f1f3f4 !default;
 $palette-lightgray: #c4c4c4 !default;
 $palette-darkgray: #75797e !default;
 
 // Constants
 $box-shadow-app: 0 0.15em 1.5em 0 rgba(0, 0, 0, 0.1), 0 0 1em 0 rgba(0, 0, 0, 0.03) !default;
 @mixin focus($color: rgba($palette-cloud-blue, 0.75)) {
-    box-shadow: 0 0 0 1px $palette-snowwhite, 0 0 0 3px $color;
+    box-shadow: 0 0 0 1px rgba(white, 0.85), 0 0 0 3px $color;
 }
 
 @function colorRainbow($dir: to bottom) {

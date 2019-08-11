@@ -194,13 +194,15 @@
             background: $palette-cloud-blue;
         }
 
-        .pcr-clear,
-        .pcr-save {
+        .pcr-save,
+        .pcr-cancel,
+        .pcr-clear {
             color: #fff;
             width: auto;
         }
 
         .pcr-save,
+        .pcr-cancel,
         .pcr-clear {
             color: #fff;
 
@@ -213,7 +215,8 @@
             background: $palette-cloud-blue;
         }
 
-        .pcr-clear {
+        .pcr-clear,
+        .pcr-cancel {
             background: $palette-soft-red;
 
             &:focus {

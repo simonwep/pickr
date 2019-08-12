@@ -224,4 +224,34 @@
             }
         }
     }
+
+    .pcr-selection {
+
+        .pcr-picker {
+            position: absolute;
+            height: 18px;
+            width: 18px;
+            border: 2px solid #fff;
+            border-radius: 100%;
+            user-select: none;
+        }
+
+        .pcr-color-palette,
+        .pcr-color-chooser,
+        .pcr-color-opacity {
+            position: relative;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            cursor: grab;
+            cursor: -moz-grab;
+            cursor: -webkit-grab;
+
+            &:active {
+                cursor: grabbing;
+                cursor: -moz-grabbing;
+                cursor: -webkit-grabbing;
+            }
+        }
+    }
 }

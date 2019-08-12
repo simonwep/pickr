@@ -100,7 +100,7 @@ const themes = [
 ];
 
 const buttons = [];
-let pickrInstance = null;
+let pickr = null;
 
 for (const [theme, config] of themes) {
     const button = document.createElement('button');
@@ -112,8 +112,8 @@ for (const [theme, config] of themes) {
         pickrContainer.appendChild(el);
 
         // Delete previous instance
-        if (pickrInstance) {
-            pickrInstance.destroyAndRemove();
+        if (pickr) {
+            pickr.destroyAndRemove();
         }
 
         // Apply active class
@@ -122,9 +122,9 @@ for (const [theme, config] of themes) {
         }
 
         // Create fresh instance
-        pickrInstance = new Pickr(Object.assign({
+        pickr = new Pickr(Object.assign({
             el, theme,
-            default: '#42445A'
+            default: '#42445a'
         }, config));
     });
 

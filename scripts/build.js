@@ -6,7 +6,6 @@ const bundles = require('./bundles');
 const util = require('util');
 const webpack = util.promisify(require('webpack'));
 const path = require('path');
-const fs = require('fs');
 
 (async () => {
     const banner = new webpack.BannerPlugin({
@@ -17,9 +16,9 @@ const fs = require('fs');
     await webpack({
         mode: 'production',
         entry: {
-            'classic.min.css': path.resolve('./src/scss/themes/classic.scss'),
-            'nano.min.css': path.resolve('./src/scss/themes/nano.scss'),
-            'monolith.min.css': path.resolve('./src/scss/themes/monolith.scss')
+            'classic': path.resolve('./src/scss/themes/classic.scss'),
+            'monolith': path.resolve('./src/scss/themes/monolith.scss'),
+            'nano': path.resolve('./src/scss/themes/nano.scss')
         },
 
         output: {
@@ -44,7 +43,7 @@ const fs = require('fs');
             new FixStyleOnlyEntriesPlugin(),
             new OptimizeCSSAssetsPlugin(),
             new MiniCssExtractPlugin({
-                filename: '[name]'
+                filename: '[name].min.css'
             })
         ]
     }).catch(console.error);

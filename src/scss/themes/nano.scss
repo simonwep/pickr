@@ -28,15 +28,6 @@ $spacing: 0.6em;
         width: 100%;
         align-self: flex-start;
 
-        .pcr-picker {
-            position: absolute;
-            height: 18px;
-            width: 18px;
-            border: 2px solid #fff;
-            border-radius: 100%;
-            user-select: none;
-        }
-
         .pcr-color-preview {
             grid-area: 2 / 1 / 4 / 1;
             height: 100%;
@@ -58,24 +49,6 @@ $spacing: 0.6em;
                 height: 2em;
                 border-radius: 50em;
                 overflow: hidden;
-            }
-        }
-
-        .pcr-color-palette,
-        .pcr-color-chooser,
-        .pcr-color-opacity {
-            position: relative;
-            user-select: none;
-            display: flex;
-            flex-direction: column;
-            cursor: grab;
-            cursor: -moz-grab;
-            cursor: -webkit-grab;
-
-            &:active {
-                cursor: grabbing;
-                cursor: -moz-grabbing;
-                cursor: -webkit-grabbing;
             }
         }
 

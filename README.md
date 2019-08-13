@@ -183,8 +183,8 @@ pickr.on('init', instance => {
     console.log('clear', instance);
 }).on('change', (color, instance) => {
     console.log('change', color, instance);
-}).on('changestop', (color, instance) => {
-    console.log('changestop', color, instance);
+}).on('changestop', instance => {
+    console.log('changestop', instance);
 }).on('cancel', instance => {
     console.log('cancel', instance);
 }).on('swatchselect', (color, instance) => {

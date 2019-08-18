@@ -6,7 +6,7 @@ import {parseToHSVA} from './utils/color';
 import {HSVaColor} from './utils/hsvacolor';
 import Moveable    from './libs/moveable';
 import Selectable  from './libs/selectable';
-import Nanopop     from './libs/nanopop';
+import Widgetify   from '@simonwep/widgetify';
 import buildPickr  from './template';
 
 class Pickr {
@@ -86,6 +86,44 @@ class Pickr {
         // Initialize picker
         this._preBuild();
         this._buildComponents();
+
+        // Initialize widget engine
+        this._widget = Widgetify({
+            ...opt,
+
+            ref: this._root.button,
+            el: this._root.app,
+
+            onShow: () => this._emit('show', this),
+            onHide: () => this._emit('hide', this),
+
+            beforeRepositioning: () => {
+                const {app} = this._root;
+
+                if (matchMedia('(max-width: 576px)').matches) {
+                    Object.assign(app.style, {
+                        margin: 'auto',
+                        height: `${app.getBoundingClientRect().height}px`,
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0
+                    });
+
+                    return false;
+                }
+
+                Object.assign(app.style, {
+                    margin: null,
+                    right: null,
+                    top: null,
+                    bottom: null,
+                    left: null,
+                    height: null
+                });
+            }
+        });
+
         this._bindEvents();
         this._finalBuild();
 
@@ -93,12 +131,6 @@ class Pickr {
         if (swatches && swatches.length) {
             swatches.forEach(color => this.addSwatch(color));
         }
-
-        // Initialize positioning engine
-        this._nanopop = Nanopop({
-            reference: this._root.button,
-            el: this._root.app
-        });
 
         // Initilization is finish, pickr is visible and ready for usage
         const {app} = this._root;
@@ -111,17 +143,11 @@ class Pickr {
 
             // Apply default color
             that.setColor(opt.default);
-            that._rePositioningPicker();
 
             // Initialize color representation
             if (opt.defaultRepresentation) {
                 that._representation = opt.defaultRepresentation;
                 that.setColorRepresentation(that._representation);
-            }
-
-            // Show pickr if locked
-            if (opt.showAlways) {
-                that.show();
             }
 
             // Initialization is done - pickr is usable, fire init event
@@ -163,15 +189,7 @@ class Pickr {
         // Remove from body
         document.body.removeChild(root.root);
 
-        if (opt.inline) {
-            const parent = opt.el.parentElement;
-
-            if (opt.el.nextSibling) {
-                parent.insertBefore(root.app, opt.el.nextSibling);
-            } else {
-                parent.appendChild(root.app);
-            }
-        } else {
+        if (!opt.inline) {
             document.body.appendChild(root.app);
         }
 
@@ -182,11 +200,6 @@ class Pickr {
             opt.el.parentNode.replaceChild(root.root, opt.el);
         } else if (opt.inline) {
             opt.el.remove();
-        }
-
-        // Check if it should be immediatly disabled
-        if (opt.disabled) {
-            this.disable();
         }
 
         // Check if color comparison is disabled, if yes - remove transitions so everything keeps smoothly
@@ -370,26 +383,6 @@ class Pickr {
             ], ['mousedown', 'touchstart'], () => this._recalc = true)
         ];
 
-        // Provide hiding / showing abilities only if showAlways is false
-        if (!options.showAlways) {
-            const ck = options.closeWithKey;
-
-            eventBindings.push(
-                // Save and hide / show picker
-                _.on(_root.button, 'click', () => this.isOpen() ? this.hide() : this.show()),
-
-                // Close with escape key
-                _.on(document, 'keyup', e => this.isOpen() && (e.key === ck || e.code === ck) && this.hide()),
-
-                // Cancel selecting if the user taps behind the color picker
-                _.on(document, ['touchstart', 'mousedown'], e => {
-                    if (this.isOpen() && !_.eventPath(e).some(el => el === _root.app || el === _root.button)) {
-                        this.hide();
-                    }
-                }, {capture: true})
-            );
-        }
-
         // Make input adjustable if enabled
         if (options.adjustableNumbers) {
             const ranges = {
@@ -411,74 +404,13 @@ class Pickr {
                     // Apply range of zero up to max, fix floating-point issues
                     return nv <= 0 ? 0 : Number((nv < max ? nv : max).toPrecision(3));
                 }
+
                 return o;
-
             });
-        }
-
-        if (options.autoReposition && !options.inline) {
-            let timeout = null;
-            const that = this;
-
-            // Re-calc position on window resize, scroll and wheel
-            eventBindings.push(
-                _.on(window, ['scroll', 'resize'], () => {
-                    if (that.isOpen()) {
-
-                        if (options.closeOnScroll) {
-                            that.hide();
-                        }
-
-                        if (timeout === null) {
-                            timeout = setTimeout(() => timeout = null, 100);
-
-                            // Update position on every frame
-                            requestAnimationFrame(function rs() {
-                                that._rePositioningPicker();
-                                (timeout !== null) && requestAnimationFrame(rs);
-                            });
-                        } else {
-                            clearTimeout(timeout);
-                            timeout = setTimeout(() => timeout = null, 100);
-                        }
-                    }
-                }, {capture: true})
-            );
         }
 
         // Save bindings
         this._eventBindings = eventBindings;
-    }
-
-    _rePositioningPicker() {
-        const {options} = this;
-
-        // No repositioning needed if inline
-        if (!options.inline) {
-            const {app} = this._root;
-
-            if (matchMedia('(max-width: 576px)').matches) {
-                Object.assign(app.style, {
-                    margin: 'auto',
-                    height: `${app.getBoundingClientRect().height}px`,
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0
-                });
-            } else {
-                Object.assign(app.style, {
-                    margin: null,
-                    right: null,
-                    top: null,
-                    bottom: null,
-                    left: null,
-                    height: null
-                });
-
-                this._nanopop.update(options.position);
-            }
-        }
     }
 
     _updateOutput() {
@@ -683,8 +615,7 @@ class Pickr {
      * Hides the color-picker ui.
      */
     hide() {
-        this._root.app.classList.remove('visible');
-        this._emit('hide', this);
+        this._widget.hide();
         return this;
     }
 
@@ -692,13 +623,7 @@ class Pickr {
      * Shows the color-picker ui.
      */
     show() {
-
-        if (!this.options.disabled) {
-            this._root.app.classList.add('visible');
-            this._rePositioningPicker();
-            this._emit('show', this);
-        }
-
+        this._widget.show();
         return this;
     }
 
@@ -858,7 +783,7 @@ Pickr.utils = _;
 Pickr.libs = {
     HSVaColor,
     Moveable,
-    Nanopop,
+    Widgetify,
     Selectable
 };
 

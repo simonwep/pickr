@@ -44,5 +44,8 @@
     },
     "bugs": {
         "url": "https://github.com/Simonwep/pickr/issues"
+    },
+    "dependencies": {
+        "@simonwep/widgetify": "^0.1.0"
     }
 }

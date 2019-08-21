@@ -48,7 +48,7 @@ class Pickr {
             outputPrecision: 0,
             lockOpacity: false,
             autoReposition: true,
-
+            container: 'body',
             components: {
                 interaction: {}
             },
@@ -105,7 +105,7 @@ class Pickr {
         const that = this;
         requestAnimationFrame((function cb() {
 
-            if (!app.offsetWidth && app.parentElement !== document.body) {
+            if (!app.offsetWidth && app.parentElement !== opt.container) {
                 return requestAnimationFrame(cb);
             }
 
@@ -134,14 +134,9 @@ class Pickr {
     _preBuild() {
         const opt = this.options;
 
-        // Check if element is selector
-        if (typeof opt.el === 'string') {
-
-            // Resolve possible shadow dom access
-            opt.el = opt.el.split(/>>/g).reduce((pv, cv, ci, a) => {
-                pv = pv.querySelector(cv);
-                return ci < a.length - 1 ? pv.shadowRoot : pv;
-            }, document);
+        // Resolve elements
+        for(const type of ['el', 'container']) {
+            opt[type] = _.resolveElement(opt[type]);
         }
 
         // Create element and append it to body to
@@ -153,7 +148,7 @@ class Pickr {
             this._root.button = opt.el; // Replace button with customized button
         }
 
-        document.body.appendChild(this._root.root);
+        opt.container.appendChild(this._root.root);
     }
 
     _finalBuild() {
@@ -161,7 +156,7 @@ class Pickr {
         const root = this._root;
 
         // Remove from body
-        document.body.removeChild(root.root);
+        opt.container.removeChild(root.root);
 
         if (opt.inline) {
             const parent = opt.el.parentElement;
@@ -172,7 +167,7 @@ class Pickr {
                 parent.appendChild(root.app);
             }
         } else {
-            document.body.appendChild(root.app);
+            opt.container.appendChild(root.app);
         }
 
         // Don't replace the the element if a custom button is used

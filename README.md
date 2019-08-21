@@ -200,6 +200,9 @@ const pickr = new Pickr({
     // Can be a HTMLElement.
     el: '.color-picker',
 
+    // Where the pickr-app should be added as child.
+    container: 'body',
+
     // Which theme you want to use. Can be 'classic', 'monolith' or 'nano'
     theme: 'classic',
 
@@ -388,6 +391,7 @@ If `silent` is true (Default is false), the button won't change the current colo
 * eventPath(evt`:Event`)`:[HTMLElement]` _- A polyfill for the event-path event propery._
 * removeAttribute(el`:HTMLElement`, name`:String`) _- Removes an attribute from a HTMLElement and returns the value._
 * createFromTemplate(str`:String`) _- See [inline doumentation](https://github.com/Simonwep/pickr/blob/master/src/js/lib/utils.js#L88)._
+* resolveElement(val`:String|HTMLElement`) _- Resolves a `HTMLElement`, supports `>>>` as shadow dom selector._
 * adjustableInputNumbers(el`:InputElement`, mapper`:Function`) _- Creates the possibility to change the numbers in an inputfield via mouse scrolling.
 The mapper function takes three arguments: the matched number, an multiplier and the index of the match._
 

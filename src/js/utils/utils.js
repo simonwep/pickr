@@ -125,6 +125,24 @@ export function eventPath(evt) {
 }
 
 /**
+ * Resolves a HTMLElement by query.
+ * @param val
+ * @returns {null|Document|Element}
+ */
+export function resolveElement(val) {
+    if (val instanceof Element) {
+        return val;
+    } else if (typeof val === 'string') {
+        return val.split(/>>/g).reduce((pv, cv, ci, a) => {
+            pv = pv.querySelector(cv);
+            return ci < a.length - 1 ? pv.shadowRoot : pv;
+        }, document);
+    }
+
+    return null;
+}
+
+/**
  * Creates the ability to change numbers in an input field with the scroll-wheel.
  * @param el
  * @param mapper

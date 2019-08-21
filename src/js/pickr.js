@@ -134,24 +134,9 @@ class Pickr {
     _preBuild() {
         const opt = this.options;
 
-        // Check if element is selector
-        if (typeof opt.el === 'string') {
-
-            // Resolve possible shadow dom access
-            opt.el = opt.el.split(/>>/g).reduce((pv, cv, ci, a) => {
-                pv = pv.querySelector(cv);
-                return ci < a.length - 1 ? pv.shadowRoot : pv;
-            }, document);
-        }
-
-        // Check if container is selector
-        if (typeof opt.container === 'string') {
-
-            // Resolve possible shadow dom access
-            opt.container = opt.container.split(/>>/g).reduce((pv, cv, ci, a) => {
-                pv = pv.querySelector(cv);
-                return ci < a.length - 1 ? pv.shadowRoot : pv;
-            }, document);
+        // Resolve elements
+        for(const type of ['el', 'container']) {
+            opt[type] = _.resolveElement(opt[type]);
         }
 
         // Create element and append it to body to

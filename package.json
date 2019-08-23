@@ -1,6 +1,6 @@
 {
     "name": "@simonwep/pickr",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "license": "MIT",
     "author": "Simon Reinisch <toports@gmx.de>",
     "description": "Flat, Simple, Hackable Color-Picker.",

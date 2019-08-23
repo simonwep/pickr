@@ -371,6 +371,7 @@ If `silent` is true (Default is false), the button won't change the current colo
 * pickr.isOpen() _- Returns true if the color picker is currently open._
 * pickr.getRoot()`:HTMLElement` _- Returns the root DOM-Element of the color-picker._
 * pickr.getColor()`:HSVaColor` _- Returns the current HSVaColor object._
+* pickr.getSelectedColor()`:HSVaColor` _- Returns the currently applied color._
 * pickr.destroy() _- Destroys all functionality._
 * pickr.destroyAndRemove() _- Destroys all functionality and removes the pickr element including the button._
 * pickr.setColorRepresentation(type`:String`)`:Boolean` _- Change the current color-representation. Valid options are `HEX`, `RGBA`, `HSVA`, `HSLA` and `CMYK`, returns false if type was invalid._

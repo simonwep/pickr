@@ -245,8 +245,8 @@ class Pickr {
                     // Check if color is locked
                     if (!options.comparison) {
                         _root.button.style.color = cssRGBaString;
-
-                        if (!options.useAsButton) {
+                    } else {
+                        if (!options.useAsButton && !inst._lastColor) {
                             _root.preview.lastColor.style.color = cssRGBaString;
                         }
                     }
@@ -338,7 +338,7 @@ class Pickr {
                 _root.preview.lastColor
             ], 'click', () => {
                 this._emit('cancel', this);
-                this.setHSVA(...this._lastColor.toHSVA(), true);
+                this.setHSVA(...(this._lastColor || this._color).toHSVA(), true);
             }),
 
             // Save color
@@ -516,7 +516,7 @@ class Pickr {
             this.hide();
         }
 
-        this._color = null;
+        this._lastColor = null;
         if (!this._initializingActive && !silent) {
 
             // Fire listener
@@ -826,6 +826,14 @@ class Pickr {
      */
     getColor() {
         return this._color;
+    }
+
+    /**
+     * Returns the currently selected color.
+     * @returns {{a, toHSVA, toHEXA, s, v, h, clone, toCMYK, toHSLA, toRGBA}}
+     */
+    getSelectedColor() {
+        return this._lastColor;
     }
 
     /**

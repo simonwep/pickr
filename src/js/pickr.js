@@ -135,7 +135,7 @@ class Pickr {
         const opt = this.options;
 
         // Resolve elements
-        for(const type of ['el', 'container']) {
+        for (const type of ['el', 'container']) {
             opt[type] = _.resolveElement(opt[type]);
         }
 
@@ -203,6 +203,10 @@ class Pickr {
         const sliders = (inst.options.sliders || 'v').repeat(2);
         const [so, sh] = sliders.match(/^[vh]+$/g) ? sliders : [];
 
+        // Re-assign if null
+        const getColor = () =>
+            this._color || (this._color = this._lastColor.clone());
+
         const components = {
 
             palette: Moveable({
@@ -212,28 +216,30 @@ class Pickr {
                 onstop: () => inst._emit('changestop', inst),
                 onchange(x, y) {
                     if (!cs.palette) return;
-                    const {_color, _root, options} = inst;
+
+                    const color = getColor();
+                    const {_root, options} = inst;
 
                     // Update the input field only if the user is currently not typing
                     if (inst._recalc) {
 
                         // Calculate saturation based on the position
-                        _color.s = x * 100;
+                        color.s = x * 100;
 
                         // Calculate the value
-                        _color.v = 100 - y * 100;
+                        color.v = 100 - y * 100;
 
                         // Prevent falling under zero
-                        _color.v < 0 ? _color.v = 0 : 0;
+                        color.v < 0 ? color.v = 0 : 0;
                         inst._updateOutput();
                     }
 
                     // Set picker and gradient color
-                    const cssRGBaString = _color.toRGBA().toString(0);
+                    const cssRGBaString = color.toRGBA().toString(0);
                     this.element.style.background = cssRGBaString;
                     this.wrapper.style.background = `
-                        linear-gradient(to top, rgba(0, 0, 0, ${_color.a}), transparent),
-                        linear-gradient(to left, hsla(${_color.h}, 100%, 50%, ${_color.a}), rgba(255, 255, 255, ${_color.a}))
+                        linear-gradient(to top, rgba(0, 0, 0, ${color.a}), transparent),
+                        linear-gradient(to left, hsla(${color.h}, 100%, 50%, ${color.a}), rgba(255, 255, 255, ${color.a}))
                     `;
 
                     // Check if color is locked
@@ -246,7 +252,7 @@ class Pickr {
                     }
 
                     // Check if there's a swatch which color matches the current one
-                    const hexa = _color.toHEXA().toString();
+                    const hexa = color.toHEXA().toString();
                     for (const {el, color} of inst._swatchColors) {
                         el.classList[hexa === color.toHEXA().toString() ? 'add' : 'remove']('pcr-active');
                     }
@@ -270,14 +276,15 @@ class Pickr {
                 onstop: () => inst._emit('changestop', inst),
                 onchange(v) {
                     if (!cs.hue || !cs.palette) return;
+                    const color = getColor();
 
                     // Calculate hue
                     if (inst._recalc) {
-                        inst._color.h = v * 360;
+                        color.h = v * 360;
                     }
 
                     // Update color
-                    this.element.style.backgroundColor = `hsl(${inst._color.h}, 100%, 50%)`;
+                    this.element.style.backgroundColor = `hsl(${color.h}, 100%, 50%)`;
                     components.palette.trigger();
                 }
             }),
@@ -290,14 +297,15 @@ class Pickr {
                 onstop: () => inst._emit('changestop', inst),
                 onchange(v) {
                     if (!cs.opacity || !cs.palette) return;
+                    const color = getColor();
 
                     // Calculate opacity
                     if (inst._recalc) {
-                        inst._color.a = Math.round(v * 1e2) / 100;
+                        color.a = Math.round(v * 1e2) / 100;
                     }
 
                     // Update color
-                    this.element.style.background = `rgba(0, 0, 0, ${inst._color.a})`;
+                    this.element.style.background = `rgba(0, 0, 0, ${color.a})`;
                     components.palette.trigger();
                 }
             }),
@@ -406,8 +414,8 @@ class Pickr {
                     // Apply range of zero up to max, fix floating-point issues
                     return nv <= 0 ? 0 : Number((nv < max ? nv : max).toPrecision(3));
                 }
-                return o;
 
+                return o;
             });
         }
 
@@ -508,6 +516,7 @@ class Pickr {
             this.hide();
         }
 
+        this._color = null;
         if (!this._initializingActive && !silent) {
 
             // Fire listener

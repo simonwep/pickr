@@ -15,15 +15,15 @@ export default function Moveable(opt) {
         _arrowmove(evt) {
             // Check to see if the Movable is focused and then move it based on arrow key inputs
             // for improved accessibility
-            if(document.activeElement === options.wrapper) {
+            if (document.activeElement === options.wrapper) {
                 let xm = 0;
                 let ym = 0;
 
-                if(evt.keyCode === 37) xm--;    // Left
-                if(evt.keyCode === 39) xm++;    // Right
+                if (evt.keyCode === 37) xm--;    // Left
+                if (evt.keyCode === 39) xm++;    // Right
 
-                if(evt.keyCode === 38) ym--;    // Up
-                if(evt.keyCode === 40) ym++;    // Down
+                if (evt.keyCode === 38) ym--;    // Up
+                if (evt.keyCode === 40) ym++;    // Down
 
                 const cx = clamp(that.cache.x + (0.01 * xm));
                 const cy = clamp(that.cache.y + (0.01 * ym));
@@ -33,8 +33,8 @@ export default function Moveable(opt) {
         },
 
         _arrowstop(evt) {
-            if(document.activeElement === options.wrapper) {
-                if(evt.keyCode >= 37 && evt.keyCode <= 40) {
+            if (document.activeElement === options.wrapper) {
+                if (evt.keyCode >= 37 && evt.keyCode <= 40) {
                     that.options.onstop();
                 }
             }

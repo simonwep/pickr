@@ -58,6 +58,7 @@
 * Responsive and auto-positioning
 * Supports touch devices
 * Swatches for quick-selection
+* Fully accessible 
 * [Shadow-dom support](#selection-through-a-shadow-dom)
 
 ### Themes

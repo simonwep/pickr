@@ -8,26 +8,26 @@ export default ({components: c, strings: s, useAsButton, inline, appClass, theme
 
         ${useAsButton ? '' : '<button type="button" :ref="button" class="pcr-button"></button>'}
 
-        <div :ref="app" class="pcr-app ${appClass || ''}" data-theme="${theme}" ${inline ? 'style="position: unset"' : ''}>
+        <div :ref="app" class="pcr-app ${appClass || ''}" data-theme="${theme}" ${inline ? 'style="position: unset"' : ''} aria-label="color picker dialog" role="window">
           <div class="pcr-selection" ${hidden(c.palette)}>
             <div :obj="preview" class="pcr-color-preview" ${hidden(c.preview)}>
-              <button type="button" :ref="lastColor" class="pcr-last-color"></button>
+              <button type="button" :ref="lastColor" class="pcr-last-color" aria-label="use previous color"></button>
               <div :ref="currentColor" class="pcr-current-color"></div>
             </div>
 
             <div :obj="palette" class="pcr-color-palette">
               <div :ref="picker" class="pcr-picker"></div>
-              <div :ref="palette" class="pcr-palette"></div>
+              <div :ref="palette" class="pcr-palette" tabindex="0" aria-label="color selection area" role="widget"></div>
             </div>
 
             <div :obj="hue" class="pcr-color-chooser" ${hidden(c.hue)}>
               <div :ref="picker" class="pcr-picker"></div>
-              <div :ref="slider" class="pcr-hue pcr-slider"></div>
+              <div :ref="slider" class="pcr-hue pcr-slider" tabindex="0" aria-label="hue selection slider" role="widget"></div>
             </div>
 
             <div :obj="opacity" class="pcr-color-opacity" ${hidden(c.opacity)}>
               <div :ref="picker" class="pcr-picker"></div>
-              <div :ref="slider" class="pcr-opacity pcr-slider"></div>
+              <div :ref="slider" class="pcr-opacity pcr-slider" tabindex="0" aria-label="opacity selection slider" role="widget"></div>
             </div>
           </div>
 
@@ -42,9 +42,9 @@ export default ({components: c, strings: s, useAsButton, inline, appClass, theme
             <input :arr="options" class="pcr-type" data-type="HSVA" value="${lo ? 'HSV' : 'HSVA'}" type="button" ${hidden(c.interaction.hsva)}>
             <input :arr="options" class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(c.interaction.cmyk)}>
 
-            <input :ref="save" class="pcr-save" value="${s.save || 'Save'}" type="button" ${hidden(c.interaction.save)}>
-            <input :ref="cancel" class="pcr-cancel" value="${s.cancel || 'Cancel'}" type="button" ${hidden(c.interaction.cancel)}>
-            <input :ref="clear" class="pcr-clear" value="${s.clear || 'Clear'}" type="button" ${hidden(c.interaction.clear)}>
+            <input :ref="save" class="pcr-save" value="${s.save || 'Save'}" type="button" ${hidden(c.interaction.save)} aria-label="save and exit">
+            <input :ref="cancel" class="pcr-cancel" value="${s.cancel || 'Cancel'}" type="button" ${hidden(c.interaction.cancel)} aria-label="cancel and exit">
+            <input :ref="clear" class="pcr-clear" value="${s.clear || 'Clear'}" type="button" ${hidden(c.interaction.clear)} aria-label="clear and exit">
           </div>
         </div>
       </div>

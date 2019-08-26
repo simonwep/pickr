@@ -100,6 +100,10 @@ class Pickr {
             el: this._root.app
         });
 
+        // Initialize accessibility 
+        this._root.button.setAttribute('role', 'button');
+        this._root.button.setAttribute('aria-label', 'toggle color picker dialog');
+
         // Initilization is finish, pickr is visible and ready for usage
         const {app} = this._root;
         const that = this;
@@ -584,7 +588,7 @@ class Pickr {
 
             // Create new swatch HTMLElement
             const el = _.createElementFromString(
-                `<button type="button" style="color: ${color.toRGBA().toString(0)}"/>`
+                `<button type="button" style="color: ${color.toRGBA().toString(0)}" aria-label="color swatch"/>`
             );
 
             // Append element and save swatch data

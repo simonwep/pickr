@@ -340,9 +340,9 @@ class Pickr {
             _.on([
                 _root.interaction.cancel,
                 _root.preview.lastColor
-            ], 'click', () => {
-                this._emit('cancel', this);
+            ], 'click', () => {                
                 this.setHSVA(...(this._lastColor || this._color).toHSVA(), true);
+                this._emit('cancel', this);
             }),
 
             // Save color

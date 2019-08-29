@@ -8,6 +8,9 @@
 
     * {
         box-sizing: border-box;
+        outline: none;
+        border: none;
+        -webkit-appearance: none;
     }
 }
 
@@ -56,15 +59,28 @@
 
 .pickr,
 .pcr-app {
-    input,
-    button {
+
+    * {
+        box-sizing: border-box;
         outline: none;
         border: none;
         -webkit-appearance: none;
+    }
 
+    input,
+    button {
         &:focus,
         &.pcr-active {
             @include focus(currentColor);
+        }
+    }
+
+    .pcr-palette,
+    .pcr-slider {
+        transition: box-shadow 0.3s;
+
+        &:focus {
+            @include focus(rgba(black, 0.25));
         }
     }
 }

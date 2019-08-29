@@ -12,29 +12,34 @@ export default function Moveable(opt) {
             onstop: () => 0
         }, opt),
 
-        _arrowmove(evt) {
+        _keyboard({type, key}) {
+
             // Check to see if the Movable is focused and then move it based on arrow key inputs
             // for improved accessibility
             if (document.activeElement === options.wrapper) {
-                let xm = 0;
-                let ym = 0;
+                if (type === 'keydown') {
+                    let xm = 0;
+                    let ym = 0;
 
-                if (evt.keyCode === 37) xm--;    // Left
-                if (evt.keyCode === 39) xm++;    // Right
+                    switch (key) {
+                        case 'ArrowLeft':
+                            xm--;
+                            break;
+                        case 'ArrowRight':
+                            xm++;
+                            break;
+                        case 'ArrowUp':
+                            ym++;
+                            break;
+                        case 'ArrowDown':
+                            ym++;
+                    }
 
-                if (evt.keyCode === 38) ym--;    // Up
-                if (evt.keyCode === 40) ym++;    // Down
-
-                const cx = clamp(that.cache.x + (0.01 * xm));
-                const cy = clamp(that.cache.y + (0.01 * ym));
-
-                that.update(cx, cy);
-            }
-        },
-
-        _arrowstop(evt) {
-            if (document.activeElement === options.wrapper) {
-                if (evt.keyCode >= 37 && evt.keyCode <= 40) {
+                    that.update(
+                        clamp(that.cache.x + (0.01 * xm)),
+                        clamp(that.cache.y + (0.01 * ym))
+                    );
+                } else if (key.startsWith('Arrow')) {
                     that.options.onstop();
                 }
             }
@@ -131,13 +136,13 @@ export default function Moveable(opt) {
     };
 
     // Initilize
-    const {options, _tapstart, _arrowmove, _arrowstop} = that;
+    const {options, _tapstart, _keyboard} = that;
     _.on([options.wrapper, options.element], 'mousedown', _tapstart);
     _.on([options.wrapper, options.element], 'touchstart', _tapstart, {
         passive: false
     });
-    _.on(document, 'keydown', _arrowmove);
-    _.on(document, 'keyup', _arrowstop);
+
+    _.on(document, ['keydown', 'keyup'], _keyboard);
 
 
     return that;

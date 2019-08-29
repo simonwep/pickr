@@ -95,17 +95,17 @@ class Pickr {
         }
 
         // Initialize positioning engine
+        const {button, app} = this._root;
         this._nanopop = Nanopop({
-            reference: this._root.button,
-            el: this._root.app
+            reference: button,
+            el: app
         });
 
-        // Initialize accessibility 
-        this._root.button.setAttribute('role', 'button');
-        this._root.button.setAttribute('aria-label', 'toggle color picker dialog');
+        // Initialize accessibility
+        button.setAttribute('role', 'button');
+        button.setAttribute('aria-label', 'toggle color picker dialog');
 
         // Initilization is finish, pickr is visible and ready for usage
-        const {app} = this._root;
         const that = this;
         requestAnimationFrame((function cb() {
 

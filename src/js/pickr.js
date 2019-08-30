@@ -42,6 +42,7 @@ class Pickr {
             appClass: null,
             theme: 'classic',
             useAsButton: false,
+            padding: 8,
             disabled: false,
             comparison: true,
             closeOnScroll: false,
@@ -67,7 +68,7 @@ class Pickr {
             closeWithKey: 'Escape'
         }, opt);
 
-        const {swatches, components, theme, sliders, lockOpacity} = opt;
+        const {swatches, components, theme, sliders, lockOpacity, padding} = opt;
 
         if (['nano', 'monolith'].includes(theme) && !sliders) {
             opt.sliders = 'h';
@@ -98,6 +99,7 @@ class Pickr {
         const {button, app} = this._root;
         this._nanopop = Nanopop({
             reference: button,
+            padding,
             el: app
         });
 

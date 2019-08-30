@@ -221,6 +221,9 @@ const pickr = new Pickr({
     // If true, appendToBody will also be automatically true.
     useAsButton: false,
 
+    // Size of gap between pickr (widget) and the corresponding reference (button) in px 
+    padding: 8,
+
     // If true pickr won't be floating, and instead will append after the in el resolved element.
     // Setting this to true will also set showAlways to true. It's possible to hide it via .hide() anyway.
     inline: false,

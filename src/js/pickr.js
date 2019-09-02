@@ -54,7 +54,7 @@ class Pickr {
                 interaction: {}
             },
 
-            strings: {},
+            i18n: null,
             swatches: null,
             inline: false,
             sliders: null,
@@ -105,7 +105,7 @@ class Pickr {
 
         // Initialize accessibility
         button.setAttribute('role', 'button');
-        button.setAttribute('aria-label', 'toggle color picker dialog');
+        button.setAttribute('aria-label', this._t('toggle', 'toggle color picker dialog'));
 
         // Initilization is finish, pickr is visible and ready for usage
         const that = this;
@@ -147,7 +147,7 @@ class Pickr {
 
         // Create element and append it to body to
         // prevent initialization errors
-        this._root = buildPickr(opt);
+        this._root = buildPickr({...opt, t: this._t});
 
         // Check if a custom button is used
         if (opt.useAsButton) {
@@ -552,6 +552,10 @@ class Pickr {
         this._eventListener[event].forEach(cb => cb(...args, this));
     }
 
+    _t(key, def = 'unknown') {
+        return this.options.i18n[key] || def;
+    }
+
     on(event, cb) {
 
         // Validate
@@ -590,7 +594,7 @@ class Pickr {
 
             // Create new swatch HTMLElement
             const el = _.createElementFromString(
-                `<button type="button" style="color: ${color.toRGBA().toString(0)}" aria-label="color swatch"/>`
+                `<button type="button" style="color: ${color.toRGBA().toString(0)}" aria-label="${this._t('swatch', 'color-swatch')}"/>`
             );
 
             // Append element and save swatch data

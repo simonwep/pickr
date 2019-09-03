@@ -225,7 +225,7 @@ const pickr = new Pickr({
     padding: 8,
 
     // If true pickr won't be floating, and instead will append after the in el resolved element.
-    // Setting this to true will also set showAlways to true. It's possible to hide it via .hide() anyway.
+    // It's possible to hide it via .hide() anyway.
     inline: false,
 
     // If true, pickr will be repositioned automatically on page scroll or window resize.

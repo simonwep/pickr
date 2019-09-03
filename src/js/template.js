@@ -1,6 +1,6 @@
 import * as _ from './utils/utils';
 
-export default ({components: c, t, useAsButton, inline, appClass, theme, lockOpacity: lo}) => {
+export default (t, {components: c, useAsButton, inline, appClass, theme, lockOpacity: lo}) => {
     const hidden = con => con ? '' : 'style="display:none" hidden';
 
     const root = _.createFromTemplate(`

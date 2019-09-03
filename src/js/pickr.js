@@ -147,7 +147,7 @@ class Pickr {
 
         // Create element and append it to body to
         // prevent initialization errors
-        this._root = buildPickr({...opt, t: this._t});
+        this._root = buildPickr(this._t, opt);
 
         // Check if a custom button is used
         if (opt.useAsButton) {

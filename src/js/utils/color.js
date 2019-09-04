@@ -249,7 +249,7 @@ export function parseToHSVA(str) {
             continue;
 
         // match[2] does only contain a truly value if rgba, hsla, or hsla got matched
-        const alpha = !!match[2];
+        const alphaValid = a => (!!match[2] === (typeof a === 'number'))
 
         // Try to convert
         switch (type) {
@@ -264,7 +264,7 @@ export function parseToHSVA(str) {
             case 'rgba': {
                 const [, , , r, g, b, a] = numarize(match);
 
-                if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1 || (alpha === !a))
+                if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1 || !alphaValid(a))
                     break invalid;
 
                 return {values: [...rgbToHsv(r, g, b), a], a, type};
@@ -287,7 +287,7 @@ export function parseToHSVA(str) {
             case 'hsla': {
                 const [, , , h, s, l, a] = numarize(match);
 
-                if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1 || (alpha === !a))
+                if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1 || !alphaValid(a))
                     break invalid;
 
                 return {values: [...hslToHsv(h, s, l), a], a, type};
@@ -295,7 +295,7 @@ export function parseToHSVA(str) {
             case 'hsva': {
                 const [, , , h, s, v, a] = numarize(match);
 
-                if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1 || (alpha === !a))
+                if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1 || !alphaValid(a))
                     break invalid;
 
                 return {values: [h, s, v, a], a, type};

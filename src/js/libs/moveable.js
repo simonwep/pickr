@@ -12,7 +12,8 @@ export default function Moveable(opt) {
             onstop: () => 0
         }, opt),
 
-        _keyboard({type, key}) {
+        _keyboard(e) {
+            const {type, key} = e;
 
             // Check to see if the Movable is focused and then move it based on arrow key inputs
             // for improved accessibility
@@ -32,7 +33,7 @@ export default function Moveable(opt) {
                             ym++;
                             break;
                         case 'ArrowDown':
-                            ym++;
+                            ym--;
                     }
 
                     that.update(
@@ -42,6 +43,8 @@ export default function Moveable(opt) {
                 } else if (key.startsWith('Arrow')) {
                     that.options.onstop();
                 }
+
+                e.preventDefault();
             }
         },
 

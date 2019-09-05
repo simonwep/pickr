@@ -18,22 +18,23 @@ export default function Moveable(opt) {
             // Check to see if the Movable is focused and then move it based on arrow key inputs
             // for improved accessibility
             if (document.activeElement === options.wrapper) {
-                if (type === 'keydown') {
+                const {lock} = that.options;
+                const up = key === 'ArrowUp';
+                const right = key === 'ArrowRight';
+                const down = key === 'ArrowDown';
+                const left = key === 'ArrowLeft';
+
+                if (type === 'keydown' && (up || right || down || left)) {
                     let xm = 0;
                     let ym = 0;
 
-                    switch (key) {
-                        case 'ArrowLeft':
-                            xm--;
-                            break;
-                        case 'ArrowRight':
-                            xm++;
-                            break;
-                        case 'ArrowUp':
-                            ym++;
-                            break;
-                        case 'ArrowDown':
-                            ym--;
+                    if (lock === 'v') {
+                        xm = (up || right) ? 1 : -1;
+                    } else if (lock === 'h') {
+                        xm = (up || right) ? -1 : 1;
+                    } else {
+                        ym = up ? -1 : (down ? 1 : 0);
+                        xm = left ? -1 : (right ? 1 : 0);
                     }
 
                     that.update(
@@ -42,9 +43,8 @@ export default function Moveable(opt) {
                     );
                 } else if (key.startsWith('Arrow')) {
                     that.options.onstop();
+                    e.preventDefault();
                 }
-
-                e.preventDefault();
             }
         },
 

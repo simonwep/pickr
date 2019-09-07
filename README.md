@@ -58,7 +58,7 @@
 * Responsive and auto-positioning
 * Supports touch devices
 * Swatches for quick-selection
-* Fully accessible 
+* Fully accessible and i18n
 * [Shadow-dom support](#selection-through-a-shadow-dom)
 
 ### Themes
@@ -314,11 +314,18 @@ const pickr = new Pickr({
         },
     },
 
-    // Button strings, brings the possibility to use a language other than English.
-    strings: {
-       save: 'Save',  // Default for save button
-       clear: 'Clear', // Default for clear button
-       cancel: 'Cancel' // Default for cancel button
+    // Translations 
+    i18n: {
+       'toggle': 'toggle color picker dialog',
+       'swatch': 'color-swatch',
+       'dialog': 'color picker dialog',
+       'last-color': 'use previous color',
+       'palette': 'color selection area',
+       'hue': 'hue selection slider',
+       'opacity': 'selection slider',
+       'save': 'Save',
+       'cancel': 'Cancel',
+       'clear': 'Clear'
     }
 });
 ```

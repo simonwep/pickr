@@ -27,7 +27,7 @@ export default (t, {components: c, useAsButton, inline, appClass, theme, lockOpa
 
             <div :obj="opacity" class="pcr-color-opacity" ${hidden(c.opacity)}>
               <div :ref="picker" class="pcr-picker"></div>
-              <div :ref="slider" class="pcr-opacity pcr-slider" tabindex="0" aria-label="${t('opacity', 'selection slider')}" role="widget"></div>
+              <div :ref="slider" class="pcr-opacity pcr-slider" tabindex="0" aria-label="${t('opacity', 'opacity selection slider')}" role="widget"></div>
             </div>
           </div>
 

@@ -1,7 +1,8 @@
 import * as _ from './utils/utils';
 
-export default (t, {components: c, useAsButton, inline, appClass, theme, lockOpacity: lo}) => {
+export default (inst, {components: c, useAsButton, inline, appClass, theme, lockOpacity: lo}) => {
     const hidden = con => con ? '' : 'style="display:none" hidden';
+    const t = str => inst._t(str);
 
     const root = _.createFromTemplate(`
       <div :ref="root" class="pickr">
@@ -11,23 +12,23 @@ export default (t, {components: c, useAsButton, inline, appClass, theme, lockOpa
         <div :ref="app" class="pcr-app ${appClass || ''}" data-theme="${theme}" ${inline ? 'style="position: unset"' : ''} aria-label="${t('dialog', 'color picker dialog')}" role="window">
           <div class="pcr-selection" ${hidden(c.palette)}>
             <div :obj="preview" class="pcr-color-preview" ${hidden(c.preview)}>
-              <button type="button" :ref="lastColor" class="pcr-last-color" aria-label="${t('last-color', 'use previous color')}"></button>
+              <button type="button" :ref="lastColor" class="pcr-last-color" aria-label="${t('btn:last-color', 'use previous color')}"></button>
               <div :ref="currentColor" class="pcr-current-color"></div>
             </div>
 
             <div :obj="palette" class="pcr-color-palette">
               <div :ref="picker" class="pcr-picker"></div>
-              <div :ref="palette" class="pcr-palette" tabindex="0" aria-label="${t('palette', 'color selection area')}" role="widget"></div>
+              <div :ref="palette" class="pcr-palette" tabindex="0" aria-label="${t('ui:palette', 'color selection area')}" role="widget"></div>
             </div>
 
             <div :obj="hue" class="pcr-color-chooser" ${hidden(c.hue)}>
               <div :ref="picker" class="pcr-picker"></div>
-              <div :ref="slider" class="pcr-hue pcr-slider" tabindex="0" aria-label="${t('hue', 'hue selection slider')}" role="widget"></div>
+              <div :ref="slider" class="pcr-hue pcr-slider" tabindex="0" aria-label="${t('ui:hue', 'hue selection slider')}" role="widget"></div>
             </div>
 
             <div :obj="opacity" class="pcr-color-opacity" ${hidden(c.opacity)}>
               <div :ref="picker" class="pcr-picker"></div>
-              <div :ref="slider" class="pcr-opacity pcr-slider" tabindex="0" aria-label="${t('opacity', 'opacity selection slider')}" role="widget"></div>
+              <div :ref="slider" class="pcr-opacity pcr-slider" tabindex="0" aria-label="${t('ui:opacity', 'opacity selection slider')}" role="widget"></div>
             </div>
           </div>
 
@@ -42,9 +43,9 @@ export default (t, {components: c, useAsButton, inline, appClass, theme, lockOpa
             <input :arr="options" class="pcr-type" data-type="HSVA" value="${lo ? 'HSV' : 'HSVA'}" type="button" ${hidden(c.interaction.hsva)}>
             <input :arr="options" class="pcr-type" data-type="CMYK" value="CMYK" type="button" ${hidden(c.interaction.cmyk)}>
 
-            <input :ref="save" class="pcr-save" value="${t('save', 'Save')}}" type="button" ${hidden(c.interaction.save)} aria-label="save and exit">
-            <input :ref="cancel" class="pcr-cancel" value="${t('cancel', 'Cancel')}}" type="button" ${hidden(c.interaction.cancel)} aria-label="cancel and exit">
-            <input :ref="clear" class="pcr-clear" value="${t('clear', 'Clear')}}" type="button" ${hidden(c.interaction.clear)} aria-label="clear and exit">
+            <input :ref="save" class="pcr-save" value="${t('btn:save', 'Save')}" type="button" ${hidden(c.interaction.save)}>
+            <input :ref="cancel" class="pcr-cancel" value="${t('btn:cancel', 'Cancel')}" type="button" ${hidden(c.interaction.cancel)}>
+            <input :ref="clear" class="pcr-clear" value="${t('btn:clear', 'Clear')}" type="button" ${hidden(c.interaction.clear)}>
           </div>
         </div>
       </div>

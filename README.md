@@ -316,16 +316,16 @@ const pickr = new Pickr({
 
     // Translations 
     i18n: {
-       'toggle': 'toggle color picker dialog',
-       'swatch': 'color-swatch',
        'dialog': 'color picker dialog',
-       'last-color': 'use previous color',
-       'palette': 'color selection area',
-       'hue': 'hue selection slider',
-       'opacity': 'selection slider',
-       'save': 'Save',
-       'cancel': 'Cancel',
-       'clear': 'Clear'
+       'btn:toggle': 'toggle color picker dialog',
+       'btn:swatch': 'color-swatch',
+       'btn:last-color': 'use previous color',
+       'btn:save': 'Save',
+       'btn:cancel': 'Cancel',
+       'btn:clear': 'Clear',
+       'ui:palette': 'color selection area',
+       'ui:hue': 'hue selection slider',
+       'ui:opacity': 'selection slider'
     }
 });
 ```

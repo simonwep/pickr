@@ -13,7 +13,8 @@
     "scripts": {
         "build": "node ./scripts/build.js",
         "dev": "webpack-dev-server --mode development",
-        "lint": "eslint ./src --fix"
+        "lint": "eslint ./src --fix",
+        "postinstall": "opencollective-postinstall || true"
     },
     "devDependencies": {
         "@babel/core": "^7.5.5",
@@ -44,5 +45,12 @@
     },
     "bugs": {
         "url": "https://github.com/Simonwep/pickr/issues"
+    },
+    "dependencies": {
+        "opencollective-postinstall": "^2.0.2"
+    },
+    "collective": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/pickr"
     }
 }

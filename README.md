@@ -369,23 +369,23 @@ hsva.toRGBA().toString(3); // Returns rgba(r, g, b, a), rounded to the third dec
 
 If `silent` is true (Default is false), the button won't change the current color.
 
-* pickr.on(event`:String`, cb`:Function`) _- Appends an event listener to the given corresponding event-name (see section Events), returns the pickr instance so it can be chained._
-* pickr.off(event`:String`, cb`:Function`) _- Removes an event listener from the given corresponding event-name (see section Events), returns the pickr instance so it can be chained._
-* pickr.show() _- Shows the color-picker, returns instance._
-* pickr.hide() _- Hides the color-picker, returns instance._
-* pickr.disable() _- Disables pickr and adds the `disabled` class to the button, returns instance._
-* pickr.enable() _- Enables pickr and removes the `disabled` class from the button, returns instance._
-* pickr.isOpen() _- Returns true if the color picker is currently open._
-* pickr.getRoot()`:HTMLElement` _- Returns the root DOM-Element of the color-picker._
+* pickr.on(event`:String`, cb`:Function`)`:Pickr` _- Appends an event listener to the given corresponding event-name (see section Events)._
+* pickr.off(event`:String`, cb`:Function`)`:Pickr` _- Removes an event listener from the given corresponding event-name (see section Events)._
+* pickr.show()`:Pickr` _- Shows the color-picker._
+* pickr.hide()`:Pickr` _- Hides the color-picker._
+* pickr.disable()`:Pickr` _- Disables pickr and adds the `disabled` class to the button._
+* pickr.enable()`:Pickr` _- Enables pickr and removes the `disabled` class from the button._
+* pickr.isOpen()`:Pickr` _- Returns true if the color picker is currently open._
+* pickr.getRoot()`:Object` _- Returns the dom-tree of pickr as tree-structure._
 * pickr.getColor()`:HSVaColor` _- Returns the current HSVaColor object._
 * pickr.getSelectedColor()`:HSVaColor` _- Returns the currently applied color._
 * pickr.destroy() _- Destroys all functionality._
 * pickr.destroyAndRemove() _- Destroys all functionality and removes the pickr element including the button._
 * pickr.setColorRepresentation(type`:String`)`:Boolean` _- Change the current color-representation. Valid options are `HEX`, `RGBA`, `HSVA`, `HSLA` and `CMYK`, returns false if type was invalid._
 * pickr.getColorRepresentation()`:String` _- Returns the currently used color-representation (eg. `HEXA`, `RGBA`...)_
-* pickr.applyColor(silent`:Boolean`) _- Same as pressing the save button. If silent is true the `onSave` event won't be called._
+* pickr.applyColor(silent`:Boolean`)`:Pickr` _- Same as pressing the save button. If silent is true the `onSave` event won't be called._
 * pickr.addSwatch(color`:String`)`:Boolean` _- Adds a color to the swatch palette. Returns `true` if the color has been successful added to the palette._
-* pickr.removeSwatch(index`:Number`) _- Removes a color from the swatch palette by its index._
+* pickr.removeSwatch(index`:Number`)`:Boolean`_- Removes a color from the swatch palette by its index, returns true if successful._
 
 ## Static methods
 **Pickr**

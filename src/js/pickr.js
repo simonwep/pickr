@@ -655,6 +655,8 @@ class Pickr {
         if (!this._initializingActive && !silent) {
             this._emit('save', this._color);
         }
+
+        return this;
     }
 
     /**

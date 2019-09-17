@@ -31,7 +31,7 @@ export default ({components: c, strings: s, useAsButton, inline, appClass, theme
             </div>
           </div>
 
-          <div class="pcr-swatches ${c.palette ? '' : ' pcr-last'}" :ref="swatches"></div> 
+          <div class="pcr-swatches ${c.palette ? '' : 'pcr-last'}" :ref="swatches"></div> 
 
           <div :obj="interaction" class="pcr-interaction" ${hidden(Object.keys(c.interaction).length)}>
             <input :ref="result" class="pcr-result" type="text" spellcheck="false" ${hidden(c.interaction.input)}>

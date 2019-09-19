@@ -637,7 +637,7 @@ class Pickr {
         const {preview, button} = this._root;
 
         // Change preview and current color
-        const cssRGBaString = this._color.toRGBA().toString();
+        const cssRGBaString = this._color.toRGBA().toString(0);
         preview.lastColor.style.color = cssRGBaString;
 
         // Change only the button color if it isn't customized

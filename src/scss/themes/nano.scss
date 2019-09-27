@@ -3,11 +3,13 @@
 @import '../base';
 
 $padding: 0.6em;
+$half-padding: 0.3em;
 $spacing: 0.6em;
 
 .pcr-app[data-theme='nano'] {
-    width: 14.25em;
+    width: 16em;
     max-width: 95vw;
+    padding: 5px;
 
     .pcr-swatches {
         margin-top: $spacing;
@@ -35,7 +37,7 @@ $spacing: 0.6em;
             display: flex;
             flex-direction: row;
             justify-content: center;
-            margin-left: $padding;
+            margin-left: $half-padding;
 
             .pcr-last-color {
                 display: none;
@@ -48,6 +50,7 @@ $spacing: 0.6em;
                 width: 2em;
                 height: 2em;
                 border-radius: 50em;
+                border: 1px solid rgba(black, 0.15);
                 overflow: hidden;
             }
         }
@@ -77,7 +80,7 @@ $spacing: 0.6em;
         .pcr-color-chooser,
         .pcr-color-opacity {
             height: 0.5em;
-            margin: 0 $padding;
+            margin-right: $padding;
 
             .pcr-picker {
                 top: 50%;

@@ -2,6 +2,7 @@ import * as _ from './utils/utils';
 
 export default ({components: c, strings: s, useAsButton, inline, appClass, theme, lockOpacity: lo}) => {
     const hidden = con => con ? '' : 'style="display:none" hidden';
+    const centerChooser = con => con ?  'style="grid-area: 4/2/2/2"' : '';
 
     const root = _.createFromTemplate(`
       <div :ref="root" class="pickr">
@@ -20,7 +21,7 @@ export default ({components: c, strings: s, useAsButton, inline, appClass, theme
               <div :ref="palette" class="pcr-palette" tabindex="0" aria-label="color selection area" role="widget"></div>
             </div>
 
-            <div :obj="hue" class="pcr-color-chooser" ${hidden(c.hue)}>
+            <div :obj="hue" class="pcr-color-chooser" ${hidden(c.hue)} ${centerChooser(c.hue && !c.opacity)}>
               <div :ref="picker" class="pcr-picker"></div>
               <div :ref="slider" class="pcr-hue pcr-slider" tabindex="0" aria-label="hue selection slider" role="widget"></div>
             </div>
@@ -45,6 +46,7 @@ export default ({components: c, strings: s, useAsButton, inline, appClass, theme
             <input :ref="save" class="pcr-save" value="${s.save || 'Save'}" type="button" ${hidden(c.interaction.save)} aria-label="save and exit">
             <input :ref="cancel" class="pcr-cancel" value="${s.cancel || 'Cancel'}" type="button" ${hidden(c.interaction.cancel)} aria-label="cancel and exit">
             <input :ref="clear" class="pcr-clear" value="${s.clear || 'Clear'}" type="button" ${hidden(c.interaction.clear)} aria-label="clear and exit">
+            <input :ref="dropper" class="pcr-dropper" value="${s.dropper || 'Dropper'}" type="button" ${hidden(c.interaction.dropper)} aria-label="pcr-dropper and exit">
           </div>
         </div>
       </div>

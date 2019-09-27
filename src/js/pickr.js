@@ -29,6 +29,7 @@ class Pickr {
         hide: [],
         show: [],
         clear: [],
+        dropper: [],
         change: [],
         changestop: [],
         cancel: [],
@@ -350,6 +351,11 @@ class Pickr {
             // Save color
             _.on(_root.interaction.save, 'click', () => {
                 !this.applyColor() && !options.showAlways && this.hide();
+            }),
+
+            // Dropper color
+            _.on(_root.interaction.dropper, 'click', () => {
+                this._emit('dropper', this);
             }),
 
             _.on(_root.interaction.result, ['keyup', 'input'], e => {

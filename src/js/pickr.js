@@ -177,6 +177,8 @@ class Pickr {
             opt.container.appendChild(root.app);
         }
 
+        opt.container.appendChild(root.droppr);
+
         // Don't replace the the element if a custom button is used
         if (!opt.useAsButton) {
 
@@ -295,7 +297,18 @@ class Pickr {
                     components.palette.trigger();
                 }
             }),
+            mangnifier : Moveable({
+                element: inst._root.imgMangnifier,
+                wrapper: inst._root.imgWrapper,
+                onchange(x, y) {
+                    console.log('sdfsdfsdfsf', x, y);
+                    
+                    if (!cs.droppr) return;
+                    // this.element.style.left = x + 'px';
+                    // this.element.style.top = y + 'px';
 
+                }
+            }),
             opacity: Moveable({
                 lock: so === 'v' ? 'h' : 'v',
                 element: inst._root.opacity.picker,
@@ -353,11 +366,6 @@ class Pickr {
                 !this.applyColor() && !options.showAlways && this.hide();
             }),
 
-            // Dropper color
-            _.on(_root.interaction.dropper, 'click', () => {
-                this._emit('dropper', this);
-            }),
-
             _.on(_root.interaction.result, ['keyup', 'input'], e => {
 
                 // Fire listener if initialization is finish and changed color was valid
@@ -382,7 +390,18 @@ class Pickr {
                 _root.hue.picker,
                 _root.opacity.slider,
                 _root.opacity.picker
-            ], ['mousedown', 'touchstart'], () => this._recalc = true)
+            ], ['mousedown', 'touchstart'], () => this._recalc = true),
+
+            // Dropper color
+            _.on(_root.interaction.dropper, 'click', () => {
+                _root.droppr.className += ' visible';
+                this._emit('dropper', this);
+                this._components.mangnifier._tapstart();
+            }),
+
+            _.on(_root.droppr, 'click', (e) => {
+                console.log('droppr click', e, this.isDropprOpen());
+            }),
         ];
 
         // Provide hiding / showing abilities only if showAlways is false
@@ -398,7 +417,7 @@ class Pickr {
 
                 // Cancel selecting if the user taps behind the color picker
                 _.on(document, ['touchstart', 'mousedown'], e => {
-                    if (this.isOpen() && !_.eventPath(e).some(el => el === _root.app || el === _root.button)) {
+                    if (!this.isDropprOpen() && this.isOpen() && !_.eventPath(e).some(el => el === _root.app || el === _root.button)) {
                         this.hide();
                     }
                 }, {capture: true})
@@ -681,7 +700,7 @@ class Pickr {
      */
     destroyAndRemove() {
         this.destroy();
-        const {root, app} = this._root;
+        const {root, app, droppr} = this._root;
 
         // Remove element
         if (root.parentElement) {
@@ -690,6 +709,9 @@ class Pickr {
 
         // remove .pcr-app
         app.parentElement.removeChild(app);
+
+        // remove .pcr-droppr
+        droppr.parentElement.removeChild(droppr);
 
         // There are references to various DOM elements stored in the pickr instance
         // This cleans all of them to avoid detached DOMs
@@ -725,6 +747,13 @@ class Pickr {
      */
     isOpen() {
         return this._root.app.classList.contains('visible');
+    }
+
+    /**
+     * @return {boolean} If the color picker is currently open
+     */
+    isDropprOpen() {
+        return this._root.droppr.classList.contains('visible');
     }
 
     /**

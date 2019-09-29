@@ -273,3 +273,65 @@
         }
     }
 }
+
+.pcr-droppr {
+    width: 100%;
+    height: 100%;
+    background-color: #00000055;
+    display: flex;
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 10001;
+
+    &.visible {
+        transition: opacity 0.3s;
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .pcr-img-wrapper {
+        position: relative;
+        width: 400px;
+        height: 400px;
+
+        .pcr-img-preview {
+            width: 100%;
+            height: 100%; 
+            background-color: #871113;
+        }
+    
+        .pcr-img-mangnifier {
+            position: absolute;
+            border: 1px solid #000;
+            border-radius: 50%;
+            cursor: none;
+            /*Set the size of the magnifier glass:*/
+            width: 100px;
+            height: 100px;
+            left: 30px;
+            top: 30px;
+        }
+
+        .pcr-img-suck-point {
+            position: absolute;
+            border: 2px solid #000000cc;
+            width: 8px;
+            height: 8px;
+            left: 50%;
+            top: 50%;
+            margin-left: -4px;
+            margin-top: -4px;
+        }
+
+        .pcr-img-color-suck {
+            border: 3px solid #ffff00;
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    
+}

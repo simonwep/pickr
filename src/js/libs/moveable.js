@@ -53,13 +53,13 @@ export default function Moveable(opt) {
             _.on(document, ['mousemove', 'touchmove'], that._tapmove);
 
             // Prevent default touch event
-            evt.preventDefault();
+            evt && evt.preventDefault();
 
             // Trigger
             that._tapmove(evt);
         },
 
-        _tapmove(evt) {
+        _tapmove(evt) {            
             const {options: {lock}, cache} = that;
             const {element, wrapper} = options;
             const b = wrapper.getBoundingClientRect();

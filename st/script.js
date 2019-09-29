@@ -88,9 +88,11 @@ const themes = [
                     hsva: false,
                     input: true,
                     clear: true,
-                    save: true
+                    save: true,
+                    dropper: true,
                 }
-            }
+            },
+            // disabled: true
         }
     ]
 ];

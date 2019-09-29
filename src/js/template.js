@@ -49,6 +49,17 @@ export default ({components: c, strings: s, useAsButton, inline, appClass, theme
             <input :ref="dropper" class="pcr-dropper" value="${s.dropper || 'Dropper'}" type="button" ${hidden(c.interaction.dropper)} aria-label="pcr-dropper and exit">
           </div>
         </div>
+        
+        <div :ref="droppr" class="pcr-droppr">
+          <div :ref="imgWrapper" class="pcr-img-wrapper">
+            <img :ref="imgPreview" class="pcr-img-preview"></img>
+            <div :ref="imgMangnifier" class="pcr-img-mangnifier">
+              <div :ref="imgColorSuck" class="pcr-img-color-suck"></div>
+              <div :ref="imgSuckPoint" class="pcr-img-suck-point"></div>
+            </div>
+          </div>
+        </div>
+
       </div>
     `);
 

@@ -9,7 +9,7 @@ const path = require('path');
 
 (async () => {
     const banner = new webpack.BannerPlugin({
-        banner: `Pickr ${version} MIT | https://github.com/Simonwep/pickr`
+        banner: `Pickr ${version} MIT | https://github.com/jamesahuang/pickr`
     });
 
     // CSS

@@ -275,12 +275,13 @@
 }
 
 .pcr-droppr {
-    width: 100%;
-    height: 100%;
     background-color: #00000055;
     display: flex;
     position: absolute;
     top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     opacity: 0;
     visibility: hidden;
     z-index: 10001;
@@ -293,9 +294,8 @@
 
     .pcr-img-wrapper {
         position: relative;
-        width: 400px;
+        width: 200px;
         height: 400px;
-        margin: 70px;
 
         .pcr-img-preview {
             width: 100%;
@@ -330,6 +330,7 @@
             border-radius: 50%;
             width: 100%;
             height: 100%;
+            box-sizing: border-box;
         }
     }
 

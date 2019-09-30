@@ -230,7 +230,6 @@ class Pickr {
                     if (!cs.palette) return;
 
                     const color = getColor();
-                    
                     const {_root, options} = inst;
 
                     // Update the input field only if the user is currently not typing
@@ -753,12 +752,25 @@ class Pickr {
      * Show this color-dropper ui
      */
     showDroppr() {
-        if (!this.options.disabled) {
+        if (!this.options.disabled && this.options.dropperConfig) {
+            const imgWrapper = this._root.imgWrapper;
             const imgEl = this._root.imgPreview;
             const imgMangnifier = this._root.imgMangnifier;
             const zoom = 3;
             this._root.droppr.className += ' visible';
-            imgMangnifier.style.backgroundImage = "url('" + imgEl.src + "')";
+
+            const imgData = this.options.dropperConfig.dataFrom();
+            const dropperOn = this.options.dropperConfig.dropperOn;
+            const destEl = document.getElementById(dropperOn);
+            const pos = destEl.getBoundingClientRect();
+            
+            imgEl.src = imgData;
+            imgWrapper.style.width = pos.width + 'px';
+            imgWrapper.style.height = pos.height + 'px';
+            imgWrapper.style.left = pos.x + 'px';
+            imgWrapper.style.top = pos.y + 'px';
+            
+            imgMangnifier.style.backgroundImage = "url('" + imgData + "')";
             imgMangnifier.style.backgroundRepeat = "no-repeat";
             imgMangnifier.style.backgroundSize = (imgEl.width * zoom) + "px " + (imgEl.height * zoom) + "px";
             this._components.mangnifier._tapstart();

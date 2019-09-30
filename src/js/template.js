@@ -1,4 +1,5 @@
 import * as _ from './utils/utils';
+import dropprImg from '../scss/dropprImg'
 
 export default ({components: c, strings: s, useAsButton, inline, appClass, theme, lockOpacity: lo}) => {
     const hidden = con => con ? '' : 'style="display:none" hidden';
@@ -52,7 +53,7 @@ export default ({components: c, strings: s, useAsButton, inline, appClass, theme
         
         <div :ref="droppr" class="pcr-droppr">
           <div :ref="imgWrapper" class="pcr-img-wrapper">
-            <img :ref="imgPreview" class="pcr-img-preview"></img>
+            <img :ref="imgPreview" class="pcr-img-preview" src="${dropprImg}"></img>
             <div :ref="imgMangnifier" class="pcr-img-mangnifier">
               <div :ref="imgColorSuck" class="pcr-img-color-suck"></div>
               <div :ref="imgSuckPoint" class="pcr-img-suck-point"></div>

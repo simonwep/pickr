@@ -22,6 +22,9 @@ class Pickr {
     _lastColor = HSVaColor();
     _swatchColors = [];
 
+    //
+    _imageCtx = null;
+
     // Evenlistener name: [callbacks]
     _eventListener = {
         init: [],
@@ -227,6 +230,7 @@ class Pickr {
                     if (!cs.palette) return;
 
                     const color = getColor();
+                    
                     const {_root, options} = inst;
 
                     // Update the input field only if the user is currently not typing
@@ -300,13 +304,9 @@ class Pickr {
             mangnifier : Moveable({
                 element: inst._root.imgMangnifier,
                 wrapper: inst._root.imgWrapper,
-                onchange(x, y) {
-                    console.log('sdfsdfsdfsf', x, y);
-                    
-                    if (!cs.droppr) return;
-                    // this.element.style.left = x + 'px';
-                    // this.element.style.top = y + 'px';
-
+                onchange(x, y, event) {
+                    if (!inst._root.droppr) return;
+                    inst.updateMagnifier(event);
                 }
             }),
             opacity: Moveable({
@@ -392,15 +392,20 @@ class Pickr {
                 _root.opacity.picker
             ], ['mousedown', 'touchstart'], () => this._recalc = true),
 
-            // Dropper color
+            // Show droppr
             _.on(_root.interaction.dropper, 'click', () => {
-                _root.droppr.className += ' visible';
+                this.showDroppr();
                 this._emit('dropper', this);
-                this._components.mangnifier._tapstart();
             }),
 
+            // Select color from droppr
             _.on(_root.droppr, 'click', (e) => {
-                console.log('droppr click', e, this.isDropprOpen());
+                const pos = this.getMagnifierCenterPos(e);
+                if (!pos.isOutsideImage) {
+                    const rgbColor = this.getImagePixelColor(pos.x, pos.y);
+                    this.setColor(`rgb ${rgbColor[0]} ${rgbColor[1]} ${rgbColor[2]}`);
+                }
+                this.hide();
             }),
         ];
 
@@ -712,6 +717,7 @@ class Pickr {
 
         // remove .pcr-droppr
         droppr.parentElement.removeChild(droppr);
+        this._imageCtx = null;
 
         // There are references to various DOM elements stored in the pickr instance
         // This cleans all of them to avoid detached DOMs
@@ -724,6 +730,7 @@ class Pickr {
      */
     hide() {
         this._root.app.classList.remove('visible');
+        this._root.droppr.classList.remove('visible');
         this._emit('hide', this);
         return this;
     }
@@ -740,6 +747,109 @@ class Pickr {
         }
 
         return this;
+    }
+
+    /**
+     * Show this color-dropper ui
+     */
+    showDroppr() {
+        if (!this.options.disabled) {
+            const imgEl = this._root.imgPreview;
+            const imgMangnifier = this._root.imgMangnifier;
+            const zoom = 3;
+            this._root.droppr.className += ' visible';
+            imgMangnifier.style.backgroundImage = "url('" + imgEl.src + "')";
+            imgMangnifier.style.backgroundRepeat = "no-repeat";
+            imgMangnifier.style.backgroundSize = (imgEl.width * zoom) + "px " + (imgEl.height * zoom) + "px";
+            this._components.mangnifier._tapstart();
+
+            var canvas = document.createElement('canvas');
+            canvas.width = imgEl.width;
+            canvas.height = imgEl.height;
+            var context = canvas.getContext('2d');
+            context.drawImage(imgEl, 0, 0, imgEl.width, imgEl.height);
+            this._imageCtx = context;
+        }
+
+        return this;
+    }
+
+    /**
+     * change suckColor preview
+     * @param e 
+     */
+    updateMagnifier(e) {
+        var pos, x, y;
+        /* Prevent any other actions that may occur when moving over the image */
+        e && e.preventDefault();
+        /* Get the cursor's x and y positions: */
+        pos = this.getMagnifierCenterPos(e);
+
+        const img = this._root.imgPreview;
+        const glass = this._root.imgMangnifier;
+        const zoom = 3;
+        const bw = 0;
+        const w = glass.offsetWidth / 2 ;
+        const h = glass.offsetHeight / 2;
+
+        x = pos.x;
+        y = pos.y;
+        /* Prevent the magnifier glass from being positioned outside the image: */
+        if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
+        if (x < w / zoom) {x = w / zoom;}
+        if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
+        if (y < h / zoom) {y = h / zoom;}
+
+        // /* Set the position of the magnifier glass: */
+        // glass.style.left = (x - w) + "px";
+        // glass.style.top = (y - h) + "px";
+        /* Display what the magnifier glass "sees": */
+        glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+
+        const suckColor = this.getImagePixelColor(pos.x, pos.y);
+        if (suckColor) {
+            this._root.imgColorSuck.style.borderColor=`rgb(${suckColor[0]},${suckColor[1]},${suckColor[2]})`;
+        }
+    }
+
+    /**
+     * The point color suck
+     * @param e 
+     */
+    getMagnifierCenterPos(e) {
+        const img = this._root.imgPreview;
+        var a, x = 0, y = 0;
+        e = e || window.event;
+        /* Get the x and y positions of the image: */
+        a = img.getBoundingClientRect();
+        
+        /* Calculate the cursor's x and y coordinates, relative to the image: */
+        x = e.pageX - a.left;
+        y = e.pageY - a.top;
+        /* Consider any page scrolling: */
+        x = x - window.pageXOffset;
+        y = y - window.pageYOffset;
+
+        const isOutsideImage = x < 0 || y < 0 || x >= img.width || y >= img.height;
+        if (x < 0) x = 0;
+        if (x >= img.width) x = img.width - 1;
+        if (y < 0) y = 0;
+        if (y >= img.height) y = img.height - 1;
+        return {x, y, isOutsideImage};
+    }
+
+    /**
+     * 
+     * @param {int} x 
+     * @param {int} y 
+     * @return [r,g,b,a] or null
+     */
+    getImagePixelColor(x, y) {
+        if (this._imageCtx) {
+            const p = this._imageCtx.getImageData(x, y, 1, 1).data;
+            return p;
+        }
+        return null;
     }
 
     /**

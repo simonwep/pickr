@@ -98,11 +98,11 @@ export default function Moveable(opt) {
 
             switch (lock) {
                 case 'v':
-                    return options.onchange(cx);
+                    return options.onchange(cx, evt);
                 case 'h':
-                    return options.onchange(cy);
+                    return options.onchange(cy, evt);
                 default:
-                    return options.onchange(cx, cy);
+                    return options.onchange(cx, cy, evt);
             }
         },
 

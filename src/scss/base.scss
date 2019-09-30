@@ -295,11 +295,11 @@
         position: relative;
         width: 400px;
         height: 400px;
+        margin: 70px;
 
         .pcr-img-preview {
             width: 100%;
-            height: 100%; 
-            background-color: #871113;
+            height: 100%;
         }
     
         .pcr-img-mangnifier {
@@ -326,7 +326,7 @@
         }
 
         .pcr-img-color-suck {
-            border: 3px solid #ffff00;
+            border: 5px solid #ffff00;
             border-radius: 50%;
             width: 100%;
             height: 100%;

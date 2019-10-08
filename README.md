@@ -285,6 +285,9 @@ const pickr = new Pickr({
     // To use it set the cursor on a position where a number is and scroll, use ctrl to make steps of five
     adjustableNumbers: true,
 
+    //
+    dropperConfig: { dropperOn: 'image element id', dataFrom: () => {return imageBase64} }
+
     // Show or hide specific components.
     // By default only the palette (and the save button) is visible.
     components: {
@@ -311,6 +314,7 @@ const pickr = new Pickr({
             cancel: false, // Display Cancel Button, resets the color to the previous state
             clear: false, // Display Clear Button; same as cancel, but keeps the window open
             save: false,  // Display Save Button,
+            dropper: false, // Display Dropper Button, use with dropperConfig.
         },
     },
 

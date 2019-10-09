@@ -14,8 +14,8 @@
     "scripts": {
         "build": "node ./scripts/build.js",
         "dev": "webpack-dev-server --mode development",
-        "test-ts": "tsc --target ES6 --noImplicitAny --noEmit spec/ts/index.ts",
-        "lint": "eslint ./src --fix"
+        "lint": "eslint ./src --fix",
+        "test:ts": "tsc --target ES6 --noImplicitAny --noEmit spec/ts/index.ts"
     },
     "devDependencies": {
         "@babel/core": "^7.5.5",

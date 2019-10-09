@@ -8,6 +8,7 @@ install:
 
 script:
     - npm run build
+    - npm run test:ts
 
 cache:
     directories:

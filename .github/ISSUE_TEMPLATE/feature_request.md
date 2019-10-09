@@ -7,6 +7,8 @@ assignees: Simonwep
 
 ---
 
+<!-- Please check out https://github.com/Simonwep/pickr#faq before submitting a new feature-request -->
+
 **Is your feature request related to a problem? Please describe.**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 

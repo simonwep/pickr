@@ -8,7 +8,7 @@ assignees: NateSeymour
 ---
 
 <!-- Before creating an issue please make sure you are using the latest version of pickr -->
-
+<!-- ... and check out https://github.com/Simonwep/pickr#faq before submitting a new issue -->
 #### What is the current behavior?
 
 #### Please provide the steps to reproduce and create a [JSFiddle](https://jsfiddle.net/Simonwep/qx2Lod6r/).

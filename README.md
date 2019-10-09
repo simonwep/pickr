@@ -405,5 +405,16 @@ The mapper function takes three arguments: the matched number, an multiplier and
 
 Use this utils carefully, it's not for sure that they will stay forever!
 
+## FAQ
+> How do I initialize multiple pickr's? Can I access the instance via `class` or `id`?
+
+No, you can't. You need to keep track of your instance variables - pickr is (not yet) a web-component.
+The best option would be to create new elements via `document.createElement` and directly pass it as `el`.
+[example](https://jsfiddle.net/Simonwep/9ghk71c3/).
+
+> I want to use pickr in a form, how can I do that?
+
+You can use `useAsButton: true` and pass a reference (or selector) of your input-element as `el`. Then you can update the input-element whenever a change was made. [example](https://jsfiddle.net/Simonwep/wL1zyqcd/).
+
 ## Contributing
 If you want to open a issue, create a Pull Request or simply want to know how you can run it on your local machine, please read the [Contributing guide](https://github.com/Simonwep/pickr/blob/master/.github/CONTRIBUTING.md).

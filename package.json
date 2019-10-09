@@ -10,10 +10,12 @@
         "color-picker"
     ],
     "main": "./dist/pickr.min.js",
+    "typings": "./types/pickr.d.ts",
     "scripts": {
         "build": "node ./scripts/build.js",
         "dev": "webpack-dev-server --mode development",
-        "lint": "eslint ./src --fix"
+        "lint": "eslint ./src --fix",
+        "test:ts": "tsc --target ES6 --noImplicitAny --noEmit spec/ts/index.ts"
     },
     "devDependencies": {
         "@babel/core": "^7.5.5",
@@ -31,6 +33,7 @@
         "optimize-css-assets-webpack-plugin": "^5.0.3",
         "postcss-loader": "^3.0.0",
         "sass-loader": "^8.0.0",
+        "typescript": "^3.6.3",
         "webpack": "^4.39.3",
         "webpack-cleanup-plugin": "^0.5.1",
         "webpack-cli": "^3.3.7",

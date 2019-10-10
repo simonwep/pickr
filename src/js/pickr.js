@@ -287,7 +287,7 @@ class Pickr {
 
                 onstop: () => inst._emit('changestop', inst),
                 onchange(v) {
-                    if (!cs.hue || !cs.palette) return;
+                    if (!cs.hue || !cs.palette || inst.isDropprOpen()) return;
                     const color = getColor();
 
                     // Calculate hue
@@ -750,36 +750,48 @@ class Pickr {
 
     /**
      * Show this color-dropper ui
+     * 
+     * dropperConfig is necessary to show Droppr
+     * dropperConfig = { dropperOn, dataFrom }
+     * dropperOn : string, id of destination element
+     * dataFrom : function, return base64 data the destination element showing
      */
     showDroppr() {
         if (!this.options.disabled && this.options.dropperConfig) {
-            const imgWrapper = this._root.imgWrapper;
-            const imgEl = this._root.imgPreview;
-            const imgMangnifier = this._root.imgMangnifier;
-            const zoom = 3;
-            this._root.droppr.className += ' visible';
-
+            
             const imgData = this.options.dropperConfig.dataFrom();
             const dropperOn = this.options.dropperConfig.dropperOn;
             const destEl = document.getElementById(dropperOn);
             const pos = destEl.getBoundingClientRect();
-            
-            imgEl.src = imgData;
+
+            const imgWrapper = this._root.imgWrapper;
             imgWrapper.style.width = pos.width + 'px';
             imgWrapper.style.height = pos.height + 'px';
             imgWrapper.style.left = pos.x + 'px';
             imgWrapper.style.top = pos.y + 'px';
+
+            const imgEl = this._root.imgPreview;
+            imgEl.src = imgData;
             
+
+            const zoom = 3;
+            this._root.droppr.className += ' visible';
+            
+            const imgMangnifier = this._root.imgMangnifier;
             imgMangnifier.style.backgroundImage = "url('" + imgData + "')";
             imgMangnifier.style.backgroundRepeat = "no-repeat";
-            imgMangnifier.style.backgroundSize = (imgEl.width * zoom) + "px " + (imgEl.height * zoom) + "px";
+            imgMangnifier.style.backgroundSize = (pos.width * zoom) + "px " + (pos.height * zoom) + "px";
             this._components.mangnifier._tapstart();
 
             var canvas = document.createElement('canvas');
-            canvas.width = imgEl.width;
-            canvas.height = imgEl.height;
+            canvas.width = pos.width;
+            canvas.height = pos.height;
             var context = canvas.getContext('2d');
-            context.drawImage(imgEl, 0, 0, imgEl.width, imgEl.height);
+            var image = new Image();
+            image.onload = function() {
+                context.drawImage(image, 0, 0, pos.width, pos.height);
+            };
+            image.src =imgData;
             this._imageCtx = context;
         }
 
@@ -797,31 +809,38 @@ class Pickr {
         /* Get the cursor's x and y positions: */
         pos = this.getMagnifierCenterPos(e);
 
-        const img = this._root.imgPreview;
         const glass = this._root.imgMangnifier;
         const zoom = 3;
-        const bw = 0;
-        const w = glass.offsetWidth / 2 ;
+
+        const w = glass.offsetWidth / 2;
         const h = glass.offsetHeight / 2;
 
         x = pos.x;
         y = pos.y;
-        /* Prevent the magnifier glass from being positioned outside the image: */
-        if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
-        if (x < w / zoom) {x = w / zoom;}
-        if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
-        if (y < h / zoom) {y = h / zoom;}
+        
+        /* Set the position of the magnifier glass: */
+        glass.style.left = (x - w) + "px";
+        glass.style.top = (y - h) + "px";
 
-        // /* Set the position of the magnifier glass: */
-        // glass.style.left = (x - w) + "px";
-        // glass.style.top = (y - h) + "px";
-        /* Display what the magnifier glass "sees": */
-        glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
-
+        /* Set the suckColor of the magnifier glass: */
         const suckColor = this.getImagePixelColor(pos.x, pos.y);
         if (suckColor) {
             this._root.imgColorSuck.style.borderColor=`rgb(${suckColor[0]},${suckColor[1]},${suckColor[2]})`;
         }
+
+        /* Prevent the magnifier glass from being positioned outside the image: */
+        // const img = this._root.imgPreview;
+        // if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
+        // if (x < w / zoom) {x = w / zoom;}
+        // if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
+        // if (y < h / zoom) {y = h / zoom;}
+        
+        /* Display what the magnifier glass "sees": */
+        const bgx = w - x * zoom;
+        const bgy = w - y * zoom;
+        glass.style.backgroundPosition = `${bgx}px ${bgy}px`;
+        
+        // console.log(w, h, pos, bgx, bgy);
     }
 
     /**

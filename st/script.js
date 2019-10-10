@@ -87,12 +87,24 @@ const themes = [
                     rgba: false,
                     hsva: false,
                     input: true,
-                    clear: true,
-                    save: true,
+                    clear: false,
+                    save: false,
                     dropper: true,
                 }
             },
             // disabled: true
+            dropperConfig: {
+                dropperOn: 'dropperOn',
+                dataFrom: ()  => {
+                    var img = document.getElementById('dropperOnImg');
+                    var c = document.createElement('canvas');
+                    c.height = img.height;
+                    c.width = img.width;
+                    var ctx = c.getContext('2d');
+                    ctx.drawImage(img, 0, 0, c.width, c.height);
+                    return c.toDataURL('image/png');
+                }
+            }
         }
     ]
 ];

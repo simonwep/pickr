@@ -401,8 +401,8 @@ class Pickr {
             _.on(_root.droppr, 'click', (e) => {
                 const pos = this.getMagnifierCenterPos(e);
                 if (!pos.isOutsideImage) {
-                    const rgbColor = this.getImagePixelColor(pos.x, pos.y);
-                    this.setColor(`rgb ${rgbColor[0]} ${rgbColor[1]} ${rgbColor[2]}`);
+                    const {r, g, b, a} = this.getImagePixelColor(pos.x, pos.y);
+                    this.setColor(`rgba ${r} ${g} ${b} ${a}`);
                 }
                 this.hide();
             }),
@@ -771,8 +771,7 @@ class Pickr {
             imgWrapper.style.top = pos.y + 'px';
 
             const imgEl = this._root.imgPreview;
-            imgEl.src = imgData;
-            
+            imgEl.src = imgData;            
 
             const zoom = 3;
             this._root.droppr.className += ' visible';
@@ -791,7 +790,7 @@ class Pickr {
             image.onload = function() {
                 context.drawImage(image, 0, 0, pos.width, pos.height);
             };
-            image.src =imgData;
+            image.src = imgData;
             this._imageCtx = context;
         }
 
@@ -825,15 +824,8 @@ class Pickr {
         /* Set the suckColor of the magnifier glass: */
         const suckColor = this.getImagePixelColor(pos.x, pos.y);
         if (suckColor) {
-            this._root.imgColorSuck.style.borderColor=`rgb(${suckColor[0]},${suckColor[1]},${suckColor[2]})`;
+            this._root.imgColorSuck.style.borderColor=`rgba(${suckColor.r},${suckColor.g},${suckColor.b},${suckColor.a})`;
         }
-
-        /* Prevent the magnifier glass from being positioned outside the image: */
-        // const img = this._root.imgPreview;
-        // if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
-        // if (x < w / zoom) {x = w / zoom;}
-        // if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
-        // if (y < h / zoom) {y = h / zoom;}
         
         /* Display what the magnifier glass "sees": */
         const bgx = w - x * zoom;
@@ -878,7 +870,7 @@ class Pickr {
     getImagePixelColor(x, y) {
         if (this._imageCtx) {
             const p = this._imageCtx.getImageData(x, y, 1, 1).data;
-            return p;
+            return { r: p[0], g: p[1], b: p[2], a: (p[3]/255).toFixed(1)};
         }
         return null;
     }

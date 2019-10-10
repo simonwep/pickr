@@ -86,6 +86,19 @@ body main {
     margin-top: 2em;
 }
 
+.dropper-on {
+    float: right;
+    width: 250px;
+    height: 250px;
+    border: 1px solid #d9d9d9;
+    margin-right: 50px;
+}
+
+.dropper-on-img {
+    width: 100%;
+    height: 100%;
+}
+
 main > p {
     margin-top: 0.35em;
     font-size: 0.75em;

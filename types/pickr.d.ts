@@ -105,51 +105,41 @@ declare namespace Pickr {
         clone(): HSVaColor
     }
 
-    enum EventType {
-        Init = 'init',
-        Hide = 'hide',
-        Show = 'show',
-        Save = 'save',
-        Clear = 'clear',
-        Change = 'change',
-        ChangeStop = 'changestop',
-        Cancel = 'cancel',
-        SwatchSelect = 'swatchselect'
-    }
+    type EventType =
+        'init' |
+        'hide' |
+        'show' |
+        'save' |
+        'clear' |
+        'change' |
+        'changestop' |
+        'cancel' |
+        'swatchselect';
 
-    enum Theme {
-        classic = 'classic',
-        monolith = 'monolith',
-        nano = 'nano'
-    }
+    type Theme = 'classic' | 'monolith' | 'nano';
 
-    enum Position {
-        TopStart = 'top-start',
-        TopMiddle = 'top-middle',
-        TopEnd = 'top-end',
-        RightStart = 'right-start',
-        RightMiddle = 'right-middle',
-        RightEnd = 'right-end',
-        BottomStart = 'bottom-start',
-        BottomMiddle = 'bottom-middle',
-        BottomEnd = 'bottom-end',
-        LeftStart = 'left-start',
-        LeftMiddle = 'left-middle',
-        LeftEnd = 'left-end'
-    }
+    type Position =
+        'top-start' |
+        'top-middle' |
+        'top-end' |
+        'right-start' |
+        'right-middle' |
+        'right-end' |
+        'bottom-start' |
+        'bottom-middle' |
+        'bottom-end' |
+        'left-start' |
+        'left-middle' |
+        'left-end';
 
-    enum Representation {
-        HEXA = 'HEXA',
-        RGBA = 'RGBA',
-        HSVA = 'HSVA',
-        HSLA = 'HSLA',
-        CMYK = 'CMYK'
-    }
+    type Representation =
+        'HEXA' |
+        'RGBA' |
+        'HSVA' |
+        'HSLA' |
+        'CMYK';
 
-    enum Slider {
-        vertical = 'v',
-        horizontal = 'h'
-    }
+    type Slider = 'v' | 'h';
 }
 
 export default Pickr;

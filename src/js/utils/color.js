@@ -10,12 +10,12 @@ function standardizeColor(name) {
 
     // Since invalid color's will be parsed as black, filter them out
     if (name.toLowerCase() === 'black') {
-        return '#000000';
+        return '#000';
     }
 
     const ctx = document.createElement('canvas').getContext('2d');
     ctx.fillStyle = name;
-    return ctx.fillStyle === '#000000' ? null : ctx.fillStyle;
+    return ctx.fillStyle === '#000' ? null : ctx.fillStyle;
 }
 
 /**
@@ -249,7 +249,7 @@ export function parseToHSVA(str) {
             continue;
 
         // match[2] does only contain a truly value if rgba, hsla, or hsla got matched
-        const alphaValid = a => (!!match[2] === (typeof a === 'number'))
+        const alphaValid = a => (!!match[2] === (typeof a === 'number'));
 
         // Try to convert
         switch (type) {

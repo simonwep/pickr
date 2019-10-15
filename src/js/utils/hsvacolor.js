@@ -1,4 +1,4 @@
-import {hsvToHsl, hsvToRgb, hsvToCmyk, hsvToHex} from './color';
+import {hsvToCmyk, hsvToHex, hsvToHsl, hsvToRgb} from './color';
 
 /**
  * Simple class which holds the properties

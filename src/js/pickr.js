@@ -1,13 +1,11 @@
-// Import utils
 import * as _        from './utils/utils';
+import {version}     from '../../package';
 import {parseToHSVA} from './utils/color';
-
-// Import classes
-import {HSVaColor} from './utils/hsvacolor';
-import Moveable    from './libs/moveable';
-import Selectable  from './libs/selectable';
-import Nanopop     from './libs/nanopop';
-import buildPickr  from './template';
+import {HSVaColor}   from './utils/hsvacolor';
+import Moveable      from './libs/moveable';
+import Selectable    from './libs/selectable';
+import Nanopop       from './libs/nanopop';
+import buildPickr    from './template';
 
 class Pickr {
 
@@ -886,5 +884,5 @@ Pickr.libs = {
 Pickr.create = options => new Pickr(options);
 
 // Assign version and export
-Pickr.version = '1.4.3';
+Pickr.version = version;
 export default Pickr;

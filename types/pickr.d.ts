@@ -3,7 +3,7 @@ declare class Pickr {
 
     setHSVA(h?: number, s?: number, v?: number, a?: number, silent?: boolean): boolean
 
-    setColor(representation: Pickr.Representation, silent: boolean): boolean;
+    setColor(str: string | null, silent?: boolean): boolean;
 
     on(event: Pickr.EventType, cb: Function): Pickr;
 

@@ -365,7 +365,7 @@ hsva.toRGBA().toString(3); // Returns rgba(r, g, b, a), rounded to the third dec
 
 ## Methods
 * pickr.setHSVA(h`:Number`,s`:Number`,v`:Number`,a`:Float`, silent`:Boolean`) _- Set an color, returns true if the color has been accepted._
-* pickr.setColor(representation`:String`, silent`:Boolean`)`:Boolean` _- Parses a string which represents a color (e.g. `#fff`, `rgb(10, 156, 23)`) or name e.g. 'magenta', returns true if the color has been accepted. `null` will clear the color._
+* pickr.setColor(str: `:String | null`, silent`:Boolean`)`:Boolean` _- Parses a string which represents a color (e.g. `#fff`, `rgb(10, 156, 23)`) or name e.g. 'magenta', returns true if the color has been accepted. `null` will clear the color._
 
 If `silent` is true (Default is false), the button won't change the current color.
 

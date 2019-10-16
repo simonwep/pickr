@@ -33,7 +33,7 @@ declare class Pickr {
 
     getColorRepresentation(): Pickr.Representation;
 
-    applyColor(silent: boolean): Pickr;
+    applyColor(silent?: boolean): Pickr;
 
     addSwatch(color: string): boolean;
 

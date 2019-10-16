@@ -85,9 +85,9 @@ declare namespace Pickr {
         },
 
         strings?: {
-            save?: 'Save',
-            clear?: 'Clear',
-            cancel?: 'Cancel'
+            save?: string,
+            clear?: string,
+            cancel?: string
         }
     }
 

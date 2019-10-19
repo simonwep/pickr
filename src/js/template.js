@@ -8,7 +8,7 @@ export default ({components: c, strings: s, useAsButton, inline, appClass, theme
 
         ${useAsButton ? '' : '<button type="button" :ref="button" class="pcr-button"></button>'}
 
-        <div :ref="app" class="pcr-app ${appClass || ''}" data-theme="${theme}" ${inline ? 'style="position: unset"' : ''} aria-label="color picker dialog" role="window">
+        <div :ref="app" class="pcr-app ${appClass || ''}" data-theme="${theme}" ${inline ? 'style="position: unset"' : ''} aria-label="color picker dialog" role="form">
           <div class="pcr-selection" ${hidden(c.palette)}>
             <div :obj="preview" class="pcr-color-preview" ${hidden(c.preview)}>
               <button type="button" :ref="lastColor" class="pcr-last-color" aria-label="use previous color"></button>
@@ -17,17 +17,17 @@ export default ({components: c, strings: s, useAsButton, inline, appClass, theme
 
             <div :obj="palette" class="pcr-color-palette">
               <div :ref="picker" class="pcr-picker"></div>
-              <div :ref="palette" class="pcr-palette" tabindex="0" aria-label="color selection area" role="widget"></div>
+              <div :ref="palette" class="pcr-palette" tabindex="0" aria-label="color selection area" role="listbox"></div>
             </div>
 
             <div :obj="hue" class="pcr-color-chooser" ${hidden(c.hue)}>
               <div :ref="picker" class="pcr-picker"></div>
-              <div :ref="slider" class="pcr-hue pcr-slider" tabindex="0" aria-label="hue selection slider" role="widget"></div>
+              <div :ref="slider" class="pcr-hue pcr-slider" tabindex="0" aria-label="hue selection slider" role="slider"></div>
             </div>
 
             <div :obj="opacity" class="pcr-color-opacity" ${hidden(c.opacity)}>
               <div :ref="picker" class="pcr-picker"></div>
-              <div :ref="slider" class="pcr-opacity pcr-slider" tabindex="0" aria-label="opacity selection slider" role="widget"></div>
+              <div :ref="slider" class="pcr-opacity pcr-slider" tabindex="0" aria-label="opacity selection slider" role="slider"></div>
             </div>
           </div>
 

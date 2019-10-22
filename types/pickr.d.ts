@@ -1,5 +1,12 @@
 declare class Pickr {
+
+    static version: string; // Current version
+    static utils: any; // See docs
+    static libs: any;  // See docs
+
     constructor(options: Pickr.Options);
+
+    static create(options: Pickr.Options): Pickr;
 
     setHSVA(h?: number, s?: number, v?: number, a?: number, silent?: boolean): boolean
 
@@ -37,7 +44,7 @@ declare class Pickr {
 
     addSwatch(color: string): boolean;
 
-    removeSwatch(index: number): boolean
+    removeSwatch(index: number): boolean;
 }
 
 declare namespace Pickr {

@@ -41,6 +41,7 @@ export default function Moveable(opt) {
                         clamp(that.cache.x + (0.01 * xm)),
                         clamp(that.cache.y + (0.01 * ym))
                     );
+                    e.preventDefault();
                 } else if (key.startsWith('Arrow')) {
                     that.options.onstop();
                     e.preventDefault();

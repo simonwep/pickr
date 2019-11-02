@@ -18,27 +18,27 @@
         "test:ts": "tsc --target ES6 --noImplicitAny --noEmit spec/ts/index.ts"
     },
     "devDependencies": {
-        "@babel/core": "^7.5.5",
+        "@babel/core": "^7.6.4",
         "@babel/plugin-proposal-class-properties": "^7.5.5",
-        "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
-        "@babel/preset-env": "^7.5.5",
-        "autoprefixer": "^9.6.1",
+        "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+        "@babel/preset-env": "^7.6.3",
+        "autoprefixer": "^9.7.1",
         "babel-eslint": "^10.0.3",
         "babel-loader": "^8.0.6",
         "css-loader": "^3.2.0",
-        "eslint": "^6.3.0",
-        "eslint-loader": "^3.0.0",
+        "eslint": "^6.6.0",
+        "eslint-loader": "^3.0.2",
         "mini-css-extract-plugin": "^0.8.0",
-        "node-sass": "^4.12.0",
+        "node-sass": "^4.13.0",
         "optimize-css-assets-webpack-plugin": "^5.0.3",
         "postcss-loader": "^3.0.0",
         "sass-loader": "^8.0.0",
-        "typescript": "^3.6.3",
-        "webpack": "^4.39.3",
+        "typescript": "^3.6.4",
+        "webpack": "^4.41.2",
         "webpack-cleanup-plugin": "^0.5.1",
-        "webpack-cli": "^3.3.7",
-        "webpack-dev-server": "^3.8.0",
-        "webpack-fix-style-only-entries": "^0.3.1"
+        "webpack-cli": "^3.3.10",
+        "webpack-dev-server": "^3.9.0",
+        "webpack-fix-style-only-entries": "^0.4.0"
     },
     "homepage": "https://github.com/Simonwep/pickr#readme",
     "repository": {
@@ -49,6 +49,6 @@
         "url": "https://github.com/Simonwep/pickr/issues"
     },
     "dependencies": {
-        "core-js": "^3.3.4"
+        "core-js": "^3.3.6"
     }
 }

@@ -10,7 +10,10 @@ module.exports = [
                 [
                     '@babel/preset-env',
                     {
-                        'targets': '> 1%'
+                        'targets': '> 1.5%, not ie < 11',
+                        'useBuiltIns': 'usage',
+                        'corejs': 3,
+                        'loose': true
                     }
                 ]
             ]

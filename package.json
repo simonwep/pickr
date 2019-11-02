@@ -47,5 +47,8 @@
     },
     "bugs": {
         "url": "https://github.com/Simonwep/pickr/issues"
+    },
+    "dependencies": {
+        "core-js": "^3.3.4"
     }
 }

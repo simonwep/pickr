@@ -68,7 +68,7 @@ class Pickr {
 
         const {swatches, components, theme, sliders, lockOpacity, padding} = opt;
 
-        if (['nano', 'monolith'].includes(theme) && !sliders) {
+        if (['nano', 'monolith'].indexOf(theme)!==-1 && !sliders) {
             opt.sliders = 'h';
         }
 

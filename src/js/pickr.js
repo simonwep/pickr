@@ -796,8 +796,13 @@ class Pickr {
                 }
             }
 
-            this.setColorRepresentation(utype);
-            return this.setHSVA(...values, silent);
+            // Update color (fires 'save' event if silent is 'false')
+            if (!this.setHSVA(...values, silent)) {
+                return false;
+            }
+
+            // Update representation (fires 'change' event)
+            return this.setColorRepresentation(utype);
         }
 
         return false;

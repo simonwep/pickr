@@ -15,6 +15,10 @@ class Pickr {
     // If the current color value should be recalculated
     _recalc = true;
 
+    // Positioning engine and DOM-Tree
+    _nanopop = null;
+    _root = null;
+
     // Current and last color for comparison
     _color = HSVaColor();
     _lastColor = HSVaColor();
@@ -191,6 +195,7 @@ class Pickr {
         // Check if color comparison is disabled, if yes - remove transitions so everything keeps smoothly
         if (!opt.comparison) {
             root.button.style.transition = 'none';
+
             if (!opt.useAsButton) {
                 root.preview.lastColor.style.transition = 'none';
             }
@@ -223,6 +228,7 @@ class Pickr {
 
                     const color = getColor();
                     const {_root, options} = inst;
+                    const {lastColor, currentColor} = _root.preview;
 
                     // Update the input field only if the user is currently not typing
                     if (inst._recalc) {
@@ -249,10 +255,13 @@ class Pickr {
                     // Check if color is locked
                     if (!options.comparison) {
                         _root.button.style.color = cssRGBaString;
-                    } else {
-                        if (!options.useAsButton && !inst._lastColor) {
-                            _root.preview.lastColor.style.color = cssRGBaString;
-                        }
+
+                        // If the user changes the color, remove the cleared icon
+                        _root.button.classList.remove('clear');
+                    } else if (!options.useAsButton && !inst._lastColor) {
+
+                        // Apply color to both the last and current color since the current state is cleared
+                        lastColor.style.color = cssRGBaString;
                     }
 
                     // Check if there's a swatch which color matches the current one
@@ -262,13 +271,7 @@ class Pickr {
                     }
 
                     // Change current color
-                    _root.preview.currentColor.style.color = cssRGBaString;
-
-                    if (!inst.options.comparison) {
-
-                        // If the user changes the color, remove the cleared icon
-                        _root.button.classList.remove('clear');
-                    }
+                    currentColor.style.color = cssRGBaString;
                 }
             }),
 
@@ -350,6 +353,7 @@ class Pickr {
                 !this.applyColor() && !options.showAlways && this.hide();
             }),
 
+            // User input
             _.on(_root.interaction.result, ['keyup', 'input'], e => {
 
                 // Fire listener if initialization is finish and changed color was valid

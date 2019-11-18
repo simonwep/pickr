@@ -90,7 +90,7 @@ import '@simonwep/pickr/dist/themes/classic.min.css';   // 'classic' theme
 import '@simonwep/pickr/dist/themes/monolith.min.css';  // 'monolith' theme
 import '@simonwep/pickr/dist/themes/nano.min.css';      // 'nano' theme
 
-// Modern or es5 bundle
+// Modern or es5 bundle (pay attention to the note below!)
 import Pickr from '@simonwep/pickr';
 import Pickr from '@simonwep/pickr/dist/pickr.es5.min';
 ```
@@ -258,7 +258,8 @@ const pickr = new Pickr({
     // If set to false it would directly apply the selected color on the button and preview.
     comparison: true,
 
-    // Default color
+    // Default color. If you're using a named color such as red, white ... set 
+    // a value for defaultRepresentation too as there is no button for named-colors.
     default: '#42445a',
 
     // Optional color swatches. When null, swatches are disabled.
@@ -304,6 +305,8 @@ const pickr = new Pickr({
 
         // show or hide components on the bottom interaction bar.
         interaction: {
+
+            // Buttons, if you disable one but use the format in default: or setColor() - set the representation-type too!
             hex: false,  // Display 'input/output format as hex' button  (hexadecimal representation of the rgba value)
             rgba: false, // Display 'input/output format as rgba' button (red green blue and alpha)
             hsla: false, // Display 'input/output format as hsla' button (hue saturation lightness and alpha)

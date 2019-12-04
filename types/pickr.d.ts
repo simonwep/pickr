@@ -104,7 +104,7 @@ declare namespace Pickr {
          * Uses Number.toFixed to truncate each value to the n-th decimal place.
          * @param precision Optional precision / decimal place at which point it should be truncated.
          */
-        toString(precision?: number): Array<number>;
+        toString(precision?: number): string;
     }
 
     interface HSVaColor {

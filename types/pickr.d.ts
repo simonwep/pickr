@@ -50,66 +50,75 @@ declare class Pickr {
 declare namespace Pickr {
 
     interface Options {
-        el: string | HTMLElement,
-        container?: string | HTMLElement,
-        theme?: Theme,
-        closeOnScroll?: boolean,
-        appClass?: string,
-        useAsButton?: boolean,
-        padding?: number,
-        inline?: boolean,
-        autoReposition?: boolean,
-        sliders?: Slider,
-        disabled?: boolean,
-        lockOpacity?: boolean,
-        outputPrecision?: number,
-        comparison?: boolean,
-        default?: string,
-        swatches?: Array<string> | null,
-        defaultRepresentation?: Representation,
-        showAlways?: boolean,
-        closeWithKey?: string,
-        position?: Position,
-        adjustableNumbers?: boolean,
+        el: string | HTMLElement;
+        container?: string | HTMLElement;
+        theme?: Theme;
+        closeOnScroll?: boolean;
+        appClass?: string;
+        useAsButton?: boolean;
+        padding?: number;
+        inline?: boolean;
+        autoReposition?: boolean;
+        sliders?: Slider;
+        disabled?: boolean;
+        lockOpacity?: boolean;
+        outputPrecision?: number;
+        comparison?: boolean;
+        default?: string;
+        swatches?: Array<string> | null;
+        defaultRepresentation?: Representation;
+        showAlways?: boolean;
+        closeWithKey?: string;
+        position?: Position;
+        adjustableNumbers?: boolean;
 
         components?: {
-            palette?: boolean,
-            preview?: boolean,
-            opacity?: boolean,
-            hue?: boolean,
+            palette?: boolean;
+            preview?: boolean;
+            opacity?: boolean;
+            hue?: boolean;
 
             interaction?: {
-                hex?: boolean,
-                rgba?: boolean,
-                hsla?: boolean,
-                hsva?: boolean,
-                cmyk?: boolean,
-                input?: boolean,
-                cancel?: boolean,
-                clear?: boolean,
-                save?: boolean,
-            },
-        },
+                hex?: boolean;
+                rgba?: boolean;
+                hsla?: boolean;
+                hsva?: boolean;
+                cmyk?: boolean;
+                input?: boolean;
+                cancel?: boolean;
+                clear?: boolean;
+                save?: boolean;
+            };
+        };
 
         strings?: {
-            save?: string,
-            clear?: string,
-            cancel?: string
+            save?: string;
+            clear?: string;
+            cancel?: string;
         }
     }
 
+    interface RoundableNumberArray extends Omit<Array<number>, 'toString'> {
+
+        /**
+         * Uses Number.toFixed to truncate each value to the n-th decimal place.
+         * @param precision Optional precision / decimal place at which point it should be truncated.
+         */
+        toString(precision?: number): Array<number>;
+    }
+
     interface HSVaColor {
-        toHSVA(): Array<number>,
+        toHSVA(): RoundableNumberArray;
 
-        toHSLA(): Array<number>,
+        toHSLA(): RoundableNumberArray;
 
-        toRGBA(): Array<number>,
+        toRGBA(): RoundableNumberArray;
 
-        toCMYK(): Array<number>,
+        toCMYK(): RoundableNumberArray;
 
-        toHEXA(): Array<number>,
+        toHEXA(): RoundableNumberArray;
 
-        clone(): HSVaColor
+        clone(): HSVaColor;
     }
 
     type EventType =

@@ -58,7 +58,7 @@
 * Responsive and auto-positioning
 * Supports touch devices
 * Swatches for quick-selection
-* Fully accessible 
+* Fully accessible
 * [Shadow-dom support](#selection-through-a-shadow-dom)
 
 ### Themes
@@ -96,7 +96,7 @@ import Pickr from '@simonwep/pickr/dist/pickr.es5.min';
 ```
 ---
 
-> Attention: The es5-bundle (e.g. legacy version) is quite big (around a triple of the modern bundle). 
+> Attention: The es5-bundle (e.g. legacy version) is quite big (around a triple of the modern bundle).
 > Please take into consideration to use the modern version and add polyfills later to your final bundle!
 > (Or better: give a hint to users that they should use the latest browsers)
 
@@ -226,7 +226,7 @@ const pickr = new Pickr({
     // If true, appendToBody will also be automatically true.
     useAsButton: false,
 
-    // Size of gap between pickr (widget) and the corresponding reference (button) in px 
+    // Size of gap between pickr (widget) and the corresponding reference (button) in px
     padding: 8,
 
     // If true pickr won't be floating, and instead will append after the in el resolved element.
@@ -258,7 +258,7 @@ const pickr = new Pickr({
     // If set to false it would directly apply the selected color on the button and preview.
     comparison: true,
 
-    // Default color. If you're using a named color such as red, white ... set 
+    // Default color. If you're using a named color such as red, white ... set
     // a value for defaultRepresentation too as there is no button for named-colors.
     default: '#42445a',
 

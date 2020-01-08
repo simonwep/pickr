@@ -466,29 +466,7 @@ class Pickr {
 
         // No repositioning needed if inline
         if (!options.inline) {
-            const {app} = this._root;
-
-            if (matchMedia('(max-width: 576px)').matches) {
-                Object.assign(app.style, {
-                    margin: 'auto',
-                    height: `${app.getBoundingClientRect().height}px`,
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0
-                });
-            } else {
-                Object.assign(app.style, {
-                    margin: null,
-                    right: null,
-                    top: null,
-                    bottom: null,
-                    left: null,
-                    height: null
-                });
-
-                this._nanopop.update(options.position);
-            }
+            this._nanopop.update(options.position, !this._recalc);
         }
     }
 

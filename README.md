@@ -26,7 +26,7 @@
      src="https://img.shields.io/badge/patreon-support-3498DB.svg?style=popout-square"></a>
   <a href="https://gitpod.io/#https://github.com/Simonwep/pickr"><img
      alt="Gitpod Ready-to-Code"
-     src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod"
+     src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod&style=popout-square"
      /></a>
 </p>
 

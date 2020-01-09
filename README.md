@@ -1,4 +1,4 @@
-<h1 align="center">
+ <h1 align="center">
     <img src="https://user-images.githubusercontent.com/30767528/57573928-1e78db80-7430-11e9-940c-aecbf3226b7c.png" alt="Logo">
 </h1>
 
@@ -24,6 +24,10 @@
   <a href="https://www.patreon.com/simonwep"><img
      alt="Support me"
      src="https://img.shields.io/badge/patreon-support-3498DB.svg?style=popout-square"></a>
+  <a href="https://gitpod.io/#https://github.com/Simonwep/pickr"><img
+     alt="Gitpod Ready-to-Code"
+     src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod&style=popout-square"
+     /></a>
 </p>
 
 <br>

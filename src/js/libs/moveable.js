@@ -136,6 +136,8 @@ export default function Moveable(opt) {
             _.off([options.wrapper, options.element], 'touchstart', _tapstart, {
                 passive: false
             });
+            _.off(document, 'keydown', _keyboard);
+            _.off(document, 'keyup', _keyboard);
         }
     };
 

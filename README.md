@@ -21,9 +21,9 @@
      src="https://data.jsdelivr.com/v1/package/npm/@simonwep/pickr/badge"></a>
   <img alt="Current version"
        src="https://img.shields.io/github/tag/Simonwep/pickr.svg?color=3498DB&label=version&style=flat-square">
-  <a href="https://www.patreon.com/simonwep"><img
+  <a href="https://github.com/sponsors/Simonwep"><img
      alt="Support me"
-     src="https://img.shields.io/badge/patreon-support-3498DB.svg?style=popout-square"></a>
+     src="https://img.shields.io/badge/github-support-3498DB.svg?style=popout-square"></a>
   <a href="https://gitpod.io/#https://github.com/Simonwep/pickr"><img
      alt="Gitpod Ready-to-Code"
      src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod&style=popout-square"

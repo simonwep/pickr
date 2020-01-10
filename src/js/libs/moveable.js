@@ -132,12 +132,11 @@ export default function Moveable(opt) {
 
         destroy() {
             const {options, _tapstart} = that;
+            _.off(document, ['keydown', 'keyup'], _keyboard);
             _.off([options.wrapper, options.element], 'mousedown', _tapstart);
             _.off([options.wrapper, options.element], 'touchstart', _tapstart, {
                 passive: false
             });
-            _.off(document, 'keydown', _keyboard);
-            _.off(document, 'keyup', _keyboard);
         }
     };
 

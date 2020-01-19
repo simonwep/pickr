@@ -148,7 +148,7 @@ class Pickr {
         }
 
         // Create element and append it to body to
-        // prevent initialization errors
+        // Prevent initialization errors
         this._root = buildPickr(opt);
 
         // Check if a custom button is used
@@ -224,7 +224,9 @@ class Pickr {
 
                 onstop: () => inst._emit('changestop', inst),
                 onchange(x, y) {
-                    if (!cs.palette) return;
+                    if (!cs.palette) {
+                        return;
+                    }
 
                     const color = getColor();
                     const {_root, options} = inst;
@@ -282,7 +284,10 @@ class Pickr {
 
                 onstop: () => inst._emit('changestop', inst),
                 onchange(v) {
-                    if (!cs.hue || !cs.palette) return;
+                    if (!cs.hue || !cs.palette) {
+                        return;
+                    }
+
                     const color = getColor();
 
                     // Calculate hue
@@ -303,7 +308,10 @@ class Pickr {
 
                 onstop: () => inst._emit('changestop', inst),
                 onchange(v) {
-                    if (!cs.opacity || !cs.palette) return;
+                    if (!cs.opacity || !cs.palette) {
+                        return;
+                    }
+
                     const color = getColor();
 
                     // Calculate opacity
@@ -517,7 +525,7 @@ class Pickr {
         const alphaMakesAChange = a !== undefined && a !== 1;
 
         // If no opacity is applied, add undefined at the very end which gets
-        // set to 1 in setHSVA
+        // Set to 1 in setHSVA
         if (values && values.length === 3) {
             values[3] = undefined;
         }
@@ -662,7 +670,7 @@ class Pickr {
             root.parentElement.removeChild(root);
         }
 
-        // remove .pcr-app
+        // Remove .pcr-app
         app.parentElement.removeChild(app);
 
         // There are references to various DOM elements stored in the pickr instance

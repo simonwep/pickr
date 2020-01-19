@@ -75,13 +75,10 @@ export function hsvToCmyk(h, s, v) {
     const g = rgb[1] / 255;
     const b = rgb[2] / 255;
 
-    let k, c, m, y;
-
-    k = min(1 - r, 1 - g, 1 - b);
-
-    c = k === 1 ? 0 : (1 - r - k) / (1 - k);
-    m = k === 1 ? 0 : (1 - g - k) / (1 - k);
-    y = k === 1 ? 0 : (1 - b - k) / (1 - k);
+    const k = min(1 - r, 1 - g, 1 - b);
+    const c = k === 1 ? 0 : (1 - r - k) / (1 - k);
+    const m = k === 1 ? 0 : (1 - g - k) / (1 - k);
+    const y = k === 1 ? 0 : (1 - b - k) / (1 - k);
 
     return [
         c * 100,
@@ -99,7 +96,8 @@ export function hsvToCmyk(h, s, v) {
  * @returns {number[]} HSL values
  */
 export function hsvToHsl(h, s, v) {
-    s /= 100, v /= 100;
+    s /= 100;
+    v /= 100;
 
     const l = (2 - s) * v / 2;
 
@@ -128,14 +126,16 @@ export function hsvToHsl(h, s, v) {
  * @return {number[]} HSV values.
  */
 function rgbToHsv(r, g, b) {
-    r /= 255, g /= 255, b /= 255;
+    r /= 255;
+    g /= 255;
+    b /= 255;
 
-    let h, s, v;
     const minVal = min(r, g, b);
     const maxVal = max(r, g, b);
     const delta = maxVal - minVal;
 
-    v = maxVal;
+    let h, s;
+    const v = maxVal;
     if (delta === 0) {
         h = s = 0;
     } else {
@@ -245,10 +245,11 @@ export function parseToHSVA(str) {
     invalid: for (const type in regex) {
 
         // Check if current scheme passed
-        if (!(match = regex[type].exec(str)))
+        if (!(match = regex[type].exec(str))) {
             continue;
+        }
 
-        // match[2] does only contain a truly value if rgba, hsla, or hsla got matched
+        // Match[2] does only contain a truly value if rgba, hsla, or hsla got matched
         const alphaValid = a => (!!match[2] === (typeof a === 'number'));
 
         // Try to convert
@@ -256,16 +257,18 @@ export function parseToHSVA(str) {
             case 'cmyk': {
                 const [, c, m, y, k] = numarize(match);
 
-                if (c > 100 || m > 100 || y > 100 || k > 100)
+                if (c > 100 || m > 100 || y > 100 || k > 100) {
                     break invalid;
+                }
 
                 return {values: cmykToHsv(c, m, y, k), type};
             }
             case 'rgba': {
                 const [, , , r, g, b, a] = numarize(match);
 
-                if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1 || !alphaValid(a))
+                if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1 || !alphaValid(a)) {
                     break invalid;
+                }
 
                 return {values: [...rgbToHsv(r, g, b), a], a, type};
             }
@@ -287,16 +290,18 @@ export function parseToHSVA(str) {
             case 'hsla': {
                 const [, , , h, s, l, a] = numarize(match);
 
-                if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1 || !alphaValid(a))
+                if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1 || !alphaValid(a)) {
                     break invalid;
+                }
 
                 return {values: [...hslToHsv(h, s, l), a], a, type};
             }
             case 'hsva': {
                 const [, , , h, s, v, a] = numarize(match);
 
-                if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1 || !alphaValid(a))
+                if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1 || !alphaValid(a)) {
                     break invalid;
+                }
 
                 return {values: [h, s, v, a], a, type};
             }

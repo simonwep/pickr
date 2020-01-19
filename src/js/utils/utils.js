@@ -1,23 +1,4 @@
-/**
- * Add event(s) to element(s).
- * @param elements DOM-Elements
- * @param events Event names
- * @param fn Callback
- * @param options Optional options
- * @return Array passed arguments
- */
-export const on = eventListener.bind(null, 'addEventListener');
-
-/**
- * Remove event(s) from element(s).
- * @param elements DOM-Elements
- * @param events Event names
- * @param fn Callback
- * @param options Optional options
- * @return Array passed arguments
- */
-export const off = eventListener.bind(null, 'removeEventListener');
-
+/* eslint-disable prefer-rest-params */
 function eventListener(method, elements, events, fn, options = {}) {
 
     // Normalize array
@@ -39,6 +20,26 @@ function eventListener(method, elements, events, fn, options = {}) {
 
     return Array.prototype.slice.call(arguments, 1);
 }
+
+/**
+ * Add event(s) to element(s).
+ * @param elements DOM-Elements
+ * @param events Event names
+ * @param fn Callback
+ * @param options Optional options
+ * @return Array passed arguments
+ */
+export const on = eventListener.bind(null, 'addEventListener');
+
+/**
+ * Remove event(s) from element(s).
+ * @param elements DOM-Elements
+ * @param events Event names
+ * @param fn Callback
+ * @param options Optional options
+ * @return Array passed arguments
+ */
+export const off = eventListener.bind(null, 'removeEventListener');
 
 /**
  * Creates an DOM-Element out of a string (Single element).
@@ -114,11 +115,15 @@ export function createFromTemplate(str) {
  */
 export function eventPath(evt) {
     let path = evt.path || (evt.composedPath && evt.composedPath());
-    if (path) return path;
+    if (path) {
+        return path;
+    }
 
     let el = evt.target.parentElement;
     path = [evt.target, el];
-    while (el = el.parentElement) path.push(el);
+    while (el = el.parentElement) {
+        path.push(el);
+    }
 
     path.push(document, window);
     return path;

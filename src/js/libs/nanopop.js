@@ -32,7 +32,7 @@ export default function Nanopop({el, reference, padding = 8}) {
         }
 
         // Extract position and variant
-        // top-start -> top is "position" and "start" is the variant
+        // Top-start -> top is "position" and "start" is the variant
         const [position, variant = 'middle'] = pos.split('-');
 
         // It's vertical if top or bottom is used as position
@@ -115,7 +115,7 @@ export default function Nanopop({el, reference, padding = 8}) {
             for (const vertical of [isVertical, !isVertical]) {
 
                 /**
-                 * va and vb both define where the element is positioned (top, bottom, left, right)
+                 * Va and vb both define where the element is positioned (top, bottom, left, right)
                  * and it's corresponding variant (start, middle, end). Since we're "rotating" the element
                  * to ensure to (hopefully) find at least one fitting position the values need to be
                  * defined during runtime.
@@ -136,7 +136,7 @@ export default function Nanopop({el, reference, padding = 8}) {
             }
 
             // It failed to find a non-clipping position, if fallback is enable it'll use it - otherwise the last
-            // calculated values will be used.
+            // Calculated values will be used.
             if (useFallback) {
                 el.style.top = `${(window.innerHeight - eb.height) / 2}px`;
                 el.style.left = `${(window.innerWidth - eb.width) / 2}px`;

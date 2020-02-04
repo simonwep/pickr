@@ -101,8 +101,8 @@ export default function Moveable(opt) {
             }
 
             that.cache = {x: x / b.width, y: y / b.height};
-            const cx = clamp(x / wrapper.offsetWidth);
-            const cy = clamp(y / wrapper.offsetHeight);
+            const cx = clamp(x / b.width);
+            const cy = clamp(y / b.height);
 
             switch (lock) {
                 case 'v':

@@ -18,6 +18,7 @@ module.exports = {
 
     devServer: {
         contentBase: `${__dirname}/`,
+        disableHostCheck: true,
         host: '0.0.0.0',
         port: 3005
     },
@@ -43,10 +44,6 @@ module.exports = {
                 ]
             }
         ]
-    },
-    devServer: {
-        host: '0.0.0.0',
-        disableHostCheck: true
     },
 
     plugins: [

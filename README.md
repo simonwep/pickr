@@ -167,6 +167,8 @@ const pickr = Pickr.create({
 });
 ```
 
+> You can find more examples [here](EXAMPLES.md).
+
 ## Events
 Since version `0.4.x` Pickr is event-driven. Use the `on(event, cb)` and `off(event, cb)` functions to bind / unbind eventlistener.
 

@@ -261,7 +261,10 @@ const pickr = new Pickr({
     // Precision of output string (only effective if components.interaction.input is true)
     outputPrecision: 0,
 
-    // If set to false it would directly apply the selected color on the button and preview.
+    // Defines change/save behavior:
+    // - to keep current color in place until Save is pressed, set to `true`,
+    // - to apply color to button and preview (save) in sync with each change
+    //   (from picker or palette), set to `false`.
     comparison: true,
 
     // Default color. If you're using a named color such as red, white ... set

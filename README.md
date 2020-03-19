@@ -122,12 +122,20 @@ jsdelivr:
 Be sure to load the `pickr.min.js` (or the es5 version) **after** `pickr.min.css`. Moreover the `script` tag doesn't work with the `defer` attribute.
 
 ## Usage
+With minimal configuration:
+
 ```javascript
-// Simple example, see optional options for more configuration.
+const pickr = Pickr.create()
+```
+
+Simple example indicating defaults: (see *Options* section for more)
+
+```javascript
 const pickr = Pickr.create({
-    el: '.color-picker',
+    el: 'color-picker',
     theme: 'classic', // or 'monolith', or 'nano'
 
+    // (optional)
     swatches: [
         'rgba(244, 67, 54, 1)',
         'rgba(233, 30, 99, 0.95)',
@@ -145,12 +153,12 @@ const pickr = Pickr.create({
         'rgba(255, 193, 7, 1)'
     ],
 
+    // Specifying 'components' will override all defaults
     components: {
-
         // Main components
         preview: true,
-        opacity: true,
         hue: true,
+        opacity: false,
 
         // Input / output Options
         interaction: {

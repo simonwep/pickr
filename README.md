@@ -365,6 +365,7 @@ An alternative would be to provide the target-element itself as `el`.
 ## The HSVaColor object
 As default color representation is hsva (`hue`, `saturation`, `value` and `alpha`) used, but you can also convert it to other formats as listed below.
 
+* hsva.toString() - _Alias for `toHSLA().toString()`._
 * hsva.toHSVA() _- Converts the object to a hsva array._
 * hsva.toHSLA() _- Converts the object to a hsla array._
 * hsva.toRGBA() _- Converts the object to a rgba array._
@@ -372,7 +373,7 @@ As default color representation is hsva (`hue`, `saturation`, `value` and `alpha
 * hsva.toCMYK() _- Converts the object to a cmyk array._
 * hsva.clone() _- Clones the color object._
 
-The `toString()` is overridden so you can get a color representation string.
+Calling `toString()` on each of these will return a color representation string.
 
 ```javascript
 hsva.toRGBA(); // Returns [r, g, b, a]

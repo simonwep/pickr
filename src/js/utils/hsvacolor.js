@@ -12,6 +12,10 @@ export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
     const that = {
         h, s, v, a,
 
+        toString() {
+            return that.toHSLA().toString();
+        },
+
         toHSVA() {
             const hsva = [that.h, that.s, that.v, that.a];
             hsva.toString = mapper(hsva, arr => `hsva(${arr[0]}, ${arr[1]}%, ${arr[2]}%, ${that.a})`);

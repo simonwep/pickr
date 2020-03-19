@@ -27,6 +27,12 @@ This project requires [npm](https://nodejs.org/en/).
 
 ### Online setup with a single click
 
-You can also use gitpod(A free online VS Code like IDE). With a single click it will launch a ready to code workspace with all the dependencies being pre-installed and the build & dev scripts in process so that you can start contributing straight away.
+You can also use Gitpod (A free online VS Code-like IDE). With a single click it will launch a workspace and automatically:
+
+- clone the pickr repo.
+- install the dependencies.
+- run `yarn run dev`.
+
+So that you can start straight away.
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Simonwep/pickr)

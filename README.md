@@ -72,55 +72,6 @@
 
 > Nano uses css-grid thus it won't work in older browsers.
 
-## Getting Started
-### Node
-Note: The readme is always up-to-date with the latest commit. See [Releases](https://github.com/Simonwep/pickr/releases) for installation instructions regarding to the latest version.
-
-Install via npm:
-```shell
-$ npm install @simonwep/pickr
-```
-
-Install via yarn:
-```shell
-$ yarn add @simonwep/pickr
-```
-
-Include code and style:
-```js
-
-// One of the following themes
-import '@simonwep/pickr/dist/themes/classic.min.css';   // 'classic' theme
-import '@simonwep/pickr/dist/themes/monolith.min.css';  // 'monolith' theme
-import '@simonwep/pickr/dist/themes/nano.min.css';      // 'nano' theme
-
-// Modern or es5 bundle (pay attention to the note below!)
-import Pickr from '@simonwep/pickr';
-import Pickr from '@simonwep/pickr/dist/pickr.es5.min';
-```
----
-
-> Attention: The es5-bundle (e.g. legacy version) is quite big (around a triple of the modern bundle).
-> Please take into consideration to use the modern version and add polyfills later to your final bundle!
-> (Or better: give a hint to users that they should use the latest browsers)
-
-### Browser
-
-jsdelivr:
-```html
-
-<!-- One of the following themes -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/> <!-- 'classic' theme -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/monolith.min.css"/> <!-- 'monolith' theme -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/> <!-- 'nano' theme -->
-
-<!-- Modern or es5 bundle -->
-<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
-```
-
-Be sure to load the `pickr.min.js` (or the es5 version) **after** `pickr.min.css`. Moreover the `script` tag doesn't work with the `defer` attribute.
-
 ## Usage
 With minimal configuration:
 
@@ -176,6 +127,55 @@ const pickr = Pickr.create({
 ```
 
 > You can find more examples [here](EXAMPLES.md).
+
+## Install
+### Node
+Note: The readme is always up-to-date with the latest commit. See [Releases](https://github.com/Simonwep/pickr/releases) for installation instructions regarding to the latest version.
+
+Install via npm:
+```shell
+$ npm install @simonwep/pickr
+```
+
+Install via yarn:
+```shell
+$ yarn add @simonwep/pickr
+```
+
+Include code and style:
+```js
+
+// One of the following themes
+import '@simonwep/pickr/dist/themes/classic.min.css';   // 'classic' theme
+import '@simonwep/pickr/dist/themes/monolith.min.css';  // 'monolith' theme
+import '@simonwep/pickr/dist/themes/nano.min.css';      // 'nano' theme
+
+// Modern or es5 bundle (pay attention to the note below!)
+import Pickr from '@simonwep/pickr';
+import Pickr from '@simonwep/pickr/dist/pickr.es5.min';
+```
+---
+
+> Attention: The es5-bundle (e.g. legacy version) is quite big (around a triple of the modern bundle).
+> Please take into consideration to use the modern version and add polyfills later to your final bundle!
+> (Or better: give a hint to users that they should use the latest browsers)
+
+### Browser
+
+jsdelivr:
+```html
+
+<!-- One of the following themes -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/> <!-- 'classic' theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/monolith.min.css"/> <!-- 'monolith' theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/> <!-- 'nano' theme -->
+
+<!-- Modern or es5 bundle -->
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
+```
+
+Be sure to load the `pickr.min.js` (or the es5 version) **after** `pickr.min.css`. Moreover the `script` tag doesn't work with the `defer` attribute.
 
 ## Events
 Since version `0.4.x` Pickr is event-driven. Use the `on(event, cb)` and `off(event, cb)` functions to bind / unbind eventlistener.

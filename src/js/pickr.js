@@ -52,7 +52,11 @@ class Pickr {
             lockOpacity: false,
             autoReposition: true,
             container: 'body',
+
+            // If 'components' present, is overridden by the shallow merge
             components: {
+                preview: true,
+                hue: true,
                 interaction: {}
             },
 

@@ -108,7 +108,7 @@ for (const [theme, config] of themes) {
     buttons.push(button);
 
     button.addEventListener('click', () => {
-        const el = document.createElement('p');
+        const el = document.createElement('color-picker');
         pickrContainer.appendChild(el);
 
         // Delete previous instance

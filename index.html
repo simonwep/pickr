@@ -68,6 +68,7 @@
       <div class="theme-container"></div>
 
       <div class="pickr-container">
+        <color-picker></color-picker>
       </div>
 
       <p class="hint">(Tap it)</p>
@@ -75,10 +76,23 @@
 
     <section class="usage">
       <h2>Usage</h2>
+
+      <p>As an HTML custom element:</p>
+      <pre><code class="language-html">
+&lt;color-picker&gt;&lt;/color-picker&gt;
+      </code></pre>
+
+      <p class="hint">
+        To customize the invocation, simply use the Javascript approach below,
+        using <code>color-picker</code> as the selector ('el').
+      </p>
+
+      <p>or use the classic Javascript approach:</p>
       <pre><code class="language-js">
 const pickr = new Pickr({
   // el: 'color-picker',
   // theme: 'classic',
+  // comparison: true,
   // components: {
   //   hue: true,
   //   preview: true,

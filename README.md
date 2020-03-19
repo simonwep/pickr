@@ -104,6 +104,11 @@ const pickr = Pickr.create({
         'rgba(255, 193, 7, 1)'
     ],
 
+    // either
+    save: true,
+    // or
+    comparison: false,
+
     // Specifying 'components' will override all defaults
     components: {
         // Main components

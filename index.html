@@ -64,9 +64,35 @@
 </header>
 
 <main>
-    <div class="theme-container"></div>
-    <div class="pickr-container"></div>
-    <p>(Tap it)</p>
+    <section class="demo">
+      <div class="theme-container"></div>
+
+      <div class="pickr-container">
+      </div>
+
+      <p class="hint">(Tap it)</p>
+    </section>
+
+    <section class="usage">
+      <h2>Usage</h2>
+      <pre><code class="language-js">
+const pickr = new Pickr({
+  // el: 'color-picker',
+  // theme: 'classic',
+  // components: {
+  //   hue: true,
+  //   preview: true,
+  // }
+})
+      </code></pre>
+
+      <p class="hint">
+        Comments indicate defaults.
+      </p>
+
+      <p><a href="https://github.com/Simonwep/pickr">Readme &rarr;</a></p>
+    </section>
+
 </main>
 
 <script src="dist/pickr.es5.min.js"></script>

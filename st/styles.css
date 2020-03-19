@@ -17,6 +17,22 @@ body {
     background: linear-gradient(to bottom, #f0f8ff, #ffffff);
 }
 
+h2 {
+  margin-bottom: 0.5em;
+}
+
+p {
+  margin: 0.7em 0;
+}
+
+pre {
+  background: hsl(211.1, 50%, 94.7%);
+  border-radius: 3px;
+  border: 1px solid hsl(213.1, 24.4%, 76.7%);
+  color: hsl(211.1, 32%, 37%);
+  padding: 0 1em;
+}
+
 body header {
     position: relative;
     padding: 10vh 0;
@@ -50,7 +66,15 @@ body header a:hover {
 }
 
 body main {
-    margin: 0 auto;
+    max-width: 30em;
+    margin: 0 auto 3em;
+}
+
+section + section{
+  margin-top: 4em;
+}
+
+section.demo {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -82,11 +106,11 @@ body main {
     color: #36425b;
 }
 
-.pickr-container {
+color-picker {
     margin-top: 2em;
 }
 
-main > p {
+p.hint {
     margin-top: 0.35em;
     font-size: 0.75em;
     font-weight: 500;
@@ -123,26 +147,5 @@ main > p {
         padding: 1em 2em;
         font-weight: 600;
         font-size: 1.05em;
-    }
-
-    main > section {
-        min-width: 90%;
-    }
-
-    main > section h2 {
-        font-size: 1em;
-    }
-
-    main > section pre {
-        font-size: 0.9em;
-    }
-
-    main section.demo .hint svg {
-        height: 1.2em;
-    }
-
-    main section.demo .hint span {
-        transform: translate3d(-3em, -1.4em, 0);
-        font-size: 0.6em;
     }
 }

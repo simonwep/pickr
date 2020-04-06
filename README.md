@@ -331,7 +331,7 @@ const pickr = new Pickr({
         },
     },
 
-    // Translations
+    // Translations, these are the default values.
     i18n: {
 
         // Strings visible in the UI

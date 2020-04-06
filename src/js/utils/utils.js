@@ -77,7 +77,7 @@ export function createFromTemplate(str) {
     };
 
     // Recursive function to resolve template
-    function resolve(element, base = {}) {
+    const resolve = (element, base = {}) => {
 
         // Check key and container attribute
         const con = removeAttribute(element, ':obj');
@@ -99,7 +99,7 @@ export function createFromTemplate(str) {
         }
 
         return base;
-    }
+    };
 
     return resolve(createElementFromString(str));
 }

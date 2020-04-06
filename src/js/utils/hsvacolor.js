@@ -1,4 +1,4 @@
-import {hsvToHsl, hsvToRgb, hsvToCmyk, hsvToHex} from './color';
+import {hsvToCmyk, hsvToHex, hsvToHsl, hsvToRgb} from './color';
 
 /**
  * Simple class which holds the properties
@@ -40,7 +40,7 @@ export function HSVaColor(h = 0, s = 0, v = 0, a = 1) {
             const hex = hsvToHex(that.h, that.s, that.v);
 
             // Check if alpha channel make sense, convert it to 255 number space, convert
-            // to hex and pad it with zeros if needet.
+            // To hex and pad it with zeros if needet.
             const alpha = that.a >= 1 ? '' : Number((that.a * 255).toFixed(0))
                 .toString(16)
                 .toUpperCase().padStart(2, '0');

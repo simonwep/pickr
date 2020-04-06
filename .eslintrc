@@ -1,7 +1,8 @@
 {
     "parser": "babel-eslint",
     "extends": [
-        "eslint:recommended"
+        "eslint:recommended",
+        "simon"
     ],
     "env": {
         "browser": true

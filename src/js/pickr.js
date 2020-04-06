@@ -1,13 +1,11 @@
-// Import utils
 import * as _        from './utils/utils';
+import {version}     from '../../package';
 import {parseToHSVA} from './utils/color';
-
-// Import classes
-import {HSVaColor} from './utils/hsvacolor';
-import Moveable    from './libs/moveable';
-import Selectable  from './libs/selectable';
-import Nanopop     from './libs/nanopop';
-import buildPickr  from './template';
+import {HSVaColor}   from './utils/hsvacolor';
+import Moveable      from './libs/moveable';
+import Selectable    from './libs/selectable';
+import Nanopop       from './libs/nanopop';
+import buildPickr    from './template';
 
 class Pickr {
 
@@ -16,6 +14,10 @@ class Pickr {
 
     // If the current color value should be recalculated
     _recalc = true;
+
+    // Positioning engine and DOM-Tree
+    _nanopop = null;
+    _root = null;
 
     // Current and last color for comparison
     _color = HSVaColor();
@@ -146,7 +148,7 @@ class Pickr {
         }
 
         // Create element and append it to body to
-        // prevent initialization errors
+        // Prevent initialization errors
         this._root = buildPickr(this, opt);
 
         // Check if a custom button is used
@@ -193,6 +195,7 @@ class Pickr {
         // Check if color comparison is disabled, if yes - remove transitions so everything keeps smoothly
         if (!opt.comparison) {
             root.button.style.transition = 'none';
+
             if (!opt.useAsButton) {
                 root.preview.lastColor.style.transition = 'none';
             }
@@ -221,7 +224,9 @@ class Pickr {
 
                 onstop: () => inst._emit('changestop', inst),
                 onchange(x, y) {
-                    if (!cs.palette) return;
+                    if (!cs.palette) {
+                        return;
+                    }
 
                     const color = getColor();
                     const {_root, options} = inst;
@@ -251,10 +256,13 @@ class Pickr {
                     // Check if color is locked
                     if (!options.comparison) {
                         _root.button.style.color = cssRGBaString;
-                    } else {
-                        if (!options.useAsButton && !inst._lastColor) {
-                            _root.preview.lastColor.style.color = cssRGBaString;
-                        }
+
+                        // If the user changes the color, remove the cleared icon
+                        _root.button.classList.remove('clear');
+                    } else if (!options.useAsButton && !inst._lastColor) {
+
+                        // Apply color to both the last and current color since the current state is cleared
+                        lastColor.style.color = cssRGBaString;
                     }
 
                     // Check if there's a swatch which color matches the current one
@@ -264,13 +272,7 @@ class Pickr {
                     }
 
                     // Change current color
-                    _root.preview.currentColor.style.color = cssRGBaString;
-
-                    if (!inst.options.comparison) {
-
-                        // If the user changes the color, remove the cleared icon
-                        _root.button.classList.remove('clear');
-                    }
+                    currentColor.style.color = cssRGBaString;
                 }
             }),
 
@@ -281,7 +283,10 @@ class Pickr {
 
                 onstop: () => inst._emit('changestop', inst),
                 onchange(v) {
-                    if (!cs.hue || !cs.palette) return;
+                    if (!cs.hue || !cs.palette) {
+                        return;
+                    }
+
                     const color = getColor();
 
                     // Calculate hue
@@ -302,7 +307,10 @@ class Pickr {
 
                 onstop: () => inst._emit('changestop', inst),
                 onchange(v) {
-                    if (!cs.opacity || !cs.palette) return;
+                    if (!cs.opacity || !cs.palette) {
+                        return;
+                    }
+
                     const color = getColor();
 
                     // Calculate opacity
@@ -352,6 +360,7 @@ class Pickr {
                 !this.applyColor() && !options.showAlways && this.hide();
             }),
 
+            // User input
             _.on(_root.interaction.result, ['keyup', 'input'], e => {
 
                 // Fire listener if initialization is finish and changed color was valid
@@ -464,29 +473,7 @@ class Pickr {
 
         // No repositioning needed if inline
         if (!options.inline) {
-            const {app} = this._root;
-
-            if (matchMedia('(max-width: 576px)').matches) {
-                Object.assign(app.style, {
-                    margin: 'auto',
-                    height: `${app.getBoundingClientRect().height}px`,
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0
-                });
-            } else {
-                Object.assign(app.style, {
-                    margin: null,
-                    right: null,
-                    top: null,
-                    bottom: null,
-                    left: null,
-                    height: null
-                });
-
-                this._nanopop.update(options.position);
-            }
+            this._nanopop.update(options.position, !this._recalc);
         }
     }
 
@@ -537,7 +524,7 @@ class Pickr {
         const alphaMakesAChange = a !== undefined && a !== 1;
 
         // If no opacity is applied, add undefined at the very end which gets
-        // set to 1 in setHSVA
+        // Set to 1 in setHSVA
         if (values && values.length === 3) {
             values[3] = undefined;
         }
@@ -594,7 +581,7 @@ class Pickr {
 
             // Create new swatch HTMLElement
             const el = _.createElementFromString(
-                `<button type="button" style="color: ${color.toRGBA().toString(0)}" aria-label="${this._t('btn:swatch', 'color-swatch')}"/>`
+                `<button type="button" style="color: ${color.toRGBA().toString(0)}" aria-label="color swatch"/>`
             );
 
             // Append element and save swatch data
@@ -641,7 +628,7 @@ class Pickr {
         const {preview, button} = this._root;
 
         // Change preview and current color
-        const cssRGBaString = this._color.toRGBA().toString();
+        const cssRGBaString = this._color.toRGBA().toString(0);
         preview.lastColor.style.color = cssRGBaString;
 
         // Change only the button color if it isn't customized
@@ -659,6 +646,8 @@ class Pickr {
         if (!this._initializingActive && !silent) {
             this._emit('save', this._color);
         }
+
+        return this;
     }
 
     /**
@@ -684,7 +673,7 @@ class Pickr {
             root.parentElement.removeChild(root);
         }
 
-        // remove .pcr-app
+        // Remove .pcr-app
         app.parentElement.removeChild(app);
 
         // There are references to various DOM elements stored in the pickr instance
@@ -800,8 +789,13 @@ class Pickr {
                 }
             }
 
-            this.setColorRepresentation(utype);
-            return this.setHSVA(...values, silent);
+            // Update color (fires 'save' event if silent is 'false')
+            if (!this.setHSVA(...values, silent)) {
+                return false;
+            }
+
+            // Update representation (fires 'change' event)
+            return this.setColorRepresentation(utype);
         }
 
         return false;
@@ -888,5 +882,5 @@ Pickr.libs = {
 Pickr.create = options => new Pickr(options);
 
 // Assign version and export
-Pickr.version = '1.4.1';
+Pickr.version = version;
 export default Pickr;

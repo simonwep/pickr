@@ -69,6 +69,7 @@ const path = require('path');
                 rules: [
                     {
                         test: /\.js$/,
+                        exclude: /@babel(?:\/|\\{1,2})runtime|core-js/,
                         use: [
                             {
                                 loader: 'babel-loader',

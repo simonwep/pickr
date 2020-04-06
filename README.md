@@ -21,9 +21,13 @@
      src="https://data.jsdelivr.com/v1/package/npm/@simonwep/pickr/badge"></a>
   <img alt="Current version"
        src="https://img.shields.io/github/tag/Simonwep/pickr.svg?color=3498DB&label=version&style=flat-square">
-  <a href="https://www.patreon.com/simonwep"><img
+  <a href="https://github.com/sponsors/Simonwep"><img
      alt="Support me"
-     src="https://img.shields.io/badge/patreon-support-3498DB.svg?style=popout-square"></a>
+     src="https://img.shields.io/badge/github-support-3498DB.svg?style=popout-square"></a>
+  <a href="https://gitpod.io/#https://github.com/Simonwep/pickr"><img
+     alt="Gitpod Ready-to-Code"
+     src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod&style=popout-square"
+     /></a>
 </p>
 
 <br>
@@ -90,11 +94,16 @@ import '@simonwep/pickr/dist/themes/classic.min.css';   // 'classic' theme
 import '@simonwep/pickr/dist/themes/monolith.min.css';  // 'monolith' theme
 import '@simonwep/pickr/dist/themes/nano.min.css';      // 'nano' theme
 
-// Modern or es5 bundle
+// Modern or es5 bundle (pay attention to the note below!)
 import Pickr from '@simonwep/pickr';
 import Pickr from '@simonwep/pickr/dist/pickr.es5.min';
 ```
 ---
+
+> Attention: The es5-bundle (e.g. legacy version) is quite big (around a triple of the modern bundle).
+> Please take into consideration to use the modern version and add polyfills later to your final bundle!
+> (Or better: give a hint to users that they should use the latest browsers)
+
 ### Browser
 
 jsdelivr:
@@ -157,6 +166,8 @@ const pickr = Pickr.create({
     }
 });
 ```
+
+> You can find more examples [here](EXAMPLES.md).
 
 ## Events
 Since version `0.4.x` Pickr is event-driven. Use the `on(event, cb)` and `off(event, cb)` functions to bind / unbind eventlistener.
@@ -221,11 +232,11 @@ const pickr = new Pickr({
     // If true, appendToBody will also be automatically true.
     useAsButton: false,
 
-    // Size of gap between pickr (widget) and the corresponding reference (button) in px 
+    // Size of gap between pickr (widget) and the corresponding reference (button) in px
     padding: 8,
 
     // If true pickr won't be floating, and instead will append after the in el resolved element.
-    // Setting this to true will also set showAlways to true. It's possible to hide it via .hide() anyway.
+    // It's possible to hide it via .hide() anyway.
     inline: false,
 
     // If true, pickr will be repositioned automatically on page scroll or window resize.
@@ -250,10 +261,14 @@ const pickr = new Pickr({
     // Precision of output string (only effective if components.interaction.input is true)
     outputPrecision: 0,
 
-    // If set to false it would directly apply the selected color on the button and preview.
+    // Defines change/save behavior:
+    // - to keep current color in place until Save is pressed, set to `true`,
+    // - to apply color to button and preview (save) in sync with each change
+    //   (from picker or palette), set to `false`.
     comparison: true,
 
-    // Default color
+    // Default color. If you're using a named color such as red, white ... set
+    // a value for defaultRepresentation too as there is no button for named-colors.
     default: '#42445a',
 
     // Optional color swatches. When null, swatches are disabled.
@@ -299,6 +314,8 @@ const pickr = new Pickr({
 
         // show or hide components on the bottom interaction bar.
         interaction: {
+
+            // Buttons, if you disable one but use the format in default: or setColor() - set the representation-type too!
             hex: false,  // Display 'input/output format as hex' button  (hexadecimal representation of the rgba value)
             rgba: false, // Display 'input/output format as rgba' button (red green blue and alpha)
             hsla: false, // Display 'input/output format as hsla' button (hue saturation lightness and alpha)
@@ -314,7 +331,7 @@ const pickr = new Pickr({
         },
     },
 
-    // Translations 
+    // Translations
     i18n: {
        'dialog': 'color picker dialog',
        'btn:toggle': 'toggle color picker dialog',
@@ -373,27 +390,27 @@ hsva.toRGBA().toString(3); // Returns rgba(r, g, b, a), rounded to the third dec
 
 ## Methods
 * pickr.setHSVA(h`:Number`,s`:Number`,v`:Number`,a`:Float`, silent`:Boolean`) _- Set an color, returns true if the color has been accepted._
-* pickr.setColor(representation`:String`, silent`:Boolean`)`:Boolean` _- Parses a string which represents a color (e.g. `#fff`, `rgb(10, 156, 23)`) or name e.g. 'magenta', returns true if the color has been accepted. `null` will clear the color._
+* pickr.setColor(str: `:String | null`, silent`:Boolean`)`:Boolean` _- Parses a string which represents a color (e.g. `#fff`, `rgb(10, 156, 23)`) or name e.g. 'magenta', returns true if the color has been accepted. `null` will clear the color._
 
 If `silent` is true (Default is false), the button won't change the current color.
 
-* pickr.on(event`:String`, cb`:Function`) _- Appends an event listener to the given corresponding event-name (see section Events), returns the pickr instance so it can be chained._
-* pickr.off(event`:String`, cb`:Function`) _- Removes an event listener from the given corresponding event-name (see section Events), returns the pickr instance so it can be chained._
-* pickr.show() _- Shows the color-picker, returns instance._
-* pickr.hide() _- Hides the color-picker, returns instance._
-* pickr.disable() _- Disables pickr and adds the `disabled` class to the button, returns instance._
-* pickr.enable() _- Enables pickr and removes the `disabled` class from the button, returns instance._
-* pickr.isOpen() _- Returns true if the color picker is currently open._
-* pickr.getRoot()`:HTMLElement` _- Returns the root DOM-Element of the color-picker._
+* pickr.on(event`:String`, cb`:Function`)`:Pickr` _- Appends an event listener to the given corresponding event-name (see section Events)._
+* pickr.off(event`:String`, cb`:Function`)`:Pickr` _- Removes an event listener from the given corresponding event-name (see section Events)._
+* pickr.show()`:Pickr` _- Shows the color-picker._
+* pickr.hide()`:Pickr` _- Hides the color-picker._
+* pickr.disable()`:Pickr` _- Disables pickr and adds the `disabled` class to the button._
+* pickr.enable()`:Pickr` _- Enables pickr and removes the `disabled` class from the button._
+* pickr.isOpen()`:Pickr` _- Returns true if the color picker is currently open._
+* pickr.getRoot()`:Object` _- Returns the dom-tree of pickr as tree-structure._
 * pickr.getColor()`:HSVaColor` _- Returns the current HSVaColor object._
 * pickr.getSelectedColor()`:HSVaColor` _- Returns the currently applied color._
 * pickr.destroy() _- Destroys all functionality._
 * pickr.destroyAndRemove() _- Destroys all functionality and removes the pickr element including the button._
 * pickr.setColorRepresentation(type`:String`)`:Boolean` _- Change the current color-representation. Valid options are `HEX`, `RGBA`, `HSVA`, `HSLA` and `CMYK`, returns false if type was invalid._
 * pickr.getColorRepresentation()`:String` _- Returns the currently used color-representation (eg. `HEXA`, `RGBA`...)_
-* pickr.applyColor(silent`:Boolean`) _- Same as pressing the save button. If silent is true the `onSave` event won't be called._
+* pickr.applyColor(silent`:Boolean`)`:Pickr` _- Same as pressing the save button. If silent is true the `onSave` event won't be called._
 * pickr.addSwatch(color`:String`)`:Boolean` _- Adds a color to the swatch palette. Returns `true` if the color has been successful added to the palette._
-* pickr.removeSwatch(index`:Number`) _- Removes a color from the swatch palette by its index._
+* pickr.removeSwatch(index`:Number`)`:Boolean`_- Removes a color from the swatch palette by its index, returns true if successful._
 
 ## Static methods
 **Pickr**
@@ -412,6 +429,17 @@ If `silent` is true (Default is false), the button won't change the current colo
 The mapper function takes three arguments: the matched number, an multiplier and the index of the match._
 
 Use this utils carefully, it's not for sure that they will stay forever!
+
+## FAQ
+> How do I initialize multiple pickr's? Can I access the instance via `class` or `id`?
+
+No, you can't. You need to keep track of your instance variables - pickr is (not yet) a web-component.
+The best option would be to create new elements via `document.createElement` and directly pass it as `el`.
+[example](https://jsfiddle.net/Simonwep/9ghk71c3/).
+
+> I want to use pickr in a form, how can I do that?
+
+You can use `useAsButton: true` and pass a reference (or selector) of your input-element as `el`. Then you can update the input-element whenever a change was made. [example](https://jsfiddle.net/Simonwep/wL1zyqcd/).
 
 ## Contributing
 If you want to open a issue, create a Pull Request or simply want to know how you can run it on your local machine, please read the [Contributing guide](https://github.com/Simonwep/pickr/blob/master/.github/CONTRIBUTING.md).

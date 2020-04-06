@@ -1,8 +1,8 @@
 {
     "name": "@simonwep/pickr",
-    "version": "1.4.1",
+    "version": "1.5.1",
     "license": "MIT",
-    "author": "Simon Reinisch <toports@gmx.de>",
+    "author": "Simon Reinisch <trash@reinisch.io>",
     "description": "Flat, Simple, Hackable Color-Picker.",
     "keywords": [
         "ux",
@@ -10,32 +10,36 @@
         "color-picker"
     ],
     "main": "./dist/pickr.min.js",
+    "typings": "./types/pickr.d.ts",
     "scripts": {
         "build": "node ./scripts/build.js",
         "dev": "webpack-dev-server --mode development",
-        "lint": "eslint ./src --fix"
+        "lint": "eslint ./src --fix",
+        "test:ts": "tsc --target ES6 --noImplicitAny --noEmit spec/ts/index.ts"
     },
     "devDependencies": {
-        "@babel/core": "^7.5.5",
-        "@babel/plugin-proposal-class-properties": "^7.5.5",
-        "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
-        "@babel/preset-env": "^7.5.5",
-        "autoprefixer": "^9.6.1",
+        "@babel/core": "^7.8.4",
+        "@babel/plugin-proposal-class-properties": "^7.8.3",
+        "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
+        "@babel/preset-env": "^7.8.4",
+        "autoprefixer": "^9.7.4",
         "babel-eslint": "^10.0.3",
         "babel-loader": "^8.0.6",
-        "css-loader": "^3.2.0",
-        "eslint": "^6.3.0",
-        "eslint-loader": "^3.0.0",
-        "mini-css-extract-plugin": "^0.8.0",
-        "node-sass": "^4.12.0",
+        "css-loader": "^3.4.2",
+        "eslint": "^6.8.0",
+        "eslint-config-simon": "^1.2.0",
+        "eslint-loader": "^3.0.3",
+        "mini-css-extract-plugin": "^0.9.0",
+        "node-sass": "^4.13.1",
         "optimize-css-assets-webpack-plugin": "^5.0.3",
         "postcss-loader": "^3.0.0",
-        "sass-loader": "^8.0.0",
-        "webpack": "^4.39.3",
+        "sass-loader": "^8.0.2",
+        "typescript": "^3.7.5",
+        "webpack": "^4.41.5",
         "webpack-cleanup-plugin": "^0.5.1",
-        "webpack-cli": "^3.3.7",
-        "webpack-dev-server": "^3.8.0",
-        "webpack-fix-style-only-entries": "^0.3.1"
+        "webpack-cli": "^3.3.10",
+        "webpack-dev-server": "^3.10.3",
+        "webpack-fix-style-only-entries": "^0.4.0"
     },
     "homepage": "https://github.com/Simonwep/pickr#readme",
     "repository": {
@@ -44,5 +48,8 @@
     },
     "bugs": {
         "url": "https://github.com/Simonwep/pickr/issues"
+    },
+    "dependencies": {
+        "core-js": "^3.6.4"
     }
 }

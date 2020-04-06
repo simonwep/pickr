@@ -9,6 +9,7 @@ export default (inst, {components: c, useAsButton, inline, appClass, theme, lock
 
         ${useAsButton ? '' : '<button type="button" :ref="button" class="pcr-button"></button>'}
 
+        <div :ref="app" class="pcr-app ${appClass || ''}" data-theme="${theme}" ${inline ? 'style="position: unset"' : ''} aria-label="color picker dialog" role="form">
         <div :ref="app" class="pcr-app ${appClass || ''}" data-theme="${theme}" ${inline ? 'style="position: unset"' : ''} aria-label="${t('dialog', 'color picker dialog')}" role="window">
           <div class="pcr-selection" ${hidden(c.palette)}>
             <div :obj="preview" class="pcr-color-preview" ${hidden(c.preview)}>
@@ -18,21 +19,21 @@ export default (inst, {components: c, useAsButton, inline, appClass, theme, lock
 
             <div :obj="palette" class="pcr-color-palette">
               <div :ref="picker" class="pcr-picker"></div>
-              <div :ref="palette" class="pcr-palette" tabindex="0" aria-label="${t('ui:palette', 'color selection area')}" role="widget"></div>
+              <div :ref="palette" class="pcr-palette" tabindex="0" aria-label="${t('ui:palette', 'color selection area')}" role="listbox"></div>
             </div>
 
             <div :obj="hue" class="pcr-color-chooser" ${hidden(c.hue)}>
               <div :ref="picker" class="pcr-picker"></div>
-              <div :ref="slider" class="pcr-hue pcr-slider" tabindex="0" aria-label="${t('ui:hue', 'hue selection slider')}" role="widget"></div>
+              <div :ref="slider" class="pcr-hue pcr-slider" tabindex="0" aria-label="${t('ui:hue', 'hue selection slider')}" role="slider"></div>
             </div>
 
             <div :obj="opacity" class="pcr-color-opacity" ${hidden(c.opacity)}>
               <div :ref="picker" class="pcr-picker"></div>
-              <div :ref="slider" class="pcr-opacity pcr-slider" tabindex="0" aria-label="${t('ui:opacity', 'opacity selection slider')}" role="widget"></div>
+              <div :ref="slider" class="pcr-opacity pcr-slider" tabindex="0" aria-label="${t('ui:opacity', 'opacity selection slider')}" role="slider"></div>
             </div>
           </div>
 
-          <div class="pcr-swatches ${c.palette ? '' : ' pcr-last'}" :ref="swatches"></div> 
+          <div class="pcr-swatches ${c.palette ? '' : 'pcr-last'}" :ref="swatches"></div>
 
           <div :obj="interaction" class="pcr-interaction" ${hidden(Object.keys(c.interaction).length)}>
             <input :ref="result" class="pcr-result" type="text" spellcheck="false" ${hidden(c.interaction.input)} aria-label="${t('input:color', 'color input field')}">

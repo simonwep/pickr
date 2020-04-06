@@ -18,6 +18,7 @@ module.exports = {
 
     devServer: {
         contentBase: `${__dirname}/`,
+        disableHostCheck: true,
         host: '0.0.0.0',
         port: 3005
     },
@@ -34,7 +35,7 @@ module.exports = {
                     {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
-                            hmr: process.env.NODE_ENV === 'development',
+                            hmr: true,
                             reloadAll: true
                         },
                     },

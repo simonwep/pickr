@@ -429,7 +429,6 @@ If `silent` is true (Default is false), the button won't change the current colo
 * off(elements`:HTMLElement(s)`, event`:String(s)`, fn`:Function`[, options `:Object`]) _- Remove an event handler._
 * createElementFromString(html`:String`)`:HTMLElement` _- Creates an new HTML Element out of this string._
 * eventPath(evt`:Event`)`:[HTMLElement]` _- A polyfill for the event-path event propery._
-* removeAttribute(el`:HTMLElement`, name`:String`) _- Removes an attribute from a HTMLElement and returns the value._
 * createFromTemplate(str`:String`) _- See [inline doumentation](https://github.com/Simonwep/pickr/blob/master/src/js/lib/utils.js#L88)._
 * resolveElement(val`:String|HTMLElement`) _- Resolves a `HTMLElement`, supports `>>>` as shadow dom selector._
 * adjustableInputNumbers(el`:InputElement`, mapper`:Function`) _- Creates the possibility to change the numbers in an inputfield via mouse scrolling.

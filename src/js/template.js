@@ -34,7 +34,7 @@ export default ({components: c, strings: s, useAsButton, inline, appClass, theme
           <div class="pcr-swatches ${c.palette ? '' : 'pcr-last'}" :ref="swatches"></div> 
 
           <div :obj="interaction" class="pcr-interaction" ${hidden(Object.keys(c.interaction).length)}>
-            <input :ref="result" class="pcr-result" type="text" spellcheck="false" ${hidden(c.interaction.input)}>
+            <input :ref="result" class="pcr-result" type="text" spellcheck="false" ${hidden(c.interaction.input)} aria-label="${s.input || null}">
 
             <input :arr="options" class="pcr-type" data-type="HEXA" value="${lo ? 'HEX' : 'HEXA'}" type="button" ${hidden(c.interaction.hex)}>
             <input :arr="options" class="pcr-type" data-type="RGBA" value="${lo ? 'RGB' : 'RGBA'}" type="button" ${hidden(c.interaction.rgba)}>

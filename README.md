@@ -323,6 +323,7 @@ const pickr = new Pickr({
        'btn:save': 'Save',
        'btn:cancel': 'Cancel',
        'btn:clear': 'Clear',
+       'input:color': 'color input field',
        'ui:palette': 'color selection area',
        'ui:hue': 'hue selection slider',
        'ui:opacity': 'selection slider'

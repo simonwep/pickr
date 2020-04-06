@@ -140,23 +140,23 @@ class Pickr {
 
     // Does only the absolutly basic thing to initialize the components
     _preBuild() {
-        const opt = this.options;
+        const {options} = this;
 
         // Resolve elements
         for (const type of ['el', 'container']) {
-            opt[type] = _.resolveElement(opt[type]);
+            options[type] = _.resolveElement(options[type]);
         }
 
         // Create element and append it to body to
         // Prevent initialization errors
-        this._root = buildPickr(this, opt);
+        this._root = buildPickr(this);
 
         // Check if a custom button is used
-        if (opt.useAsButton) {
-            this._root.button = opt.el; // Replace button with customized button
+        if (options.useAsButton) {
+            this._root.button = options.el; // Replace button with customized button
         }
 
-        opt.container.appendChild(this._root.root);
+        options.container.appendChild(this._root.root);
     }
 
     _finalBuild() {
@@ -230,6 +230,7 @@ class Pickr {
 
                     const color = getColor();
                     const {_root, options} = inst;
+                    const {lastColor, currentColor} = _root.preview;
 
                     // Update the input field only if the user is currently not typing
                     if (inst._recalc) {
@@ -581,7 +582,7 @@ class Pickr {
 
             // Create new swatch HTMLElement
             const el = _.createElementFromString(
-                `<button type="button" style="color: ${color.toRGBA().toString(0)}" aria-label="color swatch"/>`
+                `<button type="button" style="color: ${color.toRGBA().toString(0)}" aria-label="${this._t('btn:swatch', 'swatch')}"/>`
             );
 
             // Append element and save swatch data

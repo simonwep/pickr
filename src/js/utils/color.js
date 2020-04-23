@@ -201,7 +201,7 @@ function hslToHsv(h, s, l) {
 
     const ns = (2 * s / (l + s)) * 100;
     const v = (l + s) * 100;
-    return [h, ns, v];
+    return [h, isNaN(ns) ? 0 : ns, v];
 }
 
 /**

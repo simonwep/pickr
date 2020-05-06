@@ -447,5 +447,10 @@ The best option would be to create new elements via `document.createElement` and
 
 You can use `useAsButton: true` and pass a reference (or selector) of your input-element as `el`. Then you can update the input-element whenever a change was made. [example](https://jsfiddle.net/Simonwep/wL1zyqcd/).
 
+> I want to update options after mounting pickr, is that possible?
+
+Unfortunately not. The core-code of this project is rather old (over 2 years), and I made it in my early js-days - the widget is not able to dynamically re-render itself in that way.
+You have to destroy and re-initialize it.
+
 ## Contributing
 If you want to open a issue, create a Pull Request or simply want to know how you can run it on your local machine, please read the [Contributing guide](https://github.com/Simonwep/pickr/blob/master/.github/CONTRIBUTING.md).

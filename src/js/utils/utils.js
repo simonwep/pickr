@@ -53,18 +53,6 @@ export function createElementFromString(html) {
 }
 
 /**
- * Removes an attribute from a HTMLElement and returns the value.
- * @param el
- * @param name
- * @return {string}
- */
-export function removeAttribute(el, name) {
-    const value = el.getAttribute(name);
-    el.removeAttribute(name);
-    return value;
-}
-
-/**
  * Creates a new html element, every element which has
  * a ':ref' attribute will be saved in a object (which will be returned)
  * where the value of ':ref' is the object-key and the value the HTMLElement.
@@ -78,10 +66,18 @@ export function removeAttribute(el, name) {
  *
  * @param str - The HTML String.
  */
+
 export function createFromTemplate(str) {
 
+    // Removes an attribute from a HTMLElement and returns the value.
+    const removeAttribute = (el, name) => {
+        const value = el.getAttribute(name);
+        el.removeAttribute(name);
+        return value;
+    };
+
     // Recursive function to resolve template
-    function resolve(element, base = {}) {
+    const resolve = (element, base = {}) => {
 
         // Check key and container attribute
         const con = removeAttribute(element, ':obj');
@@ -103,7 +99,7 @@ export function createFromTemplate(str) {
         }
 
         return base;
-    }
+    };
 
     return resolve(createElementFromString(str));
 }

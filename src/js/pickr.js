@@ -9,6 +9,42 @@ import buildPickr    from './template';
 
 class Pickr {
 
+    // Expose pickr utils
+    static utils = _;
+
+    // Expose libraries for easier integration in things build on top of it
+    static libs = {
+        HSVaColor,
+        Moveable,
+        Nanopop,
+        Selectable
+    };
+
+    // Assign version and export
+    static version = version;
+
+    // Default strings
+    static I18N_DEFAULTS = {
+
+        // Strings visible in the UI
+        'ui:dialog': 'color picker dialog',
+        'btn:toggle': 'toggle color picker dialog',
+        'btn:swatch': 'color swatch',
+        'btn:last-color': 'use previous color',
+        'btn:save': 'Save',
+        'btn:cancel': 'Cancel',
+        'btn:clear': 'Clear',
+
+        // Strings used for aria-labels
+        'aria:btn:save': 'save and close',
+        'aria:btn:cancel': 'cancel and close',
+        'aria:btn:clear': 'clear and close',
+        'aria:input': 'color input field',
+        'aria:palette': 'color selection area',
+        'aria:hue': 'hue selection slider',
+        'aria:opacity': 'selection slider'
+    };
+
     // Will be used to prevent specific actions during initilization
     _initializingActive = true;
 
@@ -52,11 +88,12 @@ class Pickr {
             lockOpacity: false,
             autoReposition: true,
             container: 'body',
+
             components: {
                 interaction: {}
             },
 
-            strings: {},
+            i18n: {},
             swatches: null,
             inline: false,
             sliders: null,
@@ -107,7 +144,7 @@ class Pickr {
 
         // Initialize accessibility
         button.setAttribute('role', 'button');
-        button.setAttribute('aria-label', 'toggle color picker dialog');
+        button.setAttribute('aria-label', this._t('btn:toggle'));
 
         // Initilization is finish, pickr is visible and ready for usage
         const that = this;
@@ -138,25 +175,28 @@ class Pickr {
         }));
     }
 
+    // Create instance via method
+    static create = options => new Pickr(options);
+
     // Does only the absolutly basic thing to initialize the components
     _preBuild() {
-        const opt = this.options;
+        const {options} = this;
 
         // Resolve elements
         for (const type of ['el', 'container']) {
-            opt[type] = _.resolveElement(opt[type]);
+            options[type] = _.resolveElement(options[type]);
         }
 
         // Create element and append it to body to
         // Prevent initialization errors
-        this._root = buildPickr(opt);
+        this._root = buildPickr(this);
 
         // Check if a custom button is used
-        if (opt.useAsButton) {
-            this._root.button = opt.el; // Replace button with customized button
+        if (options.useAsButton) {
+            this._root.button = options.el; // Replace button with customized button
         }
 
-        opt.container.appendChild(this._root.root);
+        options.container.appendChild(this._root.root);
     }
 
     _finalBuild() {
@@ -540,6 +580,10 @@ class Pickr {
         this._eventListener[event].forEach(cb => cb(...args, this));
     }
 
+    _t(key) {
+        return this.options.i18n[key] || Pickr.I18N_DEFAULTS[key];
+    }
+
     on(event, cb) {
 
         // Validate
@@ -578,7 +622,7 @@ class Pickr {
 
             // Create new swatch HTMLElement
             const el = _.createElementFromString(
-                `<button type="button" style="color: ${color.toRGBA().toString(0)}" aria-label="color swatch"/>`
+                `<button type="button" style="color: ${color.toRGBA().toString(0)}" aria-label="${this._t('btn:swatch')}"/>`
             );
 
             // Append element and save swatch data
@@ -864,20 +908,4 @@ class Pickr {
     }
 }
 
-// Expose pickr utils
-Pickr.utils = _;
-
-// Expose libraries for easier integration in things build on top of it
-Pickr.libs = {
-    HSVaColor,
-    Moveable,
-    Nanopop,
-    Selectable
-};
-
-// Create instance via method
-Pickr.create = options => new Pickr(options);
-
-// Assign version and export
-Pickr.version = version;
 export default Pickr;

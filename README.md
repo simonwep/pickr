@@ -1,4 +1,4 @@
- <h1 align="center">
+<h1 align="center">
     <img src="https://user-images.githubusercontent.com/30767528/57573928-1e78db80-7430-11e9-940c-aecbf3226b7c.png" alt="Logo">
 </h1>
 
@@ -62,7 +62,7 @@
 * Responsive and auto-positioning
 * Supports touch devices
 * Swatches for quick-selection
-* Fully accessible
+* Fully accessible and i18n
 * [Shadow-dom support](#selection-through-a-shadow-dom)
 
 ### Themes
@@ -331,11 +331,26 @@ const pickr = new Pickr({
         },
     },
 
-    // Button strings, brings the possibility to use a language other than English.
-    strings: {
-       save: 'Save',  // Default for save button
-       clear: 'Clear', // Default for clear button
-       cancel: 'Cancel' // Default for cancel button
+    // Translations, these are the default values.
+    i18n: {
+
+        // Strings visible in the UI
+       'ui:dialog': 'color picker dialog',
+       'btn:toggle': 'toggle color picker dialog',
+       'btn:swatch': 'color swatch',
+       'btn:last-color': 'use previous color',
+       'btn:save': 'Save',
+       'btn:cancel': 'Cancel',
+       'btn:clear': 'Clear',
+
+       // Strings used for aria-labels
+       'aria:btn:save': 'save and close',
+       'aria:btn:cancel': 'cancel and close',
+       'aria:btn:clear': 'clear and close',
+       'aria:input': 'color input field',
+       'aria:palette': 'color selection area',
+       'aria:hue': 'hue selection slider',
+       'aria:opacity': 'selection slider'
     }
 });
 ```
@@ -414,7 +429,6 @@ If `silent` is true (Default is false), the button won't change the current colo
 * off(elements`:HTMLElement(s)`, event`:String(s)`, fn`:Function`[, options `:Object`]) _- Remove an event handler._
 * createElementFromString(html`:String`)`:HTMLElement` _- Creates an new HTML Element out of this string._
 * eventPath(evt`:Event`)`:[HTMLElement]` _- A polyfill for the event-path event propery._
-* removeAttribute(el`:HTMLElement`, name`:String`) _- Removes an attribute from a HTMLElement and returns the value._
 * createFromTemplate(str`:String`) _- See [inline doumentation](https://github.com/Simonwep/pickr/blob/master/src/js/lib/utils.js#L88)._
 * resolveElement(val`:String|HTMLElement`) _- Resolves a `HTMLElement`, supports `>>>` as shadow dom selector._
 * adjustableInputNumbers(el`:InputElement`, mapper`:Function`) _- Creates the possibility to change the numbers in an inputfield via mouse scrolling.

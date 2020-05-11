@@ -4,8 +4,8 @@ import {parseToHSVA} from './utils/color';
 import {HSVaColor}   from './utils/hsvacolor';
 import Moveable      from './libs/moveable';
 import Selectable    from './libs/selectable';
-import Nanopop       from './libs/nanopop';
 import buildPickr    from './template';
+import {NanoPop}     from 'nanopop';
 
 class Pickr {
 
@@ -16,7 +16,6 @@ class Pickr {
     static libs = {
         HSVaColor,
         Moveable,
-        Nanopop,
         Selectable
     };
 
@@ -136,10 +135,8 @@ class Pickr {
 
         // Initialize positioning engine
         const {button, app} = this._root;
-        this._nanopop = Nanopop({
-            reference: button,
-            padding,
-            el: app
+        this._nanopop = new NanoPop(button, app, {
+            margin: padding
         });
 
         // Initialize accessibility
@@ -514,7 +511,17 @@ class Pickr {
 
         // No repositioning needed if inline
         if (!options.inline) {
-            this._nanopop.update(options.position, !this._recalc);
+            const success = this._nanopop.update({
+                position: options.position,
+                forceApplyOnFailure: !this._recalc
+            });
+
+            if (!success) {
+                const el = this._root.app;
+                const eb = el.getBoundingClientRect();
+                el.style.top = `${(window.innerHeight - eb.height) / 2}px`;
+                el.style.left = `${(window.innerWidth - eb.width) / 2}px`;
+            }
         }
     }
 

@@ -294,6 +294,7 @@ const pickr = new Pickr({
     // Any combinations of top, left, bottom or right with one of these optional modifiers: start, middle, end
     // Examples: top-start / right-end
     // If clipping occurs, the color picker will automatically choose its position.
+    // Pickr uses https://github.com/Simonwep/nanopop as positioning-engine.
     position: 'bottom-middle',
 
     // Enables the ability to change numbers in an input field with the scroll-wheel.

@@ -37,6 +37,38 @@ class Pickr {
         'aria:opacity': 'selection slider'
     };
 
+    // Default options
+    static DEFAULT_OPTIONS = {
+        appClass: null,
+        theme: 'classic',
+        useAsButton: false,
+        padding: 8,
+        disabled: false,
+        comparison: true,
+        closeOnScroll: false,
+        outputPrecision: 0,
+        lockOpacity: false,
+        autoReposition: true,
+        container: 'body',
+
+        components: {
+            interaction: {}
+        },
+
+        i18n: {},
+        swatches: null,
+        inline: false,
+        sliders: null,
+
+        default: '#42445a',
+        defaultRepresentation: null,
+        position: 'bottom-middle',
+        adjustableNumbers: true,
+        showAlways: false,
+
+        closeWithKey: 'Escape'
+    };
+
     // Will be used to prevent specific actions during initilization
     _initializingActive = true;
 
@@ -68,36 +100,7 @@ class Pickr {
     constructor(opt) {
 
         // Assign default values
-        this.options = opt = Object.assign({
-            appClass: null,
-            theme: 'classic',
-            useAsButton: false,
-            padding: 8,
-            disabled: false,
-            comparison: true,
-            closeOnScroll: false,
-            outputPrecision: 0,
-            lockOpacity: false,
-            autoReposition: true,
-            container: 'body',
-
-            components: {
-                interaction: {}
-            },
-
-            i18n: {},
-            swatches: null,
-            inline: false,
-            sliders: null,
-
-            default: '#42445a',
-            defaultRepresentation: null,
-            position: 'bottom-middle',
-            adjustableNumbers: true,
-            showAlways: false,
-
-            closeWithKey: 'Escape'
-        }, opt);
+        this.options = opt = Object.assign(Pickr.DEFAULT_OPTIONS, opt);
 
         const {swatches, components, theme, sliders, lockOpacity, padding} = opt;
 

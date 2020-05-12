@@ -422,7 +422,7 @@ If `silent` is true (Default is false), the button won't change the current colo
 
 ## Static methods
 **Pickr**
-* Pickr.create(options`:Object`)`:Pickr` _- Creates a new instance._
+* create(options`:Object`)`:Pickr` _- Creates a new instance._
 
 **Pickr.utils**
 * once(element`:HTMLElement`, event`:String`, fn`:Function`[, options `:Object`]) _- Attach an event handle which will be fired only once_
@@ -436,6 +436,11 @@ If `silent` is true (Default is false), the button won't change the current colo
 The mapper function takes three arguments: the matched number, an multiplier and the index of the match._
 
 Use this utils carefully, it's not for sure that they will stay forever!
+
+## Static properties
+* version _- The current version._
+* I18N_DEFAULTS _- i18n default values._
+* DEFAULT_OPTIONS _- Default options (Do not override this property itself, only change properties of it!)._
 
 ## FAQ
 > How do I initialize multiple pickr's? Can I access the instance via `class` or `id`?

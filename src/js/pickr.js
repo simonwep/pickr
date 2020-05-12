@@ -12,13 +12,6 @@ class Pickr {
     // Expose pickr utils
     static utils = _;
 
-    // Expose libraries for easier integration in things build on top of it
-    static libs = {
-        HSVaColor,
-        Moveable,
-        Selectable
-    };
-
     // Assign version and export
     static version = version;
 
@@ -583,33 +576,25 @@ class Pickr {
         };
     }
 
-    _emit(event, ...args) {
-        this._eventListener[event].forEach(cb => cb(...args, this));
-    }
-
     _t(key) {
         return this.options.i18n[key] || Pickr.I18N_DEFAULTS[key];
     }
 
+    _emit(event, ...args) {
+        this._eventListener[event].forEach(cb => cb(...args, this));
+    }
+
     on(event, cb) {
-
-        // Validate
-        if (typeof cb === 'function' && typeof event === 'string' && event in this._eventListener) {
-            this._eventListener[event].push(cb);
-        }
-
+        this._eventListener[event].push(cb);
         return this;
     }
 
     off(event, cb) {
-        const callBacks = this._eventListener[event];
+        const callBacks = (this._eventListener[event] || []);
+        const index = callBacks.indexOf(cb);
 
-        if (callBacks) {
-            const index = callBacks.indexOf(cb);
-
-            if (~index) {
-                callBacks.splice(index, 1);
-            }
+        if (~index) {
+            callBacks.splice(index, 1);
         }
 
         return this;

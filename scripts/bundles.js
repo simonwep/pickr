@@ -6,6 +6,11 @@ module.exports = [
         'filename': 'pickr.es5.min.js',
         'babelConfig': {
             ...babelrc,
+            'plugins': [
+                '@babel/plugin-proposal-object-rest-spread',
+                '@babel/plugin-proposal-class-properties',
+                '@babel/plugin-transform-parameters'
+            ],
             'presets': [
                 [
                     '@babel/preset-env',
@@ -23,6 +28,9 @@ module.exports = [
         'filename': 'pickr.min.js',
         'babelConfig': {
             ...babelrc,
+            'plugins': [
+                '@babel/plugin-proposal-class-properties'
+            ],
             'presets': [
                 [
                     '@babel/preset-env',

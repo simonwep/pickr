@@ -102,7 +102,8 @@ import Pickr from '@simonwep/pickr/dist/pickr.es5.min';
 
 > Attention: The es5-bundle (e.g. legacy version) is quite big (around a triple of the modern bundle).
 > Please take into consideration to use the modern version and add polyfills later to your final bundle!
-> (Or better: give a hint to users that they should use the latest browsers)
+> (Or better: give a hint to users that they should use the latest browsers).
+> Browsers such as IE are **not supported** (at least not officially).
 
 ### Browser
 

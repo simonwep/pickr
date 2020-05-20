@@ -70,4 +70,4 @@ export default instance => {
     // Append method to find currently active option
     int.type = () => int.options.find(e => e.classList.contains('active'));
     return root;
-}
+};

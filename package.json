@@ -23,24 +23,24 @@
         "@babel/plugin-proposal-object-rest-spread": "^7.9.6",
         "@babel/plugin-transform-parameters": "^7.9.5",
         "@babel/preset-env": "^7.9.6",
-        "autoprefixer": "^9.7.6",
+        "autoprefixer": "^9.8.0",
         "babel-eslint": "^10.1.0",
         "babel-loader": "^8.1.0",
         "css-loader": "^3.5.3",
         "eslint": "^7.0.0",
-        "eslint-config-simon": "^1.3.0",
+        "eslint-config-simon": "^2.0.0",
         "eslint-loader": "^4.0.2",
         "mini-css-extract-plugin": "^0.9.0",
         "node-sass": "^4.14.1",
         "optimize-css-assets-webpack-plugin": "^5.0.3",
         "postcss-loader": "^3.0.0",
         "sass-loader": "^8.0.2",
-        "typescript": "^3.8.3",
+        "typescript": "^3.9.3",
         "webpack": "^4.43.0",
         "webpack-cleanup-plugin": "^0.5.1",
         "webpack-cli": "^3.3.11",
         "webpack-dev-server": "^3.11.0",
-        "webpack-fix-style-only-entries": "^0.4.0"
+        "webpack-fix-style-only-entries": "^0.5.0"
     },
     "homepage": "https://github.com/Simonwep/pickr#readme",
     "repository": {
@@ -51,7 +51,7 @@
         "url": "https://github.com/Simonwep/pickr/issues"
     },
     "dependencies": {
-        "nanopop": "^1.1.3",
+        "nanopop": "^1.3.0",
         "core-js": "^3.6.5"
     }
 }

@@ -1,11 +1,11 @@
-import * as _        from './utils/utils';
-import {version}     from '../../package';
+import * as _ from './utils/utils';
+import {version} from '../../package';
 import {parseToHSVA} from './utils/color';
-import {HSVaColor}   from './utils/hsvacolor';
-import Moveable      from './libs/moveable';
-import Selectable    from './libs/selectable';
-import buildPickr    from './template';
-import {NanoPop}     from 'nanopop';
+import {HSVaColor} from './utils/hsvacolor';
+import Moveable from './libs/moveable';
+import Selectable from './libs/selectable';
+import buildPickr from './template';
+import {NanoPop} from 'nanopop';
 
 class Pickr {
 
@@ -427,6 +427,7 @@ class Pickr {
             const ck = options.closeWithKey;
 
             eventBindings.push(
+
                 // Save and hide / show picker
                 _.on(_root.button, 'click', () => this.isOpen() ? this.hide() : this.show()),
 

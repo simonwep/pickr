@@ -12,9 +12,6 @@
         "sourceType": "module"
     },
     "rules": {
-        "no-cond-assign": "off",
-        "no-console": "error",
-        "keyword-spacing": "warn",
-        "eqeqeq": "error"
+        "new-cap": "off"
     }
 }

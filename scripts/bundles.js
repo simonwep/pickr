@@ -1,11 +1,8 @@
-const fs = require('fs');
-const babelrc = JSON.parse(fs.readFileSync('.babelrc'));
-
 module.exports = [
     {
         'filename': 'pickr.es5.min.js',
         'babelConfig': {
-            ...babelrc,
+            'babelrc': false,
             'plugins': [
                 '@babel/plugin-proposal-object-rest-spread',
                 '@babel/plugin-proposal-class-properties',
@@ -15,7 +12,7 @@ module.exports = [
                 [
                     '@babel/preset-env',
                     {
-                        'targets': '> 1.5%, not ie < 11',
+                        'targets': '> 1%, ie 11',
                         'useBuiltIns': 'usage',
                         'corejs': 3,
                         'loose': true
@@ -27,7 +24,7 @@ module.exports = [
     {
         'filename': 'pickr.min.js',
         'babelConfig': {
-            ...babelrc,
+            'babelrc': false,
             'plugins': [
                 '@babel/plugin-proposal-class-properties'
             ],

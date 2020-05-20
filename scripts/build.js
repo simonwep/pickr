@@ -53,6 +53,8 @@ const path = require('path');
     // writing a minified CSS file; both processes having handles on the files can
     // result in strange suffixes that fail to parse due to an extra `ap*/`
     for (const {filename, babelConfig} of bundles) {
+        console.log(`Create ${filename}`);
+
         await webpack({
             mode: 'production',
             entry: path.resolve('./src/js/pickr.js'),
@@ -68,14 +70,17 @@ const path = require('path');
             module: {
                 rules: [
                     {
-                        test: /\.js$/,
+                        test: /\.m?js$/,
                         exclude: /@babel(?:\/|\\{1,2})runtime|core-js/,
+                        include: [
+                            path.join(__dirname, '..', 'node_modules/nanopop'),
+                            path.join(__dirname, '..', 'src')
+                        ],
                         use: [
                             {
                                 loader: 'babel-loader',
                                 options: babelConfig
-                            },
-                            'eslint-loader'
+                            }
                         ]
                     }
                 ]

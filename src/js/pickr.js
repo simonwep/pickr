@@ -100,7 +100,7 @@ class Pickr {
     constructor(opt) {
 
         // Assign default values
-        this.options = opt = Object.assign(Pickr.DEFAULT_OPTIONS, opt);
+        this.options = opt = Object.assign({...Pickr.DEFAULT_OPTIONS}, opt);
 
         const {swatches, components, theme, sliders, lockOpacity, padding} = opt;
 

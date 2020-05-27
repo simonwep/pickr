@@ -419,7 +419,7 @@ class Pickr {
                 _root.hue.picker,
                 _root.opacity.slider,
                 _root.opacity.picker
-            ], ['mousedown', 'touchstart'], () => this._recalc = true)
+            ], ['mousedown', 'touchstart'], () => this._recalc = true, {passive: true})
         ];
 
         // Provide hiding / showing abilities only if showAlways is false

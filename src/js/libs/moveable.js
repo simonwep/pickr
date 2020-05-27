@@ -54,8 +54,9 @@ export default function Moveable(opt) {
             _.on(document, ['mouseup', 'touchend', 'touchcancel'], that._tapstop);
             _.on(document, ['mousemove', 'touchmove'], that._tapmove);
 
-            // Prevent default touch event
-            evt.preventDefault();
+            if (evt.cancelable) {
+                evt.preventDefault();
+            }
 
             // Trigger
             that._tapmove(evt);

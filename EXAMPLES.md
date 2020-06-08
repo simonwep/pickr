@@ -13,7 +13,7 @@ pickr.on('init', instance => {
 
         // Detect whever the user pressed "Enter" on their keyboard
         if (e.key === 'Enter') {
-            instance.applyColor(); // Save the currenly selected color
+            instance.applyColor(); // Save the currently selected color
             instance.hide(); // Hide modal
         }
     }, {capture: true});

@@ -193,8 +193,14 @@ class Pickr {
     }
 
     _finalBuild() {
+        if (this._finalBuildComplete) { return; }
+
         const opt = this.options;
         const root = this._root;
+
+        if (opt.container !== document.body && opt.container.offsetParent === null) {
+            return;
+        }
 
         // Remove from body
         opt.container.removeChild(root.root);
@@ -235,6 +241,7 @@ class Pickr {
         }
 
         this.hide();
+        this._finalBuildComplete = true;
     }
 
     _buildComponents() {
@@ -732,8 +739,8 @@ class Pickr {
      * Shows the color-picker ui.
      */
     show() {
-
         if (!this.options.disabled) {
+            this._finalBuild();
             this._root.app.classList.add('visible');
             this._rePositioningPicker();
             this._emit('show', this);

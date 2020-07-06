@@ -143,7 +143,8 @@ class Pickr {
         const that = this;
         requestAnimationFrame((function cb() {
 
-            if (!app.offsetWidth && app.parentElement !== opt.container) {
+            // TODO: Performance issue due to high call-rate?
+            if (!app.offsetWidth) {
                 return requestAnimationFrame(cb);
             }
 

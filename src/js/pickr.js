@@ -143,8 +143,7 @@ class Pickr {
         const that = this;
         requestAnimationFrame((function cb() {
 
-            // TODO: Performance issue due to high call-rate?
-            if (!app.offsetWidth) {
+            if (!app.offsetWidth && app.parentElement !== opt.container) {
                 return requestAnimationFrame(cb);
             }
 
@@ -736,6 +735,11 @@ class Pickr {
 
         if (!this.options.disabled) {
             this._root.app.classList.add('visible');
+            if (!this._ensuredColorSet) {
+                const {h, s, v, a} = this._color;
+                this.setHSVA(h, s, v, a, true);
+                this._ensuredColorSet = true;
+            }
             this._rePositioningPicker();
             this._emit('show', this);
         }

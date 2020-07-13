@@ -510,6 +510,7 @@ class Pickr {
         // No repositioning needed if inline
         if (!options.inline) {
             const success = this._nanopop.update({
+                container: document.body.getBoundingClientRect(),
                 position: options.position,
                 forceApplyOnFailure: !this._recalc
             });

@@ -84,6 +84,9 @@ class Pickr {
     _lastColor = HSVaColor();
     _swatchColors = [];
 
+    // Destroy flag
+    _destroyed = false;
+
     // Evenlistener name: [callbacks]
     _eventListener = {
         init: [],
@@ -142,6 +145,10 @@ class Pickr {
         // Initilization is finish, pickr is visible and ready for usage
         const that = this;
         requestAnimationFrame((function cb() {
+            if (that._destroyed) {
+                // If somehow Pickr DOM is deleted/destroyed before even rendered by browser, then stop
+                return;
+            }
 
             // TODO: Performance issue due to high call-rate?
             if (!app.offsetWidth) {
@@ -697,6 +704,9 @@ class Pickr {
 
         Object.keys(this._components)
             .forEach(key => this._components[key].destroy());
+
+        // Leaving _destroyed as a flag for TODO problem
+        this._destroyed = true;
     }
 
     /**
@@ -719,6 +729,9 @@ class Pickr {
         // This cleans all of them to avoid detached DOMs
         Object.keys(this)
             .forEach(key => this[key] = null);
+
+        // Leaving _destroyed as a flag for TODO problem
+        this._destroyed = true;
     }
 
     /**

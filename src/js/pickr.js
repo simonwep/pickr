@@ -145,8 +145,9 @@ class Pickr {
         // Initilization is finish, pickr is visible and ready for usage
         const that = this;
         requestAnimationFrame((function cb() {
+
+            // If somehow Pickr DOM is deleted/destroyed before even rendered by browser, then stop
             if (that._destroyed) {
-                // If somehow Pickr DOM is deleted/destroyed before even rendered by browser, then stop
                 return;
             }
 

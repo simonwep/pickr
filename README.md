@@ -65,6 +65,13 @@
 * Fully accessible and i18n
 * [Shadow-dom support](#selection-through-a-shadow-dom)
 
+### Status of this project
+This project might continue to get important security- and bug-related updates but its _feature set_ is frozen, and it's highly unlikely that it'll get new features or enhancements.
+
+The reason behind this decision is the way this tool has been build (monolithic, the core is one single file, everything is in plain JS etc.) which makes it incredible hard to maintain, tests become impossible at this stage without a complete rewrite, and the fun is gone at such a level of cramped complexity.
+
+> Personally I recommend building these UI-Related "widgets" directly into the app with the framework you're using which takes more time but in return gives you full power of how it should work and look like. Frameworks such as [(p)react](https://preactjs.com/), [vue](https://vuejs.org/) and [svelte](https://svelte.dev/) will make it a breeze to develop such things within a day.
+
 ### Themes
 |Classic|Monolith|Nano|
 |-------|--------|----|

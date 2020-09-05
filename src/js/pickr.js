@@ -5,7 +5,7 @@ import {HSVaColor} from './utils/hsvacolor';
 import Moveable from './libs/moveable';
 import Selectable from './libs/selectable';
 import buildPickr from './template';
-import {NanoPop} from 'nanopop';
+import {createPopper} from 'nanopop';
 
 class Pickr {
 
@@ -131,7 +131,7 @@ class Pickr {
 
         // Initialize positioning engine
         const {button, app} = this._root;
-        this._nanopop = new NanoPop(button, app, {
+        this._nanopop = createPopper(button, app, {
             margin: padding
         });
 
@@ -428,7 +428,6 @@ class Pickr {
             const ck = options.closeWithKey;
 
             eventBindings.push(
-
                 // Save and hide / show picker
                 _.on(_root.button, 'click', () => this.isOpen() ? this.hide() : this.show()),
 
@@ -511,8 +510,7 @@ class Pickr {
         if (!options.inline) {
             const success = this._nanopop.update({
                 container: document.body.getBoundingClientRect(),
-                position: options.position,
-                forceApplyOnFailure: !this._recalc
+                position: options.position
             });
 
             if (!success) {

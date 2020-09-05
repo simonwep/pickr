@@ -101,6 +101,7 @@ class Pickr {
 
         // Assign default values
         this.options = opt = Object.assign({...Pickr.DEFAULT_OPTIONS}, opt);
+        this.changeSource = '';
 
         const {swatches, components, theme, sliders, lockOpacity, padding} = opt;
 
@@ -400,6 +401,7 @@ class Pickr {
 
                 // Fire listener if initialization is finish and changed color was valid
                 if (this.setColor(e.target.value, true) && !this._initializingActive) {
+                    this.changeSource = 'input';
                     this._emit('change', this._color);
                 }
 
@@ -536,7 +538,8 @@ class Pickr {
 
         // Fire listener if initialization is finish
         if (!this._initializingActive && this._recalc) {
-            this._emit('change', _color);
+          this.changeSource = 'preview';
+          this._emit('change', _color);
         }
     }
 
@@ -629,6 +632,7 @@ class Pickr {
             this._eventBindings.push(
                 _.on(el, 'click', () => {
                     this.setHSVA(...color.toHSVA(), true);
+                    this.changeSource = 'swatch';
                     this._emit('swatchselect', color);
                     this._emit('change', color);
                 })

@@ -538,8 +538,8 @@ class Pickr {
 
         // Fire listener if initialization is finish
         if (!this._initializingActive && this._recalc) {
-          this.changeSource = 'preview';
-          this._emit('change', _color);
+            this.changeSource = 'preview';
+            this._emit('change', _color);
         }
     }
 

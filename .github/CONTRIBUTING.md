@@ -23,7 +23,7 @@ This project requires [npm](https://nodejs.org/en/).
  1. Fork this repo on [github](https://github.com/Simonwep/pickr).
  2. Clone locally.
  3. From your local repro run `npm install`.
- 4. Run lcoal dev server `npm run dev` and go to `http://localhost:8080/`
+ 4. Run lcoal dev server `npm run dev` and go to `http://0.0.0.0:3005/`
 
 ### Online setup with a single click
 

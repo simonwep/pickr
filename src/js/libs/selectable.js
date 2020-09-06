@@ -13,6 +13,9 @@ export default function Selectable(opt = {}) {
         );
 
         opt.onchange(evt);
+
+        // Fix for https://github.com/Simonwep/pickr/issues/243
+        evt.stopPropagation();
     });
 
     return {

@@ -428,6 +428,7 @@ class Pickr {
             const ck = options.closeWithKey;
 
             eventBindings.push(
+
                 // Save and hide / show picker
                 _.on(_root.button, 'click', () => this.isOpen() ? this.hide() : this.show()),
 

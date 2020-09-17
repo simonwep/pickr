@@ -391,7 +391,7 @@ class Pickr {
             }),
 
             // Save color
-            _.on(_root.interaction.save, 'click', () => {
+            _.on(_root.interaction.save, 'mousedown', () => {
                 !this.applyColor() && !options.showAlways && this.hide();
             }),
 

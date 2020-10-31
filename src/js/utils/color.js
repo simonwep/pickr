@@ -210,6 +210,10 @@ function hslToHsv(h, s, l) {
  * @return {number[]} HSV values.
  */
 function hexToHsv(hex) {
+
+    // workaround for some JS versions throwing ".match" doesn't exist
+    hex += '';
+
     return rgbToHsv(...hex.match(/.{2}/g).map(v => parseInt(v, 16)));
 }
 
@@ -220,6 +224,9 @@ function hexToHsv(hex) {
  * @return {*}
  */
 export function parseToHSVA(str) {
+
+    // workaround for some JS versions
+    str += '';
 
     // Check if string is a color-name
     str = str.match(/^[a-zA-Z]+$/) ? standardizeColor(str) : str;

@@ -126,6 +126,29 @@ for (const [theme, config] of themes) {
             el, theme,
             default: '#42445a'
         }, config));
+
+        // Set events
+        /* eslint-disable no-console */
+        pickr.on('init', instance => {
+            console.log('Event: "init"', instance);
+        }).on('hide', instance => {
+            console.log('Event: "hide"', instance);
+        }).on('show', (color, instance) => {
+            console.log('Event: "show"', color, instance);
+        }).on('save', (color, instance) => {
+            console.log('Event: "save"', color, instance);
+        }).on('clear', instance => {
+            console.log('Event: "clear"', instance);
+        }).on('change', (color, instance) => {
+            console.log('Event: "change"', color, instance);
+        }).on('changestop', instance => {
+            console.log('Event: "changestop"', instance);
+        }).on('cancel', instance => {
+            console.log('Event: "cancel"', instance);
+        }).on('swatchselect', (color, instance) => {
+            console.log('Event: "swatchselect"', color, instance);
+        });
+        /* eslint-enable no-console */
     });
 
     themeContainer.appendChild(button);

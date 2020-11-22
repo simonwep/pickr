@@ -386,7 +386,7 @@ class Pickr {
                 _root.interaction.cancel,
                 _root.preview.lastColor
             ], 'click', () => {
-                this._emit('cancel', this);
+                this._emit('cancel');
                 this.setHSVA(...(this._lastColor || this._color).toHSVA(), true);
             }),
 
@@ -560,7 +560,7 @@ class Pickr {
 
             // Fire listener
             this._emit('save', null);
-            this._emit('clear', this);
+            this._emit('clear');
         }
     }
 
@@ -725,7 +725,7 @@ class Pickr {
      */
     hide() {
         this._root.app.classList.remove('visible');
-        this._emit('hide', this);
+        this._emit('hide');
         return this;
     }
 
@@ -737,7 +737,7 @@ class Pickr {
         if (!this.options.disabled) {
             this._root.app.classList.add('visible');
             this._rePositioningPicker();
-            this._emit('show', this);
+            this._emit('show', this._color);
         }
 
         return this;

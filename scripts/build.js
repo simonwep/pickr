@@ -90,6 +90,9 @@ const path = require('path');
                 banner,
                 new webpack.SourceMapDevToolPlugin({
                     filename: `${filename}.map`
+                }),
+                new webpack.DefinePlugin({
+                    VERSION: JSON.stringify(version)
                 })
             ]
         }).catch(console.error);

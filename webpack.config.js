@@ -1,4 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const {version} = require('./package.json');
+const webpack = require('webpack');
 
 module.exports = {
     entry: {
@@ -32,13 +34,7 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            hmr: true,
-                            reloadAll: true
-                        },
-                    },
+                    MiniCssExtractPlugin.loader,
                     'css-loader',
                     'sass-loader'
                 ]
@@ -49,6 +45,9 @@ module.exports = {
     plugins: [
         new MiniCssExtractPlugin({
             filename: '[name].css'
+        }),
+        new webpack.DefinePlugin({
+            VERSION: JSON.stringify(version)
         })
     ]
 };

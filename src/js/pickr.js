@@ -1,5 +1,4 @@
 import * as _ from './utils/utils';
-import {version} from '../../package';
 import {parseToHSVA} from './utils/color';
 import {HSVaColor} from './utils/hsvacolor';
 import Moveable from './libs/moveable';
@@ -13,7 +12,7 @@ class Pickr {
     static utils = _;
 
     // Assign version and export
-    static version = version;
+    static version = VERSION;
 
     // Default strings
     static I18N_DEFAULTS = {

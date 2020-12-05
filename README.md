@@ -195,25 +195,30 @@ Since version `0.4.x` Pickr is event-driven. Use the `on(event, cb)` and `off(ev
 > Example:
 ```js
 pickr.on('init', instance => {
-    console.log('init', instance);
+    console.log('Event: "init"', instance);
 }).on('hide', instance => {
-    console.log('hide', instance);
+    console.log('Event: "hide"', instance);
 }).on('show', (color, instance) => {
-    console.log('show', color, instance);
+    console.log('Event: "show"', color, instance);
 }).on('save', (color, instance) => {
-    console.log('save', color, instance);
+    console.log('Event: "save"', color, instance);
 }).on('clear', instance => {
-    console.log('clear', instance);
-}).on('change', (color, instance) => {
-    console.log('change', color, instance);
-}).on('changestop', instance => {
-    console.log('changestop', instance);
+    console.log('Event: "clear"', instance);
+}).on('change', (color, source, instance) => {
+    console.log('Event: "change"', color, source, instance);
+}).on('changestop', (source, instance) => {
+    console.log('Event: "changestop"', source, instance);
 }).on('cancel', instance => {
-    console.log('cancel', instance);
+    console.log('Event: "cancel"', instance);
 }).on('swatchselect', (color, instance) => {
-    console.log('swatchselect', color, instance);
+    console.log('Event: "swatchselect"', color, instance);
 });
 ```
+
+Where `source` can be
+* `slider` _- Any slider in the UI._
+* `input` _- The user input field._
+* `swatch` _- One of the swatches._
 
 ## Options
 ```javascript

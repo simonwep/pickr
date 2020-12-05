@@ -139,10 +139,10 @@ for (const [theme, config] of themes) {
             console.log('Event: "save"', color, instance);
         }).on('clear', instance => {
             console.log('Event: "clear"', instance);
-        }).on('change', (color, instance) => {
-            console.log('Event: "change"', color, instance);
-        }).on('changestop', instance => {
-            console.log('Event: "changestop"', instance);
+        }).on('change', (color, source, instance) => {
+            console.log('Event: "change"', color, source, instance);
+        }).on('changestop', (source, instance) => {
+            console.log('Event: "changestop"', source, instance);
         }).on('cancel', instance => {
             console.log('Event: "cancel"', instance);
         }).on('swatchselect', (color, instance) => {

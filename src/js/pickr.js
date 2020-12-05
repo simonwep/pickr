@@ -260,7 +260,7 @@ class Pickr {
                 element: inst._root.palette.picker,
                 wrapper: inst._root.palette.palette,
 
-                onstop: () => inst._emit('changestop', inst),
+                onstop: () => inst._emit('changestop', 'slider', inst),
                 onchange(x, y) {
                     if (!cs.palette) {
                         return;
@@ -281,7 +281,7 @@ class Pickr {
 
                         // Prevent falling under zero
                         color.v < 0 ? color.v = 0 : 0;
-                        inst._updateOutput();
+                        inst._updateOutput('slider');
                     }
 
                     // Set picker and gradient color
@@ -320,7 +320,7 @@ class Pickr {
                 element: inst._root.hue.picker,
                 wrapper: inst._root.hue.slider,
 
-                onstop: () => inst._emit('changestop', inst),
+                onstop: () => inst._emit('changestop', 'slider', inst),
                 onchange(v) {
                     if (!cs.hue || !cs.palette) {
                         return;
@@ -344,7 +344,7 @@ class Pickr {
                 element: inst._root.opacity.picker,
                 wrapper: inst._root.opacity.slider,
 
-                onstop: () => inst._emit('changestop', inst),
+                onstop: () => inst._emit('changestop', 'slider', inst),
                 onchange(v) {
                     if (!cs.opacity || !cs.palette) {
                         return;
@@ -369,7 +369,7 @@ class Pickr {
 
                 onchange(e) {
                     inst._representation = e.target.getAttribute('data-type').toUpperCase();
-                    inst._recalc && inst._updateOutput();
+                    inst._recalc && inst._updateOutput('swatch');
                 }
             })
         };
@@ -404,7 +404,8 @@ class Pickr {
 
                 // Fire listener if initialization is finish and changed color was valid
                 if (this.setColor(e.target.value, true) && !this._initializingActive) {
-                    this._emit('change', this._color);
+                    this._emit('change', this._color, 'input', this);
+                    this._emit('changestop', 'input', this);
                 }
 
                 e.stopImmediatePropagation();
@@ -413,7 +414,7 @@ class Pickr {
             // Detect user input and disable auto-recalculation
             _.on(_root.interaction.result, ['focus', 'blur'], e => {
                 this._recalc = e.type === 'blur';
-                this._recalc && this._updateOutput();
+                this._recalc && this._updateOutput(null);
             }),
 
             // Cancel input detection on color change
@@ -527,7 +528,7 @@ class Pickr {
         }
     }
 
-    _updateOutput() {
+    _updateOutput(eventSource) {
         const {_root, _color, options} = this;
 
         // Check if component is present
@@ -541,7 +542,7 @@ class Pickr {
 
         // Fire listener if initialization is finish
         if (!this._initializingActive && this._recalc) {
-            this._emit('change', _color);
+            this._emit('change', _color, eventSource, this);
         }
     }
 
@@ -635,7 +636,7 @@ class Pickr {
                 _.on(el, 'click', () => {
                     this.setHSVA(...color.toHSVA(), true);
                     this._emit('swatchselect', color);
-                    this._emit('change', color);
+                    this._emit('change', color, 'swatch', this);
                 })
             );
 

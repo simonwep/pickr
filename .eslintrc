@@ -13,5 +13,8 @@
     },
     "rules": {
         "new-cap": "off"
+    },
+    "globals": {
+        "VERSION": true
     }
 }

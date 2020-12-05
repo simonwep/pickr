@@ -187,8 +187,8 @@ Since version `0.4.x` Pickr is event-driven. Use the `on(event, cb)` and `off(ev
 | `show`         | Pickr got opened | `PickrInstance` |
 | `save`         | User clicked the save / clear button. Also fired on clear with `null` as color. | `HSVaColorObject or null, PickrInstance` |
 | `clear`        | User cleared the color. | `PickrInstance` |
-| `change`       | Color has changed (but not saved). Also fired on `swatchselect` | `HSVaColorObject, PickrInstance` |
-| `changestop`   | User stopped to change the color | ` PickrInstance` |
+| `change`       | Color has changed (but not saved). Also fired on `swatchselect` | `HSVaColorObject, eventSource, PickrInstance` |
+| `changestop`   | User stopped to change the color | `eventSource, PickrInstance` |
 | `cancel`       | User clicked the cancel button (return to previous color). | `PickrInstance` |
 | `swatchselect` | User clicked one of the swatches | `HSVaColorObject, PickrInstance` |
 
@@ -401,7 +401,7 @@ As default color representation is hsva (`hue`, `saturation`, `value` and `alpha
 * hsva.toCMYK() _- Converts the object to a cmyk array._
 * hsva.clone() _- Clones the color object._
 
-The `toString()` is overridden so you can get a color representation string.
+The `toString()` is overridden, so you can get a color representation string.
 
 ```javascript
 hsva.toRGBA(); // Returns [r, g, b, a]

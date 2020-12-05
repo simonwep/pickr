@@ -84,6 +84,10 @@ class Pickr {
     _lastColor = HSVaColor();
     _swatchColors = [];
 
+    // Animation frame used for setup.
+    // Will be cancelled in case of destruction.
+    _setupAnimationFrame = null;
+
     // Evenlistener name: [callbacks]
     _eventListener = {
         init: [],
@@ -141,7 +145,7 @@ class Pickr {
 
         // Initilization is finish, pickr is visible and ready for usage
         const that = this;
-        requestAnimationFrame((function cb() {
+        this._setupAnimationFrame = requestAnimationFrame((function cb() {
 
             // TODO: Performance issue due to high call-rate?
             if (!app.offsetWidth) {
@@ -692,8 +696,14 @@ class Pickr {
      * Destroy's all functionalitys
      */
     destroy() {
+
+        // Cancel setup-frame if set
+        cancelAnimationFrame(this._setupAnimationFrame);
+
+        // Unbind events
         this._eventBindings.forEach(args => _.off(...args));
 
+        // Destroy sub-components
         Object.keys(this._components)
             .forEach(key => this._components[key].destroy());
     }

@@ -133,6 +133,11 @@ for (const [theme, config] of themes) {
             console.log('Event: "init"', instance);
         }).on('hide', instance => {
             console.log('Event: "hide"', instance);
+            const {value} = pickr.getRoot().interaction.result;
+
+            if (!value) {
+                pickr.setColor(null);
+            }
         }).on('show', (color, instance) => {
             console.log('Event: "show"', color, instance);
         }).on('save', (color, instance) => {

@@ -734,23 +734,27 @@ class Pickr {
      * Hides the color-picker ui.
      */
     hide() {
-        this._root.app.classList.remove('visible');
-        this._emit('hide');
-        return this;
+        if (this.isOpen()) {
+            this._root.app.classList.remove('visible');
+            this._emit('hide');
+            return true;
+        }
+
+        return false;
     }
 
     /**
      * Shows the color-picker ui.
      */
     show() {
-
-        if (!this.options.disabled) {
+        if (!this.options.disabled && !this.isOpen()) {
             this._root.app.classList.add('visible');
             this._rePositioningPicker();
             this._emit('show', this._color);
+            return this;
         }
 
-        return this;
+        return false;
     }
 
     /**

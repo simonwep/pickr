@@ -128,16 +128,10 @@ for (const [theme, config] of themes) {
         }, config));
 
         // Set events
-        /* eslint-disable no-console */
         pickr.on('init', instance => {
             console.log('Event: "init"', instance);
         }).on('hide', instance => {
             console.log('Event: "hide"', instance);
-            const {value} = pickr.getRoot().interaction.result;
-
-            if (!value) {
-                pickr.setColor(null);
-            }
         }).on('show', (color, instance) => {
             console.log('Event: "show"', color, instance);
         }).on('save', (color, instance) => {
@@ -153,7 +147,6 @@ for (const [theme, config] of themes) {
         }).on('swatchselect', (color, instance) => {
             console.log('Event: "swatchselect"', color, instance);
         });
-        /* eslint-enable no-console */
     });
 
     themeContainer.appendChild(button);

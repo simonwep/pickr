@@ -300,7 +300,7 @@ class Pickr {
                     } else if (!options.useAsButton && !inst._lastColor) {
 
                         // Apply color to both the last and current color since the current state is cleared
-                        lastColor.style.color = cssRGBaString;
+                        lastColor.style.setProperty('--pcr-color', cssRGBaString);
                     }
 
                     // Check if there's a swatch which color matches the current one
@@ -310,7 +310,7 @@ class Pickr {
                     }
 
                     // Change current color
-                    currentColor.style.color = cssRGBaString;
+                    currentColor.style.setProperty('--pcr-color', cssRGBaString);
                 }
             }),
 
@@ -623,7 +623,7 @@ class Pickr {
 
             // Create new swatch HTMLElement
             const el = _.createElementFromString(
-                `<button type="button" style="color: ${color.toRGBA().toString(0)}" aria-label="${this._t('btn:swatch')}"/>`
+                `<button type="button" style="--pcr-color: ${color.toRGBA().toString(0)}" aria-label="${this._t('btn:swatch')}"/>`
             );
 
             // Append element and save swatch data
@@ -671,11 +671,11 @@ class Pickr {
 
         // Change preview and current color
         const cssRGBaString = this._color.toRGBA().toString(0);
-        preview.lastColor.style.color = cssRGBaString;
+        preview.lastColor.style.setProperty('--pcr-color', cssRGBaString);
 
         // Change only the button color if it isn't customized
         if (!this.options.useAsButton) {
-            button.style.color = cssRGBaString;
+            button.style.setProperty('--pcr-color', cssRGBaString);
         }
 
         // User changed the color so remove the clear clas

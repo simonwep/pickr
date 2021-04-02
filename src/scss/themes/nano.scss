@@ -44,7 +44,7 @@ $spacing: 0.6em;
             .pcr-current-color {
                 @include transparency-background;
                 position: relative;
-                background: currentColor;
+                background: var(--pcr-color);
                 width: 2em;
                 height: 2em;
                 border-radius: 50em;

@@ -36,7 +36,7 @@
         height: 100%;
         width: 100%;
         transition: background 0.3s;
-        background: currentColor;
+        background: var(--pcr-color);
         border-radius: $border-radius-mid;
     }
 
@@ -48,7 +48,7 @@
         }
 
         &:focus {
-            @include focus(currentColor);
+            @include focus(var(--pcr-color));
         }
     }
 
@@ -71,7 +71,7 @@
     button {
         &:focus,
         &.pcr-active {
-            @include focus(currentColor);
+            @include focus(var(--pcr-color));
         }
     }
 
@@ -146,7 +146,7 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: currentColor;
+                background: var(--pcr-color);
                 border: 1px solid rgba(black, 0.05);
                 border-radius: 0.15em;
                 box-sizing: border-box;

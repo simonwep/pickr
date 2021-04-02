@@ -37,7 +37,7 @@
 
             .pcr-last-color,
             .pcr-current-color {
-                background: currentColor;
+                background: var(--pcr-color);
                 width: 50%;
                 height: 100%;
             }

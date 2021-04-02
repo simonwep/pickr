@@ -53,7 +53,7 @@
         "url": "https://github.com/Simonwep/pickr/issues"
     },
     "dependencies": {
-        "nanopop": "^2.1.0",
-        "core-js": "^3.8.0"
+        "core-js": "^3.8.0",
+        "nanopop": "^2.1.0"
     }
 }

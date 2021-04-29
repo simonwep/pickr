@@ -394,9 +394,13 @@ An alternative would be to provide the target-element itself as `el`.
 ## The HSVaColor object
 As default color representation is hsva (`hue`, `saturation`, `value` and `alpha`) used, but you can also convert it to other formats as listed below.
 
+* hsva.toHSV() _- Converts the object to a hsv array._
 * hsva.toHSVA() _- Converts the object to a hsva array._
+* hsva.toHSL() _- Converts the object to a hsl array._
 * hsva.toHSLA() _- Converts the object to a hsla array._
+* hsva.toRGB() _- Converts the object to a rgb array._
 * hsva.toRGBA() _- Converts the object to a rgba array._
+* hsva.toHEX() _- Converts the object to a hexa-decimal array._
 * hsva.toHEXA() _- Converts the object to a hexa-decimal array._
 * hsva.toCMYK() _- Converts the object to a cmyk array._
 * hsva.clone() _- Clones the color object._
@@ -404,6 +408,10 @@ As default color representation is hsva (`hue`, `saturation`, `value` and `alpha
 The `toString()` is overridden, so you can get a color representation string.
 
 ```javascript
+hsva.toRGB(); // Returns [r, g, b]
+hsva.toRGB().toString(); // Returns rgb(r, g, b) with highest precision
+hsva.toRGB().toString(3); // Returns rgb(r, g, b), rounded to the third decimal
+
 hsva.toRGBA(); // Returns [r, g, b, a]
 hsva.toRGBA().toString(); // Returns rgba(r, g, b, a) with highest precision
 hsva.toRGBA().toString(3); // Returns rgba(r, g, b, a), rounded to the third decimal
@@ -445,7 +453,7 @@ If `silent` is true (Default is false), the button won't change the current colo
 * eventPath(evt`:Event`)`:[HTMLElement]` _- A polyfill for the event-path event propery._
 * createFromTemplate(str`:String`) _- See [inline doumentation](https://github.com/Simonwep/pickr/blob/master/src/js/lib/utils.js#L88)._
 * resolveElement(val`:String|HTMLElement`) _- Resolves a `HTMLElement`, supports `>>>` as shadow dom selector._
-* adjustableInputNumbers(el`:InputElement`, mapper`:Function`) _- Creates the possibility to change the numbers in an inputfield via mouse scrolling.
+* adjustableInputNumbers(el`:InputElement`, mapper`:Function`) _- Creates the possibility to change the numbers in an input field via mouse scrolling.
 The mapper function takes three arguments: the matched number, an multiplier and the index of the match._
 
 Use this utils carefully, it's not for sure that they will stay forever!

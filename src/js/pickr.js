@@ -367,7 +367,7 @@ class Pickr {
                 className: 'active',
 
                 onchange(e) {
-                    inst._representation = e.target.getAttribute('data-type').toUpperCase();
+                    inst._representation = e.target.getAttribute('value').toUpperCase();
                     inst._recalc && inst._updateOutput('swatch');
                 }
             })
@@ -458,8 +458,14 @@ class Pickr {
             };
 
             _.adjustableInputNumbers(_root.interaction.result, (o, step, index) => {
-                const range = ranges[this.getColorRepresentation().toLowerCase()];
+                let type = this.getColorRepresentation().toLowerCase();
 
+                // Convert the non-alpha representations to the equivalent range
+                if (this.options.lockOpacity && type !== 'cmyk') {
+                    type += 'a';
+                }
+
+                const range = ranges[type];
                 if (range) {
                     const max = range[index];
 
@@ -534,7 +540,7 @@ class Pickr {
         if (_root.interaction.type()) {
 
             // Construct function name and call if present
-            const method = `to${_root.interaction.type().getAttribute('data-type')}`;
+            const method = `to${_root.interaction.type().getAttribute('value')}`;
             _root.interaction.result.value = typeof _color[method] === 'function' ?
                 _color[method]().toString(options.outputPrecision) : '';
         }
@@ -832,7 +838,7 @@ class Pickr {
             // Change selected color format
             const utype = type.toUpperCase();
             const {options} = this._root.interaction;
-            const target = options.find(el => el.getAttribute('data-type') === utype);
+            const target = options.find(el => el.getAttribute('value') === utype);
 
             // Auto select only if not hidden
             if (target && !target.hidden) {
@@ -866,7 +872,7 @@ class Pickr {
 
         // Find button with given type and trigger click event
         return !!this._root.interaction.options
-            .find(v => v.getAttribute('data-type').startsWith(type) && !v.click());
+            .find(v => v.getAttribute('value').startsWith(type) && !v.click());
     }
 
     /**

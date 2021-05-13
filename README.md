@@ -72,6 +72,11 @@ The reason behind this decision is the way this tool has been build (monolithic,
 
 > Personally I recommend building these UI-Related "widgets" directly into the app with the framework you're using which takes more time but in return gives you full power of how it should work and look like. Frameworks such as [(p)react](https://preactjs.com/), [vue](https://vuejs.org/) and [svelte](https://svelte.dev/) will make it a breeze to develop such things within a day.
 
+##### Update
+
+This project will be archived at the end of 2021!
+After this there will be no more bug / security fixes or feature requests.
+
 ### Themes
 |Classic|Monolith|Nano|
 |-------|--------|----|

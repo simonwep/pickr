@@ -16,7 +16,7 @@
         "dev": "webpack-dev-server --mode development",
         "lint": "eslint ./src",
         "lint:fix": "eslint ./src --fix",
-        "test:ts": "tsc --target ES6 --noImplicitAny --noEmit spec/ts/index.ts",
+        "lint:ts": "tsc --target ES6 --noImplicitAny --noEmit spec/ts/index.ts",
         "dryrun": "npm run lint:fix && npm run build"
     },
     "devDependencies": {

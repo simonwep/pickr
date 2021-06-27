@@ -6,7 +6,7 @@ import Selectable from './libs/selectable';
 import buildPickr from './template';
 import {createPopper} from 'nanopop';
 
-class Pickr {
+export default class Pickr {
 
     // Expose pickr utils
     static utils = _;
@@ -550,7 +550,7 @@ class Pickr {
 
         // Change only the button color if it isn't customized
         if (!options.useAsButton) {
-            _root.button.style.color = 'rgba(0, 0, 0, 0.15)';
+            _root.button.style.setProperty('--pcr-color', 'rgba(0, 0, 0, 0.15)');
         }
 
         _root.button.classList.add('clear');
@@ -918,5 +918,3 @@ class Pickr {
         return this;
     }
 }
-
-export default Pickr;

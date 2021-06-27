@@ -293,7 +293,7 @@ export default class Pickr {
 
                     // Check if color is locked
                     if (!options.comparison) {
-                        _root.button.style.color = cssRGBaString;
+                        _root.button.style.setProperty('--pcr-color', cssRGBaString);
 
                         // If the user changes the color, remove the cleared icon
                         _root.button.classList.remove('clear');

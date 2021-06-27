@@ -3,7 +3,7 @@ name: Question
 about: General request of information / help
 title: ''
 labels: question
-assignees: Simonwep
+assignees: ''
 
 ---
 

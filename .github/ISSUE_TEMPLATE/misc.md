@@ -3,7 +3,7 @@ name: Other
 about: General question or issue
 title: ''
 labels: ''
-assignees: Simonwep
+assignees: ''
 
 ---
 

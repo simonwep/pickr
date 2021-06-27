@@ -189,7 +189,7 @@ Since version `0.4.x` Pickr is event-driven. Use the `on(event, cb)` and `off(ev
 | -------------- | ----------- | --------- |
 | `init`         | Initialization done - pickr can be used | `PickrInstance` |
 | `hide`         | Pickr got closed | `PickrInstance` |
-| `show`         | Pickr got opened | `PickrInstance` |
+| `show`         | Pickr got opened | `HSVaColorObject, PickrInstance` |
 | `save`         | User clicked the save / clear button. Also fired on clear with `null` as color. | `HSVaColorObject or null, PickrInstance` |
 | `clear`        | User cleared the color. | `PickrInstance` |
 | `change`       | Color has changed (but not saved). Also fired on `swatchselect` | `HSVaColorObject, eventSource, PickrInstance` |

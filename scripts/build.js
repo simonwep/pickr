@@ -1,6 +1,6 @@
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const {version} = require('../package');
 const bundles = require('./bundles');
 const util = require('util');
@@ -8,9 +8,7 @@ const webpack = util.promisify(require('webpack'));
 const path = require('path');
 
 (async () => {
-    const banner = new webpack.BannerPlugin({
-        banner: `Pickr ${version} MIT | https://github.com/Simonwep/pickr`
-    });
+    const banner = new webpack.BannerPlugin(`Pickr ${version} MIT | https://github.com/Simonwep/pickr`);
 
     // CSS
     await webpack({
@@ -32,7 +30,16 @@ const path = require('path');
                     use: [
                         MiniCssExtractPlugin.loader,
                         'css-loader',
-                        'postcss-loader',
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                postcssOptions: {
+                                    plugins: [
+                                        require('autoprefixer')
+                                    ]
+                                }
+                            },
+                        },
                         'sass-loader'
                     ]
                 }
@@ -42,12 +49,11 @@ const path = require('path');
         plugins: [
             banner,
             new FixStyleOnlyEntriesPlugin(),
-            new OptimizeCSSAssetsPlugin(),
             new MiniCssExtractPlugin({
                 filename: '[name].min.css'
             })
         ]
-    }).catch(console.error);
+    });
 
     // Chaining promises to prevent issues caused by both filename configurations
     // writing a minified CSS file; both processes having handles on the files can
@@ -60,8 +66,8 @@ const path = require('path');
             entry: path.resolve('./src/js/pickr.js'),
 
             output: {
-                path: path.resolve('./dist'),
                 filename,
+                path: path.resolve('./dist'),
                 library: 'Pickr',
                 libraryExport: 'default',
                 libraryTarget: 'umd'
@@ -94,8 +100,16 @@ const path = require('path');
                 new webpack.DefinePlugin({
                     VERSION: JSON.stringify(version)
                 })
-            ]
-        }).catch(console.error);
+            ],
+
+            optimization: {
+                minimizer: [
+                    new TerserPlugin({
+                        extractComments: false
+                    })
+                ]
+            }
+        });
     }
 
     console.log('Done');

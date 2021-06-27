@@ -16,7 +16,6 @@
         "dev": "webpack serve --mode development",
         "lint": "eslint ./src",
         "lint:fix": "eslint ./src --fix",
-        "lint:ts": "tsc --target ES6 --noImplicitAny --noEmit spec/ts/index.ts",
         "dryrun": "npm run lint:fix && npm run build"
     },
     "devDependencies": {
@@ -37,7 +36,6 @@
         "postcss-loader": "^6.1.0",
         "sass-loader": "^12.1.0",
         "terser-webpack-plugin": "^5.1.4",
-        "typescript": "^4.3.4",
         "webpack": "^5.40.0",
         "webpack-cleanup-plugin": "^0.5.1",
         "webpack-cli": "^4.7.2",

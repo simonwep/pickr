@@ -12,7 +12,7 @@ export default class Pickr {
     static utils = _;
 
     // Assign version and export
-    static version = VERSION;
+    static version = 'dooca';
 
     // Default strings
     static I18N_DEFAULTS = {

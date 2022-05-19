@@ -1,10 +1,12 @@
-<h1 align="center">
+<h3 align="center">
     <img src="https://user-images.githubusercontent.com/30767528/57573928-1e78db80-7430-11e9-940c-aecbf3226b7c.png" alt="Logo">
-</h1>
+</h3>
 
 <h3 align="center">
     Flat, Simple, Hackable Color-Picker.
 </h3>
+
+<br/>
 
 <p align="center">
   <img alt="gzip size" src="https://img.badgesize.io/https://raw.githubusercontent.com/Simonwep/pickr/master/dist/pickr.min.js?compression=gzip&style=flat-square">
@@ -32,15 +34,9 @@
 
 <br>
 
-<h3 align="center">
-  <img alt="Demo" src="https://user-images.githubusercontent.com/30767528/53578134-4e297e80-3b77-11e9-9d74-4d2ed547c274.gif"/>
-</h3>
-
 <h4 align="center">
   <a href="https://simonwep.github.io/pickr/">Fully Featured demo</a>
 </h4>
-
-<br>
 
 <p align="center">
     <a href="https://opencollective.com/pickr/donate" target="_blank">
@@ -50,6 +46,28 @@
         <img src="https://user-images.githubusercontent.com/30767528/63641973-9d301680-c6b7-11e9-9d29-2ad1da50fdce.png"></a>
     </a>
 </p>
+
+<br>
+
+-------------
+
+<h4 align="center">
+  <b>Get 700+ Material components for the latest Bootstrap 5 for free.</b>
+</h4>
+<p align="center">
+  This component is also available as ready-to-use solution in <a href="https://mdbootstrap.com/docs/standard/?utm_ref_id=304654" target="_blank"><b>MDB UI Kit</b></a>. Learn more about <a href="https://mdbootstrap.com/docs/standard/plugins/color-picker/?utm_ref_id=304654" target="_blank"><b>Bootstrap Color Picker here</b></a>.
+<p>
+
+<p align="center">
+  <a href="https://mdbootstrap.com/docs/standard/?utm_ref_id=304654" target="_blank">
+      <img src="https://mdbootstrap.com//img/Others/mdb5-free.png" height="250"/>
+  </a>
+  <a href="https://mdbootstrap.com/docs/standard/plugins/color-picker/?utm_ref_id=304654" target="_blank">
+      <img src="https://mdbootstrap.com//img/Others/color-picker.png" height="250">
+  </a>
+</p>
+
+----------------
 
 ### Features
 * Themes

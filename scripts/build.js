@@ -1,4 +1,4 @@
-const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const {version} = require('../package');
@@ -48,7 +48,7 @@ const path = require('path');
 
         plugins: [
             banner,
-            new FixStyleOnlyEntriesPlugin(),
+            new RemoveEmptyScriptsPlugin(),
             new MiniCssExtractPlugin({
                 filename: '[name].min.css'
             })

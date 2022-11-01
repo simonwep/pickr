@@ -40,7 +40,7 @@
         "webpack-cleanup-plugin": "^0.5.1",
         "webpack-cli": "^4.7.2",
         "webpack-dev-server": "^4.0.0-beta.3",
-        "webpack-fix-style-only-entries": "^0.6.1"
+        "webpack-remove-empty-scripts":"1.0.1"
     },
     "homepage": "https://github.com/Simonwep/pickr#readme",
     "repository": {

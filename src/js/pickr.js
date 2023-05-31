@@ -454,7 +454,7 @@ class Pickr {
             };
 
             _.adjustableInputNumbers(_root.interaction.result, (o, step, index) => {
-                const range = ranges[this.getColorRepresentation().toLowerCase()];
+                const range = ranges[this.getColorRepresentation && this.getColorRepresentation().toLowerCase()];
 
                 if (range) {
                     const max = range[index];

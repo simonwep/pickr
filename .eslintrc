@@ -1,18 +1,17 @@
 {
-    "parser": "babel-eslint",
     "extends": [
-        "eslint:recommended",
-        "simon"
+        "eslint:recommended"
     ],
     "env": {
         "browser": true
     },
     "parserOptions": {
-        "ecmaVersion": 2018,
+        "ecmaVersion": 2022,
         "sourceType": "module"
     },
     "rules": {
-        "new-cap": "off"
+        "new-cap": "off",
+        "no-cond-assign": "off"
     },
     "globals": {
         "VERSION": true

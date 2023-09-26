@@ -1,4 +1,5 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const {version} = require('./package.json');
 const webpack = require('webpack');
 
@@ -29,10 +30,6 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
-                use: 'babel-loader'
-            },
-            {
                 test: /\.scss$/,
                 use: [
                     MiniCssExtractPlugin.loader,
@@ -44,6 +41,7 @@ module.exports = {
     },
 
     plugins: [
+        new ESLintPlugin(),
         new MiniCssExtractPlugin({
             filename: '[name].css'
         }),

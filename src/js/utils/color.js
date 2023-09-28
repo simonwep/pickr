@@ -226,10 +226,10 @@ export function parseToHSVA(str) {
 
     // Regular expressions to match different types of color represention
     const regex = {
-        cmyk: /^cmyk[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)/i,
-        rgba: /^((rgba)|rgb)[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)[\D]*?([\d.]+|$)/i,
-        hsla: /^((hsla)|hsl)[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)[\D]*?([\d.]+|$)/i,
-        hsva: /^((hsva)|hsv)[\D]+([\d.]+)[\D]+([\d.]+)[\D]+([\d.]+)[\D]*?([\d.]+|$)/i,
+        cmyk: /^cmyk\D+([\d.]+)\D+([\d.]+)\D+([\d.]+)\D+([\d.]+)/i,
+        rgba: /^rgba?\D+([\d.]+)(%?)\D+([\d.]+)(%?)\D+([\d.]+)(%?)\D*?(([\d.]+)(%?)|$)/i,
+        hsla: /^hsla?\D+([\d.]+)\D+([\d.]+)\D+([\d.]+)\D*?(([\d.]+)(%?)|$)/i,
+        hsva: /^hsva?\D+([\d.]+)\D+([\d.]+)\D+([\d.]+)\D*?(([\d.]+)(%?)|$)/i,
         hexa: /^#?(([\dA-Fa-f]{3,4})|([\dA-Fa-f]{6})|([\dA-Fa-f]{8}))$/i
     };
 
@@ -249,9 +249,6 @@ export function parseToHSVA(str) {
             continue;
         }
 
-        // Match[2] does only contain a truly value if rgba, hsla, or hsla got matched
-        const alphaValid = a => (!!match[2] === (typeof a === 'number'));
-
         // Try to convert
         switch (type) {
             case 'cmyk': {
@@ -264,9 +261,14 @@ export function parseToHSVA(str) {
                 return {values: cmykToHsv(c, m, y, k), type};
             }
             case 'rgba': {
-                const [, , , r, g, b, a] = numarize(match);
+                let [, r, , g, , b, , , a] = numarize(match);
 
-                if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1 || !alphaValid(a)) {
+                r = match[2] === '%' ? (r / 100) * 255 : r;
+                g = match[4] === '%' ? (g / 100) * 255 : g;
+                b = match[6] === '%' ? (b / 100) * 255 : b;
+                a = match[9] === '%' ? (a / 100) : a;
+
+                if (r > 255 || g > 255 || b > 255 || a < 0 || a > 1) {
                     break invalid;
                 }
 
@@ -288,18 +290,20 @@ export function parseToHSVA(str) {
                 return {values: [...hexToHsv(raw), a], a, type};
             }
             case 'hsla': {
-                const [, , , h, s, l, a] = numarize(match);
+                let [, h, s, l, , a] = numarize(match);
+                a = match[6] === '%' ? (a / 100) : a;
 
-                if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1 || !alphaValid(a)) {
+                if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1) {
                     break invalid;
                 }
 
                 return {values: [...hslToHsv(h, s, l), a], a, type};
             }
             case 'hsva': {
-                const [, , , h, s, v, a] = numarize(match);
+                let [, h, s, v, , a] = numarize(match);
+                a = match[6] === '%' ? (a / 100) : a;
 
-                if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1 || !alphaValid(a)) {
+                if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1) {
                     break invalid;
                 }
 

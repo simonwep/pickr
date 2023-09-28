@@ -1,4 +1,4 @@
-const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const {version} = require('../package');
@@ -11,6 +11,7 @@ const path = require('path');
     const banner = new webpack.BannerPlugin(`Pickr ${version} MIT | https://github.com/Simonwep/pickr`);
 
     // CSS
+    console.log('Bundle themes');
     await webpack({
         mode: 'production',
         entry: {
@@ -48,7 +49,7 @@ const path = require('path');
 
         plugins: [
             banner,
-            new FixStyleOnlyEntriesPlugin(),
+            new RemoveEmptyScriptsPlugin(),
             new MiniCssExtractPlugin({
                 filename: '[name].min.css'
             })
@@ -59,7 +60,7 @@ const path = require('path');
     // writing a minified CSS file; both processes having handles on the files can
     // result in strange suffixes that fail to parse due to an extra `ap*/`
     for (const {filename, babelConfig} of bundles) {
-        console.log(`Create ${filename}`);
+        console.log(`Bundle ${filename}`);
 
         await webpack({
             mode: 'production',
@@ -111,6 +112,4 @@ const path = require('path');
             }
         });
     }
-
-    console.log('Done');
 })();

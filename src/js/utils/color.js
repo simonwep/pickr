@@ -228,8 +228,8 @@ export function parseToHSVA(str) {
     const regex = {
         cmyk: /^cmyk\D+([\d.]+)\D+([\d.]+)\D+([\d.]+)\D+([\d.]+)/i,
         rgba: /^rgba?\D+([\d.]+)(%?)\D+([\d.]+)(%?)\D+([\d.]+)(%?)\D*?(([\d.]+)(%?)|$)/i,
-        hsla: /^hsla?\D+([\d.]+)\D+([\d.]+)\D+([\d.]+)\D*?([\d.]+|$)/i,
-        hsva: /^hsva?\D+([\d.]+)\D+([\d.]+)\D+([\d.]+)\D*?([\d.]+|$)/i,
+        hsla: /^hsla?\D+([\d.]+)\D+([\d.]+)\D+([\d.]+)\D*?(([\d.]+)(%?)|$)/i,
+        hsva: /^hsva?\D+([\d.]+)\D+([\d.]+)\D+([\d.]+)\D*?(([\d.]+)(%?)|$)/i,
         hexa: /^#?(([\dA-Fa-f]{3,4})|([\dA-Fa-f]{6})|([\dA-Fa-f]{8}))$/i
     };
 
@@ -290,7 +290,8 @@ export function parseToHSVA(str) {
                 return {values: [...hexToHsv(raw), a], a, type};
             }
             case 'hsla': {
-                const [, h, s, l, a] = numarize(match);
+                let [, h, s, l, , a] = numarize(match);
+                a = match[6] === '%' ? (a / 100) : a;
 
                 if (h > 360 || s > 100 || l > 100 || a < 0 || a > 1) {
                     break invalid;
@@ -299,7 +300,8 @@ export function parseToHSVA(str) {
                 return {values: [...hslToHsv(h, s, l), a], a, type};
             }
             case 'hsva': {
-                const [, h, s, v, a] = numarize(match);
+                let [, h, s, v, , a] = numarize(match);
+                a = match[6] === '%' ? (a / 100) : a;
 
                 if (h > 360 || s > 100 || v > 100 || a < 0 || a > 1) {
                     break invalid;

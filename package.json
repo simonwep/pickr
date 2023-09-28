@@ -1,6 +1,6 @@
 {
     "name": "@simonwep/pickr",
-    "version": "1.8.2",
+    "version": "1.9.0",
     "license": "MIT",
     "author": "Simon Reinisch <trash@reinisch.io>",
     "description": "Flat, Simple, Hackable Color-Picker.",
@@ -27,6 +27,10 @@
     "bugs": {
         "url": "https://github.com/Simonwep/pickr/issues"
     },
+    "files": [
+        "types",
+        "dist"
+    ],
     "devDependencies": {
         "@babel/core": "7.23.0",
         "@babel/preset-env": "7.22.20",

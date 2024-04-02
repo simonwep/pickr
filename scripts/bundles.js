@@ -1,4 +1,4 @@
-module.exports = [
+export default [
     {
         'filename': 'pickr.es5.min.js',
         'babelConfig': {

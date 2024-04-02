@@ -1,9 +1,10 @@
-const ESLintPlugin = require('eslint-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const {version} = require('./package.json');
-const webpack = require('webpack');
+import pkg from './package.json' assert { type: 'json' };
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import webpack from 'webpack';
 
-module.exports = {
+const { version } = pkg;
+
+export default {
     entry: {
         'dist/pickr.es5.min': './src/js/pickr.js',
         'dist/themes/classic.min': './src/scss/themes/classic.scss',

@@ -1,18 +1,24 @@
-const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const {version} = require('../package');
-const bundles = require('./bundles');
-const util = require('util');
-const webpack = util.promisify(require('webpack'));
-const path = require('path');
+import pkg from '../package.json' assert { type: 'json' };
+import RemoveEmptyScriptsPlugin from 'webpack-remove-empty-scripts';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import autoprefixer from 'autoprefixer';
+import bundles from './bundles.js';
+import util from 'util';
+import path from 'path';
+import url from 'url';
+import webpack from 'webpack';
+
+const asyncWebpack = util.promisify(webpack);
+const dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const { version } = pkg;
 
 (async () => {
     const banner = new webpack.BannerPlugin(`Pickr ${version} MIT | https://github.com/Simonwep/pickr`);
 
     // CSS
     console.log('Bundle themes');
-    await webpack({
+    await asyncWebpack({
         mode: 'production',
         entry: {
             'classic': path.resolve('./src/scss/themes/classic.scss'),
@@ -36,7 +42,7 @@ const path = require('path');
                             options: {
                                 postcssOptions: {
                                     plugins: [
-                                        require('autoprefixer')
+                                        autoprefixer
                                     ]
                                 }
                             },
@@ -62,7 +68,7 @@ const path = require('path');
     for (const {filename, babelConfig} of bundles) {
         console.log(`Bundle ${filename}`);
 
-        await webpack({
+        await asyncWebpack({
             mode: 'production',
             entry: path.resolve('./src/js/pickr.js'),
 
@@ -80,8 +86,8 @@ const path = require('path');
                         test: /\.m?js$/,
                         exclude: /@babel(?:\/|\\{1,2})runtime|core-js/,
                         include: [
-                            path.join(__dirname, '..', 'node_modules/nanopop'),
-                            path.join(__dirname, '..', 'src')
+                            path.join(dirname, '..', 'node_modules/nanopop'),
+                            path.join(dirname, '..', 'src')
                         ],
                         use: [
                             {

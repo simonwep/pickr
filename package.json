@@ -1,6 +1,6 @@
 {
     "name": "@simonwep/pickr",
-    "version": "1.9.0",
+    "version": "1.9.1",
     "license": "MIT",
     "author": "Simon Reinisch <trash@reinisch.io>",
     "description": "Flat, Simple, Hackable Color-Picker.",
@@ -11,7 +11,7 @@
         "color-picker"
     ],
     "main": "./dist/pickr.min.js",
-    "typings": "./types/pickr.d.ts",
+    "types": "./index.d.ts",
     "scripts": {
         "build": "node ./scripts/build.js",
         "dev": "webpack serve --mode development",
@@ -28,8 +28,8 @@
         "url": "https://github.com/Simonwep/pickr/issues"
     },
     "files": [
-        "types",
-        "dist"
+        "index.d.ts",
+        "/dist"
     ],
     "devDependencies": {
         "@babel/core": "7.23.0",

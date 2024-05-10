@@ -11,7 +11,8 @@
         "color-picker"
     ],
     "main": "./dist/pickr.min.js",
-    "typings": "./types/pickr.d.ts",
+    "types": "./types/pickr.d.ts",
+    "module": "./dist/pickr.min.js",
     "scripts": {
         "build": "node ./scripts/build.js",
         "dev": "webpack serve --mode development",

@@ -29,7 +29,8 @@
     },
     "files": [
         "types",
-        "dist"
+        "dist",
+        "src/scss"
     ],
     "devDependencies": {
         "@babel/core": "7.24.5",

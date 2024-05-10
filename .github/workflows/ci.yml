@@ -1,23 +1,30 @@
 name: CI
 
-on: ["push", "pull_request"]
+on: [ "push", "pull_request" ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout repository
+                uses: actions/checkout@v4
 
-      - name: Use Node.js 18
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+            -   name: Setup pnpm
+                uses: pnpm/action-setup@v3
+                with:
+                    version: 9.0.6
 
-      - name: Install
-        run: npm ci
+            -   name: Set up Node.js
+                uses: actions/setup-node@v4
+                with:
+                    node-version: 20
+                    cache: 'pnpm'
 
-      - name: Lint
-        run: npm run lint
+            -   name: Install dependencies
+                run: pnpm install --frozen-lockfile
 
-      - name: Build
-        run: npm run build
+            -   name: Lint
+                run: pnpm run lint
+
+            -   name: Build
+                run: pnpm run build

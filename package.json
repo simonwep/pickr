@@ -40,7 +40,6 @@
         "eslint": "8.50.0",
         "eslint-webpack-plugin": "4.0.1",
         "mini-css-extract-plugin": "2.7.6",
-        "node-sass": "9.0.0",
         "postcss-loader": "7.3.3",
         "sass": "1.68.0",
         "sass-loader": "13.3.2",

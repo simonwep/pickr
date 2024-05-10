@@ -6,37 +6,33 @@
     Flat, Simple, Hackable Color-Picker.
 </h3>
 
+<h5 align="center">
+  <a href="https://simonwep.github.io/pickr/">Fully Featured Demo</a>
+</h5>
+
 <br/>
 
 <p align="center">
-  <img alt="gzip size" src="https://img.badgesize.io/https://raw.githubusercontent.com/Simonwep/pickr/master/dist/pickr.min.js?compression=gzip&style=flat-square">
-  <img alt="brotli size" src="https://img.badgesize.io/https://raw.githubusercontent.com/Simonwep/pickr/master/dist/pickr.min.js?compression=brotli&style=flat-square">
   <a href="https://travis-ci.org/Simonwep/pickr"><img
      alt="Build Status"
-     src="https://img.shields.io/travis/Simonwep/pickr.svg?style=popout-square"></a>
+     src="https://github.com/simonwep/pickr/actions/workflows/ci.yml/badge.svg"></a>
   <a href="https://www.npmjs.com/package/@simonwep/pickr"><img
      alt="Download count"
-     src="https://img.shields.io/npm/dm/@simonwep/pickr.svg?style=popout-square"></a>
-  <img alt="No dependencies" src="https://img.shields.io/badge/dependencies-none-27ae60.svg?style=popout-square">
+     src="https://img.shields.io/npm/dm/@simonwep/pickr.svg"></a>
+  <img alt="No dependencies" src="https://img.shields.io/badge/dependencies-none-27ae60.svg">
   <a href="https://www.jsdelivr.com/package/npm/@simonwep/pickr"><img
      alt="JSDelivr download count"
-     src="https://data.jsdelivr.com/v1/package/npm/@simonwep/pickr/badge"></a>
+     src="https://data.jsdelivr.com/v1/package/npm/@simonwep/pickr/badge?style=rounded"></a>
   <img alt="Current version"
-       src="https://img.shields.io/github/tag/Simonwep/pickr.svg?color=3498DB&label=version&style=flat-square">
+       src="https://img.shields.io/github/tag/Simonwep/pickr.svg?color=3498DB&label=version">
   <a href="https://github.com/sponsors/Simonwep"><img
      alt="Support me"
-     src="https://img.shields.io/badge/github-support-3498DB.svg?style=popout-square"></a>
+     src="https://img.shields.io/badge/github-support-3498DB.svg"></a>
   <a href="https://gitpod.io/#https://github.com/Simonwep/pickr"><img
      alt="Gitpod Ready-to-Code"
-     src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod&style=popout-square"
+     src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod"
      /></a>
 </p>
-
-<br>
-
-<h4 align="center">
-  <a href="https://simonwep.github.io/pickr/">Fully Featured demo</a>
-</h4>
 
 <p align="center">
     <a href="https://opencollective.com/pickr/donate" target="_blank">
@@ -50,27 +46,27 @@
 <br>
 
 ### Features
-* Themes
-* Simple usage
-* Zero dependencies
-* Multiple color representations
-* Color comparison
-* Opacity control
-* Detail adjustments via. mouse-wheel
-* Responsive and auto-positioning
-* Supports touch devices
-* Swatches for quick-selection
-* Fully accessible and i18n
-* [Shadow-dom support](#selection-through-a-shadow-dom)
+* 🎨 Themes
+* 🔄 Simple usage
+* 🚫 Zero dependencies
+* 🌈 Multiple color representations
+* 🔍 Color comparison
+* 🎚️ Opacity control
+* 🖱️ Detail adjustments via mouse-wheel
+* 📱 Responsive and auto-positioning
+* 👆 Supports touch devices
+* 🎨 Swatches for quick-selection
+* ♿ Fully accessible and i18n
+* 🌑 Shadow-dom support
 
 ### Status of this project
-This project might continue to get important security- and bug-related updates but its _feature set_ is frozen, and it's highly unlikely that it'll get new features or enhancements.
 
-The reason behind this decision is the way this tool has been build (monolithic, the core is one single file, everything is in plain JS etc.) which makes it incredible hard to maintain, tests become impossible at this stage without a complete rewrite, and the fun is gone at such a level of cramped complexity.
-
+> [!IMPORTANT]
+> This project might continue to get important security- and bug-related updates but its _feature set_ is frozen, and it's highly unlikely that it'll get new features or enhancements.
+>
+> The reason behind this decision is the way this tool has been build (monolithic, the core is one single file, everything is in plain JS etc.) which makes it incredible hard to maintain, tests become impossible at this stage without a complete rewrite, and the fun is gone at such a level of cramped complexity.
+>
 > Personally I recommend building these UI-Related "widgets" directly into the app with the framework you're using which takes more time but in return gives you full power of how it should work and look like. Frameworks such as [(p)react](https://preactjs.com/), [vue](https://vuejs.org/) and [svelte](https://svelte.dev/) will make it a breeze to develop such things within a day.
-
-**As of 2021, this project is no longer maintained!**
 
 ### Themes
 |Classic|Monolith|Nano|
@@ -337,8 +333,8 @@ const pickr = new Pickr({
             cmyk: false, // Display 'input/output format as cmyk' button (cyan mangenta yellow key )
 
             input: false, // Display input/output textbox which shows the selected color value.
-                         // the format of the input is determined by defaultRepresentation,
-                         // and can be changed by the user with the buttons set by hex, rgba, hsla, etc (above).
+            // the format of the input is determined by defaultRepresentation,
+            // and can be changed by the user with the buttons set by hex, rgba, hsla, etc (above).
             cancel: false, // Display Cancel Button, resets the color to the previous state
             clear: false, // Display Clear Button; same as cancel, but keeps the window open
             save: false,  // Display Save Button,
@@ -375,10 +371,10 @@ Example setup:
 <div class="entry">
   #shadow-root
     <div class="innr">
-       <div class="another">
-         #shadow-root
-           <div class="pickr"></div>
-       </div>
+      <div class="another">
+        #shadow-root
+          <div class="pickr"></div>
+      </div>
     </div>
 </div>
 ```
@@ -446,7 +442,7 @@ If `silent` is true (Default is false), the button won't change the current colo
 * createFromTemplate(str`:String`) _- See [inline doumentation](https://github.com/Simonwep/pickr/blob/master/src/js/lib/utils.js#L88)._
 * resolveElement(val`:String|HTMLElement`) _- Resolves a `HTMLElement`, supports `>>>` as shadow dom selector._
 * adjustableInputNumbers(el`:InputElement`, mapper`:Function`) _- Creates the possibility to change the numbers in an inputfield via mouse scrolling.
-The mapper function takes three arguments: the matched number, an multiplier and the index of the match._
+  The mapper function takes three arguments: the matched number, an multiplier and the index of the match._
 
 Use this utils carefully, it's not for sure that they will stay forever!
 

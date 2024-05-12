@@ -4,6 +4,7 @@ on: [ "push", "pull_request" ]
 
 jobs:
     build:
+        name: Lint and build
         runs-on: ubuntu-latest
         steps:
             -   name: Checkout repository
@@ -28,3 +29,26 @@ jobs:
 
             -   name: Build
                 run: pnpm run build
+
+            -   name: Bundle files for deployment
+                run: tar -cvf github-pages.tar dist www index.html
+
+            -   name: Upload artifact for deployment
+                uses: actions/upload-artifact@v4
+                with:
+                    name: github-pages
+                    path: github-pages.tar
+
+    deploy:
+        name: Deploy to GitHub Pages
+        needs: build
+        permissions:
+            pages: write
+            id-token: write
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Deploy to GitHub Pages
+                uses: actions/deploy-pages@v4

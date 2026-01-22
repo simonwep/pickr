@@ -291,15 +291,16 @@ export default class Pickr {
                         linear-gradient(to left, hsla(${color.h}, 100%, 50%, ${color.a}), rgba(255, 255, 255, ${color.a}))
                     `;
 
-                    // Check if color is locked
-                    if (!options.comparison) {
+                    // Update button color regardless of comparison setting
+                    if (!options.useAsButton) {
                         _root.button.style.setProperty('--pcr-color', cssRGBaString);
 
                         // If the user changes the color, remove the cleared icon
                         _root.button.classList.remove('clear');
-                    } else if (!options.useAsButton && !inst._lastColor) {
+                    }
 
-                        // Apply color to both the last and current color since the current state is cleared
+                    // Apply color to both the last and current color since the current state is cleared
+                    if (!options.useAsButton && !inst._lastColor) {
                         lastColor.style.setProperty('--pcr-color', cssRGBaString);
                     }
 

@@ -4,9 +4,9 @@
     "license": "MIT",
     "author": "Simon Reinisch <trash@reinisch.io>",
     "description": "Flat, Simple, Hackable Color-Picker.",
-    "homepage": "https://github.com/Simonwep/pickr#readme",
-    "bugs": "https://github.com/Simonwep/pickr/issues",
-    "repository": "https://github.com/Simonwep/pickr.git",
+    "homepage": "https://github.com/simonwep/pickr#readme",
+    "bugs": "https://github.com/simonwep/pickr/issues",
+    "repository": "https://github.com/simonwep/pickr",
     "keywords": [
         "ux",
         "pickr",

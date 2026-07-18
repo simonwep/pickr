@@ -1,3 +1,5 @@
+import Pickr from '/src/js/pickr.js'
+
 const pickrContainer = document.querySelector('.pickr-container');
 const themeContainer = document.querySelector('.theme-container');
 const themes = [

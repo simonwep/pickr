@@ -1,5 +1,5 @@
-@import 'lib/variables';
-@import 'lib/mixins';
+@use 'lib/variables';
+@use 'lib/mixins';
 
 .pickr {
     position: relative;
@@ -15,15 +15,15 @@
 }
 
 .pickr .pcr-button {
-    @include transparency-background;
+    @include mixins.transparency-background;
     position: relative;
     height: 2em;
     width: 2em;
     padding: 0.5em;
     cursor: pointer;
-    font-family: $font-family;
-    border-radius: $border-radius-mid;
-    background: $icon-x no-repeat center;
+    font-family: variables.$font-family;
+    border-radius: variables.$border-radius-mid;
+    background: variables.$icon-x no-repeat center;
     background-size: 0;
     transition: all 0.3s;
 
@@ -32,12 +32,12 @@
     }
 
     &::after {
-        @include pseudo-reset;
+        @include mixins.pseudo-reset;
         height: 100%;
         width: 100%;
         transition: background 0.3s;
         background: var(--pcr-color);
-        border-radius: $border-radius-mid;
+        border-radius: variables.$border-radius-mid;
     }
 
     &.clear {
@@ -48,7 +48,7 @@
         }
 
         &:focus {
-            @include focus(var(--pcr-color));
+            @include variables.focus(var(--pcr-color));
         }
     }
 
@@ -71,7 +71,7 @@
     button {
         &:focus,
         &.pcr-active {
-            @include focus(var(--pcr-color));
+            @include variables.focus(var(--pcr-color));
         }
     }
 
@@ -80,7 +80,7 @@
         transition: box-shadow 0.3s;
 
         &:focus {
-            @include focus(rgba(black, 0.25));
+            @include variables.focus(rgba(black, 0.25));
         }
     }
 }
@@ -95,8 +95,8 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s, visibility 0s 0.3s;
-    font-family: $font-family;
-    box-shadow: $box-shadow-app;
+    font-family: variables.$font-family;
+    box-shadow: variables.$box-shadow-app;
     left: 0;
     top: 0;
 
@@ -124,7 +124,7 @@
         }
 
         > button {
-            @include transparency-background(6px);
+            @include mixins.transparency-background(6px);
             font-size: 1em;
             position: relative;
             width: calc(1.75em - 5px);
@@ -177,9 +177,9 @@
             font-size: 0.75em;
             text-align: center;
             cursor: pointer;
-            color: $palette-darkgray;
-            background: $palette-snow-white;
-            border-radius: $border-radius-mid;
+            color: variables.$palette-darkgray;
+            background: variables.$palette-snow-white;
+            border-radius: variables.$border-radius-mid;
             transition: all 0.15s;
             padding: 0.45em 0.5em;
             margin-top: 0.75em;
@@ -189,29 +189,29 @@
             }
 
             &:focus {
-                @include focus();
+                @include variables.focus();
             }
         }
 
         .pcr-result {
-            color: $palette-darkgray;
+            color: variables.$palette-darkgray;
             text-align: left;
             flex: 1 1 8em;
             min-width: 8em;
             transition: all 0.2s;
-            border-radius: $border-radius-mid;
-            background: $palette-snow-white;
+            border-radius: variables.$border-radius-mid;
+            background: variables.$palette-snow-white;
             cursor: text;
 
             &::selection {
-                background: $palette-cloud-blue;
+                background: variables.$palette-cloud-blue;
                 color: #fff;
             }
         }
 
         .pcr-type.active {
             color: #fff;
-            background: $palette-cloud-blue;
+            background: variables.$palette-cloud-blue;
         }
 
         .pcr-save,
@@ -232,15 +232,15 @@
         }
 
         .pcr-save {
-            background: $palette-cloud-blue;
+            background: variables.$palette-cloud-blue;
         }
 
         .pcr-clear,
         .pcr-cancel {
-            background: $palette-soft-red;
+            background: variables.$palette-soft-red;
 
             &:focus {
-                @include focus(rgba($palette-soft-red, 0.75));
+                @include variables.focus(rgba(variables.$palette-soft-red, 0.75));
             }
         }
     }
@@ -264,13 +264,9 @@
             display: flex;
             flex-direction: column;
             cursor: grab;
-            cursor: -moz-grab;
-            cursor: -webkit-grab;
 
             &:active {
                 cursor: grabbing;
-                cursor: -moz-grabbing;
-                cursor: -webkit-grabbing;
             }
         }
     }

@@ -1,6 +1,6 @@
-@import '../lib/variables';
-@import '../lib/mixins';
-@import '../base';
+@use '../lib/variables';
+@use '../lib/mixins';
+@use '../base';
 
 $padding: 0.6em;
 $spacing: 0.6em;
@@ -42,7 +42,7 @@ $spacing: 0.6em;
             }
 
             .pcr-current-color {
-                @include transparency-background;
+                @include mixins.transparency-background;
                 position: relative;
                 background: var(--pcr-color);
                 width: 2em;
@@ -59,8 +59,8 @@ $spacing: 0.6em;
             z-index: 1;
 
             .pcr-palette {
-                border-radius: $border-radius-mid;
-                @include transparency-background;
+                border-radius: variables.$border-radius-mid;
+                @include mixins.transparency-background;
                 width: 100%;
                 height: 100%;
             }
@@ -91,11 +91,11 @@ $spacing: 0.6em;
         }
 
         .pcr-color-chooser .pcr-slider {
-            background: colorRainbow(to right);
+            background: variables.colorRainbow(to right);
         }
 
         .pcr-color-opacity .pcr-slider {
-            background: linear-gradient(to right, transparent, black), $icon-transparency;
+            background: linear-gradient(to right, transparent, black), variables.$icon-transparency;
             background-size: 100%, 0.25em;
         }
     }

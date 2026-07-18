@@ -13,9 +13,9 @@
 <br/>
 
 <p align="center">
-  <a href="https://travis-ci.org/Simonwep/pickr"><img
+  <a href="https://github.com/simonwep/pickr/actions"><img
      alt="Build Status"
-     src="https://github.com/simonwep/pickr/actions/workflows/ci.yml/badge.svg"></a>
+     src="https://github.com/simonwep/pickr/actions/workflows/main.yml/badge.svg"></a>
   <a href="https://www.npmjs.com/package/@simonwep/pickr"><img
      alt="Download count"
      src="https://img.shields.io/npm/dm/@simonwep/pickr.svg"></a>
@@ -61,6 +61,11 @@
 
 ### Status of this project
 
+> [!WARNING]
+> As of `v1.10.0` there is no `es5` version anymore.
+> The file `pickr.es5.min.js` is now `pickr.min.cjs` as UMD export and `pickr.min.js` as ESM export.
+> If you need to support older browsers consult the docs for your bundler to transpile dependencies.
+
 > [!IMPORTANT]
 > This project might continue to get important security- and bug-related updates but its _feature set_ is frozen, and it's highly unlikely that it'll get new features or enhancements.
 >
@@ -97,16 +102,10 @@ import '@simonwep/pickr/dist/themes/classic.min.css';   // 'classic' theme
 import '@simonwep/pickr/dist/themes/monolith.min.css';  // 'monolith' theme
 import '@simonwep/pickr/dist/themes/nano.min.css';      // 'nano' theme
 
-// Modern or es5 bundle (pay attention to the note below!)
+// Your bundler will pick the correct import for you
 import Pickr from '@simonwep/pickr';
-import Pickr from '@simonwep/pickr/dist/pickr.es5.min';
 ```
 ---
-
-> Attention: The es5-bundle (e.g. legacy version) is quite big (around a triple of the modern bundle).
-> Please take into consideration to use the modern version and add polyfills later to your final bundle!
-> (Or better: give a hint to users that they should use the latest browsers).
-> Browsers such as IE are **not supported** (at least not officially).
 
 ### Browser
 
@@ -118,12 +117,13 @@ jsdelivr:
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/monolith.min.css"/> <!-- 'monolith' theme -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/> <!-- 'nano' theme -->
 
-<!-- Modern or es5 bundle -->
-<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
+<!-- ES6 or UMD module -->
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.cjs"></script>
 ```
 
-Be sure to load the `pickr.min.js` (or the es5 version) **after** `pickr.min.css`. Moreover the `script` tag doesn't work with the `defer` attribute.
+Be sure to load the `pickr.min.js`  **after** `pickr.min.css`.
+Moreover the `script` tag doesn't work with the `defer` attribute.
 
 ## Usage
 ```javascript

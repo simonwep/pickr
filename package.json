@@ -4,55 +4,40 @@
     "license": "MIT",
     "author": "Simon Reinisch <trash@reinisch.io>",
     "description": "Flat, Simple, Hackable Color-Picker.",
+    "homepage": "https://github.com/Simonwep/pickr#readme",
+    "bugs": "https://github.com/Simonwep/pickr/issues",
+    "repository": "https://github.com/Simonwep/pickr.git",
     "keywords": [
         "ux",
         "pickr",
         "color",
         "color-picker"
     ],
-    "main": "./dist/pickr.min.js",
-    "types": "./types/pickr.d.ts",
+    "packageManager": "pnpm@10.27.0",
+    "type": "module",
+    "main": "./dist/pickr.min.cjs",
     "module": "./dist/pickr.min.js",
+    "types": "./types/pickr.d.ts",
+    "files": ["types", "dist"],
+    "exports": {
+        "./dist/themes/*": "./dist/themes/*",
+        ".": {
+            "import": "./dist/pickr.min.js",
+            "require": "./dist/pickr.min.cjs",
+            "types": "./types/pickr.d.ts"
+        }
+    },
     "scripts": {
-        "build": "node ./scripts/build.js",
-        "dev": "webpack serve --mode development",
-        "lint": "eslint ./src/**/*.js",
-        "lint:fix": "npm run lint -- --fix",
-        "test:ci": "npm run lint:fix && npm run build"
+        "dev": "vite --config build/demo.config.ts",
+        "build:lib": "vite build --config build/lib.config.ts && node build/themes.js",
+        "build:demo": "vite build --config build/demo.config.ts",
+        "preview": "vite preview  --config build/demo.config.ts"
     },
-    "homepage": "https://github.com/Simonwep/pickr#readme",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Simonwep/pickr.git"
-    },
-    "bugs": {
-        "url": "https://github.com/Simonwep/pickr/issues"
-    },
-    "files": [
-        "types",
-        "dist",
-        "src/scss"
-    ],
     "devDependencies": {
-        "@babel/core": "7.24.5",
-        "@babel/preset-env": "7.24.5",
-        "autoprefixer": "10.4.19",
-        "babel-loader": "9.1.3",
-        "css-loader": "7.1.1",
-        "eslint": "8.57.0",
-        "eslint-webpack-plugin": "4.1.0",
-        "mini-css-extract-plugin": "2.9.0",
-        "postcss-loader": "8.1.1",
-        "sass": "1.77.0",
-        "sass-loader": "14.2.1",
-        "terser-webpack-plugin": "5.3.10",
-        "webpack": "5.91.0",
-        "webpack-cli": "5.1.4",
-        "webpack-dev-server": "5.0.4",
-        "webpack-remove-empty-scripts": "1.0.4"
-    },
-    "dependencies": {
-        "core-js": "3.37.0",
-        "nanopop": "2.4.2"
+        "@types/node": "24.13.3",
+        "nanopop": "2.4.2",
+        "sass": "1.101.0",
+        "vite": "8.1.5",
+        "vite-plugin-banner": "0.8.1"
     }
 }

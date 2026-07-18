@@ -1,6 +1,6 @@
-@import '../lib/variables';
-@import '../lib/mixins';
-@import '../base';
+@use '../lib/variables';
+@use '../lib/mixins';
+@use '../base';
 
 .pcr-app[data-theme='classic'] {
     width: 28.5em;
@@ -13,7 +13,7 @@
         flex-grow: 1;
 
         .pcr-color-preview {
-            @include transparency-background;
+            @include mixins.transparency-background;
             position: relative;
             z-index: 1;
             width: 2em;
@@ -47,8 +47,8 @@
 
             .pcr-palette {
                 flex-grow: 1;
-                border-radius: $border-radius-mid;
-                @include transparency-background;
+                border-radius: variables.$border-radius-mid;
+                @include mixins.transparency-background;
             }
         }
 
@@ -69,11 +69,11 @@
         }
 
         .pcr-color-chooser .pcr-slider {
-            background: colorRainbow();
+            background: variables.colorRainbow();
         }
 
         .pcr-color-opacity .pcr-slider {
-            background: linear-gradient(to bottom, transparent, black), $icon-transparency;
+            background: linear-gradient(to bottom, transparent, black), variables.$icon-transparency;
             background-size: 100%, 50%;
         }
     }

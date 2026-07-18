@@ -1,0 +1,95 @@
+name: Main
+
+on: push
+
+permissions:
+    id-token: write
+    contents: read
+    pages: write
+
+jobs:
+    build:
+        name: Build library
+        runs-on: ubuntu-24.04
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v7
+
+            - uses: pnpm/action-setup@v6
+              with:
+                  version: 10.27.0
+
+            - uses: actions/setup-node@v7
+              with:
+                  node-version: 24
+                  cache: 'pnpm'
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Build library
+              run: pnpm build:lib
+
+            - name: Upload build files
+              uses: actions/upload-artifact@v7
+              with:
+                  name: build
+                  path: dist
+
+    deploy:
+        name: Deploy demo page
+        needs: build
+        runs-on: ubuntu-24.04
+        if: github.ref == 'refs/heads/master'
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v7
+
+            - uses: pnpm/action-setup@v6
+              with:
+                  version: 10.27.0
+
+            - uses: actions/setup-node@v7
+              with:
+                  node-version: 24
+                  cache: 'pnpm'
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Build library
+              run: pnpm build:demo
+
+            - name: Upload pages artifact
+              uses: actions/upload-pages-artifact@v5
+              with:
+                  name: github-pages
+                  path: dist
+
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v5
+
+
+    publish:
+        name: Publish package
+        needs: build
+        if: startsWith(github.ref, 'refs/tags/v')
+        runs-on: ubuntu-24.04
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v7
+
+            - uses: actions/setup-node@v7
+              with:
+                  node-version: 24
+                  registry-url: 'https://registry.npmjs.org'
+
+            - name: Download build files
+              uses: actions/download-artifact@v8
+              with:
+                  name: build
+                  path: dist
+
+            - name: Publish
+              run: npm publish --access public

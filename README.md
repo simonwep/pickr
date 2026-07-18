@@ -13,7 +13,7 @@
 <br/>
 
 <p align="center">
-  <a href="https://github.com/simonwep/pickr/actions"><img
+  <a href="https://github.com/simonwep/pickr/actions/workflows/main.yml"><img
      alt="Build Status"
      src="https://github.com/simonwep/pickr/actions/workflows/main.yml/badge.svg"></a>
   <a href="https://www.npmjs.com/package/@simonwep/pickr"><img
@@ -63,7 +63,6 @@
 
 > [!WARNING]
 > As of `v1.10.0` there is no `es5` version anymore.
-> The file `pickr.es5.min.js` is now `pickr.min.cjs` as UMD export and `pickr.min.js` as ESM export.
 > If you need to support older browsers consult the docs for your bundler to transpile dependencies.
 
 > [!IMPORTANT]
@@ -118,8 +117,8 @@ jsdelivr:
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/> <!-- 'nano' theme -->
 
 <!-- ES6 or UMD module -->
-<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js" type="module"></script>
-<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.cjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.mjs" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
 ```
 
 Be sure to load the `pickr.min.js`  **after** `pickr.min.css`.

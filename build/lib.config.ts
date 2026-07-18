@@ -16,8 +16,17 @@ export default defineConfig({
         lib: {
             entry: 'src/js/pickr.js',
             name: 'Pickr',
-            formats: ['cjs', 'es'],
-            fileName: 'pickr.min'
+            formats: ['umd', 'es'],
+            fileName: (format) => {
+                switch (format){
+                    case 'umd':
+                        return 'pickr.min.js';
+                    case 'es':
+                        return 'pickr.min.mjs';
+                }
+
+                return '';
+            }
         }
     },
     plugins: [

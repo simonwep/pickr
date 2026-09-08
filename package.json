@@ -1,6 +1,6 @@
 {
     "name": "@simonwep/pickr",
-    "version": "1.10.1",
+    "version": "1.10.2",
     "license": "MIT",
     "author": "Simon Reinisch <trash@reinisch.io>",
     "description": "Flat, Simple, Hackable Color-Picker.",
@@ -18,7 +18,11 @@
     "main": "./dist/pickr.min.js",
     "module": "./dist/pickr.min.mjs",
     "types": "./types/pickr.d.ts",
-    "files": ["types", "dist", "src/scss"],
+    "files": [
+        "types",
+        "dist",
+        "src/scss"
+    ],
     "exports": {
         "./dist/themes/*": "./dist/themes/*",
         ".": {

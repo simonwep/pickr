@@ -166,7 +166,7 @@ declare namespace Pickr {
         'HSLA' |
         'CMYK';
 
-    type Slider = 'v' | 'h';
+    type Slider = 'v' | 'h' | 'vh' | 'hv';
 }
 
 export default Pickr;

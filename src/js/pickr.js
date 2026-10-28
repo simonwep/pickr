@@ -79,8 +79,8 @@ export default class Pickr {
     _root = null;
 
     // Current and last color for comparison
-    _color = null;
-    _lastColor = null;
+    _color = HSVaColor();
+    _lastColor = HSVaColor();
     _swatchColors = [];
 
     // Animation frame used for setup.
@@ -148,7 +148,6 @@ export default class Pickr {
 
         // Initialization is finished, pickr is visible and ready for usage
         const that = this;
-        this._color = HSVaColor(...parseToHSVA(opt.default).values);
         this._setupAnimationFrame = requestAnimationFrame((function cb() {
 
             // TODO: Performance issue due to high call-rate?
@@ -156,8 +155,8 @@ export default class Pickr {
                 return requestAnimationFrame(cb);
             }
 
-            // Apply default color
-            that.setColor(that._color.toHSLA().toString());
+            // Apply default color, or the color set via setColor before initialization finished
+            that.setColor(opt.default);
             that._rePositioningPicker();
 
             // Initialize color representation
@@ -830,6 +829,12 @@ export default class Pickr {
      * @param silent
      */
     setColor(string, silent = false) {
+
+        // Remember colors set before initialization finished, otherwise
+        // the setup frame would override them with the default color
+        if (this._initializingActive) {
+            this.options.default = string;
+        }
 
         // Check if null
         if (string === null) {

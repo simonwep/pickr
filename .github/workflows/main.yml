@@ -30,6 +30,9 @@ jobs:
             - name: Lint library
               run: pnpm lint
 
+            - name: Test library
+              run: pnpm test
+
             - name: Build library
               run: pnpm build:lib
 

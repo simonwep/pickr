@@ -1,4 +1,4 @@
-import {afterEach, beforeAll, describe, expect, it} from 'vitest';
+import {afterEach, beforeAll, describe, expect, it, vi} from 'vitest';
 import Pickr from '../src/js/pickr';
 
 const waitForInit = pickr => new Promise(resolve => pickr.on('init', resolve));
@@ -23,6 +23,36 @@ describe('Pickr', () => {
     afterEach(() => {
         instances.splice(0).forEach(pickr => pickr.destroyAndRemove());
         document.body.innerHTML = '';
+    });
+
+    it.each([0, 1, 3])('cancels setup after %i hidden setup retries', retries => {
+        const frames = new Map();
+        let frameId = 0;
+        vi.stubGlobal('requestAnimationFrame', callback => {
+            frames.set(++frameId, callback);
+            return frameId;
+        });
+        vi.stubGlobal('cancelAnimationFrame', id => frames.delete(id));
+        const width = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetWidth');
+        Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
+            configurable: true,
+            get: () => 0
+        });
+
+        const pickr = createPickr({default: '#ff0000'});
+        try {
+            for (let retry = 0; retry < retries; retry++) {
+                const [id, callback] = frames.entries().next().value;
+                frames.delete(id);
+                callback();
+                expect(frames.size).toBe(1);
+            }
+            pickr.destroyAndRemove();
+            expect(frames.size).toBe(0);
+        } finally {
+            Object.defineProperty(HTMLElement.prototype, 'offsetWidth', width);
+            vi.unstubAllGlobals();
+        }
     });
 
     it('applies the default color', async () => {

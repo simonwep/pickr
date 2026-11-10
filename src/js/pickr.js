@@ -152,7 +152,7 @@ export default class Pickr {
 
             // TODO: Performance issue due to high call-rate?
             if (!app.offsetWidth) {
-                return requestAnimationFrame(cb);
+                return (that._setupAnimationFrame = requestAnimationFrame(cb));
             }
 
             // Apply default color, or the color set via setColor before initialization finished

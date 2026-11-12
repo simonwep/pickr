@@ -641,6 +641,10 @@ export default class Pickr {
             // Bind event
             this._eventBindings.push(
                 _.on(el, 'click', () => {
+                    if (this.options.disabled || this._root.button.matches(':disabled')) {
+                        return;
+                    }
+
                     this.setHSVA(...color.toHSVA(), true);
                     this._emit('swatchselect', color);
                     this._emit('change', color, 'swatch', this);

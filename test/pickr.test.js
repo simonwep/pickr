@@ -55,6 +55,28 @@ describe('Pickr', () => {
         }
     });
 
+    it('ignores a swatch while its custom trigger is disabled', async () => {
+        const el = document.body.appendChild(document.createElement('input'));
+        const pickr = createPickr({el, useAsButton: true, default: '#ff0000', swatches: ['#0000ff']});
+        instances.push(pickr);
+        await waitForInit(pickr);
+
+        const change = vi.fn();
+        pickr.on('change', change);
+        pickr.show();
+        const swatch = pickr.getRoot().swatches.querySelector('button');
+
+        el.disabled = true;
+        swatch.click();
+        expect(pickr.getColor().toHEXA().toString()).toBe('#FF0000');
+        expect(change).not.toHaveBeenCalled();
+
+        el.disabled = false;
+        swatch.click();
+        expect(pickr.getColor().toHEXA().toString()).toBe('#0000FF');
+        expect(change).toHaveBeenCalledTimes(1);
+    });
+
     it('applies the default color', async () => {
         const pickr = createPickr({default: '#ff0000'});
         instances.push(pickr);

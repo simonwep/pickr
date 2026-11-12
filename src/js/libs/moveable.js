@@ -9,7 +9,8 @@ export default function Moveable(opt) {
         options: Object.assign({
             lock: null,
             onchange: () => 0,
-            onstop: () => 0
+            onstop: () => 0,
+            isDisabled: () => false
         }, opt),
 
         _keyboard(e) {
@@ -18,7 +19,7 @@ export default function Moveable(opt) {
 
             // Check to see if the Movable is focused and then move it based on arrow key inputs
             // For improved accessibility
-            if (document.activeElement === options.wrapper) {
+            if (!options.isDisabled() && document.activeElement === options.wrapper) {
                 const {lock} = that.options;
                 const up = key === 'ArrowUp';
                 const right = key === 'ArrowRight';
@@ -50,8 +51,12 @@ export default function Moveable(opt) {
         },
 
         _tapstart(evt) {
+            if (that.options.isDisabled()) {
+                return;
+            }
+
             _.on(document, ['mouseup', 'touchend', 'touchcancel'], that._tapstop);
-            _.on(document, ['mousemove', 'touchmove'], that._tapmove);
+            _.on(document, ['mousemove', 'touchmove'], that._dragmove);
 
             if (evt.cancelable) {
                 evt.preventDefault();
@@ -59,6 +64,12 @@ export default function Moveable(opt) {
 
             // Trigger
             that._tapmove(evt);
+        },
+
+        _dragmove(evt) {
+            if (!that.options.isDisabled()) {
+                that._tapmove(evt);
+            }
         },
 
         _tapmove(evt) {
@@ -115,9 +126,11 @@ export default function Moveable(opt) {
         },
 
         _tapstop() {
-            that.options.onstop();
+            if (!that.options.isDisabled()) {
+                that.options.onstop();
+            }
             _.off(document, ['mouseup', 'touchend', 'touchcancel'], that._tapstop);
-            _.off(document, ['mousemove', 'touchmove'], that._tapmove);
+            _.off(document, ['mousemove', 'touchmove'], that._dragmove);
         },
 
         trigger() {

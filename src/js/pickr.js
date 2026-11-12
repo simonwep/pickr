@@ -252,6 +252,7 @@ export default class Pickr {
         const cs = this.options.components;
         const sliders = (inst.options.sliders || 'v').repeat(2);
         const [so, sh] = sliders.match(/^[vh]+$/g) ? sliders : [];
+        const isDisabled = () => inst.options.disabled || inst._root.button.matches(':disabled');
 
         // Re-assign if null
         const getColor = () =>
@@ -263,6 +264,7 @@ export default class Pickr {
                 element: inst._root.palette.picker,
                 wrapper: inst._root.palette.palette,
 
+                isDisabled,
                 onstop: () => inst._emit('changestop', 'slider', inst),
                 onchange(x, y) {
                     if (!cs.palette) {
@@ -323,6 +325,7 @@ export default class Pickr {
                 element: inst._root.hue.picker,
                 wrapper: inst._root.hue.slider,
 
+                isDisabled,
                 onstop: () => inst._emit('changestop', 'slider', inst),
                 onchange(v) {
                     if (!cs.hue || !cs.palette) {
@@ -347,6 +350,7 @@ export default class Pickr {
                 element: inst._root.opacity.picker,
                 wrapper: inst._root.opacity.slider,
 
+                isDisabled,
                 onstop: () => inst._emit('changestop', 'slider', inst),
                 onchange(v) {
                     if (!cs.opacity || !cs.palette) {

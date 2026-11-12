@@ -1,0 +1,38 @@
+name: Main
+
+on:
+    push:
+        tags-ignore:
+            - '**'
+        branches:
+            - '**'
+
+jobs:
+    build:
+        name: Build library
+        runs-on: ubuntu-24.04
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v7
+
+            - uses: pnpm/action-setup@v6
+              with:
+                  version: 10.27.0
+
+            - uses: actions/setup-node@v7
+              with:
+                  node-version: 24
+                  cache: 'pnpm'
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Lint library
+              run: pnpm lint
+
+            - name: Test library
+              run: pnpm test
+
+            - name: Build library
+              run: pnpm build:lib
+

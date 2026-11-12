@@ -1,0 +1,46 @@
+name: Main
+
+on:
+    push:
+        branches:
+            - master
+
+concurrency:
+    group: pages
+    cancel-in-progress: false
+
+env:
+    HUSKY: 0
+
+jobs:
+    deploy:
+        name: Deploy demo page
+        runs-on: ubuntu-24.04
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v7
+
+            - uses: pnpm/action-setup@v6
+              with:
+                  version: 10.27.0
+
+            - uses: actions/setup-node@v7
+              with:
+                  node-version: 24
+                  cache: 'pnpm'
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Build library
+              run: pnpm build:demo
+
+            - name: Upload pages artifact
+              uses: actions/upload-pages-artifact@v5
+              with:
+                  name: github-pages
+                  path: dist
+
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v5

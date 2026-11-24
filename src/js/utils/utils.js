@@ -120,7 +120,8 @@ export function eventPath(evt) {
         path.push(el);
     }
 
-    path.push(document, window);
+    const doc = evt.target.ownerDocument;
+    path.push(doc, doc.defaultView);
     return path;
 }
 
@@ -130,7 +131,7 @@ export function eventPath(evt) {
  * @returns {null|Document|Element}
  */
 export function resolveElement(val) {
-    if (val instanceof Element) {
+    if (val instanceof Element || val instanceof (val?.ownerDocument?.defaultView?.Element || Element)) {
         return val;
     } else if (typeof val === 'string') {
         return val.split(/>>/g).reduce((pv, cv, ci, a) => {
@@ -146,8 +147,10 @@ export function resolveElement(val) {
  * Creates the ability to change numbers in an input field with the scroll-wheel.
  * @param el
  * @param mapper
+ * @returns {Array} Event bindings to remove on destruction.
  */
 export function adjustableInputNumbers(el, mapper = v => v) {
+    const view = el.ownerDocument.defaultView;
 
     function handleScroll(e) {
         const inc = ([0.001, 0.01, 0.1])[Number(e.shiftKey || e.ctrlKey * 2)] * (e.deltaY < 0 ? 1 : -1);
@@ -171,10 +174,13 @@ export function adjustableInputNumbers(el, mapper = v => v) {
 
         // Prevent default and trigger input event
         e.preventDefault();
-        el.dispatchEvent(new Event('input'));
+        el.dispatchEvent(new view.Event('input'));
     }
 
     // Bind events
-    on(el, 'focus', () => on(window, 'wheel', handleScroll, {passive: false}));
-    on(el, 'blur', () => off(window, 'wheel', handleScroll));
+    return [
+        on(el, 'focus', () => on(view, 'wheel', handleScroll, {passive: false})),
+        on(el, 'blur', () => off(view, 'wheel', handleScroll)),
+        [view, 'wheel', handleScroll]
+    ];
 }

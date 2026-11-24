@@ -87,6 +87,9 @@ export default class Pickr {
     // Will be cancelled in case of destruction.
     _setupAnimationFrame = null;
 
+    _repositionAnimationFrame = null;
+    _repositionTimeout = null;
+
     // UI Components
     _components = null;
 
@@ -127,9 +130,9 @@ export default class Pickr {
 
         // Initialize picker
         this._preBuild();
+        this._finalBuild();
         this._buildComponents();
         this._bindEvents();
-        this._finalBuild();
 
         // Append pre-defined swatch colors
         if (swatches && swatches.length) {
@@ -138,7 +141,9 @@ export default class Pickr {
 
         // Initialize positioning engine
         const {button, app} = this._root;
-        this._nanopop = createPopper(button, app, {
+        this._nanopop = createPopper({
+            reference: button,
+            popper: app,
             margin: padding
         });
 
@@ -382,6 +387,8 @@ export default class Pickr {
 
     _bindEvents() {
         const {_root, options} = this;
+        const doc = _root.app.ownerDocument;
+        const view = doc.defaultView;
 
         const eventBindings = [
 
@@ -445,10 +452,10 @@ export default class Pickr {
                 _.on(_root.button, 'click', () => this.isOpen() ? this.hide() : this.show()),
 
                 // Close with escape key
-                _.on(document, 'keyup', e => this.isOpen() && (e.key === ck || e.code === ck) && this.hide()),
+                _.on(doc, 'keyup', e => this.isOpen() && (e.key === ck || e.code === ck) && this.hide()),
 
                 // Cancel selecting if the user taps behind the color picker
-                _.on(document, ['touchstart', 'mousedown'], e => {
+                _.on(doc, ['touchstart', 'mousedown'], e => {
                     if (this.isOpen() && !_.eventPath(e).some(el => el === _root.app || el === _root.button)) {
                         this.hide();
                     }
@@ -465,7 +472,7 @@ export default class Pickr {
                 cmyk: [100, 100, 100, 100]
             };
 
-            _.adjustableInputNumbers(_root.interaction.result, (o, step, index) => {
+            eventBindings.push(..._.adjustableInputNumbers(_root.interaction.result, (o, step, index) => {
                 const range = ranges[this.getColorRepresentation().toLowerCase()];
 
                 if (range) {
@@ -479,33 +486,34 @@ export default class Pickr {
                 }
 
                 return o;
-            });
+            }));
         }
 
         if ((options.autoReposition || options.closeOnScroll) && !options.inline) {
-            let timeout = null;
             const that = this;
 
-            // Re-calc position on window resize, scroll and wheel
+            // Re-calc position on window resize and scroll
             eventBindings.push(
-                _.on(window, ['scroll', 'resize'], () => {
+                _.on(view, ['scroll', 'resize'], () => {
                     if (that.isOpen()) {
 
                         if (options.closeOnScroll) {
                             that.hide();
                         }
 
-                        if (timeout === null) {
-                            timeout = setTimeout(() => timeout = null, 100);
+                        if (that._repositionTimeout === null) {
+                            that._repositionTimeout = setTimeout(() => that._repositionTimeout = null, 100);
 
                             // Update position on every frame
-                            requestAnimationFrame(function rs() {
+                            that._repositionAnimationFrame = requestAnimationFrame(function rs() {
                                 that._rePositioningPicker();
-                                (timeout !== null) && requestAnimationFrame(rs);
+                                if (that._repositionTimeout !== null) {
+                                    that._repositionAnimationFrame = requestAnimationFrame(rs);
+                                }
                             });
                         } else {
-                            clearTimeout(timeout);
-                            timeout = setTimeout(() => timeout = null, 100);
+                            clearTimeout(that._repositionTimeout);
+                            that._repositionTimeout = setTimeout(() => that._repositionTimeout = null, 100);
                         }
                     }
                 }, {capture: true})
@@ -521,16 +529,18 @@ export default class Pickr {
 
         // No repositioning needed if inline
         if (!options.inline) {
+            const doc = this._root.app.ownerDocument;
+            const view = doc.defaultView;
             const success = this._nanopop.update({
-                container: document.body.getBoundingClientRect(),
+                container: doc.body.getBoundingClientRect(),
                 position: options.position
             });
 
             if (!success) {
                 const el = this._root.app;
                 const eb = el.getBoundingClientRect();
-                el.style.top = `${(window.innerHeight - eb.height) / 2}px`;
-                el.style.left = `${(window.innerWidth - eb.width) / 2}px`;
+                el.style.top = `${(view.innerHeight - eb.height) / 2}px`;
+                el.style.left = `${(view.innerWidth - eb.width) / 2}px`;
             }
         }
     }
@@ -705,8 +715,11 @@ export default class Pickr {
      */
     destroy() {
 
-        // Cancel setup-frame if set
+        // Cancel pending frames and positioning timeout
         cancelAnimationFrame(this._setupAnimationFrame);
+        cancelAnimationFrame(this._repositionAnimationFrame);
+        clearTimeout(this._repositionTimeout);
+        this._repositionTimeout = null;
 
         // Unbind events
         this._eventBindings.forEach(args => _.off(...args));
